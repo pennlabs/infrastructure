@@ -2,12 +2,15 @@
 FROM ubuntu:bionic AS build
 
 # Install dependencies
-RUN apt-get update && apt-get install -y gnupg2 wget git mercurial build-essential lsb-core devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-core devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev \
+  && rm -rf /var/lib/apt/lists/*
 
 # Add Nginx repository and install
 RUN wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - \
     && echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" > /etc/apt/sources.list.d/nginx.list \
-    && apt update && apt install nginx
+    && apt-get update && apt-get install --no-install-recommends -y nginx \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install pkg-oss
 WORKDIR /root/
@@ -26,7 +29,9 @@ FROM ubuntu:bionic
 MAINTAINER Penn Labs
 
 # Install dependencies
-RUN apt-get update && apt-get install -y gnupg2 wget
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y gnupg2 wget ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
 # Add Shibboleth and Nginx repositories
 RUN wget -qO - http://pkg.switch.ch/switchaai/SWITCHaai-swdistrib.asc | apt-key add - \
@@ -35,8 +40,8 @@ RUN wget -qO - http://pkg.switch.ch/switchaai/SWITCHaai-swdistrib.asc | apt-key 
     && echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" > /etc/apt/sources.list.d/nginx.list
 
 # Install Shibboleth, Nginx, and Supervisor
-RUN apt-get update && apt-get install -y --no-install-recommends shibboleth=3.0.4+switchaai1~bionic1 \
-    && apt-get install -y supervisor nginx
+RUN apt-get update && apt-get install --no-install-recommends -y shibboleth=3.0.4+switchaai1~bionic1 supervisor nginx \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Nginx modules
 COPY --from=build /root/nginx-modules/deb/*.deb /tmp/
