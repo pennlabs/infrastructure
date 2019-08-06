@@ -15,4 +15,4 @@ COPY nginx/ /etc/nginx/conf.d/
 ```
 where `shibboleth` and `nginx` contain your custom configuration files like `shibboleth2.xml` and `default.conf`.
 
-**WARNING** When using this image as a base, remember to generate a new TLS certificate and key for nginx.
+**WARNING** When using this image as a base, you must generate a new TLS certificate and key for nginx (`cert.pem` and `key.pem`). Copy them to `/etc/nginx/`.
