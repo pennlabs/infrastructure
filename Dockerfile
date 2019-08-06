@@ -15,7 +15,7 @@ RUN wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - \
 # Install pkg-oss
 WORKDIR /root/
 RUN mkdir -p /root/nginx-modules/deb/ \
-    && wget https://hg.nginx.org/pkg-oss/archive/tip.tar.gz \
+    && wget -qO tip.tar.gz https://hg.nginx.org/pkg-oss/archive/tip.tar.gz \
     && tar -xvf tip.tar.gz && mv pkg-oss-* pkg-oss/ && rm -f tip.tar.gz
 
 # Build Nginx modules
