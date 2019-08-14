@@ -1,5 +1,5 @@
 # docker-shibboleth-sp-nginx
-This docker image contains Nginx with Shibboleth SP 3.0.4 running on Ubuntu 18.04. The image was built following [these instructions](https://github.com/nginx-shib/nginx-http-shibboleth).
+This docker image contains Nginx with Shibboleth SP 3.0.4 running on Debian Buster (Slim). The image was built following [these instructions](https://github.com/nginx-shib/nginx-http-shibboleth).
 
 This image is meant to be used as a base image with local changes overriding the default configs.
 

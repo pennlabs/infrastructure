@@ -1,14 +1,14 @@
 # Build stage
-FROM ubuntu:bionic AS build
+FROM debian:buster-slim AS build
 
 # Install dependencies
 RUN apt-get update \
-  && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-core devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev \
+  && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-release devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev debhelper \
   && rm -rf /var/lib/apt/lists/*
 
 # Add Nginx repository and install
 RUN wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - \
-    && echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" > /etc/apt/sources.list.d/nginx.list \
+    && echo "deb http://nginx.org/packages/debian/ buster nginx" > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install --no-install-recommends -y nginx \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,7 +24,7 @@ RUN pkg-oss/build_module.sh --skip-depends -y -o /root/nginx-modules/deb/ -n shi
     && rm -f /root/nginx-modules/deb/*-dbg_*.deb
 
 # Production stage
-FROM ubuntu:bionic
+FROM debian:buster-slim
 
 MAINTAINER Penn Labs
 
@@ -36,11 +36,11 @@ RUN apt-get update \
 # Add Shibboleth and Nginx repositories
 RUN wget -qO - http://pkg.switch.ch/switchaai/SWITCHaai-swdistrib.asc | apt-key add - \
     && wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - \
-    && echo "deb http://pkg.switch.ch/switchaai/ubuntu bionic main" > /etc/apt/sources.list.d/switch-shibboleth.list \
-    && echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" > /etc/apt/sources.list.d/nginx.list
+    && echo "deb http://pkg.switch.ch/switchaai/debian/ buster main" > /etc/apt/sources.list.d/switch-shibboleth.list \
+    && echo "deb http://nginx.org/packages/debian/ buster nginx" > /etc/apt/sources.list.d/nginx.list
 
 # Install Shibboleth, Nginx, and Supervisor
-RUN apt-get update && apt-get install --no-install-recommends -y shibboleth=3.0.4+switchaai1~bionic1 supervisor nginx \
+RUN apt-get update && apt-get install --no-install-recommends -y shibboleth=3.0.4+switchaai2~buster1 supervisor nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Nginx modules
