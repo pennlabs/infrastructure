@@ -26,4 +26,4 @@ ONBUILD COPY . /app/
 # Collect static files
 ONBUILD RUN python /app/manage.py collectstatic --noinput
 
-CMD ["django-run"]
+CMD ["/usr/local/bin/django-run"]
