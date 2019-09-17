@@ -24,6 +24,6 @@ ONBUILD RUN pipenv install --system
 ONBUILD COPY . /app/
 
 # Collect static files
-ONBUILD RUN python /app/manage.py collectstatic
+ONBUILD RUN python /app/manage.py collectstatic --noinput
 
 CMD ["django-run"]
