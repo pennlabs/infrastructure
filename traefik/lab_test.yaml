@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-2048-deployment
+  labels:
+    app: "2048"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "2048"
+  template:
+    metadata:
+      labels:
+        app: "2048"
+    spec:
+      containers:
+      - name: "2048"
+        image: alexwhen/docker-2048
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-2048
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: "2048"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "2048"
+  labels:
+    test: "hi"
+spec:
+  rules:
+  - host: upenn.club
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: lab-2048
+          servicePort: 80

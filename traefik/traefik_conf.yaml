@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-conf
+  namespace: kube-system
+data:
+  traefik.toml: |
+    defaultEntryPoints = ["http","https"]
+    debug = false
+    logLevel = "INFO"
+    #Config to redirect http to https
+    [entryPoints]
+      [entryPoints.http]
+        address = ":80"
+        compress = true
+        [entryPoints.http.redirect]
+        entryPoint = "https"
+      [entryPoints.https]
+        address = ":443"
+        compress = true
+        [entryPoints.https.tls]
+    [api]
+      [api.statistics]
+        recentErrors = 10
+    [kubernetes]
+    [metrics]
+      [metrics.prometheus]
+      buckets=[0.1,0.3,1.2,5.0]
+      entryPoint = "traefik"
+    [ping]
+      entryPoint = "http"
+    [accessLog]
+    [acme]
+      email = "labs@pennlabs.org"
+      storage = "acme.json"
+      acmeLogging = true
+      entryPoint = "https"
+      onHostRule = true
+      [acme.httpChallenge]
+        entryPoint = "http"
+
