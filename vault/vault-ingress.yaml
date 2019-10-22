@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: vault
+spec:
+  rules:
+  - host: vault.upenn.club
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: vault-ui
+          servicePort: 8200

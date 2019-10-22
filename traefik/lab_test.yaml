@@ -46,4 +46,4 @@ spec:
       - path: /
         backend:
           serviceName: lab-2048
-          servicePort: 80
+         servicePort: 80
