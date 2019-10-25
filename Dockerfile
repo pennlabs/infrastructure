@@ -14,16 +14,4 @@ COPY django-run /usr/local/bin/
 
 WORKDIR /app/
 
-# Copy project dependencies
-ONBUILD COPY Pipfile* /app/
-
-# Install project dependencies
-ONBUILD RUN pipenv install --system
-
-# Copy project files
-ONBUILD COPY . /app/
-
-# Collect static files
-ONBUILD RUN python3.7 /app/manage.py collectstatic --noinput
-
 CMD ["/usr/local/bin/django-run"]
