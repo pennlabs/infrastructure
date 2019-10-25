@@ -1,17 +1,17 @@
-# BETA NS
+# STAGING NS
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: vault-auth
-  namespace: beta
+  namespace: staging
 
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: secret-admin
-  namespace: beta
+  namespace: staging
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
@@ -22,11 +22,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: secret-admin-rolebinding
-  namespace: beta
+  namespace: staging
 subjects:
 - kind: ServiceAccount
   name: vault-auth
-  namespace: beta
+  namespace: staging
 roleRef:
   kind: Role
   name: secret-admin
@@ -36,7 +36,7 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: role-tokenreview-binding-beta
+  name: role-tokenreview-binding-staging
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -44,7 +44,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: vault-auth
-  namespace: beta
+  namespace: staging
 
 # DEFAULT NA
 ---

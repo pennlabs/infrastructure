@@ -55,7 +55,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: secret-sync
-  namespace: beta
+  namespace: staging
 spec:
   schedule: "*/10 * * * *"
   jobTemplate:
