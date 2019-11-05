@@ -49,7 +49,7 @@ spec:
                 - name: SECRET_PREFIX
                   value: ""
                 - name: VAULT_SECRETS
-                  value: secrets/data/basics
+                  value: secrets/data/
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
@@ -102,4 +102,4 @@ spec:
                 - name: SECRET_PREFIX
                   value: ""
                 - name: VAULT_SECRETS
-                  value: secrets/data/basics
+                  value: secrets/data/
