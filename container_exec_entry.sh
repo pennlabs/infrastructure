@@ -10,5 +10,5 @@ tmux has-session -t $session_name 2>/dev/null
 if [ $? != 0 ]; then
   tmux new -s $session_name "./container_exec.sh"
 else
-	tmux attach -t $session_name
+  tmux attach -t $session_name
 fi
