@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "List of active sessions:"
+
+tmux ls
+
 echo -n "Enter session name: "
 
 read session_name
