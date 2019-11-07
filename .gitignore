@@ -1,1 +1,6 @@
 labs-kubeconfig.yaml
+kubeconfig.yaml
+db_creds.json
+creds.txt
+plugins
+terraform.*

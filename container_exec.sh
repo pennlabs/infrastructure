@@ -25,4 +25,3 @@ read dep_name
 kubectl exec -it -n $namespace $(kubectl get pod -n $namespace | grep $dep_name | head -n 1 | cut -d " " -f 1) /bin/bash
 echo "Press enter to exit"
 read dummy
-
