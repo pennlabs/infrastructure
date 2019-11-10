@@ -1,7 +1,6 @@
 #!/bin/bash
 
-IFS=
-tfstate="$(cat tf/terraform.tfstate)"
+tfstate=$(cat terraform.tfstate)
 
 export AWS_ACCESS_KEY_ID=$(echo -E $tfstate | \
     jq -r '.resources | .[] | 
@@ -29,20 +28,8 @@ export DB_NAME=$(echo -E $db_content | jq -r '.database')
 export DB_HOST=$(echo -E $db_content | jq -r '.private_host')
 export DB_PORT=$(echo -E $db_content | jq -r '.port')
 
-echo -E $tfstate | \
+cat terraform.tfstate | \
     jq -r '.resources | .[] | 
         select(.name == "labs-testing" and .type == "digitalocean_kubernetes_cluster") |
         .instances[0].attributes.kube_config[0].raw_config' > \
         kubeconfig.yaml
-
-export KUBECONFIG=$PWD/kubeconfig.yaml
-
-# dirs=("traefik" "helm" "vault")
-
-kubectl create ns staging
-
-for dir in traefik helm vault; do
-  cd $dir
-  ./init.sh
-  cd ..
-done
