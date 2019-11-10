@@ -37,8 +37,6 @@ echo -E $tfstate | \
 
 export KUBECONFIG=$PWD/kubeconfig.yaml
 
-# dirs=("traefik" "helm" "vault")
-
 kubectl create ns staging
 
 for dir in traefik helm vault; do
