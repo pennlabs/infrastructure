@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#######################
+# CLUSTER INITIALIZER #
+#######################
+# This script:
+# 1.) Grabs all secrets from tfstate and exposes them in environment variables
+# 2.) Grabs kubeconfig from tfstate and writes it out
+# 3.) Calls init scripts to create base Labs k8s deployment
+# This script is to be called only after a succesful `terraform apply`
+
 IFS=
 tfstate="$(cat tf/terraform.tfstate)"
 
@@ -16,7 +25,7 @@ export AWS_SECRET_ACCESS_KEY=$(echo -E $tfstate | \
 export KMS_KEY_ID=$(echo -E $tfstate | \
     jq -r '.resources | .[] | 
         select(.name == "vault-unseal-key" and .type == "aws_kms_key") |
-        .instances[0].key_id')
+        .instances[0].attributes.key_id')
 
 db_content=$(echo -E $tfstate | \
     jq -r '.resources | .[] | 
