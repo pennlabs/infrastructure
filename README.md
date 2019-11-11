@@ -28,10 +28,11 @@ $ ./init_cluster.sh
 ### Set up Vault
 
 ```bash
-$ k exec -it vault-0 -- /bin/sh
+$ kubectl exec -it vault-0 -- /bin/sh
 $ vault operator init -recovery-shares=1 -recovery-threshold=1
 # Save the generated token in case you need to recover later
 $ vault login
+# Enable github auth
 $ vault auth enable github
 $ vault write auth/github/config organization=pennlabs
 $ vault write auth/github/map/teams/Platform value=admin
@@ -98,11 +99,7 @@ path "secrets/*"
 }
 EOF
 $ vault policy write admin admin-policy.hcl
-```
-
-enabling k8s auth:
-
-```bash
+# Enable kubernetes auth
 $ vault auth enable kubernetes
 $ vault write auth/kubernetes/config \
   kubernetes_host=https://kubernetes \
