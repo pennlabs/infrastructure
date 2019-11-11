@@ -41,5 +41,5 @@ output "DB_PORT" {
 
 output "KUBECONFIG" {
   sensitive   = true
-  value = digitalocean_kubernetes_cluster.labs-testing.kube_config[0].raw_config
+  value = digitalocean_kubernetes_cluster.labs-prod.kube_config[0].raw_config
 }

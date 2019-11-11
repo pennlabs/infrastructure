@@ -1,13 +1,13 @@
-resource "digitalocean_kubernetes_cluster" "labs-testing" {
-  name    = "labs-testing"
+resource "digitalocean_kubernetes_cluster" "labs-prod" {
+  name    = "labs-prod"
   region  = "nyc1"
   // Grab the latest version slug from `doctl kubernetes options versions`
   version = "1.16.2-do.0"
 
   node_pool {
     name       = "worker-pool"
-    size       = "s-2vcpu-2gb"
-    node_count = 3
+    size       = "s-2vcpu-4gb"
+    node_count = 5
   }
 }
 
