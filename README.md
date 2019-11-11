@@ -22,6 +22,7 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 $ terraform output -json > tf_creds.json
+$ cd ..
 ```
 
 Now, initialize the cluster:
