@@ -4,3 +4,4 @@ db_creds.json
 creds.txt
 plugins
 terraform.*
+tf_creds.json
