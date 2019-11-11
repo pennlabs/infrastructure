@@ -1,14 +1,12 @@
 ```bash
+$ k exec -it vault-0 -- /bin/sh
 $ vault operator init -recovery-shares=1 -recovery-threshold=1
+$ vault login
 $ vault auth enable github
 $ vault write auth/github/config organization=pennlabs
 $ vault write auth/github/map/teams/Platform value=admin
-$ vault policy write admin admin-policy.hcl
-```
-
-admin_policy.hcl:
-
-```hcl
+$ cd
+$ cat <<EOF > admin-policy.hcl
 # Manage auth methods broadly across Vault
 path "auth/*"
 {
@@ -68,6 +66,8 @@ path "secrets/*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
+EOF
+$ vault policy write admin admin-policy.hcl
 ```
 
 enabling k8s auth:
@@ -82,12 +82,7 @@ $ vault write auth/kubernetes/role/secret-reader \
     bound_service_account_namespaces='*' \
     policies=read-secrets \
     ttl=1h
-$ vault policy write read-secrets read-secrets.hcl
-```
-
-read-secrets.hcl
-
-```hcl
+$ cat <<EOF > read-secrets.hcl
 # Read health checks
 path "secrets/*"
 {
@@ -105,4 +100,6 @@ path "sys/mounts/*"
 {
   capabilities = ["list", "read"]
 }
+EOF
+$ vault policy write read-secrets read-secrets.hcl
 ```
