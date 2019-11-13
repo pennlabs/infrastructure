@@ -28,7 +28,7 @@ export KUBECONFIG=$PWD/kubeconfig.yaml
 
 kubectl create ns staging
 
-for dir in traefik helm vault; do
+for dir in traefik vault; do
   cd $dir
   ./init.sh
   cd ..
