@@ -18,7 +18,7 @@ client = hvac.Client(
 )
 
 if not client.sys.is_sealed():
-    with open("user_policy.hcl.j2") as f:
+    with open("user-policy.hcl.j2") as f:
         t = Template(f.read())
         for team in teams:
             pol = t.render(team_name = team)
