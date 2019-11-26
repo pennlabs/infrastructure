@@ -1,0 +1,20 @@
+# List auth methods
+path "sys/auth"
+{
+  capabilities = ["read"]
+}
+
+path "secrets/*"
+{
+  capabilities = ["list"]
+}
+
+path "sys/mounts/*"
+{
+  capabilities = ["list", "read"]
+}
+
+path "secrets/data/{{ team_name }}"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}

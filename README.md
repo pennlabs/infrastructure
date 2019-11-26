@@ -75,6 +75,12 @@ path "sys/policies/acl/*"
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
+# Create and manage all policies
+path "sys/policy/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
 # List, create, update, and delete key/value secrets
 path "secret/*"
 {

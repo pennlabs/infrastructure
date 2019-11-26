@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@0.5.13
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - docker/publish:
+          image: pennlabs/labs-helm
+          tag: $CIRCLE_SHA1
+          context: docker-publish
+          path: docker/labs-helm
+      - docker/publish:
+          image: pennlabs/labs-helm
+          tag: latest
+          context: docker-publish
+          path: docker/labs-helm
+      - docker/publish:
+          image: pennlabs/team-sync
+          tag: $CIRCLE_SHA1
+          context: docker-publish
+          path: docker/team-sync
+      - docker/publish:
+          image: pennlabs/team-sync
+          tag: latest
+          context: docker-publish
+          path: docker/team-sync
