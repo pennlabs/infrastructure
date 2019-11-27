@@ -32,7 +32,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: team-auth-tokenreview-binding
+  name: team-sync-auth-tokenreview-binding
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io

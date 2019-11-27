@@ -148,3 +148,7 @@ path "sys/mounts/*"
 EOF
 vault-0 $ vault policy write read-secrets read-secrets.hcl
 ```
+
+### Add Github Token
+
+To automate team syncing from Github to Vault, we've written a team syncing cronjob. It needs one secret, `GITHUB_TOKEN`, a Github personal access token with only one scope: `read:org`. Add this secret under `secrets/data/team-sync`, and it'll populate in due time.
