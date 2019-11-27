@@ -1,0 +1,20 @@
+alertmanager:
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager.pennlabs.org
+
+server:
+  image:
+    repository: prom/prometheus
+    tag: v2.13.1
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.pennlabs.org
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
