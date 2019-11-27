@@ -14,7 +14,7 @@ for team in g.get_organization("pennlabs").get_teams():
         teams.append(m.group(1))
 
 client = hvac.Client(
-    url='http://vault.default'
+    url=os.getenv("VAULT_ADDR")
 )
 
 if not client.sys.is_sealed():

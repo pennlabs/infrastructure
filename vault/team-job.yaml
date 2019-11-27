@@ -1,0 +1,29 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: team-sync
+spec:
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: team-auth
+          restartPolicy: Never
+          containers:
+            - name: team-sync
+              image: pennlabs/team-sync:latest
+              imagePullPolicy: Always
+              envFrom:
+                - secretRef:
+                    name: team-sync
+              env:
+                - name: VAULT_ADDR
+                  value: http://vault.default:8200
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: team-auth
+  namespace: default
