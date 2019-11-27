@@ -17,6 +17,10 @@ client = hvac.Client(
     url=os.getenv("VAULT_ADDR")
 )
 
+with open('/var/run/secrets/kubernetes.io/serviceaccount/token') as f:
+    jwt = f.read()
+    client.auth_kubernetes("team-auth", jwt)
+
 if not client.sys.is_sealed():
     with open("user-policy.hcl.j2") as f:
         t = Template(f.read())

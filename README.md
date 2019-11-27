@@ -122,6 +122,11 @@ vault-0 $ vault write auth/kubernetes/role/secret-reader \
   bound_service_account_namespaces='*' \
   policies=read-secrets \
   ttl=1h
+vault-0 $ $ vault write auth/kubernetes/role/secret-reader \
+  bound_service_account_names=team-auth \
+  bound_service_account_namespaces='*' \
+  policies=admin \
+  ttl=1h
 vault-0 $ cat <<EOF > read-secrets.hcl
 # Read health checks
 path "secrets/*"
