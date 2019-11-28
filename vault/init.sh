@@ -7,7 +7,7 @@
 # This script uses `envsubst` to template out sensitive config files and to create the vault deployment
 
 envsubst < vault-secrets.yaml | kubectl apply -f -
-envsubst < values.yaml | helm upgrade --install vault ./vault-helm -f -
+envsubst < values.yaml | helm upgrade --install --atomic vault ./vault-helm -f -
 
 kubectl apply -f secret-sync-job.yaml
 kubectl apply -f secret-sync-rbac.yaml

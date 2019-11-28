@@ -1,18 +1,12 @@
 alertmanager:
-  ingress:
-    enabled: true
-    hosts:
-      - alertmanager.pennlabs.org
+  # we're using grafana alerts for the time being
+  enabled: false
 
 server:
   image:
     repository: prom/prometheus
     tag: v2.13.1
     pullPolicy: IfNotPresent
-  ingress:
-    enabled: true
-    hosts:
-      - prometheus.pennlabs.org
   persistentVolume:
     enabled: true
     accessModes:

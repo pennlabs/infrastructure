@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --install etcd stable/etcd-operator -f values.yaml --namespace kube-system
+helm upgrade --install --atomic etcd stable/etcd-operator -f values.yaml --namespace kube-system
