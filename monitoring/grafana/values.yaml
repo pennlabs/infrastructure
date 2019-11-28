@@ -37,3 +37,19 @@ dashboards:
        gnetId: 1860
        revision: 15
        datasource: Prometheus
+
+grafana.ini:
+  server:
+    domain: "grafana.pennlabs.org"
+    root_url: "https://%(domain)s/"
+  auth.github:
+    enabled: true
+    scopes: user:email,read:org
+    auth_url: https://github.com/login/oauth/authorize
+    token_url: https://github.com/login/oauth/access_token
+    api_url: https://api.github.com/user
+    allow_sign_up: true
+    # space-delimited organization names
+    allowed_organizations: pennlabs
+
+envFromSecret: "grafana"
