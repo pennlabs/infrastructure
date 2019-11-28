@@ -11,7 +11,7 @@ teams = []
 for team in g.get_organization("pennlabs").get_teams():
     m = re.search(r'(\S+)-leads', team.slug)
     if m:
-        teams.append([team.name, m.group(1)])
+        teams.append([team.slug, m.group(1)])
 
 client = hvac.Client(
     url=os.getenv("VAULT_ADDR")
