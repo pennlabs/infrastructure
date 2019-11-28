@@ -7,6 +7,7 @@ In this repo, you can find all the configs for Pennlabs' infrastructure. Informa
 | Directory  | Purpose                                          |
 |------------|--------------------------------------------------|
 | docker     | Infrastructure-specific Dockerfiles              |
+| etcd       | K8s configs to set up etcd cluster               |
 | monitoring | K8s configs needed to set up Prometheus, Grafana |
 | tf         | Terraform configs for all infrastructure         |
 | traefik    | K8s configs needed to set up traefik             |
