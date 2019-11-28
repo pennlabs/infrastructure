@@ -1,5 +1,4 @@
----
-kind: Deployment
+kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
@@ -7,7 +6,6 @@ metadata:
   labels:
     app: traefik-ingress-lb
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: traefik-ingress-lb
@@ -19,6 +17,15 @@ spec:
     spec:
       serviceAccountName: traefik-ingress-controller
       terminationGracePeriodSeconds: 60
+      initContainers:
+      - image: traefik:v1.7.2
+        name: etcd-init
+        args:
+        - storeconfig
+        - --configfile=/config/traefik.toml
+        volumeMounts:
+        - mountPath: /config
+          name: config
       containers:
       - image: traefik:v1.7.2
         name: traefik-ingress-lb
@@ -59,3 +66,4 @@ spec:
       - name: config
         configMap:
           name: traefik-conf
+

@@ -31,12 +31,14 @@ data:
     [ping]
       entryPoint = "http"
     [accessLog]
+    [etcd]
+      endpoint = "etcd-cluster-client:2379"
+      useAPIV3 = true
     [acme]
       email = "labs@pennlabs.org"
-      storage = "acme.json"
+      storage = "traefik/acme/account"
       acmeLogging = true
       entryPoint = "https"
       onHostRule = true
       [acme.httpChallenge]
         entryPoint = "http"
-
