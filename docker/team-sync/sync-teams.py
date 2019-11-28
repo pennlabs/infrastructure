@@ -32,9 +32,9 @@ if not client.sys.is_sealed():
                 name=team_slug,
                 policy=pol,
             )
-            client.write(
-                f'auth/github/map/teams/{team_name}',
-                data={"value": team_slug},
+            client.auth.github.map_team(
+                team_name=team_name,
+                policies=[team_slug]
             )
 else:
     print("Vault sealed. Stopping.")
