@@ -159,3 +159,7 @@ Create a secret in `secrets/data/grafana` with two attributes:
 
 - `admin-user` - username for grafana admin
 - `admin-password` - paassword for grafana admin
+
+Also, follow this guide to set up Slack:
+
+https://medium.com/@_oleksii_/grafana-alerting-and-slack-notifications-3affe9d5f688
