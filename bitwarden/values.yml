@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: bitwardenrs/server-mysql
+  tag: 1.12.0
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  domain: bitwarden.pennlabs.org
+
+secrets:
+  enabled: true
+  secretEnv: bitwarden
+
+project_name: bitwarden
