@@ -6,6 +6,7 @@ In this repo, you can find all the configs for Pennlabs' infrastructure. Informa
 
 | Directory  | Purpose                                          |
 |------------|--------------------------------------------------|
+| bitwarden  | K8s configs to set up bitwarden_rs               |
 | docker     | Infrastructure-specific Dockerfiles              |
 | etcd       | K8s configs to set up etcd cluster               |
 | monitoring | K8s configs needed to set up Prometheus, Grafana |
