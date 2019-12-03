@@ -1,6 +1,6 @@
 # Infrastructure
 
-In this repo, you can find all the configs for Pennlabs' infrastructure. Information on how to create a cluster from scratch are in [Bootstrapping](/BOOTSTRAPPING.md).
+In this repo, you can find all the configs for Penn Labs' infrastructure. Information on how to create a cluster from scratch are in [Bootstrapping](/BOOTSTRAPPING.md).
 
 ## Guide
 
