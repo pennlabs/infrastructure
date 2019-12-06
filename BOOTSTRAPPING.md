@@ -155,10 +155,14 @@ To automate team syncing from Github to Vault, we've written a team syncing cron
 
 ### Add Grafana Credentials
 
-Create a secret in `secrets/data/grafana` with two attributes:
+First, create an Oauth app for grafana under the Pennlabs organization.
+
+Create a secret in `secrets/data/grafana` with the following attributes:
 
 - `admin-user` - username for grafana admin
-- `admin-password` - paassword for grafana admin
+- `admin-password` - password for grafana admin
+- `GF_AUTH_GITHUB_CLIENT_ID` - Client ID for the Github OAuth app
+- `GF_AUTH_GITHUB_CLIENT_Secret` - Secret for the Github OAuth app
 
 Also, follow this guide to set up Slack:
 

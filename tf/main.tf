@@ -11,12 +11,22 @@ resource "digitalocean_kubernetes_cluster" "labs-prod" {
   }
 }
 
-resource "digitalocean_database_cluster" "mysql-vault" {
-  name       = "mysql-vault"
+resource "digitalocean_database_cluster" "mysql-infra" {
+  name       = "mysql-infra"
   engine     = "mysql"
   size       = "db-s-1vcpu-1gb"
   region     = "nyc1"
   node_count = 1
+}
+
+resource "digitalocean_database_db" "vault" {
+  cluster_id = digitalocean_database_cluster.mysql-infra.id
+  name       = "vault"
+}
+
+resource "digitalocean_database_user" "vault-user" {
+  cluster_id = digitalocean_database_cluster.mysql-infra.id
+  name       = "vault-user"
 }
 
 resource "aws_kms_key" "vault-unseal-key" {

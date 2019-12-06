@@ -1,4 +1,3 @@
-
 output "AWS_ACCESS_KEY_ID" {
   sensitive   = true
   value = aws_iam_access_key.vault-unsealer.id
@@ -16,27 +15,27 @@ output "KMS_KEY_ID" {
 
 output "DB_USER" {
   sensitive   = true
-  value = digitalocean_database_cluster.mysql-vault.user
+  value = digitalocean_database_user.vault-user.name
 }
 
 output "DB_PASSWORD" {
   sensitive   = true
-  value = digitalocean_database_cluster.mysql-vault.password
+  value = digitalocean_database_user.vault-user.password
 }
 
 output "DB_NAME" {
   sensitive   = true
-  value = digitalocean_database_cluster.mysql-vault.database
+  value = digitalocean_database_db.vault.name
 }
 
 output "DB_HOST" {
   sensitive   = true
-  value = digitalocean_database_cluster.mysql-vault.private_host
+  value = digitalocean_database_cluster.mysql-infra.host
 }
 
 output "DB_PORT" {
   sensitive   = true
-  value = digitalocean_database_cluster.mysql-vault.port
+  value = digitalocean_database_cluster.mysql-infra.port
 }
 
 output "KUBECONFIG" {

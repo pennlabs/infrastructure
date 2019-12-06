@@ -4,7 +4,7 @@ metadata:
   name: vault
 spec:
   rules:
-  - host: vault.upenn.club
+  - host: vault.pennlabs.org
     http:
       paths:
       - path: /
