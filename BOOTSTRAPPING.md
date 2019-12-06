@@ -167,3 +167,10 @@ Create a secret in `secrets/data/grafana` with the following attributes:
 Also, follow this guide to set up Slack:
 
 https://medium.com/@_oleksii_/grafana-alerting-and-slack-notifications-3affe9d5f688
+
+### Configure Bitwarden
+
+Create a secret in `secrets/data/bitwarden` with two attributes:
+
+- `ADMIN_TOKEN` - A (long) secure token to access the bitwarden admin page.
+- `DATABASE_URL` - The database url of the mysql database to use.

@@ -23,6 +23,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          env:
+            - name: ENABLE_DB_WAL
+              value: "false"
+            - name: SIGNUPS_ALLOWED
+              value: "false"
           envFrom:
             - secretRef:
                 name: {{ .Values.secrets.secretEnv }}
