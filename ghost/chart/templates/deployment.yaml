@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-dep
+  namespace: {{ .Release.namespace }}
   labels:
     name: {{ .Release.Name }}
 spec:
@@ -20,11 +21,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
-          env:
-            - name: ENABLE_DB_WAL
-              value: "false"
-            - name: SIGNUPS_ALLOWED
-              value: "false"
           envFrom:
             - secretRef:
                 name: {{ .Values.secrets.secretEnv }}
+          env:
+            {{- if .Values.extraEnv }}
+            {{ toYaml .Values.extraEnv | indent 12 }}
+            {{- end }}
+

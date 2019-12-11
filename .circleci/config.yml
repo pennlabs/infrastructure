@@ -14,25 +14,20 @@ workflows:
     jobs:
       - docker/publish:
           image: pennlabs/labs-helm
-          tag: $CIRCLE_SHA1
-          context: docker-publish
-          path: docker/labs-helm
-          <<: *branch-filters
-      - docker/publish:
-          image: pennlabs/labs-helm
-          tag: latest
+          tag: "${CIRCLE_SHA1},latest"
           context: docker-publish
           path: docker/labs-helm
           <<: *branch-filters
       - docker/publish:
           image: pennlabs/team-sync
-          tag: $CIRCLE_SHA1
+          tag: "${CIRCLE_SHA1},latest"
           context: docker-publish
           path: docker/team-sync
           <<: *branch-filters
       - docker/publish:
-          image: pennlabs/team-sync
-          tag: latest
+          image: pennlabs/ghost-s3
+          tag: "${CIRCLE_SHA1},latest"
           context: docker-publish
-          path: docker/team-sync
+          path: docker/ghost-s3
           <<: *branch-filters
+

@@ -1,0 +1,29 @@
+image:
+  repository: pennlabs/ghost
+  tag: latest
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  hosts:
+    - host: blog.pennlabs.org
+      paths: ["/"]
+
+extraEnv:
+  - name: url
+    value: https://blog.pennlabs.org
+  - name: database__client
+    value: mysql
+  - name: database__ssl
+    value: true
+  - name: mail__transport
+    value: SMTP
+  - name: mail__from
+    value: blogmaster@pennlabs.org
+  - name: mail__options__service
+    value: Mailgun
+  
+
+secretEnv: ghost
