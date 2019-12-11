@@ -8,7 +8,7 @@ nested fields are accessed with a `__` (double underscore), just like in the Dja
 Here are the secrets that need to be set:
 
 |               Key                       |  Description                                                |
-|------ ----------------------------------|-------------------------------------------------------------|
+|-----------------------------------------|-------------------------------------------------------------|
 | `AWS_ACCESS_KEY_ID`                     |                                                             |
 | `AWS_DEFAULT_REGION`                    |                                                             |
 | `AWS_SECRET_ACCESS_KEY`                 |                                                             |
