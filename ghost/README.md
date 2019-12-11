@@ -7,18 +7,18 @@ nested fields are accessed with a `__` (double underscore), just like in the Dja
 
 Here are the secrets that need to be set:
 
-|             Key                       |  Description                                                |
-|---------------------------------------|-------------------------------------------------------------|
-| AWS_ACCESS_KEY_ID                     |                                                             |
-| AWS_DEFAULT_REGION                    |                                                             |
-| AWS_SECRET_ACCESS_KEY                 |                                                             |
-| GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET  |                                                             |
-| database__connection__database        | The name of the MySQL database to be used to store content. |
-| database__connection__host            | Hostname for the MySQL database.                            |
-| database__connection__user            | Database user for ghost to log in as.                       |
-| database__connection__password        | Password for the MySQL database user.                       |
-| mail__options__auth__user             | SMTP user                                                   |
-| mail__options__auth__pass             | SMTP password                                               |
+|               Key                       |  Description                                                |
+|------ ----------------------------------|-------------------------------------------------------------|
+| `AWS_ACCESS_KEY_ID`                     |                                                             |
+| `AWS_DEFAULT_REGION`                    |                                                             |
+| `AWS_SECRET_ACCESS_KEY`                 |                                                             |
+| `GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET`  |                                                             |
+| `database__connection__database`        | The name of the MySQL database to be used to store content. |
+| `database__connection__host`            | Hostname for the MySQL database.                            |
+| `database__connection__user`            | Database user for ghost to log in as.                       |
+| `database__connection__password`        | Password for the MySQL database user.                       |
+| `mail__options__auth__user`             | SMTP user                                                   |
+| `mail__options__auth__pass`             | SMTP password                                               |
 
 Other configuration can also be set as `extraEnv` in values.yaml. 
 Right now, this includes things like the default ports for MySQL and SMTP.
