@@ -27,4 +27,5 @@ extraEnv:
     value: Mailgun
   
 
-secretEnv: ghost
+secrets:
+  secretEnv: ghost
