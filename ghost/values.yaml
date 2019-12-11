@@ -4,6 +4,7 @@ image:
 
 service:
   type: ClusterIP
+  port: 2368
 
 ingress:
   enabled: true
@@ -21,7 +22,7 @@ extraEnv:
   - name: mail__transport
     value: SMTP
   - name: mail__from
-    value: blogmaster@pennlabs.org
+    value: "'Penn Labs' <blogmaster@pennlabs.org>"
   - name: mail__options__service
     value: Mailgun
   
