@@ -1,9 +1,9 @@
 # Ghost
 
-Ghost is a Content Management System (CMS) for blogging. Think of it like the backend of a blog, but it's built so that it can be very easily accessed via an API. An example for NextJS is [here](https://ghost.org/docs/api/v3/nextjs/)
+Ghost is a Content Management System (CMS) for blogging. Think of it like the backend of a blog, but it's built so that it can be very easily accessed via an API. An example for NextJS is [here](https://ghost.org/docs/api/v3/nextjs/).
 
 Normally ghost is configured using a JSON file. But we can also set all the configuration through environment variables, where
-nested fields are accessed with a `__` (double underscore), just like in the Django ORM.
+nested fields are accessed with a double underscore, just like in the Django ORM.
 
 Here are the secrets that need to be set:
 
