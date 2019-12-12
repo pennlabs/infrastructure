@@ -1,5 +1,5 @@
 image:
-  repository: pennlabs/ghost
+  repository: pennlabs/ghost-s3
   tag: latest
 
 service:
