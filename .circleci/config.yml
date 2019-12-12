@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  docker: circleci/docker@0.5.13
+  docker: circleci/docker@0.5.19
 
 branch-filters: &branch-filters
   filters:

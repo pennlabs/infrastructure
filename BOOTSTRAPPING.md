@@ -178,4 +178,4 @@ Create a secret in `secrets/data/bitwarden` with two attributes:
 ### Configure Ghost
 
 See the [Ghost README](https://github.com/pennlabs/infrastructure/tree/master/ghost) for descriptions of
-secrets that need to be set in `secrests/data/ghost`.
+secrets that need to be set in `secrets/data/ghost`.
