@@ -25,6 +25,8 @@ extraEnv:
     value: "'Penn Labs' <blogmaster@pennlabs.org>"
   - name: mail__options__service
     value: Mailgun
+  - name: storage__active
+    value: s3
   
 
 secrets:

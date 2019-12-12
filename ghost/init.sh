@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --install --atomic ghost -f values.yml chart/
+helm upgrade --install --atomic ghost -f values.yaml chart/
