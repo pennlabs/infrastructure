@@ -13,21 +13,20 @@ ingress:
       paths: ["/"]
 
 extraEnv:
-  - name: url
-    value: https://blog.pennlabs.org
-  - name: database__client
-    value: mysql
-  - name: database__ssl
-    value: true
-  - name: mail__transport
-    value: SMTP
-  - name: mail__from
-    value: "'Penn Labs' <blogmaster@pennlabs.org>"
-  - name: mail__options__service
-    value: Mailgun
-  - name: storage__active
-    value: s3
-  
+ - name: url
+   value: https://blog.pennlabs.org
+ - name: database__client
+   value: mysql
+ - name: database__ssl
+   value: "true"
+ - name: mail__transport
+   value: SMTP
+ - name: mail__from
+   value: "'Penn Labs' <blogmaster@pennlabs.org>"
+ - name: mail__options__service
+   value: Mailgun
+ - name: storage__active
+   value: s3
 
 secrets:
   secretEnv: ghost

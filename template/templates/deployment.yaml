@@ -25,7 +25,7 @@ spec:
             - secretRef:
                 name: {{ .Values.secrets.secretEnv }}
           env:
-            {{- if .Values.extraEnv }}
-            {{ toYaml .Values.extraEnv | indent 12 }}
-            {{- end }}
-
+          {{- range .Values.extraEnv }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+          {{- end }}
