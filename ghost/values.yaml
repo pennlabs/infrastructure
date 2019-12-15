@@ -15,7 +15,7 @@ ingress:
 
 extraEnv:
  - name: url
-   value: https://blog.pennlabs.org
+   value: https://ghost.pennlabs.org
  - name: database__client
    value: mysql
  - name: database__ssl
