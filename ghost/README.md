@@ -9,10 +9,10 @@ Here are the secrets that need to be set:
 
 |               Key                       |  Description                                                |
 |-----------------------------------------|-------------------------------------------------------------|
-| `AWS_ACCESS_KEY_ID`                     |                                                             |
-| `AWS_DEFAULT_REGION`                    |                                                             |
-| `AWS_SECRET_ACCESS_KEY`                 |                                                             |
-| `GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET`  |                                                             |
+| `AWS_ACCESS_KEY_ID`                     |  Access key for user with access to bucket  |
+| `AWS_DEFAULT_REGION`                    |  Region for bucket |
+| `AWS_SECRET_ACCESS_KEY`                 |  Secret access key for user with access to bucket  |
+| `GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET`  |  Bucket name  |
 | `database__connection__database`        | The name of the MySQL database to be used to store content. |
 | `database__connection__host`            | Hostname for the MySQL database.                            |
 | `database__connection__user`            | Database user for ghost to log in as.                       |

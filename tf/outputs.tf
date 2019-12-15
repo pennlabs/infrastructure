@@ -42,3 +42,18 @@ output "KUBECONFIG" {
   sensitive   = true
   value = digitalocean_kubernetes_cluster.labs-prod.kube_config[0].raw_config
 }
+
+output "GHOST_AWS_ACCESS_KEY_ID" {
+  sensitive   = true
+  value = aws_iam_access_key.ghost-user.id
+}
+
+output "GHOST_AWS_SECRET_ACCESS_KEY" {
+  sensitive   = true
+  value = aws_iam_access_key.ghost-user.secret
+}
+
+output "GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET" {
+  sensitive   = true
+  value = aws_s3_bucket.ghost_static.bucket
+}
