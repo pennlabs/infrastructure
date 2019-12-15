@@ -174,3 +174,8 @@ Create a secret in `secrets/data/bitwarden` with two attributes:
 
 - `ADMIN_TOKEN` - A (long) secure token to access the bitwarden admin page.
 - `DATABASE_URL` - The database url of the mysql database to use.
+
+### Configure Ghost
+
+See the [Ghost README](https://github.com/pennlabs/infrastructure/tree/master/ghost) for descriptions of
+secrets that need to be set in `secrets/data/ghost`.
