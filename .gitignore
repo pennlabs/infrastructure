@@ -5,3 +5,4 @@ creds.txt
 plugins
 terraform.*
 tf_creds.json
+.DS_Store
