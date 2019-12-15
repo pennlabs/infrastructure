@@ -1,6 +1,7 @@
 image:
   repository: pennlabs/ghost-s3
   tag: latest
+  pullPolicy: Always
 
 service:
   type: ClusterIP
@@ -9,7 +10,7 @@ service:
 ingress:
   enabled: true
   hosts:
-    - host: blog.pennlabs.org
+    - host: ghost.pennlabs.org
       paths: ["/"]
 
 extraEnv:
