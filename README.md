@@ -9,6 +9,7 @@ In this repo, you can find all the configs for Penn Labs' infrastructure. Inform
 | bitwarden  | K8s configs to set up bitwarden_rs               |
 | docker     | Infrastructure-specific Dockerfiles              |
 | etcd       | K8s configs to set up etcd cluster               |
+| ghost      | Helm configs to set up Ghost CMS for blogging    |
 | monitoring | K8s configs needed to set up Prometheus, Grafana |
 | tf         | Terraform configs for all infrastructure         |
 | traefik    | K8s configs needed to set up traefik             |
