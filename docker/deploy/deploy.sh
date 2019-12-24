@@ -2,7 +2,7 @@
 
 set -x
 
-curl -X GET -H "Content-Type: application/json" \
+curl -s -X GET -H "Content-Type: application/json" \
     -H "Authorization: Bearer $DO_AUTH_TOKEN" \
     "https://api.digitalocean.com/v2/kubernetes/clusters/${K8S_CLUSTER_ID}/kubeconfig" > /kubeconfig.conf
 
