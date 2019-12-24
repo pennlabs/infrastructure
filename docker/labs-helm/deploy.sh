@@ -9,13 +9,20 @@ curl -X GET -H "Content-Type: application/json" \
 export KUBECONFIG=/kubeconfig.conf
 
 IMAGE_TAG=${CIRCLE_SHA1}
-STAGING_ON="false"
 # kill . in project names (i'm looking at you, pennlabs.org)
 RELEASE_NAME="${CIRCLE_PROJECT_REPONAME//\./-}"
 
-if [ "$CIRCLE_BRANCH" == "staging" ]; then
-    STAGING_ON="true"
-    RELEASE_NAME="${RELEASE_NAME}-staging"
+DEPLOY_TAG=$(yq r example_values.yaml deploy_version)
+if [ "$DEPLOY_TAG" == "null" ]; then
+    echo "Could not find deploy tag"
+    exit 1
 fi
 
-helm upgrade $RELEASE_NAME  --install --set=staging=$STAGING_ON,image.tag=$IMAGE_TAG -f k8s/values.yml k8s/chart
+# temporarily disable staging until we get a proper strategy for managing databases
+if [ "$CIRCLE_BRANCH" == "staging" ]; then
+    exit 0
+fi
+
+git clone https://github.com/pennlabs/icarus --branch $DEPLOY_TAG --depth 1 /icarus
+
+helm upgrade $RELEASE_NAME  --install --set=image_tag=$IMAGE_TAG -f k8s/values.yaml /icarus

@@ -18,7 +18,7 @@ spec:
       serviceAccountName: traefik-ingress-controller
       terminationGracePeriodSeconds: 60
       initContainers:
-      - image: traefik:v1.7.2
+      - image: traefik:v1.7-alpine
         name: etcd-init
         args:
         - storeconfig
