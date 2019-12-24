@@ -19,6 +19,15 @@ resource "digitalocean_database_cluster" "mysql-infra" {
   node_count = 1
 }
 
+resource "digitalocean_database_firewall" "mysql-fw" {
+  cluster_id = digitalocean_database_cluster.mysql-infra.id
+
+  rule {
+    type  = "k8s"
+    value = digitalocean_kubernetes_cluster.labs-prod.id
+  }
+}
+
 resource "digitalocean_database_db" "vault" {
   cluster_id = digitalocean_database_cluster.mysql-infra.id
   name       = "vault"
