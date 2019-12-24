@@ -12,7 +12,7 @@ IMAGE_TAG=${CIRCLE_SHA1}
 # kill . in project names (i'm looking at you, pennlabs.org)
 RELEASE_NAME="${CIRCLE_PROJECT_REPONAME//\./-}"
 
-DEPLOY_TAG=$(yq r example_values.yaml deploy_version)
+DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
 if [ "$DEPLOY_TAG" == "null" ]; then
     echo "Could not find deploy tag"
     exit 1
