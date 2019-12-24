@@ -12,6 +12,7 @@ IMAGE_TAG=${CIRCLE_SHA1}
 # kill . in project names (i'm looking at you, pennlabs.org)
 RELEASE_NAME="${CIRCLE_PROJECT_REPONAME//\./-}"
 
+# this specifies what tag of icarus to pull down
 DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
 if [ "$DEPLOY_TAG" == "null" ]; then
     echo "Could not find deploy tag"
