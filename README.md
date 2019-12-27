@@ -20,3 +20,5 @@ In this repo, you can find all the configs for Penn Labs' infrastructure. Inform
 There are some things about this infrastructure that, while being fine for normal use, could use improvement:
 
 - Grafana metadata is stored in a pvc, so it cannot be transferred cluster-to-cluster. Would love to move to mysql, but the helm chart doesn't support it.
+- We have no good story for provisioning virtual machines right now. We'd like to use ansible, but only if we can standardize on it for Helm as well.
+- We haven't decoupled our deployment architecture from our configuration, so, for example, there's no good way to install vault on a url that's not vault.pennlabs.org right now (without modifying the deploy configs). Again, we hope to look to Ansible to change this.
