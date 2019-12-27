@@ -28,7 +28,7 @@ export KUBECONFIG=$PWD/kubeconfig.yaml
 
 kubectl create ns staging
 
-for dir in etcd traefik vault monitoring bitwarden ghost; do
+for dir in consul traefik vault monitoring bitwarden ghost; do
   cd $dir
   ./init.sh
   cd ..

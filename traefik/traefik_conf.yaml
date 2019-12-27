@@ -31,9 +31,9 @@ data:
     [ping]
       entryPoint = "http"
     [accessLog]
-    [etcd]
-      endpoint = "etcd-cluster-client:2379"
-      useAPIV3 = true
+    [consul]
+      endpoint = "consul-consul-server:8500"
+      watch = true
     [acme]
       email = "labs@pennlabs.org"
       storage = "traefik/acme/account"
