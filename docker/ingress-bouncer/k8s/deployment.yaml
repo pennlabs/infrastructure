@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-bouncer
+  namespace: kube-system
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      serviceAccountName: ingress-bouncer
+      containers:
+        - name: bouncer
+          image: pennlabs/ingress-bouncer:latest
+          imagePullPolicy: Always
+          env:
+            - name: INGRESS_SVC_NAME
+              value: "traefik-ingress-service"
+            - name: INGRESS_SVC_NS
+              value: "kube-system"
