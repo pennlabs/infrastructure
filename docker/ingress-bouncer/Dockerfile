@@ -14,10 +14,10 @@ RUN go build -o ingress-bouncer .
 
 FROM debian:buster-slim
 
-COPY --from=build /app/ingress-bouncer /ingress-bouncer
-
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/ingress-bouncer /ingress-bouncer
 
 CMD ["/ingress-bouncer"]
