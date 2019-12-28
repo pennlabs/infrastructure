@@ -64,17 +64,11 @@ func main() {
 				}
 
 				conn, _ := tls.Dial("tcp", host+":443", nil)
-				defer conn.Close()
-				err = conn.VerifyHostname(host)
 				if err != nil {
 					bounce = true
 					break
 				}
-				expiry := conn.ConnectionState().PeerCertificates[0].NotAfter
-				if expiry.Before(time.Now()) {
-					bounce = true
-					break
-				}
+				conn.Close()
 			}
 			if bounce {
 				err = bounceIngress(ingress, clientset)
