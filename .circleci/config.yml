@@ -30,4 +30,9 @@ workflows:
           context: docker-publish
           path: docker/ghost-s3
           <<: *branch-filters
-
+      - docker/publish:
+          image: pennlabs/ingress-bouncer
+          tag: "${CIRCLE_SHA1},latest"
+          context: docker-publish
+          path: docker/ingress-bouncer
+          <<: *branch-filters
