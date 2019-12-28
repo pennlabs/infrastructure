@@ -63,11 +63,7 @@ func main() {
 					continue
 				}
 
-				conn, err := tls.Dial("tcp", host+":443", nil)
-				if err != nil {
-					log.Warnf("Could not dial %s: %v\n", host, err)
-					continue
-				}
+				conn, _ := tls.Dial("tcp", host+":443", nil)
 				defer conn.Close()
 				err = conn.VerifyHostname(host)
 				if err != nil {
