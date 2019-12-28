@@ -106,6 +106,10 @@ func bounceIngress(ingress v1beta1.Ingress, clientset *kubernetes.Clientset) err
 		return err
 	}
 
+	ingress.ResourceVersion = ""
+	ingress.UID = ""
+	ingress.SelfLink = ""
+
 	_, err = clientset.ExtensionsV1beta1().Ingresses(ingress.Namespace).Create(&ingress)
 	if err != nil {
 		return err
