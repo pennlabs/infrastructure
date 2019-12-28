@@ -4,6 +4,11 @@ path "sys/auth"
   capabilities = ["read"]
 }
 
+path "secrets/"
+{
+  capabilities = ["list"]
+}
+
 path "secrets/*"
 {
   capabilities = ["list"]
