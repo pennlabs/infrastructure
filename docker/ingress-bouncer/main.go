@@ -63,7 +63,7 @@ func main() {
 					continue
 				}
 
-				conn, _ := tls.Dial("tcp", host+":443", nil)
+				conn, err := tls.Dial("tcp", host+":443", nil)
 				if err != nil {
 					bounce = true
 					break
