@@ -11,6 +11,24 @@ resource "digitalocean_kubernetes_cluster" "labs-prod" {
   }
 }
 
+resource "digitalocean_ssh_key" "pawalt" {
+  name       = "pawalt"
+  public_key = file("keys/pawalt.pub")
+}
+
+resource "digitalocean_droplet" "jump" {
+  image  = "ubuntu-18-04-x64"
+  name   = "jump-host"
+  region = "nyc2"
+  size   = "s-1vcpu-1gb"
+  ssh_keys = [
+    digitalocean_ssh_key.pawalt.fingerprint,
+    23679853,
+    15536236,
+    14680641,
+  ]
+}
+
 resource "digitalocean_database_cluster" "mysql-infra" {
   name       = "mysql-infra"
   engine     = "mysql"

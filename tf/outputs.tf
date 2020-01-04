@@ -57,3 +57,8 @@ output "GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET" {
   sensitive   = true
   value = aws_s3_bucket.ghost_static.bucket
 }
+
+output "JUMP_IP" {
+  sensitive   = true
+  value = digitalocean_droplet.jump.ipv4_address
+}
