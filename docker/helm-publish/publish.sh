@@ -9,4 +9,3 @@ git commit -m "release new version"
 git push
 git checkout master
 rm -rf .deploy
-
