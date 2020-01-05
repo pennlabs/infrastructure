@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -eo pipefail
 
 helm package icarus --destination .deploy
 cr upload -o pennlabs -r helm-charts -p .deploy
