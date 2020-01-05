@@ -16,6 +16,8 @@ RUN wget https://get.helm.sh/${TAR_NAME} \
     && mv linux-amd64/helm /usr/local/bin \
     && rm -rf $TAR_NAME linux-amd64
 
+RUN helm repo add pennlabs https://pennlabs.github.io/helm-charts/
+
 COPY deploy.sh /deploy.sh
 
 CMD ["/deploy.sh"]

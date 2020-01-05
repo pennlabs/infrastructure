@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -eo pipefail
 
 curl -s -X GET -H "Content-Type: application/json" \
     -H "Authorization: Bearer $DO_AUTH_TOKEN" \
@@ -24,6 +24,6 @@ if [ "$CIRCLE_BRANCH" == "staging" ]; then
     exit 0
 fi
 
-git clone https://github.com/pennlabs/icarus --branch $DEPLOY_TAG --depth 1 /icarus
+helm repo update
 
-helm upgrade $RELEASE_NAME  --install --set=image_tag=$IMAGE_TAG -f k8s/values.yaml /icarus
+helm upgrade $RELEASE_NAME  --install --set=image_tag=$IMAGE_TAG -f k8s/values.yaml --version --version "${DEPLOY_TAG}" pennlabs/icarus
