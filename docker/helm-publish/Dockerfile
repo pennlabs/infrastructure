@@ -19,6 +19,9 @@ RUN wget https://get.helm.sh/${TAR_NAME} \
     && mv linux-amd64/helm /usr/local/bin \
     && rm -rf $TAR_NAME linux-amd64
 
+RUN git config --global user.email "pennappslabs@gmail.com" \
+    && git config --global user.name "CircleCI"
+
 COPY publish.sh /publish.sh
 
 CMD ["/publish.sh"]
