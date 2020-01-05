@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 helm package icarus --destination .deploy
 cr upload -o pennlabs -r helm-charts -p .deploy
 git checkout gh-pages
