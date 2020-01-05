@@ -5,7 +5,7 @@ ENV HELM_VERSION v3.0.0
 ENV TAR_NAME helm-${HELM_VERSION}-linux-amd64.tar.gz
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates wget git \
+    && apt-get install -y --no-install-recommends ca-certificates wget git ssh \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir releaser && cd releaser \
