@@ -36,3 +36,9 @@ workflows:
           context: docker-publish
           path: docker/ingress-bouncer
           <<: *branch-filters
+      - docker/publish:
+          image: pennlabs/helm-publish
+          tag: "${CIRCLE_SHA1},latest"
+          context: docker-publish
+          path: docker/helm-publish
+          <<: *branch-filters
