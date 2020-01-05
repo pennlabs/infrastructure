@@ -12,7 +12,7 @@ COPY . .
 # Build
 RUN go build -o ingress-bouncer .
 
-FROM debian:buster-slim
+FROM ubuntu:bionic
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates \
