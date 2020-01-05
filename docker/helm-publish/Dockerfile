@@ -13,4 +13,6 @@ RUN mkdir releaser && cd releaser \
     && mv cr /usr/local/bin \
     && cd .. && rm -rf releaser
 
+COPY publish.sh /publish.sh
+
 CMD ["/publish.sh"]
