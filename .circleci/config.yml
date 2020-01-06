@@ -11,3 +11,7 @@ workflows:
           image: pennlabs/tox
           tag: "${CIRCLE_SHA1},latest"
           context: docker-publish
+          filters:
+            branches:
+              only:
+                - master
