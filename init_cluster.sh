@@ -28,7 +28,7 @@ export KUBECONFIG=$PWD/kubeconfig.yaml
 
 kubectl create ns staging
 
-helm repo add pennlabs https://pennlabs.github.io/helm-charts/
+helm repo add pennlabs https://helm.pennlabs.org/
 
 for dir in consul traefik vault monitoring bitwarden ghost phpmyadmin; do
   cd $dir
