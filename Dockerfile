@@ -26,7 +26,7 @@ RUN pkg-oss/build_module.sh --skip-depends -y -o /root/nginx-modules/deb/ -n shi
 # Production stage
 FROM debian:buster-slim
 
-MAINTAINER Penn Labs
+LABEL maintainer="Penn Labs"
 
 # Install dependencies
 RUN apt-get update \

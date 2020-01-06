@@ -1,0 +1,11 @@
+# Docker
+Dockerfile
+.dockerignore
+
+# git
+.circleci
+.git
+.gitignore
+.gitmodules
+**/*.md
+LICENSE
