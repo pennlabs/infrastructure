@@ -11,6 +11,7 @@ In this repo, you can find all the configs for Penn Labs' infrastructure. Inform
 | consul     | K8s configs to set up consul cluster to serve as traefik's data store  |
 | ghost      | Helm configs to set up Ghost CMS for blogging    |
 | monitoring | K8s configs needed to set up Prometheus, Grafana |
+| phpmyadmin | K8s configs needed to set up phpmyadmin          |
 | tf         | Terraform configs for all infrastructure         |
 | traefik    | K8s configs needed to set up traefik             |
 | vault      | K8s configs needed to set up vault               |

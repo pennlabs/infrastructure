@@ -1,0 +1,15 @@
+deploy_version: 0.1.6
+image_tag: latest
+
+applications:
+  - name: phpmyadmin
+    image: bitnami/phpmyadmin
+    tag: "4.9.3"
+    secret: phpmyadmin
+    ingress:
+      hosts:
+        - host: phpmyadmin.pennlabs.org
+          paths: ["/"]
+    extraEnv:
+      - name: PHPMYADMIN_ALLOW_NO_PASSWORD
+        value: false
