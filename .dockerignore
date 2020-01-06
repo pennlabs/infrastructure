@@ -8,3 +8,4 @@ Dockerfile
 .gitignore
 .gitmodules
 **/*.md
+LICENSE
