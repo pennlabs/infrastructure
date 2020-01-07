@@ -26,7 +26,7 @@ RUN wget https://get.helm.sh/${TAR_NAME} \
 RUN git config --global user.email "pennappslabs@gmail.com" \
     && git config --global user.name "CircleCI"
 
-RUN helm repo add pennlabs https://pennlabs.github.io/helm-charts/
+RUN helm repo add pennlabs https://helm.pennlabs.org/
 
 COPY deploy.sh /deploy.sh
 
