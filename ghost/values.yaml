@@ -1,33 +1,23 @@
-image:
-  repository: pennlabs/ghost-s3
-  tag: latest
-  pullPolicy: Always
-
-service:
-  type: ClusterIP
-  port: 2368
-
-ingress:
-  enabled: true
-  hosts:
-    - host: ghost.pennlabs.org
-      paths: ["/"]
-
-extraEnv:
- - name: url
-   value: https://ghost.pennlabs.org
- - name: database__client
-   value: mysql
- - name: database__ssl
-   value: "true"
- - name: mail__transport
-   value: SMTP
- - name: mail__from
-   value: "'Penn Labs' <blogmaster@pennlabs.org>"
- - name: mail__options__service
-   value: Mailgun
- - name: storage__active
-   value: s3
-
-secrets:
-  secretEnv: ghost
+applications:
+  - name: ghost
+    image: pennlabs/ghost-s3
+    tag: "5097742d2b6e66615cec3514a6ca7221a38cee54"
+    secret: ghost
+    port: 2368
+    ingress:
+      hosts:
+        - host: ghost.pennlabs.org
+          paths: ["/"]
+    extraEnv:
+      - name: url
+        value: https://ghost.pennlabs.org
+      - name: database__client
+        value: mysql
+      - name: database__ssl
+        value: "true"
+      - name: mail__transport
+        value: SMTP
+      - name: mail__options__service
+        value: Mailgun
+      - name: storage__active
+        value: s3
