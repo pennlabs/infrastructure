@@ -1,4 +1,3 @@
-deploy_version: 0.1.6
 image_tag: latest
 
 applications:
@@ -12,4 +11,4 @@ applications:
           paths: ["/"]
     extraEnv:
       - name: PHPMYADMIN_ALLOW_NO_PASSWORD
-        value: false
+        value: "false"
