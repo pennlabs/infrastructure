@@ -1,0 +1,17 @@
+deploy_version: 0.1.6
+image_tag: latest
+
+applications:
+  - name: bitwarden
+    image: bitwardenrs/server-mysql
+    tag: "1.12.0"
+    secret: bitwarden
+    ingress:
+      hosts:
+        - host: bitwarden.pennlabs.org
+          paths: ["/"]
+    extraEnv:
+      - name: SIGNUPS_ALLOWED
+        value: "false"
+      - name: ENABLE_DB_WAL
+        value: "false"
