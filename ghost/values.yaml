@@ -5,6 +5,7 @@ applications:
     image: pennlabs/ghost-s3
     tag: "5097742d2b6e66615cec3514a6ca7221a38cee54"
     secret: ghost
+    port: 2368
     ingress:
       hosts:
         - host: ghost.pennlabs.org
