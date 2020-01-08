@@ -12,6 +12,6 @@ applications:
           paths: ["/"]
     extraEnv:
       - name: SIGNUPS_ALLOWED
-        value: false
+        value: "false"
       - name: ENABLE_DB_WAL
-        value: false
+        value: "false"
