@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --install --atomic bitwarden -f values.yml chart/
+helm upgrade --install --atomic bitwarden pennlabs/icarus -f values.yaml
