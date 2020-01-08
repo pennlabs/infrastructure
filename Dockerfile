@@ -4,5 +4,5 @@ FROM themattrix/tox-base
 RUN apt-get update && apt-get install -y ssh \
     && rm -rf /var/lib/apt/lists/*
 
-# Install codecov & coveralls
-RUN pip install codecov coveralls
+# Install codecov
+RUN pip install codecov

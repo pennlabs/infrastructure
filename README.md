@@ -5,4 +5,4 @@
 
 This image is based on [themattrix/tox-base](https://github.com/themattrix/docker-tox-base) but also includes ssh and the python codecov package.
 
-This image is meant to be used in CircleCI to build and publish packages to Pypi.
+This image is meant to be used in CircleCI to build and publish packages to PyPI.
