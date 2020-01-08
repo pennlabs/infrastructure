@@ -14,10 +14,10 @@ server:
       }
 
       storage "mysql" {
-        username = "$DB_USER"
-        password = "$DB_PASSWORD"
-        database = "$DB_NAME"
-        address = "$DB_HOST:$DB_PORT"
+        username = "$VAULT_DB_USER"
+        password = "$VAULT_DB_PASSWORD"
+        database = "$VAULT_DB_NAME"
+        address = "$VAULT_DB_HOST:$VAULT_DB_PORT"
       }
 
       seal "awskms" {

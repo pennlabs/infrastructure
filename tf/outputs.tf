@@ -13,27 +13,27 @@ output "KMS_KEY_ID" {
   value = aws_kms_key.vault-unseal-key.key_id
 }
 
-output "DB_USER" {
+output "VAULT_DB_USER" {
   sensitive   = true
   value = digitalocean_database_user.vault-user.name
 }
 
-output "DB_PASSWORD" {
+output "VAULT_DB_PASSWORD" {
   sensitive   = true
   value = digitalocean_database_user.vault-user.password
 }
 
-output "DB_NAME" {
+output "VAULT_DB_NAME" {
   sensitive   = true
   value = digitalocean_database_db.vault.name
 }
 
-output "DB_HOST" {
+output "VAULT_DB_HOST" {
   sensitive   = true
   value = digitalocean_database_cluster.mysql-infra.host
 }
 
-output "DB_PORT" {
+output "VAULT_DB_PORT" {
   sensitive   = true
   value = digitalocean_database_cluster.mysql-infra.port
 }

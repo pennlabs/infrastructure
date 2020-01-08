@@ -62,11 +62,19 @@ resource "aws_iam_user" "vault-unsealer" {
 
 resource "aws_iam_access_key" "vault-unsealer" {
   user = "${aws_iam_user.vault-unsealer.name}"
+
+  tags = {
+    created-by = "terraform"
+  }
 }
 
 resource "aws_iam_user_policy" "vault-unseal-policy" {
   name = "vault-unseal-policy"
   user = "${aws_iam_user.vault-unsealer.name}"
+
+  tags = {
+    created-by = "terraform"
+  }
 
   policy = <<EOF
 {
@@ -87,7 +95,11 @@ EOF
 }
 
 resource "aws_s3_bucket" "ghost_static" {
-  bucket = "ghost-labs-static"  # Enable versioning so we can see the full revision history of our
+  bucket = "ghost-labs-static"
+
+  tags = {
+    created-by = "terraform"
+  }
 }
 
 resource "aws_iam_user" "ghost-user" {
@@ -100,11 +112,19 @@ resource "aws_iam_user" "ghost-user" {
 
 resource "aws_iam_access_key" "ghost-user" {
   user = "${aws_iam_user.ghost-user.name}"
+
+  tags = {
+    created-by = "terraform"
+  }
 }
 
 resource "aws_iam_user_policy" "ghost-policy" {
   name = "ghost-policy"
   user = "${aws_iam_user.ghost-user.name}"
+
+  tags = {
+    created-by = "terraform"
+  }
 
   policy = <<EOF
 {

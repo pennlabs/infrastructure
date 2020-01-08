@@ -35,7 +35,7 @@ data:
       endpoint = "consul-consul-server:8500"
       watch = true
     [acme]
-      email = "labs@pennlabs.org"
+      email = "admin@pennlabs.org"
       storage = "traefik/acme/account"
       acmeLogging = true
       entryPoint = "https"

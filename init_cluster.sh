@@ -16,11 +16,11 @@ export AWS_ACCESS_KEY_ID=$(echo -E $tfcreds | jq -r '.AWS_ACCESS_KEY_ID.value')
 export AWS_SECRET_ACCESS_KEY=$(echo -E $tfcreds | jq -r '.AWS_SECRET_ACCESS_KEY.value')
 export KMS_KEY_ID=$(echo -E $tfcreds | jq -r '.KMS_KEY_ID.value')
 
-export DB_USER=$(echo -E $tfcreds | jq -r '.DB_USER.value')
-export DB_PASSWORD=$(echo -E $tfcreds | jq -r '.DB_PASSWORD.value')
-export DB_NAME=$(echo -E $tfcreds | jq -r '.DB_NAME.value')
-export DB_HOST=$(echo -E $tfcreds | jq -r '.DB_HOST.value')
-export DB_PORT=$(echo -E $tfcreds | jq -r '.DB_PORT.value')
+export VAULT_DB_USER=$(echo -E $tfcreds | jq -r '.VAULT_DB_USER.value')
+export VAULT_DB_PASSWORD=$(echo -E $tfcreds | jq -r '.VAULT_DB_PASSWORD.value')
+export VAULT_DB_NAME=$(echo -E $tfcreds | jq -r '.VAULT_DB_NAME.value')
+export VAULT_DB_HOST=$(echo -E $tfcreds | jq -r '.VAULT_DB_HOST.value')
+export VAULT_DB_PORT=$(echo -E $tfcreds | jq -r '.VAULT_DB_PORT.value')
 
 echo -E $tfcreds | jq -r '.KUBECONFIG.value' > kubeconfig.yaml
 
