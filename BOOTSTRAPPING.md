@@ -45,71 +45,8 @@ vault-0 $ vault write auth/github/config organization=pennlabs
 vault-0 $ vault write auth/github/map/teams/Platform value=admin
 vault-0 $ cd
 vault-0 $ cat <<EOF > admin-policy.hcl
-# Manage auth methods broadly across Vault
-path "auth/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# Create, update, and delete auth methods
-path "sys/auth/*"
-{
-  capabilities = ["create", "update", "delete", "sudo"]
-}
-
-# List auth methods
-path "sys/auth"
-{
-  capabilities = ["read"]
-}
-
-# List existing policies
-path "sys/policies/acl"
-{
-  capabilities = ["list"]
-}
-
-# Create and manage ACL policies
-path "sys/policies/acl/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# Create and manage all policies
-path "sys/policy/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List, create, update, and delete key/value secrets
-path "secret/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# Manage secret engines
-path "sys/mounts/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List existing secret engines.
-path "sys/mounts"
-{
-  capabilities = ["read"]
-}
-
-# Read health checks
-path "sys/health"
-{
-  capabilities = ["read", "sudo"]
-}
-
-# Read health checks
-path "secrets/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
+// paste in vault admin policy here
+// https://raw.githubusercontent.com/pennlabs/infrastructure/master/vault/admin-policy.hcl
 EOF
 vault-0 $ vault policy write admin admin-policy.hcl
 # Enable kubernetes auth
@@ -128,23 +65,8 @@ vault-0 $ $ vault write auth/kubernetes/role/team-auth \
   policies=admin \
   ttl=1h
 vault-0 $ cat <<EOF > read-secrets.hcl
-# Read health checks
-path "secrets/*"
-{
-  capabilities = ["list", "read"]
-}
-
-# List existing secret engines.
-path "sys/mounts"
-{
-  capabilities = ["read"]
-}
-
-# Manage secret engines
-path "sys/mounts/*"
-{
-  capabilities = ["list", "read"]
-}
+// paste in secret reader policy here
+// https://raw.githubusercontent.com/pennlabs/infrastructure/master/vault/read-secrets.hcl
 EOF
 vault-0 $ vault policy write read-secrets read-secrets.hcl
 ```
