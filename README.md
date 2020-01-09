@@ -1,23 +1,6 @@
-# Docker Template
+# Docker Helm Tools
 
-This template repo contains the base configuration needed to publish a docker image.
+[![CircleCI](https://circleci.com/gh/pennlabs/docker-helm-tools.svg?style=shield)](https://circleci.com/gh/pennlabs/docker-helm-tools)
+[![Docker Pulls](https://img.shields.io/docker/pulls/pennlabs/helm-tools)](https://hub.docker.com/r/pennlabs/helm-tools)
 
-## Installation
-
-Click the green "Use this template" button and make a new repo with your desired name. Run the provided init script `./init.sh <name of image> <name of github repo>` to configure most of the project. See the configuration section for final changes that need to be made.
-
-## Usage
-
-With every commit pushed to master, CircleCI will build a docker image based on the master branch and tag with "latest" and the git commit sha and push that image to Docker Hub.
-
-## Features
-
-* CircleCI
-  * Workflow to build and publish your image to Docker Hub using contexts to keep CircleCI credentials safe
-* Docker
-  * .dockerignore file to prevent common unnecessary files from being adding to the docker image
-* MIT License
-
-## Configuration
-
-Add a proper description of your image and usage in README.md
+Helm tools is a docker image that does the deployment for all our products as well as publishes our helm charts to our [helm repo](https://helm.pennlabs.org).
