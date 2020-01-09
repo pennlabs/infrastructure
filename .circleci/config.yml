@@ -13,12 +13,6 @@ workflows:
   build-and-deploy:
     jobs:
       - docker/publish:
-          image: pennlabs/deploy
-          tag: "${CIRCLE_SHA1},latest"
-          context: docker-publish
-          path: docker/deploy
-          <<: *branch-filters
-      - docker/publish:
           image: pennlabs/team-sync
           tag: "${CIRCLE_SHA1},latest"
           context: docker-publish
