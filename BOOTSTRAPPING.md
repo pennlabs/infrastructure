@@ -75,29 +75,11 @@ vault-0 $ vault policy write read-secrets read-secrets.hcl
 
 To automate team syncing from Github to Vault, we've written a team syncing cronjob. It needs one secret, `GITHUB_TOKEN`, a Github personal access token with only one scope: `read:org`. Add this secret under `secrets/data/team-sync`, and it'll populate in due time.
 
-### Add Grafana Credentials
+### Configure additional components
 
-First, create an Oauth app for grafana under the Pennlabs organization.
+See the following READMEs for info on setup
 
-Create a secret in `secrets/data/grafana` with the following attributes:
-
-- `admin-user` - username for grafana admin
-- `admin-password` - password for grafana admin
-- `GF_AUTH_GITHUB_CLIENT_ID` - Client ID for the Github OAuth app
-- `GF_AUTH_GITHUB_CLIENT_Secret` - Secret for the Github OAuth app
-
-Also, follow this guide to set up Slack:
-
-https://medium.com/@_oleksii_/grafana-alerting-and-slack-notifications-3affe9d5f688
-
-### Configure Bitwarden
-
-Create a secret in `secrets/data/bitwarden` with two attributes:
-
-- `ADMIN_TOKEN` - A (long) secure token to access the bitwarden admin page.
-- `DATABASE_URL` - The database url of the mysql database to use.
-
-### Configure Ghost
-
-See the [Ghost README](https://github.com/pennlabs/infrastructure/tree/master/ghost) for descriptions of
-secrets that need to be set in `secrets/data/ghost`.
+- [Ghost](/ghost/README.md)
+- [Bitwarden](/bitwarden/README.md)
+- [Monitoring](/monitoring/README.md)
+- [PHPMyAdmin](/phpmyadmin/README.md)
