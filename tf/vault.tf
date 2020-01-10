@@ -4,9 +4,9 @@ resource "digitalocean_database_db" "vault" {
   name       = "vault"
 }
 
-resource "digitalocean_database_user" "vault-user" {
+resource "digitalocean_database_user" "vault" {
   cluster_id = digitalocean_database_cluster.mysql-infra.id
-  name       = "vault-user"
+  name       = "vault"
 }
 
 resource "aws_kms_key" "vault-unseal-key" {
@@ -67,12 +67,12 @@ output "KMS_KEY_ID" {
 
 output "VAULT_DB_USER" {
   sensitive   = true
-  value = digitalocean_database_user.vault-user.name
+  value = digitalocean_database_user.vault.name
 }
 
 output "VAULT_DB_PASSWORD" {
   sensitive   = true
-  value = digitalocean_database_user.vault-user.password
+  value = digitalocean_database_user.vault.password
 }
 
 output "VAULT_DB_NAME" {
