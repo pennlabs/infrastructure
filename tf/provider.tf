@@ -1,8 +1,9 @@
 provider "digitalocean" {
+  version = "~> 1.12.0"
 }
 
 provider "aws" {
-  version = "~> 2.0"
+  version = "~> 2.44.0"
   region  = "us-east-1"
 }
 
