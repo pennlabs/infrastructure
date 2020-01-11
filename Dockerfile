@@ -27,7 +27,3 @@ RUN wget https://get.helm.sh/${TAR_NAME} \
     && tar xf $TAR_NAME \
     && mv linux-amd64/helm /usr/local/bin \
     && rm -rf $TAR_NAME linux-amd64
-
-COPY deploy.sh /deploy.sh
-
-CMD ["/deploy.sh"]
