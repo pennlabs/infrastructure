@@ -6,6 +6,9 @@ LABEL maintainer="Penn Labs"
 RUN apt-get update && apt-get install --no-install-recommends -y default-libmysqlclient-dev gcc \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy mime definitions
+COPY mime.types /etc/mime.types
+
 # Install pipenv
 RUN pip install pipenv 
 
