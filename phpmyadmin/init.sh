@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --install --atomic --version 1.6.0 phpmyadmin pennlabs/icarus -f values.yaml
+helm upgrade --install --atomic --version 0.1.8 phpmyadmin pennlabs/icarus -f values.yaml
