@@ -6,7 +6,6 @@ workflows:
   build-and-publish:
     jobs:
       - docker/publish:
-          name: docker-publish
           cache_from: "pennlabs/helm-tools:latest"
           image: pennlabs/helm-tools
           tag: "${CIRCLE_SHA1},latest"
