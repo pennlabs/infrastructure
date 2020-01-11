@@ -6,7 +6,6 @@ workflows:
   build-and-publish:
     jobs:
       - docker/publish:
-          name: docker-publish
           cache_from: "pennlabs/tox:latest"
           image: pennlabs/tox
           tag: "${CIRCLE_SHA1},latest"
