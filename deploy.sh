@@ -26,4 +26,4 @@ fi
 
 helm repo add pennlabs https://helm.pennlabs.org/
 
-helm upgrade $RELEASE_NAME  --install --set=image_tag=$IMAGE_TAG -f k8s/values.yaml --version --version "${DEPLOY_TAG}" pennlabs/icarus
+helm upgrade $RELEASE_NAME  --install --set=image_tag=$IMAGE_TAG -f k8s/values.yaml --version "${DEPLOY_TAG}" pennlabs/icarus
