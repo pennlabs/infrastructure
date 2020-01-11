@@ -6,7 +6,6 @@ workflows:
   build-and-publish:
     jobs:
       - docker/publish:
-          name: docker-publish
           cache_from: "pennlabs/django-base:latest"
           image: pennlabs/django-base
           tag: "${CIRCLE_SHA1},latest"
