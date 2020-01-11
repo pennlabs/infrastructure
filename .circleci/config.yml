@@ -6,7 +6,6 @@ workflows:
   build-and-publish:
     jobs:
       - docker/publish:
-          name: docker-publish
           cache_from: "pennlabs/shibboleth-sp-nginx:latest"
           image: pennlabs/shibboleth-sp-nginx
           tag: "${CIRCLE_TAG},latest"
