@@ -1,0 +1,5 @@
+# Example Docker image
+
+[![CircleCI](https://circleci.com/gh/pennlabs/github-project.svg?style=shield)](https://circleci.com/gh/pennlabs/github-project)
+[![Docker Pulls](https://img.shields.io/docker/pulls/pennlabs/image-name)](https://hub.docker.com/r/pennlabs/image-name)
+
