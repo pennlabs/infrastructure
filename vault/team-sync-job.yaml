@@ -13,8 +13,8 @@ spec:
           restartPolicy: Never
           containers:
             - name: team-sync
-              image: pennlabs/team-sync:latest
-              imagePullPolicy: Always
+              image: pennlabs/team-sync:5a297161b99e73778332a4abeab0eb958e1c91b4
+              imagePullPolicy: IfNotPresent
               envFrom:
                 - secretRef:
                     name: team-sync
