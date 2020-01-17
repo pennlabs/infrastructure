@@ -19,12 +19,12 @@ path "sys/mounts/*"
   capabilities = ["list", "read"]
 }
 
-path "secrets/data/{{ team_name }}-*"
+path "secrets/data/data/{{ team_name }}-*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
-path "secrets/data/{{ team_name }}"
+path "secrets/data/data/{{ team_name }}"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
