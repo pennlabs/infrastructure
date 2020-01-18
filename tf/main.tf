@@ -1,5 +1,5 @@
 resource "digitalocean_kubernetes_cluster" "labs-prod" {
-  name    = "labs-prod"
+  name    = "production"
   region  = "nyc1"
 
   // Grab the latest version slug from `doctl kubernetes options versions`
