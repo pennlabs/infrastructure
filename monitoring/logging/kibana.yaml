@@ -3,4 +3,4 @@ elasticsearchHosts: "http://elasticsearch-master:9200"
 ingress:
   enabled: true
   hosts:
-    - graylog.pennlabs.org
+    - logs.pennlabs.org
