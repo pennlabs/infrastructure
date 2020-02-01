@@ -12,13 +12,13 @@ def run():
     teams = {}
     for team in g.get_organization("pennlabs").get_teams():
         if team.name == "Alumni":  # Found an Alumni Team
-            teams.setdefault("Alumni", []).append(team)
+            teams.setdefault("alumni", []).append(team)
         elif team.name == "Directors":  # Found a Director Team
-            teams.setdefault("Directors", []).append(team)
+            teams.setdefault("directors", []).append(team)
         elif team.slug.endswith("-leads"):  # Found a Lead Team
-            teams.setdefault("Leads", []).append(team)
+            teams.setdefault("leads", []).append(team)
         else:  # Found a Regular Team
-            teams.setdefault("Members", []).append(team)
+            teams.setdefault("members", []).append(team)
 
     # Dynamically find each module and run its sync method
     location = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modules")
