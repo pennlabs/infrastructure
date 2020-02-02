@@ -11,7 +11,7 @@ def sync(teams):
         client.auth_kubernetes("team-auth", jwt)
 
     if not client.sys.is_sealed():
-        with open("user-policy.hcl.j2") as f:
+        with open("sync/modules/user-policy.hcl.j2") as f:
             t = Template(f.read())
             for team in teams["leads"]:
                 base_team_slug = team.slug.replace("-leads", "")
