@@ -15,4 +15,4 @@ RUN pipenv install --system
 
 COPY . /app/
 
-CMD ["/usr/local/bin/python3", "sync-teams.py"]
+CMD ["/usr/local/bin/python3", "sync/sync.py"]
