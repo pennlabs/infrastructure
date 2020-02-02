@@ -26,8 +26,8 @@ def run():
         try:
             module = finder.find_module(name).load_module(name)
             module.sync(teams)
-        except Exception as e:
-            print(f"Could not load module: {name}. The following exception occurred: {e}")
+        except (AttributeError, TypeError) as e:
+            print(f"Could not execute module '{name}'. The following exception occurred: {e}")
 
 
 if __name__ == "__main__":
