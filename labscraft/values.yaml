@@ -16,7 +16,7 @@ labscraft:
   maxPlayers: 30
   allowNether: false
   motd: "Welcome to Labscraft!"
-  worldSaveName: labscraft
+  worldSaveName: labscraft-v1
   downloadModpackUrl:  # TODO
   removeOldMods: true
   memory: 2048M
