@@ -20,6 +20,10 @@ labscraft:
   removeOldMods: true
   memory: 2048M
   pvp: true
+  rcon: 
+    enabled: true
+    port: 25575
+    serviceType: LoadBalancer
 
 persistence:
     dataDir:
