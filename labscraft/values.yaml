@@ -6,6 +6,7 @@ resources:
     memory: 2048Mi
   
 labscraft:
+  secret: labscraft
   eula: "TRUE"
   version: "1.15.2"
   type: "SPIGOT"
