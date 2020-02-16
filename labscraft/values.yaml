@@ -14,12 +14,12 @@ labscraft:
   difficulty: normal
   icon: https://s3.amazonaws.com/labscraft.pennlabs.org/logo.png
   maxPlayers: 30
-  allowNether: false
   motd: "Welcome to Labscraft!"
   worldSaveName: labscraft-v1
   # downloadModpackUrl:  # TODO
   removeOldMods: true
   memory: 2048M
+pvp: true
 
 persistence:
     dataDir:
