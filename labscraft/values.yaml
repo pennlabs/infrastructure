@@ -19,7 +19,7 @@ labscraft:
   # downloadModpackUrl:  # TODO
   removeOldMods: true
   memory: 2048M
-pvp: true
+  pvp: true
 
 persistence:
     dataDir:
