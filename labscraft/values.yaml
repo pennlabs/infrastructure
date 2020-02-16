@@ -17,7 +17,7 @@ labscraft:
   allowNether: false
   motd: "Welcome to Labscraft!"
   worldSaveName: labscraft-v1
-  downloadModpackUrl:  # TODO
+  # downloadModpackUrl:  # TODO
   removeOldMods: true
   memory: 2048M
 
