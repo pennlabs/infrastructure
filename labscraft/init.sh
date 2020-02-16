@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --set minecraftServer.eula=true -f values.yaml labscraft pennlabs/labscraft
+helm upgrade --install --atomic --set minecraftServer.eula=true -f values.yaml labscraft pennlabs/labscraft

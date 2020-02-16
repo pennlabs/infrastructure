@@ -30,7 +30,7 @@ kubectl create ns staging
 
 helm repo add pennlabs https://helm.pennlabs.org/
 
-for dir in consul traefik vault monitoring bitwarden ghost phpmyadmin ingress-bouncer; do
+for dir in consul traefik vault monitoring bitwarden ghost phpmyadmin ingress-bouncer labscraft; do
   cd $dir
   ./init.sh
   cd ..
