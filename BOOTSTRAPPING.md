@@ -44,11 +44,6 @@ vault-0 $ vault auth enable github
 vault-0 $ vault write auth/github/config organization=pennlabs
 vault-0 $ vault write auth/github/map/teams/Platform value=admin
 vault-0 $ cd
-vault-0 $ cat <<EOF > admin-policy.hcl
-// paste in vault admin policy here
-// https://raw.githubusercontent.com/pennlabs/infrastructure/master/vault/admin-policy.hcl
-EOF
-vault-0 $ vault policy write admin admin-policy.hcl
 # Enable kubernetes auth
 vault-0 $ vault auth enable kubernetes
 vault-0 $ vault write auth/kubernetes/config \
@@ -62,7 +57,7 @@ vault-0 $ vault write auth/kubernetes/role/secret-reader \
 vault-0 $ $ vault write auth/kubernetes/role/team-auth \
   bound_service_account_names=team-auth \
   bound_service_account_namespaces='*' \
-  policies=admin \
+  policies=sre \
   ttl=1h
 vault-0 $ cat <<EOF > read-secrets.hcl
 // paste in secret reader policy here
