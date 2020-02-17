@@ -1,0 +1,31 @@
+# ref: https://hub.docker.com/r/itzg/minecraft-server/
+imageTag: "20200129"
+
+resources:
+  requests:
+    memory: 2048Mi
+  
+labscraft:
+  secret: labscraft
+  eula: "TRUE"
+  version: "1.15.2"
+  type: "SPIGOT"
+  spigotDownloadUrl: https://cdn.getbukkit.org/spigot/spigot-1.15.2.jar
+  difficulty: normal
+  icon: https://s3.amazonaws.com/labscraft.pennlabs.org/logo.png
+  maxPlayers: 30
+  motd: "Welcome to Labscraft!"
+  worldSaveName: labscraft-v1
+  # downloadModpackUrl:  # TODO
+  removeOldMods: true
+  memory: 2048M
+  pvp: true
+  rcon: 
+    enabled: true
+    port: 25575
+    serviceType: LoadBalancer
+
+persistence:
+    dataDir:
+      enabled: true
+      Size: 5Gi

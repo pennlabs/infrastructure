@@ -15,6 +15,7 @@ In this repo, you can find all the configs for Penn Labs' infrastructure. Inform
 | tf         | Terraform configs for all infrastructure         |
 | traefik    | K8s configs needed to set up traefik             |
 | vault      | K8s configs needed to set up vault               |
+| labscraft  | Helm configs for Penn Lab's Minecraft server     |
 
 ## Things that are bad
 
