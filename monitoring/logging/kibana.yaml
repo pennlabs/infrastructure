@@ -1,6 +1,0 @@
-elasticsearchHosts: "http://elasticsearch-master:9200"
-
-ingress:
-  enabled: true
-  hosts:
-    - logs.pennlabs.org
