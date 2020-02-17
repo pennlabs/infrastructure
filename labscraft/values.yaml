@@ -5,7 +5,7 @@ resources:
   requests:
     memory: 2048Mi
   
-labscraft:
+minecraftServer:
   secret: labscraft
   eula: "TRUE"
   version: "1.15.2"
