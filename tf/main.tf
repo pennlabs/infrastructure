@@ -60,3 +60,17 @@ resource "digitalocean_database_cluster" "mysql-production" {
     prevent_destroy = true
   }
 }
+
+module "production-db-users" {
+  source =  "./modules/db-user-management"
+  names  = []
+}
+
+module "infra-db-users" {
+  source = "./modules/db-user-management"
+  names  = []
+
+  providers = {
+    mysql = mysql.infra
+  }
+}
