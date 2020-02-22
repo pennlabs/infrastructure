@@ -47,3 +47,16 @@ resource "digitalocean_database_cluster" "mysql-infra" {
     prevent_destroy = true
   }
 }
+
+resource "digitalocean_database_cluster" "mysql-production" {
+  name       = "mysql-production"
+  engine     = "mysql"
+  size       = "db-s-1vcpu-1gb"
+  region     = "nyc1"
+  node_count = 1
+  version    = 8
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
