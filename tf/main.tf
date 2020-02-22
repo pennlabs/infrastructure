@@ -10,6 +10,10 @@ resource "digitalocean_kubernetes_cluster" "labs-prod" {
     size       = "s-2vcpu-4gb"
     node_count = 5
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "digitalocean_ssh_key" "pawalt" {
@@ -38,4 +42,8 @@ resource "digitalocean_database_cluster" "mysql-infra" {
   region     = "nyc1"
   node_count = 1
   version    = 8
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
