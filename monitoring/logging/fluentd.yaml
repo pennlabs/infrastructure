@@ -1,28 +1,63 @@
+image:
+  repository: quay.io/fluentd_elasticsearch/fluentd
+  tag: v2.8.0
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
 elasticsearch:
-  host: elasticsearch-master
+  auth:
+    enabled: false
+  host: "1ef5321198b14002b475a576a381b42f.us-east-1.aws.found.io"
+  port: 9243
+  scheme: "https"
+  logLevel: "info"
 
 configMaps:
+  useDefaults:
+    systemInputConf: false
+    forwardInputConf: false
+    monitoringConf: false
+    outputConf: false
+
+secret:
+  - name: OUTPUT_USER
+    secret_name: elasticsearch
+    secret_key: elastic_user
+  - name: OUTPUT_PASSWORD
+    secret_name: elasticsearch
+    secret_key: elastic_password
+
+# Nearly identical to the default output.conf, but we had to manually put
+# in the user and password fields since the chart doesn't include the fields
+# if elasticsearch.auth is disabled (which we have to do in order to hand in 
+# the env variables through k8s secrets).     
+extraConfigMaps:
   output.conf: |
-    # Enriches records with Kubernetes metadata
-    <filter kubernetes.**>
-      @type kubernetes_metadata
-    </filter>
-
-    # Kill logs from monitoring ns
-    <match kubernetes.var.log.containers.**monitoring**.log>                                                                            
-      @type null
+    # handle timeout log lines from concat plugin
+    <match **>
+      @type relabel
+      @label @NORMAL
     </match>
-
+    <label @NORMAL>
     <match **>
       @id elasticsearch
       @type elasticsearch
-      @log_level info
+      @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
       include_tag_key true
-      type_name _doc
       host "#{ENV['OUTPUT_HOST']}"
       port "#{ENV['OUTPUT_PORT']}"
+      path "#{ENV['OUTPUT_PATH']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
+      ssl_verify "#{ENV['OUTPUT_SSL_VERIFY']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
+      user "#{ENV['OUTPUT_USER']}"
+      password "#{ENV['OUTPUT_PASSWORD']}"
       logstash_format true
       logstash_prefix "#{ENV['LOGSTASH_PREFIX']}"
       reconnect_on_error true
@@ -40,3 +75,4 @@ configMaps:
         overflow_action block
       </buffer>
     </match>
+    </label>
