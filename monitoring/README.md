@@ -4,7 +4,7 @@ We use Prometheus to export metrics and Grafana to analyze, graph, and alert on 
 
 ### Fluentd setup
 
-Before helm installing fluentd, run ```helm repo add kiwigrid https://kiwigrid.github.io```
+Before helm installing fluentd, run `helm repo add kiwigrid https://kiwigrid.github.io`
  to be able to pull the `kiwigrid/fluentd-elasticsearch` chart.
 
 ### Add Grafana Credentials
