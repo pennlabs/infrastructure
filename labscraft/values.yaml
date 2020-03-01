@@ -1,11 +1,11 @@
 # ref: https://hub.docker.com/r/itzg/minecraft-server/
-imageTag: "20200129"
+imageTag: "6a1f8c1914a714f15844e6394ec504f1ca1b6ab0"
 
 resources:
   requests:
     memory: 2048Mi
   
-labscraft:
+minecraftServer:
   secret: labscraft
   eula: "TRUE"
   version: "1.15.2"
