@@ -8,24 +8,26 @@ We use Terraform to manage our infrastructure in a declarative manner.
 
 Every other file contains configuration needed to set up the infrastructure for that software. For example `ghost.tf` creates an AWS S3 bucket, IAM user, and IAM policy as well as exports the IAM credentials for the newly created ghost user.
 
-# Design
+## Design
 
-## Modules
+### Modules
 
-### Base Infra
+#### Base Infra
 
-This will create a base Labs infrastructure setup with the below modules.
+This will create a base Labs infrastructure setup using the below modules.
 
-### Database
+#### Database Cluster
 
-We will have one module to create a prod mysql database cluster. This will create a cluster on our specified number of nodes on a standardized version.
+This module will create a mysql database cluster with a specified number of nodes on a standardized version. This module will also create a database + user scoped to only that database. This module will also optionally flush credentials to vault.
 
-We will have another module using the mysql provider to create a database + user scoped to only that database.
+#### K8s Cluster
 
-### K8s Cluster
+This module will create a kubernetes cluster with a specified number of nodes and our base configuration.
 
-This module will create a kubernetes cluster with a specified number of nodes.
-
-### S3 Bucket
+#### S3 Bucket
 
 This module will create an s3 bucket and an associated AWS user locked to that bucket with IAM.
+
+#### IAM User
+
+This module will create an IAM user with a username and password and with a policy that allows it to access specified S3 buckets.
