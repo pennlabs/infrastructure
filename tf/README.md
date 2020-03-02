@@ -15,7 +15,7 @@ When starting from scratch, `base` needs to create its own S3 bucket remote back
 ```bash
 cd base
 terraform init
-terraform apply --target module.terraform_state_backend
+terraform apply --target module.base_tfstate_backend
 ```
 
 uncomment the `terraform` block from `base/provider.tf` and run:
