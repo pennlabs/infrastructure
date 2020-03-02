@@ -8,6 +8,23 @@ We use Terraform to manage our infrastructure in a declarative manner.
 
 Every other file contains configuration needed to set up the infrastructure for that software. For example `ghost.tf` creates an AWS S3 bucket, IAM user, and IAM policy as well as exports the IAM credentials for the newly created ghost user.
 
+## Bootstrapping
+
+When starting from scratch, `base` needs to create its own S3 bucket remote backend. To create that bucket, first comment out the `terraform` block in `base/provider.tf` then run:
+
+```bash
+cd base
+terraform init
+terraform apply --target module.terraform_state_backend
+```
+
+uncomment the `terraform` block from `base/provider.tf` and run:
+
+```bash
+terraform init
+terraform apply
+```
+
 ## Design
 
 ### Modules
