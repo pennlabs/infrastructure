@@ -7,18 +7,27 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-provider "helm" {
-  version = "~> 1.0"
-  kubernetes {
-    load_config_file = false
-    host             = module.production-cluster.endpoint
-    token            = module.production-cluster.token
-    cluster_ca_certificate = base64decode(
-      module.production-cluster.cluster_ca_certificate
-    )
-  }
-}
+// Production cluster
+// provider "helm" {
+//   version = "~> 1.0"
+//   kubernetes {
+//     load_config_file = false
+//     host             = module.production-cluster.endpoint
+//     token            = module.production-cluster.token
+//     cluster_ca_certificate = base64decode(
+//       module.production-cluster.cluster_ca_certificate
+//     )
+//   }
+// }
 
+// provider "mysql" {
+//   version  = "~> 1.9"
+//   endpoint = "${module.production-cluster.mysql-host}:${module.production-cluster.mysql-port}"
+//   username = module.production-cluster.mysql-user
+//   password = module.production-cluster.mysql-password
+// }
+
+// Staging cluster
 provider "helm" {
   alias   = "staging"
   version = "~> 1.0"
@@ -30,6 +39,14 @@ provider "helm" {
       module.staging-cluster.cluster_ca_certificate
     )
   }
+}
+
+provider "mysql" {
+  alias    = "staging"
+  version  = "~> 1.9"
+  endpoint = "${module.staging-cluster.mysql-host}:${module.staging-cluster.mysql-port}"
+  username = module.staging-cluster.mysql-user
+  password = module.staging-cluster.mysql-password
 }
 
 terraform {
