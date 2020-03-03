@@ -6,16 +6,16 @@
 //   mysql_users = ["vault"]
 // }
 
-module "staging-cluster" {
+module "sandbox-cluster" {
   source           = "../modules/cluster"
-  name             = "staging"
+  name             = "sandbox"
   k8s_node_count   = 1
   k8s_node_size    = "s-1vcpu-2gb"
   mysql_node_count = 1
   mysql_users      = ["vault"]
   pgp_key          = ""
   providers = {
-    helm  = helm.staging
-    mysql = mysql.staging
+    helm  = helm.sandbox
+    mysql = mysql.sandbox
   }
 }
