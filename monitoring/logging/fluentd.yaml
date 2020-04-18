@@ -17,6 +17,7 @@ elasticsearch:
   port: 9243
   scheme: "https"
   logLevel: "info"
+  typeName: "fluentd"
 
 configMaps:
   useDefaults:
