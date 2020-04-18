@@ -39,12 +39,14 @@ secret:
 # the env variables through k8s secrets).     
 extraConfigMaps:
   output.conf: |
-    # handle timeout log lines from concat plugin
-    <match **>
-      @type relabel
-      @label @NORMAL
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+    
+    <match kubernetes.var.log.containers.**monitoring**.log>
+      @type null
     </match>
-    <label @NORMAL>
+
     <match **>
       @id elasticsearch
       @type elasticsearch
@@ -75,4 +77,3 @@ extraConfigMaps:
         overflow_action block
       </buffer>
     </match>
-    </label>
