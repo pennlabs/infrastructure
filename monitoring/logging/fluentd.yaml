@@ -17,6 +17,7 @@ elasticsearch:
   port: 9243
   scheme: "https"
   logLevel: "info"
+  typeName: "fluentd"
 
 configMaps:
   useDefaults:
@@ -42,7 +43,7 @@ extraConfigMaps:
     <filter kubernetes.**>
       @type kubernetes_metadata
     </filter>
-    
+
     <match kubernetes.var.log.containers.**monitoring**.log>
       @type null
     </match>
