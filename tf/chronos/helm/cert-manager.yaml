@@ -1,0 +1,76 @@
+affinity: {}
+cainjector:
+  affinity: {}
+  deploymentAnnotations: {}
+  enabled: true
+  extraArgs: []
+  image:
+    pullPolicy: IfNotPresent
+    repository: quay.io/jetstack/cert-manager-cainjector
+  nodeSelector: {}
+  podAnnotations: {}
+  replicaCount: 1
+  resources: {}
+  securityContext: {}
+  strategy: {}
+  tolerations: []
+clusterResourceNamespace: ""
+deploymentAnnotations: {}
+extraArgs: []
+extraEnv: []
+global:
+  imagePullSecrets: []
+  leaderElection:
+    namespace: kube-system
+  logLevel: 2
+  podSecurityPolicy:
+    enabled: false
+    useAppArmor: true
+  priorityClassName: ""
+  rbac:
+    create: true
+image:
+  pullPolicy: IfNotPresent
+  repository: quay.io/jetstack/cert-manager-controller
+ingressShim: {}
+nodeSelector: {}
+podAnnotations: {}
+podLabels: {}
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: false
+    interval: 60s
+    labels: {}
+    path: /metrics
+    prometheusInstance: default
+    scrapeTimeout: 30s
+    targetPort: 9402
+replicaCount: 1
+resources: {}
+securityContext: {}
+serviceAccount:
+  annotations: {}
+  create: true
+  name: null
+strategy: {}
+tolerations: []
+volumeMounts: []
+volumes: []
+webhook:
+  affinity: {}
+  deploymentAnnotations: {}
+  extraArgs: []
+  image:
+    pullPolicy: IfNotPresent
+    repository: quay.io/jetstack/cert-manager-webhook
+  injectAPIServerCA: true
+  nodeSelector: {}
+  podAnnotations: {}
+  replicaCount: 1
+  resources: {}
+  securePort: 10250
+  securityContext: {}
+  serviceName: cert-manager-webhook
+  strategy: {}
+  tolerations: []

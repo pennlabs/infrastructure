@@ -1,0 +1,42 @@
+replicas: 2
+
+deploymentStrategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  type: RollingUpdate
+
+ssl:
+  enabled: true
+  enforced: true
+  permanentRedirect: true
+  upstream: false
+  insecureSkipVerify: false
+  generateTLS: false
+
+  persistence:
+    enabled: false
+
+dashboard:
+  enabled: false
+  domain: chronos.pennlabs.org
+  serviceType: ClusterIP
+  ingress:
+    annotations:
+    cert-manager.io/cluster-issuer: cf-issuer
+    tls:
+      - hosts:
+          - chronos.pennlabs.org
+        secretName: chronos-pennlabs-org
+
+accessLogs:
+  enabled: true
+  format: common
+
+rbac:
+  enabled: true
+
+metrics:
+  prometheus:
+    enabled: true
+    buckets: [0.1, 0.3, 1.2, 5]
