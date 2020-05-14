@@ -25,8 +25,8 @@ output "version" {
 
 output "passwords" {
   value = {
-    for user in postgresql_role.role:
-      user.name => user.password
+    for user in postgresql_role.role :
+    user.name => user.password
   }
   sensitive = true
 }
