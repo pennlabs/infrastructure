@@ -21,7 +21,6 @@ resource "postgresql_database" "db" {
   for_each = var.users
   name     = each.key
   owner    = postgresql_role.role[each.key].name
-  # TODO: char set and collation fixes for emojis?
 }
 
 resource "postgresql_role" "role" {
