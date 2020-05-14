@@ -22,8 +22,6 @@ module "postgres-cluster" {
   node_count = 1
 }
 
-// Vault
-TODO:
 
 // Atlantis
 TODO:
