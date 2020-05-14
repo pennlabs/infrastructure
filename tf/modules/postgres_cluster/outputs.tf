@@ -8,12 +8,12 @@ output "port" {
   sensitive = true
 }
 
-output "user" {
+output "admin-user" {
   value     = digitalocean_database_cluster.postgres.user
   sensitive = true
 }
 
-output "password" {
+output "admin-password" {
   value     = digitalocean_database_cluster.postgres.password
   sensitive = true
 }
@@ -21,4 +21,12 @@ output "password" {
 output "version" {
   value     = digitalocean_database_cluster.postgres.version
   sensitive = false
+}
+
+output "passwords" {
+  value = {
+    for user in postgresql_role.role:
+      user.name => user.password
+  }
+  sensitive = true
 }

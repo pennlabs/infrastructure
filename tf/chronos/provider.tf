@@ -37,8 +37,8 @@ provider "postgresql" {
   port             = module.postgres-cluster.port
   database         = "defaultdb"
   expected_version = module.postgres-cluster.version
-  username         = module.postgres-cluster.user
-  password         = module.postgres-cluster.password
+  username         = module.postgres-cluster.admin-user
+  password         = module.postgres-cluster.admin-password
   superuser        = false
   sslmode          = "require"
 }
