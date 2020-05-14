@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: wildcard-letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: letsencrypt@pennlabs.org
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+      - selector: {}
+        dns01:
+          cnameStrategy: Follow
+          cloudflare:
+            email: pennappslabs@gmail.com
+            apiKeySecretRef:
+              name: cloudflare-api-key-secret
+              key: api-key

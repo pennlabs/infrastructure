@@ -38,3 +38,13 @@ resource "helm_release" "cert-manager" {
 
   values = var.cert_manager_values
 }
+
+resource "helm_release" "labs-clusterissuer" {
+  name       = "labs-clusterissuer"
+  repository = "https://helm.pennlabs.org"
+  chart      = "helm-wrapper"
+  version    = "0.1.0"
+  values = [
+    "${file("${path.module}/cluster_issuer.yaml")}"
+  ]
+}
