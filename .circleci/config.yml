@@ -1,0 +1,16 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@0.5.19
+workflows:
+  version: 2
+  build-and-publish:
+    jobs:
+      - docker/publish:
+          cache_from: "pennlabs/vault-approle-authenticator:latest"
+          image: pennlabs/vault-approle-authenticator
+          tag: "${CIRCLE_SHA1},latest"
+          context: docker-publish
+          filters:
+            branches:
+              only:
+                - master
