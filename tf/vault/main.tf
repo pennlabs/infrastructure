@@ -12,7 +12,7 @@ resource "vault_policy" "secret-sync" {
   name = "secret-sync"
   policy = templatefile("secret-sync-policy.hcl", {
     PATH = vault_mount.secrets.path
-  }
+    }
   )
 }
 
@@ -28,7 +28,7 @@ resource "vault_approle_auth_backend_role_secret_id" "secret-sync" {
 // TODO: will likely need to add the staging NS to prod
 resource "vault_generic_secret" "secret-sync" {
   for_each = toset(["chronos", "sandbox", "production"])
-  path = "${vault_mount.secrets.path}/${each.key}/default/secret-sync"
+  path     = "${vault_mount.secrets.path}/${each.key}/default/secret-sync"
 
   data_json = <<EOT
 {
@@ -40,7 +40,7 @@ EOT
 
 resource "vault_generic_secret" "cloudflare-api-key" {
   for_each = toset(["chronos", "sandbox", "production"])
-  path = "${vault_mount.secrets.path}/${each.key}/cert-manager/cloudflare-api-key-secret"
+  path     = "${vault_mount.secrets.path}/${each.key}/cert-manager/cloudflare-api-key-secret"
 
   data_json = <<EOT
 {

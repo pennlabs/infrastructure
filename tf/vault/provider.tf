@@ -1,6 +1,6 @@
 provider "vault" {
-  version = "~> 2.10"
-  address = "https://vault.upenn.club"
+  version         = "~> 2.10"
+  address         = "https://vault.upenn.club"
   skip_tls_verify = true
 }
 

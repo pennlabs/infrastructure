@@ -1,5 +1,5 @@
 variable "cloudflare_api_key" {
-  type = string
+  type        = string
   description = "Global API Key for Penn Labs Cloudflare account"
-  default = "fake-api-key"
+  default     = "fake-api-key"
 }
