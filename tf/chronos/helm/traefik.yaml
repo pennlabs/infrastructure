@@ -19,15 +19,6 @@ ssl:
 
 dashboard:
   enabled: false
-  domain: chronos.pennlabs.org
-  serviceType: ClusterIP
-  ingress:
-    annotations:
-    cert-manager.io/cluster-issuer: cf-issuer
-    tls:
-      - hosts:
-          - chronos.pennlabs.org
-        secretName: chronos-pennlabs-org
 
 accessLogs:
   enabled: true
