@@ -48,3 +48,11 @@ resource "helm_release" "labs-clusterissuer" {
     "${file("${path.module}/cluster_issuer.yaml")}"
   ]
 }
+
+resource "helm_release" "vault-ss" {
+  name       = "vault-ss"
+  repository = "https://helm.pennlabs.org"
+  chart      = "vault-secret-sync"
+  version    = "0.1.0"
+  values = var.vault_secret_sync_values
+}

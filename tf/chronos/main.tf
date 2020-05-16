@@ -11,6 +11,10 @@ module "chronos-cluster" {
   cert_manager_values = [
     "${file("helm/cert-manager.yaml")}"
   ]
+  vault_secret_sync_values = [
+    "${file("helm/vault-secret-sync.yaml")}"
+  ]
+
 }
 
 // Infrastructure DB

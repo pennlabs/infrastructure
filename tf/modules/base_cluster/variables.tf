@@ -32,3 +32,9 @@ variable "cert_manager_values" {
   description = "Values to provide to Cert Manager"
   type        = list(string)
 }
+
+// Vault Secret Sync values
+variable "vault_secret_sync_values" {
+  description = "Values to provide to Vault Secret Sync"
+  type        = list(string)
+}
