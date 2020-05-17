@@ -49,8 +49,8 @@ resource "helm_release" "labs-clusterissuer" {
   ]
 }
 
-resource "helm_release" "vault-ss" {
-  name       = "vault-ss"
+resource "helm_release" "vault-secret-sync" {
+  name       = "vault-secret-sync"
   repository = "https://helm.pennlabs.org"
   chart      = "vault-secret-sync"
   version    = "0.1.0"
