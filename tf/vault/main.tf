@@ -38,5 +38,3 @@ resource "vault_generic_secret" "cloudflare-api-key" {
 }
 EOT
 }
-
-// TODO: create the team sync policy?
