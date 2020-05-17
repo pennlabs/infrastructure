@@ -8,6 +8,16 @@ resource "vault_auth_backend" "approle" {
   type = "approle"
 }
 
+resource "vault_github_auth_backend" "pennlabs" {
+  organization = "pennlabs"
+}
+
+resource "vault_github_team" "sre" {
+  backend  = vault_github_auth_backend.pennlabs.id
+  team     = "sre"
+  policies = [vault_policy.admin.name]
+}
+
 // Admin policy
 resource "vault_policy" "admin" {
   name = "admin"
