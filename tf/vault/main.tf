@@ -24,7 +24,7 @@ resource "vault_generic_secret" "cloudflare-api-key" {
 
   data_json = <<EOT
 {
-  "api-key":   "${var.cloudflare_api_key}"
+  "api-key": "${var.cloudflare_api_key}"
 }
 EOT
 }
