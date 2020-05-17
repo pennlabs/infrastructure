@@ -4,6 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+black = "==19.10b0"
+flake8 = "*"
+flake8-absolute-import = "*"
+flake8-isort = "*"
+flake8-quotes = "*"
 
 [packages]
 hvac = "*"
