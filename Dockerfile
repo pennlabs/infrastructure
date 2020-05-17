@@ -12,4 +12,6 @@ RUN pipenv install --system
 
 COPY . /app/
 
+USER 65534
+
 CMD ["/usr/local/bin/python3", "authenticate.py"]
