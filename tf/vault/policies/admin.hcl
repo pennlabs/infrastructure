@@ -35,7 +35,7 @@ path "sys/policy/*"
 }
 
 # List, create, update, and delete key/value secrets
-path "secrets/*"
+path "${PATH}/*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }

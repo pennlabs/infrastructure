@@ -11,7 +11,10 @@ resource "vault_auth_backend" "approle" {
 // Admin policy
 resource "vault_policy" "admin" {
   name = "admin"
-  policy = file("admin-policy.hcl")
+  policy = templatefile("policies/admin.hcl", {
+    PATH = vault_mount.secrets.path
+    }
+  )
 }
 
 // Cert-manager CF API Key
