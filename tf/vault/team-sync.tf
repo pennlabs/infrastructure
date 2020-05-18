@@ -16,7 +16,7 @@ resource "vault_approle_auth_backend_role_secret_id" "team-sync" {
 }
 
 resource "vault_generic_secret" "team-sync" {
-  path     = "${vault_mount.secrets.path}/chronos/default/team-sync"
+  path = "${vault_mount.secrets.path}/chronos/default/team-sync"
 
   data_json = <<EOT
 {
