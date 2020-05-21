@@ -3,7 +3,7 @@ cronjobs:
     schedule: "*/10 * * * *"
     secret: team-sync
     image: pennlabs/team-sync
-    tag: fe6c02e2453282e670c00214c859d0252f0dac7a
+    tag: fa5c54f2edb5311f1e6dc543a938b5254c7b0aca
     extraEnv:
       - name: VAULT_ADDR
         value: http://vault.default:8200
