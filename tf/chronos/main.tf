@@ -20,7 +20,7 @@ module "chronos-cluster" {
 // Infrastructure DB
 module "postgres-cluster" {
   source = "../modules/postgres_cluster"
-  users  = ["vault", "grafana-prod", "grafana-sandbox"]
+  users  = ["vault", "grafana"]
   name   = "infrastructure"
   // TODO: (before release) make this more and add a replica
   node_count = 1
