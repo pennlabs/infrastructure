@@ -20,6 +20,16 @@ resource "helm_release" "labs-clusterissuer" {
   chart      = "helm-wrapper"
   version    = "0.1.0"
   values = [
-    "${file("${path.module}/cluster_issuer.yaml")}"
+    "${file("${path.module}/clusterissuer.yaml")}"
+  ]
+}
+
+resource "helm_release" "pennlabs-wildcard-cert" {
+  name       = "pennlabs-wildcard-cert"
+  repository = "https://helm.pennlabs.org"
+  chart      = "helm-wrapper"
+  version    = "0.1.0"
+  values = [
+    "${file("${path.module}/wildcard-cert.yaml")}"
   ]
 }

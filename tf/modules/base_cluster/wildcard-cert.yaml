@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: pennlabs-org
+spec:
+  secretName: pennlabs-org-tls
+  dnsNames:
+    - "pennlabs.org"
+    - "*.pennlabs.org"
+  issuerRef:
+    name: wildcard-letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
