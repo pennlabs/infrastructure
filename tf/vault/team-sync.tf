@@ -22,7 +22,7 @@ resource "vault_generic_secret" "team-sync" {
 {
   "ROLE_ID":      "${vault_approle_auth_backend_role.team-sync.role_id}",
   "SECRET_ID":    "${vault_approle_auth_backend_role_secret_id.team-sync.secret_id}",
-  "GITHUB_TOKEN": "${var.github_access_token}"
+  "GITHUB_TOKEN": "${var.GH_PERSONAL_TOKEN}"
 }
 EOT
 }
