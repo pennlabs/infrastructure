@@ -1,0 +1,81 @@
+ingress:
+  enabled: true
+  hosts:
+    - grafana.pennlabs.org
+  tls:
+    - secretName: pennlabs-org-tls
+      hosts:
+        - grafana.pennlabs.org
+
+admin:
+  existingSecret: grafana
+  userKey: ADMIN_USER
+  passwordKey: ADMIN_PASSWORD
+
+persistence:
+  enabled: true
+  type: statefulset
+  size: 10Gi
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: "default"
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    node-exporter:
+      gnetId: 1860
+      revision: 16
+      datasource: Prometheus-Chronos
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus-Chronos
+        type: prometheus
+        url: http://prometheus-server.monitoring
+        access: proxy
+        orgId: 1
+      - name: Prometheus-Sandbox
+        type: prometheus
+        url: https://prometheus-sandbox.pennlabs.org
+        access: proxy
+        orgId: 1
+        basicAuth: true
+        basicAuthUser: ${SANDBOX_PROMETHEUS_USER}
+        secureJsonData:
+          basicAuthPassword: ${SANDBOX_PROMETHEUS_PASSWORD}
+      - name: Prometheus-Production
+        type: prometheus
+        url: https://prometheus-production.pennlabs.org
+        access: proxy
+        orgId: 1
+        basicAuth: true
+        basicAuthUser: ${PRODUCTION_PROMETHEUS_USER}
+        secureJsonData:
+          basicAuthPassword: ${PRODUCTION_PROMETHEUS_PASSWORD}
+
+grafana.ini:
+  server:
+    domain: "grafana.pennlabs.org"
+    root_url: "https://%(domain)s/"
+  auth.github:
+    enabled: true
+    scopes: user:email,read:org
+    auth_url: https://github.com/login/oauth/authorize
+    token_url: https://github.com/login/oauth/access_token
+    api_url: https://api.github.com/user
+    allow_sign_up: true
+    allowed_organizations: pennlabs
+
+envFromSecret: "grafana"

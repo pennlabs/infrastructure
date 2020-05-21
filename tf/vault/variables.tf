@@ -1,11 +1,19 @@
-variable "cloudflare_api_key" {
+variable "CF_API_KEY" {
   type        = string
   description = "Global API Key for Penn Labs Cloudflare account"
-  default     = "fake-api-key"
 }
 
-variable "github_access_token" {
+variable "GH_PERSONAL_TOKEN" {
   type        = string
   description = "GitHub Personal Access token for the Penn Labs Admin account"
-  default     = "fake-access-token"
+}
+
+variable "GF_GH_CLIENT_ID" {
+  type        = string
+  description = "GitHub Client ID for the Penn Labs Grafana OAuth2 Application"
+}
+
+variable "GF_GH_CLIENT_SECRET" {
+  type        = string
+  description = "GitHub Client Secret for the Penn Labs Grafana OAuth2 Application"
 }
