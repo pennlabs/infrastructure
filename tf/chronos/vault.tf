@@ -41,17 +41,6 @@ resource "aws_iam_user_policy" "vault" {
 EOF
 }
 
-resource "kubernetes_secret" "vault" {
-  metadata {
-    name = "vault"
-  }
-
-  data = {
-    AWS_ACCESS_KEY_ID     = aws_iam_access_key.vault.id
-    AWS_SECRET_ACCESS_KEY = aws_iam_access_key.vault.secret
-  }
-}
-
 resource "helm_release" "vault" {
   name       = "vault"
   repository = "./"
@@ -93,5 +82,18 @@ CREATE INDEX parent_path_idx ON vault_kv_store (parent_path);
       VAULT_DB_HOST     = module.postgres-cluster.host
       VAULT_DB_PORT     = module.postgres-cluster.port
     }
+  }
+}
+
+resource "kubernetes_secret" "vault" {
+  metadata {
+    name = "vault"
+  }
+
+  data = {
+    AWS_ACCESS_KEY_ID        = aws_iam_access_key.vault.id
+    AWS_SECRET_ACCESS_KEY    = aws_iam_access_key.vault.secret
+    VAULT_AWSKMS_SEAL_KEY_ID = aws_kms_key.vault.key_id
+    VAULT_PG_CONNECTION_URL  = "postgres://vault:${module.postgres-cluster.passwords["vault"]}@${module.postgres-cluster.host}:${module.postgres-cluster.port}/vault"
   }
 }

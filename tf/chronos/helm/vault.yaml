@@ -14,12 +14,10 @@ server:
       }
 
       storage "postgresql" {
-        connection_url = "postgres://${VAULT_DB_USER}:${VAULT_DB_PASSWORD}@${VAULT_DB_HOST}:${VAULT_DB_PORT}/${VAULT_DB_NAME}"
       }
 
       seal "awskms" {
         region     = "us-east-1"
-        kms_key_id = "${KMS_KEY_ID}"
       }
 
   dataStorage:
@@ -32,6 +30,12 @@ server:
     - envName: AWS_SECRET_ACCESS_KEY
       secretName: vault
       secretKey: AWS_SECRET_ACCESS_KEY
+    - envName: VAULT_AWSKMS_SEAL_KEY_ID
+      secretName: vault
+      secretKey: VAULT_AWSKMS_SEAL_KEY_ID
+    - envName: VAULT_PG_CONNECTION_URL
+      secretName: vault
+      secretKey: VAULT_PG_CONNECTION_URL
 
   service:
     enabled: true
