@@ -4,6 +4,10 @@ provider "vault" {
   skip_tls_verify = true
 }
 
+provider "random" {
+  version = "~> 2.2"
+}
+
 terraform {
   backend "s3" {
     region         = "us-east-1"
