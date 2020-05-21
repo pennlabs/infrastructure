@@ -22,13 +22,25 @@ path "sys/mounts/*"
 # need to use `data/` because we're on secrets engine v2
 # `data/` will not appear in the actual usage of vault since most clients
 # intelligently add it in. it only appears in the policy
+# production/default and production/staging map to the default and staging
+# namespaces of our production cluster
 {% for repo in repos %}
-path "secrets/data/{{ repo }}-*"
+path "secrets/data/production/default/{{ repo }}-*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
-path "secrets/data/{{ repo }}"
+path "secrets/data/production/default/{{ repo }}"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+path "secrets/data/production/staging/{{ repo }}-*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+path "secrets/data/production/staging/{{ repo }}"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
