@@ -1,5 +1,5 @@
 variable "path" {
-  description = "Path to the secret in Vault"
+  description = "Path to the existing secret in Vault"
   type        = string
 }
 
