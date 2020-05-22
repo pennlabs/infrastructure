@@ -30,7 +30,3 @@ module "postgres-cluster" {
   // TODO: (before release) make this more and add a replica
   node_count = 1
 }
-
-
-// Atlantis
-// TODO:
