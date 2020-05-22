@@ -1,14 +1,14 @@
 resource "random_password" "prometheus-basic-auth" {
-  for_each = toset(["sandbox", "production"])
-  length   = 128
-  special  = true
+  for_each         = toset(["sandbox", "production"])
+  length           = 128
+  special          = true
   override_special = "_%@"
 }
 
 resource "vault_generic_secret" "prometheus-basic-auth" {
-  for_each = toset(["sandbox", "production"])
-  path = "${vault_mount.secrets.path}/${each.key}/monitoring/prometheus-basic-auth"
-    data_json = <<EOT
+  for_each  = toset(["sandbox", "production"])
+  path      = "${vault_mount.secrets.path}/${each.key}/monitoring/prometheus-basic-auth"
+  data_json = <<EOT
 {
   "auth": "prometheus:${bcrypt(random_password.prometheus-basic-auth["${each.key}"].result, 6)}"
 }
