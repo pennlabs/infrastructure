@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Name for database cluster"
+  description = "Name for the postgres database cluster"
   type        = string
 }
 
