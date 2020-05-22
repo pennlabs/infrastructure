@@ -86,7 +86,7 @@ terraform init
 terraform apply
 ```
 
-The last step is to deploy the sandbox and production clusters:
+The last step is to deploy the sandbox and production clusters. First, log into vault and create empty secrets for all of our products (named `locals.database_users` in `base/main.tf`) with the path `secrets/production/default/<product name>`. Then run the following commands
 
 ```bash
 cd ../base
