@@ -86,12 +86,6 @@ terraform init
 terraform apply
 ```
 
-Now you can run the following command to delete the temporary vault ingress.
-
-```bash
-kubectl delete -f ../chronos/utils/temp-vault-ingress.yaml
-```
-
 The last step is to deploy the sandbox and production clusters:
 
 ```bash
@@ -109,6 +103,12 @@ Create the following DNS records where `y.y.y.y` is the IP address of traefik in
 | CNAME | helm.pennlabs.org                       | pennlabs.github.io          |
 | A     | \<all product domains>                  | y.y.y.y                     |
 | CNAME | \_acme-challenge.\<all product domains> | \_acme-challenge.upenn.club |
+
+Now you can run the following command to delete the temporary vault ingress.
+
+```bash
+kubectl delete -f ../chronos/utils/temp-vault-ingress.yaml
+```
 
 If all goes well, you should now have 3 working clusters completely managed through terraform.
 
