@@ -77,6 +77,7 @@ Now export the following environment variables
 | TF_VAR_GH_PERSONAL_TOKEN   | A [GitHub Personal Access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) of the Penn Labs Admin account |
 | TF_VAR_GF_GH_CLIENT_ID     | The Client ID to the Grafana Penn Labs OAuth2 application on Github                                                                                                               |
 | TF_VAR_GF_GH_CLIENT_SECRET | The Client Secret to the Grafana Penn Labs OAuth2 application on Github                                                                                                           |
+| VAULT_ADDR                 | Set this to <https://vault.upenn.club>                                                                                                                                            |
 
 Run the following commands:
 
