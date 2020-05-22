@@ -7,27 +7,30 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-// Production cluster
-// provider "helm" {
-//   version = "~> 1.0"
-//   kubernetes {
-//     load_config_file = false
-//     host             = module.production-cluster.endpoint
-//     token            = module.production-cluster.token
-//     cluster_ca_certificate = base64decode(
-//       module.production-cluster.cluster_ca_certificate
-//     )
-//   }
-// }
+// Production K8s cluster
+provider "helm" {
+  version = "~> 1.0"
+  kubernetes {
+    load_config_file = false
+    host             = module.production-cluster.endpoint
+    token            = module.production-cluster.token
+    cluster_ca_certificate = base64decode(
+      module.production-cluster.cluster_ca_certificate
+    )
+  }
+}
 
-// provider "mysql" {
-//   version  = "~> 1.9"
-//   endpoint = "${module.production-cluster.mysql-host}:${module.production-cluster.mysql-port}"
-//   username = module.production-cluster.mysql-user
-//   password = module.production-cluster.mysql-password
-// }
+provider "kubernetes" {
+  version          = "~> 1.11"
+  load_config_file = false
+  host             = module.production-cluster.endpoint
+  token            = module.production-cluster.token
+  cluster_ca_certificate = base64decode(
+    module.production-cluster.cluster_ca_certificate
+  )
+}
 
-// Sandbox cluster
+// Sandbox K8s cluster
 provider "helm" {
   alias   = "sandbox"
   version = "~> 1.0"
@@ -41,12 +44,89 @@ provider "helm" {
   }
 }
 
-provider "mysql" {
-  alias    = "sandbox"
-  version  = "~> 1.9"
-  endpoint = "${module.sandbox-cluster.mysql-host}:${module.sandbox-cluster.mysql-port}"
-  username = module.sandbox-cluster.mysql-user
-  password = module.sandbox-cluster.mysql-password
+provider "kubernetes" {
+  alias            = "sandbox"
+  version          = "~> 1.11"
+  load_config_file = false
+  host             = module.sandbox-cluster.endpoint
+  token            = module.sandbox-cluster.token
+  cluster_ca_certificate = base64decode(
+    module.sandbox-cluster.cluster_ca_certificate
+  )
+}
+
+// Chronos K8s cluster
+provider "helm" {
+  alias   = "chronos"
+  version = "~> 1.0"
+  kubernetes {
+    load_config_file = false
+    host             = data.terraform_remote_state.chronos.outputs.endpoint
+    token            = data.terraform_remote_state.chronos.outputs.token
+    cluster_ca_certificate = base64decode(
+      data.terraform_remote_state.chronos.outputs.cluster_ca_certificate
+    )
+  }
+}
+
+provider "kubernetes" {
+  alias            = "chronos"
+  version          = "~> 1.11"
+  load_config_file = false
+  host             = data.terraform_remote_state.chronos.outputs.endpoint
+  token            = data.terraform_remote_state.chronos.outputs.token
+  cluster_ca_certificate = base64decode(
+    data.terraform_remote_state.chronos.outputs.cluster_ca_certificate
+  )
+}
+
+// Production DB
+provider "postgresql" {
+  version          = "~> 1.5"
+  host             = module.postgres-cluster.host
+  port             = module.postgres-cluster.port
+  database         = "defaultdb"
+  expected_version = module.postgres-cluster.version
+  username         = module.postgres-cluster.admin-user
+  password         = module.postgres-cluster.admin-password
+  superuser        = false
+  sslmode          = "require"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
+provider "vault" {
+  version         = "~> 2.10"
+  address         = "https://vault.upenn.club"
+  skip_tls_verify = true
+}
+
+// Vault remote state
+data "terraform_remote_state" "vault" {
+  backend = "s3"
+
+  config = {
+    region         = "us-east-1"
+    bucket         = "vault-tfstate-state"
+    key            = "terraform.tfstate"
+    dynamodb_table = "vault-tfstate-state-lock"
+    encrypt        = true
+  }
+}
+
+// Chronos remote state
+data "terraform_remote_state" "chronos" {
+  backend = "s3"
+
+  config = {
+    region         = "us-east-1"
+    bucket         = "chronos-tfstate-state"
+    key            = "terraform.tfstate"
+    dynamodb_table = "chronos-tfstate-state-lock"
+    encrypt        = true
+  }
 }
 
 terraform {

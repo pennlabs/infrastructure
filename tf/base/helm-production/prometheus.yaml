@@ -1,0 +1,25 @@
+alertmanager:
+  # we're using grafana alerts for the time being
+  enabled: false
+
+server:
+  image:
+    repository: prom/prometheus
+    tag: v2.13.1
+    pullPolicy: IfNotPresent
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+  ingress:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/auth-type: "basic"
+      traefik.ingress.kubernetes.io/auth-secret: "prometheus-basic-auth"
+    hosts:
+      - prometheus-production.pennlabs.org
+    tls:
+      - secretName: pennlabs-org-tls
+        hosts:
+          - prometheus-production.pennlabs.org
