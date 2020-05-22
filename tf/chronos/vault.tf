@@ -48,15 +48,7 @@ resource "helm_release" "vault" {
   version    = "0.4.0"
 
   values = [
-    templatefile("helm/vault.yaml", {
-      VAULT_DB_USER     = "vault",
-      VAULT_DB_PASSWORD = module.postgres-cluster.passwords["vault"],
-      VAULT_DB_NAME     = "vault",
-      VAULT_DB_HOST     = module.postgres-cluster.host,
-      VAULT_DB_PORT     = module.postgres-cluster.port,
-      KMS_KEY_ID        = aws_kms_key.vault.key_id,
-      }
-    )
+    file("helm/vault.yaml")
   ]
 
   // Create the vault_kv_store table needed for vault
