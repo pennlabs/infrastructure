@@ -14,7 +14,12 @@ module "chronos-cluster" {
   vault_secret_sync_values = [
     "${file("helm/vault-secret-sync.yaml")}"
   ]
-
+  prometheus_values = [
+    "${file("helm/prometheus.yaml")}"
+  ]
+  fluentd_values = [
+    "${file("helm/fluentd.yaml")}"
+  ]
 }
 
 // Infrastructure DB

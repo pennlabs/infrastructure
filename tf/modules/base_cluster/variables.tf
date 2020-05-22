@@ -38,3 +38,15 @@ variable "vault_secret_sync_values" {
   description = "Values to provide to Vault Secret Sync"
   type        = list(string)
 }
+
+// Prometheus values
+variable "prometheus_values" {
+  description = "Values to provide to Prometheus"
+  type        = list(string)
+}
+
+// Fluentd values
+variable "fluentd_values" {
+  description = "Values to provide to Fluentd"
+  type        = list(string)
+}
