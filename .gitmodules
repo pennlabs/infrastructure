@@ -1,9 +1,3 @@
-[submodule "vault/vault-helm"]
-	path = vault/vault-helm
-	url = https://github.com/hashicorp/vault-helm
-[submodule "consul/consul-helm"]
-	path = consul/consul-helm
-	url = https://github.com/hashicorp/consul-helm
-[submodule "tf/chronos/vault-helm"]
-	path = tf/chronos/vault-helm
+[submodule "terraform/chronos/vault-helm"]
+	path = terraform/chronos/vault-helm
 	url = git@github.com:hashicorp/vault-helm.git
