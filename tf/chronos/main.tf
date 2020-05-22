@@ -3,8 +3,8 @@ module "chronos-cluster" {
   source = "../modules/base_cluster"
   name   = "chronos"
   // TODO: (before release) change this to >=2
-  k8s_node_count = 1
-  k8s_node_size  = "s-1vcpu-2gb"
+  node_count = 1
+  node_size  = "s-1vcpu-2gb"
   traefik_values = [
     "${file("helm/traefik.yaml")}"
   ]
