@@ -50,10 +50,7 @@ Configures secret sync by:
 
 * Creating a vault policy for secret-sync (stored in `policies/secret-sync.hcl`)
 * Creating an AppRole secret-sync user
-* Saving the role id and secret id in secrets that will be synced to:
-  * `cert-manager`, `default`, and `monitoring` in `chronos`
-  * `cert-manager`, `default`, and `monitoring` in `sandbox`
-  * `cert-manager`, `default`, `staging`, and `monitoring` in `production`
+* Saving the role id and secret id in a secret in vault that will later be synced into our Kubernetes clusters
 
 ## team-sync.tf
 
