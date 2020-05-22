@@ -1,9 +1,0 @@
-server:
-  enabled: true
-  storage: 1Gi
-
-dns:
-  enabled: false
-
-ui:
-  enabled: false
