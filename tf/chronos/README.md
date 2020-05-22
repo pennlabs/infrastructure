@@ -44,3 +44,7 @@ Configures vault (on [vault.pennlabs.org](https://vault.pennlabs.org)) by
 * Creating a Kubernetes secret with the IAM credentials, KMS key ID, and a connection url for the vault user in the infrastructure postgres database
 * Installing the [vault helm chart](https://github.com/hashicorp/vault-helm)
 * [Creating the table vault needs](https://www.vaultproject.io/docs/configuration/storage/postgresql) in the postgres database using a local-exec
+
+## outputs.tf
+
+Outputs Kubernetes credentials for the `chronos` cluster so that [base](../base) can use those credentials to make additional changes to the cluster.
