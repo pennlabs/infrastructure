@@ -1,50 +1,121 @@
 # Terraform
 
-We use Terraform to manage our infrastructure in a declarative manner.
+We use [Terraform](https://www.terraform.io/docs/index.html) to manage our infrastructure in a declarative manner.
 
-`provider.tf` just specifies where we want to manage infrastructure.
+Our terraform configuration consists of four parts:
 
-`main.tf` and `outputs.tf` contain the base configuration to get a Kubernetes cluster and MySQL cluster up and running on Digital Ocean.
+1. Chronos - A long-lived K8s cluster that runs atlantis, grafana, and vault
+2. Vault - Configuration for Vault
+3. Base Configuration for our Sanbox and Production clusters
+    1. Sandbox Cluster - A sandbox K8s cluster for us to test infrastructure related changes
+    2. Production cluster - Our production cluster that contains our products and additional applications
+4. Modules - these are different terraform modules we use to replicate configuration across our different clusters.
+    1. Base Cluster - a barebones K8s cluster with additional software installed
+    2. Postgres Cluster - a module to create a postgres cluster as well as users/databases with correct default permissions
+    3. Vault Flush - a module to flush updated secrets to vault
 
-Every other file contains configuration needed to set up the infrastructure for that software. For example `ghost.tf` creates an AWS S3 bucket, IAM user, and IAM policy as well as exports the IAM credentials for the newly created ghost user.
+Each directory contains a README with additional information about that directory.
 
 ## Bootstrapping
 
-When starting from scratch, `base` needs to create its own S3 bucket remote backend. To create that bucket, first comment out the `terraform` block in `base/provider.tf` then run:
+If you want to start from scratch (or somehow DigitalOcean loses an entire datacenter in NY. Follow these steps. **Make sure to have psql installed on whatever machine you're running these commands on.**
+
+The very first thing you need to do is create credentials for terraform to use for AWS and DigitalOcean.
+
+Create a `terraform` [AWS IAM user](https://console.aws.amazon.com/iam/home#/users) and attach the `AdministratorAccess` policy to it. Also create a [DigitalOcean Personal Access Token](https://cloud.digitalocean.com/account/api/tokens) for terraform.
+
+Now export the following environment variables:
+| Name                      | Description                       |
+|---------------------------|-----------------------------------|
+| DIGITALOCEAN_ACCESS_TOKEN | The DO Access Token for terraform |
+| AWS_ACCESS_KEY_ID         | The AWS Access Key for terraform  |
+| AWS_SECRET_ACCESS_KEY     | The AWS Secret Key for terraform  |
+
+Now on to creating the actual infrastructure. First, `chronos` needs to create its own S3 bucket remote backend so that it can store its state in the cloud (and not your laptop). To create that bucket, first comment out the `terraform` block in `chronos/provider.tf` then run:
 
 ```bash
-cd base
+cd chronos
 terraform init
-terraform apply --target module.base_tfstate_backend
+terraform apply --target module.chronos_tfstate_backend
 ```
 
-uncomment the `terraform` block from `base/provider.tf` and run:
+uncomment the `terraform` block from `chronos/provider.tf` and run:
 
 ```bash
 terraform init
 terraform apply
 ```
 
-## Design
+At this point the Chronos cluster will be deployed but vault won't yet be configured correctly. There will likely be a lot of errors in K8s due to missing secrets. Ignore those for now.
 
-### Modules
+Create the following DNS records where `x.x.x.x` is the IP address of traefik (Traefik's IP can be found in the DigitalOcean Loadbalancer page)
 
-#### Base Infra
+| Type  | Name                          | Destination                 |
+|-------|-------------------------------|-----------------------------|
+| A     | upenn.club                    | x.x.x.x                     |
+| CNAME | *.upenn.club                  | upenn.club                  |
+| CNAME | vault.pennlabs.org            | upenn.club                  |
+| CNAME | grafana.pennlabs.org          | upenn.club                  |
+| CNAME | \_acme-challenge.pennlabs.org | \_acme-challenge.upenn.club |
 
-This will create a base Labs infrastructure setup using the below modules.
+Now you need to unseal vault. Download a kubeconfig for the Chronos cluster from DigitalOcean and run the following commands:
 
-#### Database Cluster
+```bash
+$ kubectl apply -f utils/temp-vault-ingress.yaml
+$ kubectl exec -it vault-0 -- /bin/sh
+vault-0 $ vault operator init -recovery-shares=1 -recovery-threshold=1
+```
 
-This module will create a mysql database cluster with a specified number of nodes on a standardized version. This module will also create a database + user scoped to only that database. This module will also optionally flush credentials to vault.
+Save the resulting root token and key in a safe location.
 
-#### K8s Cluster
+Now export the following environment variables
 
-This module will create a kubernetes cluster with a specified number of nodes and our base configuration.
+| Name                       | Description                                                                                                                                                                       |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| VAULT_TOKEN                | The root vault token you just generated                                                                                                                                           |
+| TF_VAR_CF_API_KEY          | The [Global API Key](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/#api-keys) of the Penn Labs Cloudflare account                                              |
+| TF_VAR_GH_PERSONAL_TOKEN   | A [GitHub Personal Access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) of the Penn Labs Admin account |
+| TF_VAR_GF_GH_CLIENT_ID     | The Client ID to the Grafana Penn Labs OAuth2 application on Github                                                                                                               |
+| TF_VAR_GF_GH_CLIENT_SECRET | The Client Secret to the Grafana Penn Labs OAuth2 application on Github                                                                                                           |
 
-#### S3 Bucket
+Run the following commands:
 
-This module will create an s3 bucket and an associated AWS user locked to that bucket with IAM.
+```bash
+cd ../vault
+terraform init
+terraform apply
+```
 
-#### IAM User
+Now you can run the following command to delete the temporary vault ingress.
 
-This module will create an IAM user with a username and password and with a policy that allows it to access specified S3 buckets.
+```bash
+kubectl delete -f ../chronos/utils/temp-vault-ingress.yaml
+```
+
+The last step is to deploy the sandbox and production clusters:
+
+```bash
+cd ../base
+terraform init
+terraform apply
+```
+
+Create the following DNS records where `y.y.y.y` is the IP address of traefik in the production cluster (Traefik's IP can be found in the DigitalOcean Loadbalancer page)
+
+| Type  | Name                                    | Destination                 |
+|-------|-----------------------------------------|-----------------------------|
+| A     | pennlabs.org                            | y.y.y.y                     |
+| CNAME | *.pennlabs.org                          | pennlabs.org                |
+| CNAME | helm.pennlabs.org                       | pennlabs.github.io          |
+| A     | \<all product domains>                  | y.y.y.y                     |
+| CNAME | \_acme-challenge.\<all product domains> | \_acme-challenge.upenn.club |
+
+If all goes well, you should now have 3 working clusters completely managed through terraform.
+
+The final configuration for the new clusters consists of editing the `k8s-deploy` context in CircleCI and replacing `K8S_CLUSTER_ID` with the cluster ID of your new production cluster which can be found in DigitalOcean.
+
+## Things we would like to improve
+
+* We currently use bcrypt to generate the secret traefik uses to provide authentication for our prometheus ingresses. Unfortunately the output of the bcrypt function changes each time it's called, which causes `terraform apply` to change the secret data each time the command is run.
+* Grafana metadata is stored in a pvc, so it cannot be transferred cluster-to-cluster. We would love to move to postgres, but the helm chart doesn't support it.
+* In `base` we need to manually create the secret-sync authentication secrets in Kubernetes in each ns of each cluster. There's doesn't seem to be an immediate cleaner way of doing this, but it feels like there should be.
