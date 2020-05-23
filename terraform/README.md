@@ -6,7 +6,7 @@ Our terraform configuration consists of four parts:
 
 1. Chronos - A long-lived K8s cluster that runs atlantis, grafana, and vault
 2. Vault - Configuration for Vault
-3. Base Configuration for our Sanbox and Production clusters
+3. Base Configuration for our Sandbox and Production clusters
     1. Sandbox Cluster - A sandbox K8s cluster for us to test infrastructure related changes
     2. Production cluster - Our production cluster that contains our products and additional applications
 4. Modules - these are different terraform modules we use to replicate configuration across our different clusters.
