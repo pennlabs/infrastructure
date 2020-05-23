@@ -17,6 +17,7 @@ A terraform module to create a postgres cluster on DigitalOcean and create users
 | Name           | Description                                                   |
 |----------------|---------------------------------------------------------------|
 | host           | Host of the created cluster                                   |
+| private-host   | Private Host of the created cluster                           |
 | port           | Port of the created cluster                                   |
 | admin-user     | Admin username of the created cluster                         |
 | admin-password | Admin password of the created cluster                         |

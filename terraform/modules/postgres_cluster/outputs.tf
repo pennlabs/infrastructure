@@ -3,6 +3,11 @@ output "host" {
   sensitive = true
 }
 
+output "private-host" {
+  value     = digitalocean_database_cluster.postgres.private_host
+  sensitive = true
+}
+
 output "port" {
   value     = digitalocean_database_cluster.postgres.port
   sensitive = true
