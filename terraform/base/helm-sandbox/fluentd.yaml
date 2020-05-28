@@ -13,6 +13,7 @@ resources:
 elasticsearch:
   auth:
     enabled: false
+  setOutputHostEnvVar: false
   scheme: "https"
   logLevel: "info"
   typeName: "fluentd"
