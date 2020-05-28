@@ -3,7 +3,7 @@ FROM python:3-slim
 LABEL maintainer="Penn Labs"
 
 # Install build dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y default-libmysqlclient-dev gcc \
+RUN apt-get update && apt-get install --no-install-recommends -y default-libmysqlclient-dev gcc libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy mime definitions
