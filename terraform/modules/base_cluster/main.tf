@@ -8,4 +8,8 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
     size       = var.node_size
     node_count = var.node_count
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

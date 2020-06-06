@@ -1,9 +1,8 @@
 // Chronos K8s cluster
 module "chronos-cluster" {
-  source = "../modules/base_cluster"
-  name   = "chronos"
-  // TODO: (before release) change this to >=2
-  node_count = 1
+  source     = "../modules/base_cluster"
+  name       = "chronos"
+  node_count = 2
   node_size  = "s-1vcpu-2gb"
   traefik_values = [
     "${file("helm/traefik.yaml")}"

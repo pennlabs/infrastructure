@@ -6,9 +6,9 @@ resource "digitalocean_database_cluster" "postgres" {
   node_count = var.node_count
   version    = var.cluster_version
 
-  // lifecycle {
-  //   prevent_destroy = true
-  // }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "random_password" "password" {

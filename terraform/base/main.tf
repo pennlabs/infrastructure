@@ -1,9 +1,8 @@
 module "production-cluster" {
-  source = "../modules/base_cluster"
-  name   = "production"
-  // TODO: (before release) change this to >=2
-  node_count = 1
-  node_size  = "s-1vcpu-2gb"
+  source     = "../modules/base_cluster"
+  name       = "production"
+  node_count = 5
+  node_size  = "s-2vcpu-4gb"
   traefik_values = [
     "${file("helm-production/traefik.yaml")}"
   ]
@@ -22,8 +21,8 @@ module "production-cluster" {
 }
 
 module "sandbox-cluster" {
-  source         = "../modules/base_cluster"
-  name           = "sandbox"
+  source     = "../modules/base_cluster"
+  name       = "sandbox"
   node_count = 1
   node_size  = "s-1vcpu-2gb"
   traefik_values = [
@@ -49,11 +48,11 @@ module "sandbox-cluster" {
 
 // Production DB
 module "postgres-cluster" {
-  source = "../modules/postgres_cluster"
-  users  = local.database_users
-  name   = "production"
-  // TODO: (before release) make this more and add a replica
-  node_count = 1
+  source     = "../modules/postgres_cluster"
+  users      = local.database_users
+  name       = "production"
+  node_count = 2
+  node_size  = "db-s-1vcpu-2gb"
 }
 
 locals {
