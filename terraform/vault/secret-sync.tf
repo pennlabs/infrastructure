@@ -16,7 +16,7 @@ resource "vault_approle_auth_backend_role_secret_id" "secret-sync" {
 }
 
 resource "vault_generic_secret" "secret-sync" {
-  path     = "${vault_mount.secrets.path}/secret-sync"
+  path = "${vault_mount.secrets.path}/secret-sync"
 
   data_json = <<EOT
 {
