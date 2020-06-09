@@ -56,5 +56,5 @@ module "postgres-cluster" {
 }
 
 locals {
-  database_users = toset(["bitwarden", "common-funding-application", "labs-api-server", "penn-club", "penn-courses", "platform", "platform-dev", "student-life"])
+  database_users = toset(["bitwarden", "common-funding-application", "labs-api-server", "penn-clubs", "penn-courses", "platform", "platform-dev", "student-life"])
 }
