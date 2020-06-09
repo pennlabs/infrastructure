@@ -38,7 +38,8 @@ EOT
 }
 
 resource "vault_generic_secret" "fluentd" {
-  path = "${vault_mount.secrets.path}/chronos/monitoring/fluentd"
+  for_each  = toset(["chronos", "sandbox", "production"])
+  path = "${vault_mount.secrets.path}/${each.key}/monitoring/fluentd"
 
   data_json = <<EOT
 {
