@@ -36,3 +36,15 @@ resource "vault_generic_secret" "grafana" {
 }
 EOT
 }
+
+resource "vault_generic_secret" "fluentd" {
+  path = "${vault_mount.secrets.path}/chronos/monitoring/fluentd"
+
+  data_json = <<EOT
+{
+  "ELASTIC_USER":     "elastic",
+  "ELASTIC_PASSWORD": "${var.ELASTIC_PASSWORD}",
+  "ELASTIC_HOSTS":    "${var.ELASTIC_HOST}"
+}
+EOT
+}

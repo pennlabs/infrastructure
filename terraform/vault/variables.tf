@@ -17,3 +17,13 @@ variable "GF_GH_CLIENT_SECRET" {
   type        = string
   description = "GitHub Client Secret for the Penn Labs Grafana OAuth2 Application"
 }
+
+variable "ELASTIC_PASSWORD" {
+  type        = string
+  description = "Managed Elasticsearch password"
+}
+
+variable "ELASTIC_HOST" {
+  type        = string
+  description = "Managed Elasticsearch host"
+}
