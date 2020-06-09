@@ -47,6 +47,10 @@ provider "random" {
   version = "~> 2.2"
 }
 
+provider "time" {
+  version = "~> 0.5"
+}
+
 terraform {
   backend "s3" {
     region         = "us-east-1"

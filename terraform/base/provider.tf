@@ -102,6 +102,10 @@ provider "vault" {
   skip_tls_verify = true
 }
 
+provider "time" {
+  version = "~> 0.5"
+}
+
 // Vault remote state
 data "terraform_remote_state" "vault" {
   backend = "s3"
