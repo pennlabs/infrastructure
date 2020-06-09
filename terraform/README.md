@@ -46,6 +46,8 @@ terraform init
 terraform apply
 ```
 
+If you run into any issues, a second `terraform apply` usually solves them.
+
 At this point the Chronos cluster will be deployed but vault won't yet be configured correctly. There will likely be a lot of errors in K8s due to missing secrets. Ignore those for now.
 
 Create the following DNS records where `x.x.x.x` is the IP address of traefik (Traefik's IP can be found in the DigitalOcean Loadbalancer page)
