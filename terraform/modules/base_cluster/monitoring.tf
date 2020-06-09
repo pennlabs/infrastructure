@@ -20,6 +20,8 @@ resource "helm_release" "fluentd" {
   chart      = "fluentd-elasticsearch"
   version    = "9.2.0"
   namespace  = kubernetes_namespace.monitoring.metadata[0].name
+  // This needs to be set because secrets that fluentd expects aren't set yet
+  wait = false
 
   values = var.fluentd_values
 }
