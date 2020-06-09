@@ -99,12 +99,13 @@ terraform init
 terraform apply
 ```
 
-Create the following DNS records where `y.y.y.y` is the IP address of traefik in the production cluster (Traefik's IP can be found in the DigitalOcean Loadbalancer page)
+Create the following DNS records where `y.y.y.y` is the IP address of traefik in the production cluster (Traefik's IP can be found in the DigitalOcean Loadbalancer page) and `z.z.z.z` is the IP address of traefik in the sandbox cluster.
 
 | Type  | Name                                    | Destination                 |
 |-------|-----------------------------------------|-----------------------------|
 | A     | pennlabs.org                            | y.y.y.y                     |
 | CNAME | *.pennlabs.org                          | pennlabs.org                |
+| A     | prometheus-sandbox.pennlabs.org         | z.z.z.z                     |
 | CNAME | helm.pennlabs.org                       | pennlabs.github.io          |
 | A     | \<all product domains>                  | y.y.y.y                     |
 | CNAME | \_acme-challenge.\<all product domains> | \_acme-challenge.upenn.club |
