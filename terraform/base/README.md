@@ -27,10 +27,6 @@ Also configures [terraform remote state](https://www.terraform.io/docs/providers
 
 Installs [bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) through [Icarus](https://github.com/pennlabs/icarus) on to our production cluster.
 
-## ghost.tf
-
-Installs [ghost](https://ghost.org/) through [Icarus](https://github.com/pennlabs/icarus) on to our production cluster.
-
 ## secret-sync.tf
 
 Saves the secret-sync AppRole credentials in Kubernetes secrets in:
@@ -38,6 +34,10 @@ Saves the secret-sync AppRole credentials in Kubernetes secrets in:
 * `cert-manager`, `default`, and `monitoring` namespaces in `chronos`
 * `cert-manager`, `default`, and `monitoring` namespaces in `sandbox`
 * `cert-manager`, `default`, `staging`, and `monitoring` namespaces in `production`
+
+## staging.tf
+
+Creates a staging namespace in our production cluster.
 
 ## vault-flush.tf
 
