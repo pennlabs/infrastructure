@@ -36,10 +36,12 @@ resource "helm_release" "labs-clusterissuer" {
 }
 
 resource "helm_release" "pennlabs-wildcard-cert" {
+  for_each   = toset(["default", "monitoring"])
   name       = "pennlabs-wildcard-cert"
   repository = "https://helm.pennlabs.org"
   chart      = "helm-wrapper"
   version    = "0.1.0"
+  namespace  = each.key
   values = [
     "${file("${path.module}/wildcard-cert.yaml")}"
   ]
