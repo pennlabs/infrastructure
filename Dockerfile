@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 ENV CR_VERSION 0.2.3
-ENV HELM_VERSION v3.0.0
+ENV HELM_VERSION v3.2.3
 ENV YQ_VERSION 2.4.1
 ENV TAR_NAME helm-${HELM_VERSION}-linux-amd64.tar.gz
 
