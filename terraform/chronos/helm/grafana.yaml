@@ -51,11 +51,11 @@ dashboards:
       gnetId: 1860
       revision: 19
     traefik:
-      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/traefik.json
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboards/traefik.json
     pod-alerting-dashboard:
-      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/pod-alerting-dashboard.json
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboards/pod-alerting-dashboard.json
     pod-dashboard:
-      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/pod-dashboard.json
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboards/pod-dashboard.json
 
 datasources:
   datasources.yaml:
