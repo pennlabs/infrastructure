@@ -29,7 +29,8 @@ Installs the [grafana helm chart](https://github.com/helm/charts/tree/master/sta
 * GitHub OAuth2 authentication within the `pennlabs` organization
 * Prometheus data sources for `chronos`, `sandbox`, and `production` (with basic auth for the latter two).
 * The Kubernetes node exporter full dashboard
-* TODO: add our custom dashboard
+* Our custom pod dashboard
+* Our custom pod alerting dashboard
 
 ## team-sync.tf
 
