@@ -17,6 +17,21 @@ persistence:
   type: statefulset
   size: 10Gi
 
+plugins:
+  - grafana-piechart-panel
+
+notifiers:
+  notifiers.yaml:
+    notifiers:
+      - name: Slack
+        type: slack
+        uid: slack
+        org_id: 1
+        is_default: true
+        send_reminder: false
+        settings:
+          url: ${SLACK_NOTIFICATION_URL}
+
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
@@ -34,8 +49,13 @@ dashboards:
   default:
     node-exporter:
       gnetId: 1860
-      revision: 16
-      datasource: Prometheus-Chronos
+      revision: 19
+    traefik:
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/traefik.json
+    pod-alerting-dashboard:
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/pod-alerting-dashboard.json
+    pod-dashboard:
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboard/pod-dashboard.json
 
 datasources:
   datasources.yaml:
