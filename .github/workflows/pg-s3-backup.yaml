@@ -1,8 +1,8 @@
 name: Publish pg-s3-backup
 on:
   push:
-    branches:
-      - master
+    # branches:
+    #   - master
     paths:
       - "docker/pg-s3-backup/**"
 jobs:
@@ -11,10 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Publish pg-s3-backup
-        uses: elgohr/Publish-Docker-Github-Action@2.18
+        uses: docker/build-push-action@v1
         with:
-          name: pennlabs/pg-s3-backup
-          workdir: docker/pg-s3-backup
+          repository: pennlabs/pg-s3-backup
+          path: docker/pg-s3-backup
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: "latest,${{ env.GITHUB_SHA }}"
