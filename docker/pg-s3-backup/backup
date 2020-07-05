@@ -17,7 +17,7 @@ do
   echo "Creating dump of $DB"
   pg_dump $DATABASE_URL/$DB | gzip > $DB.dump
   echo "Uploading dump of $DB"
-  cat $DB.dump | aws s3 cp - "s3://$S3_BUCKET/$STAMP/$FILENAME"
+  cat $DB.dump | aws s3 cp - "s3://$S3_BUCKET/$STAMP/$S3_PREFIX/$FILENAME"
 done
 
 echo "Backup finished successfully"

@@ -10,4 +10,5 @@ The following environment variables need to be defined:
 * AWS_SECRET_ACCESS_KEY
 * AWS_DEFAULT_REGION
 * S3_BUCKET
+* S3_PREFIX
 * DATABASE_URL
