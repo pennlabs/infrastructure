@@ -17,4 +17,4 @@ jobs:
           path: docker/pg-s3-backup
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "latest,${{ env.GITHUB_SHA }}"
+          tags: "latest,${{ github.sha }}"
