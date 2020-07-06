@@ -36,5 +36,5 @@ resource "postgresql_grant" "grant" {
   role        = postgresql_role.role[each.key].name
   schema      = "public"
   object_type = "table"
-  privileges  = ["ALL"]
+  privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES", "TRIGGER"]
 }

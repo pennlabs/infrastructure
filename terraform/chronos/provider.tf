@@ -32,7 +32,7 @@ provider "kubernetes" {
 
 // Infrastructure DB
 provider "postgresql" {
-  version          = "~> 1.5"
+  version          = "~> 1.6"
   host             = module.postgres-cluster.host
   port             = module.postgres-cluster.port
   database         = "defaultdb"
