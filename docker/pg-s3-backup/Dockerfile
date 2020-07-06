@@ -1,9 +1,11 @@
 FROM debian:buster-slim as build
 
+ENV AWS_CLI_VERSION 2.0.27
+
 # Install aws cli
 RUN apt-get update \
     && apt-get install -y curl unzip \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.27.zip" -o "awscliv2.zip" \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && ./aws/install --bin-dir /aws-cli-bin/
 
