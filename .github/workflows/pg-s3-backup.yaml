@@ -1,8 +1,8 @@
 name: Publish pg-s3-backup
 on:
   push:
-    # branches:
-    #   - master
+    branches:
+      - master
     paths:
       - "docker/pg-s3-backup/**"
 jobs:
