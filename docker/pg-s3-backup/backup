@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Get current timestamp
-STAMP=`date +"%s - %A %d %B %Y @ %H:%M"`
+STAMP=`date +"%Y%m%d - %A %d %B %Y @ %H:%M"`
 
 # List all databases and remove default databases
 DATABASES=`psql $DATABASE_URL/defaultdb -q -t -c 'SELECT datname from pg_database' | grep -v "\(_dodb\|template1\|template0\|defaultdb\)"`
