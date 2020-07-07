@@ -27,6 +27,10 @@ Also configures [terraform remote state](https://www.terraform.io/docs/providers
 
 Installs [bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) through [Icarus](https://github.com/pennlabs/icarus) on to our production cluster.
 
+## db-backup.tf
+
+Installs [pg-s3-backup](../../docker/pg-s3-backup) through [Icarus](https://github.com/pennlabs/icarus) on to our production cluster as a cronjob to backup our databases.
+
 ## secret-sync.tf
 
 Saves the secret-sync AppRole credentials in Kubernetes secrets in:

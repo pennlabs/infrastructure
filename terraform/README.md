@@ -126,4 +126,3 @@ The final configuration for the new clusters consists of editing the `k8s-deploy
 * We currently use bcrypt to generate the secret traefik uses to provide authentication for our prometheus ingresses. Unfortunately the output of the bcrypt function changes each time it's called, which causes `terraform apply` to change the secret data each time the command is run.
 * Grafana metadata is stored in a pvc, so it cannot be transferred cluster-to-cluster. We would love to move to postgres, but the helm chart doesn't support it.
 * In `base` we need to manually create the secret-sync authentication secrets in Kubernetes in each ns of each cluster. There's doesn't seem to be an immediate cleaner way of doing this, but it feels like there should be.
-* From some reason vault appears to change its own permissions for the `vault` database, which results in `terraform apply` readding the "ALL" privilege each time it's run. This doesn't break anything, but is weird behavior.

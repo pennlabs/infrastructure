@@ -38,3 +38,13 @@ resource "postgresql_grant" "grant" {
   object_type = "table"
   privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES", "TRIGGER"]
 }
+
+resource "postgresql_default_privileges" "privileges" {
+  for_each    = var.users
+  database    = postgresql_database.db[each.key].name
+  role        = postgresql_role.role[each.key].name
+  owner       = postgresql_role.role[each.key].name
+  schema      = "public"
+  object_type = "table"
+  privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES", "TRIGGER"]
+}
