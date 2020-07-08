@@ -1,4 +1,4 @@
-orgWhitelist: pennlabs
+orgWhitelist: github.com/pennlabs/infrastructure
 
 # Atlantis requires the GitHub app private key to be saved in a file
 # This workaround allows us to load it from an environment variable from vault
