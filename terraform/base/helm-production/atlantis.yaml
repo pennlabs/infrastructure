@@ -19,11 +19,11 @@ image:
 repoConfig: |
   ---
   repos:
-  - id: github.com/pennlabs/infrastructure
-    apply_requirements: [approved, mergeable]
-    workflow: default
-    allowed_overrides: []
-    allow_custom_workflows: false
+    - id: github.com/pennlabs/infrastructure
+      apply_requirements: [approved, mergeable]
+      workflow: default
+      allowed_overrides: []
+      allow_custom_workflows: false
   workflows:
     default:
       plan:
