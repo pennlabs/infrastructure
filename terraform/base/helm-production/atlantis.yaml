@@ -1,0 +1,52 @@
+orgWhitelist: pennlabs
+
+# Atlantis requires the GitHub app private key to be saved in a file
+# This workaround allows us to load it from an environment variable from vault
+command:
+  [
+    "/bin/sh",
+    "-c",
+    'echo "$ATLANTIS_GH_APP_KEY" > /home/atlantis/gh_app_key.pem && atlantis server --write-git-creds --gh-app-key-file=/home/atlantis/gh_app_key.pem',
+  ]
+
+image:
+  repository: runatlantis/atlantis
+  tag: v0.14.0
+  pullPolicy: IfNotPresent
+
+## Use Server Side Repo Config,
+## ref: https://www.runatlantis.io/docs/server-side-repo-config.html
+repoConfig: |
+  ---
+  repos:
+  - id: github.com/pennlabs/infrastructure
+    apply_requirements: [approved, mergeable]
+    workflow: default
+    allowed_overrides: []
+    allow_custom_workflows: false
+  workflows:
+    default:
+      plan:
+        steps: [init, plan]
+      apply:
+        steps: [apply]
+
+defaultTFVersion: 0.12.27
+
+ingress:
+  enabled: true
+  path: /
+  host: atlantis-sandbox.pennlabs.org
+  tls:
+    - secretName: pennlabs-org-tls
+      hosts:
+        - atlantis-sandbox.pennlabs.org
+
+## test container details
+test:
+  enabled: true
+  image: lachlanevenson/k8s-kubectl
+  imageTag: v1.4.8-bash
+
+loadEnvFromSecrets:
+  - atlantis

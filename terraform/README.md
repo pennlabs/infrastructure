@@ -81,7 +81,7 @@ Now export the following environment variables
 | TF_VAR_GF_GH_CLIENT_SECRET | The Client Secret to the Grafana Penn Labs OAuth2 application on Github                                                                                                           |
 | TF_VAR_GF_SLACK_URL        | Slack notification URL used for Grafana notifications                                                                                                                             |
 | TF_VAR_ELASTIC_PASSWORD    | The password to the managed elasticsearch instance                                                                                                                                |
-| TF_VAR_ELASTIC_HOST        | The host to the managed elasticsearch instance (format should be https://host:port)                                                                                               |
+| TF_VAR_ELASTIC_HOST        | The host to the managed elasticsearch instance (format should be <https://host:port>)                                                                                             |
 | VAULT_ADDR                 | Set this to <https://vault.upenn.club>                                                                                                                                            |
 
 Run the following commands:
@@ -91,6 +91,14 @@ cd ../vault
 terraform init
 terraform apply
 ```
+
+Now create a secret in vault at the path `secrets/production/default/atlantis` with the all the previous environment variables set (AWS, DigitalOcean, Vault, and TF_VAR_*) as well as the following values:
+| Name                       | Description                                             |
+|----------------------------|---------------------------------------------------------|
+| ATLANTIS_GH_APP_ID         | The ID of the Penn Labs Atlantis GitHub App             |
+| ATLANTIS_GH_APP_KEY        | The private key of the Penn Labs Atlantis GitHub App    |
+| ATLANTIS_GH_WEBHOOK_SECRET | The webhook secret of the Penn Labs Atlantis GitHub App |
+| VAULT_ADDR                 | <https://vault.pennlabs.org>                            |
 
 The last step is to deploy the sandbox and production clusters. First, log into vault and create empty secrets for all of our products (named `locals.database_users` in `base/main.tf`) with the path `secrets/production/default/<product name>`. Then run the following commands
 
