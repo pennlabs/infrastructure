@@ -2,11 +2,12 @@ orgWhitelist: github.com/pennlabs/infrastructure
 
 # Atlantis requires the GitHub app private key to be saved in a file
 # This workaround allows us to load it from an environment variable from vault
+# Additional flags are also specified here until the helm chart includes them natively
 command:
   [
     "/bin/sh",
     "-c",
-    'echo "$ATLANTIS_GH_APP_KEY" > /home/atlantis/gh_app_key.pem && atlantis server --hide-prev-plan-comments --write-git-creds --gh-app-key-file=/home/atlantis/gh_app_key.pem',
+    'echo "$ATLANTIS_GH_APP_KEY" > /home/atlantis/gh_app_key.pem && atlantis server --silence-vcs-status-no-plans --hide-prev-plan-comments --write-git-creds --gh-app-key-file=/home/atlantis/gh_app_key.pem',
   ]
 
 image:
