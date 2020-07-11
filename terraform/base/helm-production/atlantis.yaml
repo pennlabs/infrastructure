@@ -6,7 +6,7 @@ command:
   [
     "/bin/sh",
     "-c",
-    'echo "$ATLANTIS_GH_APP_KEY" > /home/atlantis/gh_app_key.pem && atlantis server --write-git-creds --gh-app-key-file=/home/atlantis/gh_app_key.pem',
+    'echo "$ATLANTIS_GH_APP_KEY" > /home/atlantis/gh_app_key.pem && atlantis server --hide-prev-plan-comments --write-git-creds --gh-app-key-file=/home/atlantis/gh_app_key.pem',
   ]
 
 image:
