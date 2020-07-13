@@ -37,11 +37,11 @@ defaultTFVersion: 0.12.27
 ingress:
   enabled: true
   path: /
-  host: atlantis-sandbox.pennlabs.org
+  host: atlantis.pennlabs.org
   tls:
     - secretName: pennlabs-org-tls
       hosts:
-        - atlantis-sandbox.pennlabs.org
+        - atlantis.pennlabs.org
 
 ## test container details
 test:

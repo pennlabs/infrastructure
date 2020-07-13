@@ -100,6 +100,8 @@ Now create a secret in vault at the path `secrets/production/default/atlantis` w
 | ATLANTIS_GH_WEBHOOK_SECRET | The webhook secret of the Penn Labs Atlantis GitHub App |
 | VAULT_ADDR                 | <https://vault.pennlabs.org>                            |
 
+Also make sure that the atlantis bot has push access to the master branch ([more information here](https://www.runatlantis.io/docs/apply-requirements.html#github)).
+
 The last step is to deploy the sandbox and production clusters. First, log into vault and create empty secrets for all of our products (named `locals.database_users` in `base/main.tf`) with the path `secrets/production/default/<product name>`. Then run the following commands
 
 ```bash
