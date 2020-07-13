@@ -23,6 +23,10 @@ Configures terraform to use the `base` remote S3 backend as well as the followin
 
 Also configures [terraform remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html) for `chronos` and `vault` to gain access to credentials generated from those terraform projects.
 
+## atlantis.tf
+
+Installs [atlantis](https://www.runatlantis.io/) through [this helm chart](https://github.com/helm/charts/tree/master/stable/atlantis) on to our production cluster.
+
 ## bitwarden.tf
 
 Installs [bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) through [Icarus](https://github.com/pennlabs/icarus) on to our production cluster.
