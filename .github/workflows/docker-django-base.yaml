@@ -1,0 +1,19 @@
+name: Publish django-base
+on:
+  push:
+    paths:
+      - "docker/django-base/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish django-base
+        uses: docker/build-push-action@v1
+        with:
+          repository: pennlabs/django-base
+          path: docker/django-base
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: "latest,${{ github.sha }}"

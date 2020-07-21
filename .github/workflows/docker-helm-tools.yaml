@@ -1,0 +1,19 @@
+name: Publish helm-tools
+on:
+  push:
+    paths:
+      - "docker/helm-tools/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish helm-tools
+        uses: docker/build-push-action@v1
+        with:
+          repository: pennlabs/helm-tools
+          path: docker/helm-tools
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: "latest,${{ github.sha }}"

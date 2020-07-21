@@ -1,0 +1,19 @@
+name: Publish vault-approle-authenticator
+on:
+  push:
+    paths:
+      - "docker/vault-approle-authenticator/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish vault-approle-authenticator
+        uses: docker/build-push-action@v1
+        with:
+          repository: pennlabs/vault-approle-authenticator
+          path: docker/vault-approle-authenticator
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: "latest,${{ github.sha }}"

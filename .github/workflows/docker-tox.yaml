@@ -1,0 +1,19 @@
+name: Publish tox
+on:
+  push:
+    paths:
+      - "docker/tox/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish tox
+        uses: docker/build-push-action@v1
+        with:
+          repository: pennlabs/tox
+          path: docker/tox
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: "latest,${{ github.sha }}"

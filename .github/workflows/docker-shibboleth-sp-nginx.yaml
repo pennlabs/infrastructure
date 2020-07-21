@@ -1,0 +1,21 @@
+name: Publish shibboleth-sp-nginx
+on:
+  push:
+    paths:
+      - "docker/shibboleth-sp-nginx/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set docker tag based on shibboleth version
+        run: echo "::set-env name=DOCKER_TAG::$(cat docker/shibboleth-sp-nginx/VERSION)"
+      - name: Publish shibboleth-sp-nginx
+        uses: docker/build-push-action@v1
+        with:
+          repository: pennlabs/shibboleth-sp-nginx
+          path: docker/shibboleth-sp-nginx
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: "latest,${{ env.DOCKER_TAG }}"

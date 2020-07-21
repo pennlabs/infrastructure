@@ -1,6 +1,6 @@
 # Vault AppRole Authenticator
 
-[![CircleCI](https://circleci.com/gh/pennlabs/vault-approle-authenticator.svg?style=shield)](https://circleci.com/gh/pennlabs/vault-approle-authenticator)
+![Publish vault-approle-authenticator](https://github.com/pennlabs/infrastructure/workflows/Publish%20vault-approle-authenticator/badge.svg)
 [![Docker Pulls](https://img.shields.io/docker/pulls/pennlabs/vault-approle-authenticator)](https://hub.docker.com/r/pennlabs/vault-approle-authenticator)
 
 This docker image authenticates with an instance of vault using the AppRole authentication method and writes the resulting token to a file.
