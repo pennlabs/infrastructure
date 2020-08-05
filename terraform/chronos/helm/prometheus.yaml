@@ -12,9 +12,3 @@ server:
     accessModes:
       - ReadWriteOnce
     size: 8Gi
-
-extraScrapeConfigs: |
-  - job_name: traefik
-    static_configs:
-      - targets:
-          - traefik-prometheus.kube-system:9100
