@@ -1,3 +1,0 @@
-[submodule "terraform/chronos/vault-helm"]
-	path = terraform/chronos/vault-helm
-	url = git@github.com:hashicorp/vault-helm.git
