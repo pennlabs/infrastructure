@@ -3,11 +3,11 @@ projects:
   - name: chronos
     dir: terraform/chronos
     autoplan:
-      when_modified: ["*.tf", "../modules/**.tf"]
+      when_modified: ["*.tf", "**.yaml", "../modules/**/*.tf"]
   - name: base
     dir: terraform/base
     autoplan:
-      when_modified: ["*.tf", "../modules/**.tf"]
+      when_modified: ["*.tf", "**.yaml", "../modules/**/*.tf"]
   - name: vault
     dir: terraform/vault
     autoplan:
