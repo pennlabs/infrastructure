@@ -32,7 +32,7 @@ repoConfig: |
       apply:
         steps: [apply]
 
-defaultTFVersion: 0.12.27
+defaultTFVersion: 0.12.29
 
 ingress:
   enabled: true
