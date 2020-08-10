@@ -50,6 +50,8 @@ dashboards:
     node-exporter:
       gnetId: 1860
       revision: 19
+    cert-manager:
+      url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboards/cert-manager.json
     traefik:
       url: https://raw.githubusercontent.com/pennlabs/infrastructure/master/grafana-dashboards/traefik.json
     pod-alerting-dashboard:
