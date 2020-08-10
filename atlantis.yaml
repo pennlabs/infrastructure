@@ -3,12 +3,16 @@ projects:
   - name: chronos
     dir: terraform/chronos
     autoplan:
-      when_modified: ["*.tf", "**.yaml", "../modules/**/*.tf"]
+      when_modified: ["*.tf", "helm/*.yaml", "../modules/**/*.tf"]
   - name: base
     dir: terraform/base
     autoplan:
-      when_modified: ["*.tf", "**.yaml", "../modules/**/*.tf"]
+      when_modified:
+        - "*.tf"
+        - helm-sandbox/*.yaml"
+        - helm-production/*.yaml"
+        - "../modules/**/*.tf"
   - name: vault
     dir: terraform/vault
     autoplan:
-      when_modified: ["*.tf"]
+      when_modified: ["*.tf", "policies/*.hcl"]
