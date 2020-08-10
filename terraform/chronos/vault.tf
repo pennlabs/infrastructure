@@ -43,9 +43,9 @@ EOF
 
 resource "helm_release" "vault" {
   name       = "vault"
-  repository = "./"
-  chart      = "vault-helm"
-  version    = "0.4.0"
+  repository = "https://helm.releases.hashicorp.com"
+  chart      = "vault"
+  version    = "0.5.0"
 
   values = [
     file("helm/vault.yaml")

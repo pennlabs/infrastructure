@@ -23,9 +23,3 @@ server:
       - secretName: pennlabs-org-tls
         hosts:
           - prometheus-sandbox.pennlabs.org
-
-extraScrapeConfigs: |
-  - job_name: traefik
-    static_configs:
-      - targets:
-          - traefik-prometheus.kube-system:9100

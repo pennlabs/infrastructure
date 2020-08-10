@@ -31,3 +31,7 @@ metrics:
   prometheus:
     enabled: true
     buckets: [0.1, 0.3, 1.2, 5]
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9100"
