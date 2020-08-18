@@ -7,7 +7,7 @@ variable "name" {
 variable "cluster_version" {
   description = "Kubernetes version of the cluster"
   type        = string
-  default     = "1.17.5-do.0"
+  default     = "1.17.9-do.0"
 }
 
 variable "node_count" {

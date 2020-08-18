@@ -1,5 +1,5 @@
 provider "digitalocean" {
-  version = "~> 1.12.0"
+  version = "~> 1.22.0"
 }
 
 provider "aws" {
