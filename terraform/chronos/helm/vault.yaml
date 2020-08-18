@@ -14,6 +14,7 @@ server:
       }
 
       storage "postgresql" {
+        max_parallel = "4"
       }
 
       seal "awskms" {

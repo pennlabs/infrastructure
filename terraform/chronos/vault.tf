@@ -86,6 +86,6 @@ resource "kubernetes_secret" "vault" {
     AWS_ACCESS_KEY_ID        = aws_iam_access_key.vault.id
     AWS_SECRET_ACCESS_KEY    = aws_iam_access_key.vault.secret
     VAULT_AWSKMS_SEAL_KEY_ID = aws_kms_key.vault.key_id
-    VAULT_PG_CONNECTION_URL  = "postgres://vault:${module.postgres-cluster.passwords["vault"]}@${module.postgres-cluster.host}:${module.postgres-cluster.port}/vault"
+    VAULT_PG_CONNECTION_URL  = "postgres://vault:${module.postgres-cluster.passwords["vault"]}@${module.postgres-cluster.private-host}:${module.postgres-cluster.port}/vault"
   }
 }
