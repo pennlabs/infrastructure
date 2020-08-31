@@ -91,6 +91,7 @@ provider "postgresql" {
   password         = module.postgres-cluster.admin-password
   superuser        = false
   sslmode          = "require"
+  max_connections = 1
 }
 
 provider "random" {
