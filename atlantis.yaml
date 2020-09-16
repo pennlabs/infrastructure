@@ -12,6 +12,7 @@ projects:
         - helm-sandbox/*.yaml"
         - helm-production/*.yaml"
         - "../modules/**/*.tf"
+    workflow: base
   - name: vault
     dir: terraform/vault
     autoplan:

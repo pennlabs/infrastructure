@@ -9,7 +9,7 @@ provider "aws" {
 
 // Chronos K8s cluster
 provider "helm" {
-  version = "~> 1.0"
+  version = "~> 1.3"
   kubernetes {
     load_config_file = false
     host             = module.chronos-cluster.endpoint

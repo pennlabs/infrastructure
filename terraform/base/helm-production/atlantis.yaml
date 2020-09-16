@@ -23,7 +23,7 @@ repoConfig: |
     - id: github.com/pennlabs/infrastructure
       apply_requirements: [approved, mergeable]
       workflow: default
-      allowed_overrides: []
+      allowed_overrides: [workflow]
       allow_custom_workflows: false
   workflows:
     default:
@@ -31,6 +31,14 @@ repoConfig: |
         steps: [init, plan]
       apply:
         steps: [apply]
+    base:
+      plan:
+        steps:
+          - run: cd ../chronos && /atlantis-data/bin/terraform${ATLANTIS_TERRAFORM_VERSION} init -input=false -no-color -upgrade
+          - run: cd ../chronos && /atlantis-data/bin/terraform${ATLANTIS_TERRAFORM_VERSION} refresh -no-color
+          - run: echo "[SPLIT] BASE CHANGES UNDER HERE"
+          - init
+          - plan
 
 defaultTFVersion: 0.12.29
 
