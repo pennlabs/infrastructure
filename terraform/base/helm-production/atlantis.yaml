@@ -36,6 +36,7 @@ repoConfig: |
         steps:
           - run: cd ../chronos && /atlantis-data/bin/terraform${ATLANTIS_TERRAFORM_VERSION} init -input=false -no-color -upgrade
           - run: cd ../chronos && /atlantis-data/bin/terraform${ATLANTIS_TERRAFORM_VERSION} refresh -no-color
+          - run: echo "[SPLIT] BASE CHANGES UNDER HERE"
           - init
           - plan
 
