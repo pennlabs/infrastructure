@@ -17,10 +17,3 @@ projects:
     dir: terraform/vault
     autoplan:
       when_modified: ["*.tf", "policies/*.hcl"]
-
-workflows:
-  base:
-    plan:
-      steps:
-        - run: terraform refresh ../chronos
-        - plan

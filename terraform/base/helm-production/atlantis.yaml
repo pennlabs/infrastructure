@@ -24,13 +24,20 @@ repoConfig: |
       apply_requirements: [approved, mergeable]
       workflow: default
       allowed_overrides: []
-      allow_custom_workflows: true
+      allow_custom_workflows: false
   workflows:
     default:
       plan:
         steps: [init, plan]
       apply:
         steps: [apply]
+    base:
+      plan:
+        steps:
+          - run: terraform init ../chronos
+          - run: terraform refresh ../chronos
+          - init
+          - plan
 
 defaultTFVersion: 0.12.29
 
