@@ -1,7 +1,7 @@
 module "production-cluster" {
   source     = "../modules/base_cluster"
   name       = "production"
-  node_count = 5
+  node_count = 10
   node_size  = "s-2vcpu-4gb"
   traefik_values = [
     "${file("helm-production/traefik.yaml")}"
@@ -52,7 +52,7 @@ module "postgres-cluster" {
   users      = local.database_users
   name       = "production"
   node_count = 2
-  node_size  = "db-s-2vcpu-4gb"
+  node_size  = "db-s-6vcpu-16gb"
 }
 
 locals {
