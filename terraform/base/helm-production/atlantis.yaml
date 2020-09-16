@@ -34,8 +34,8 @@ repoConfig: |
     base:
       plan:
         steps:
-          - run: terraform init ../chronos
-          - run: terraform refresh ../chronos
+          - run: terraform${ATLANTIS_TERRAFORM_VERSION} init -input=false -no-color -upgrade ../chronos
+          - run: terraform${ATLANTIS_TERRAFORM_VERSION} refresh ../chronos
           - init
           - plan
 
