@@ -24,7 +24,7 @@ repoConfig: |
       apply_requirements: [approved, mergeable]
       workflow: default
       allowed_overrides: []
-      allow_custom_workflows: false
+      allow_custom_workflows: true
   workflows:
     default:
       plan:

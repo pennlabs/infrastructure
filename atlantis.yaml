@@ -12,7 +12,15 @@ projects:
         - helm-sandbox/*.yaml"
         - helm-production/*.yaml"
         - "../modules/**/*.tf"
+    workflow: base
   - name: vault
     dir: terraform/vault
     autoplan:
       when_modified: ["*.tf", "policies/*.hcl"]
+
+workflows:
+  base:
+    plan:
+      steps:
+        - run: terraform refresh ../chronos
+        - plan
