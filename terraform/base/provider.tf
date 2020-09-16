@@ -9,7 +9,7 @@ provider "aws" {
 
 // Production K8s cluster
 provider "helm" {
-  version = "~> 1.0"
+  version = "~> 1.3"
   kubernetes {
     load_config_file = false
     host             = module.production-cluster.endpoint
@@ -33,7 +33,7 @@ provider "kubernetes" {
 // Sandbox K8s cluster
 provider "helm" {
   alias   = "sandbox"
-  version = "~> 1.0"
+  version = "~> 1.3"
   kubernetes {
     load_config_file = false
     host             = module.sandbox-cluster.endpoint
@@ -58,7 +58,7 @@ provider "kubernetes" {
 // Chronos K8s cluster
 provider "helm" {
   alias   = "chronos"
-  version = "~> 1.0"
+  version = "~> 1.3"
   kubernetes {
     load_config_file = false
     host             = data.terraform_remote_state.chronos.outputs.endpoint
