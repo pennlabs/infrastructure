@@ -23,7 +23,7 @@ repoConfig: |
     - id: github.com/pennlabs/infrastructure
       apply_requirements: [approved, mergeable]
       workflow: default
-      allowed_overrides: []
+      allowed_overrides: [workflow]
       allow_custom_workflows: false
   workflows:
     default:
