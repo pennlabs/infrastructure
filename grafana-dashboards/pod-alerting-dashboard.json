@@ -16,7 +16,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1592179073400,
   "links": [],
   "panels": [
     {
@@ -583,7 +582,7 @@
           {
             "evaluator": {
               "params": [
-                2147483648
+                3221225472
               ],
               "type": "gt"
             },
@@ -674,7 +673,7 @@
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 2147483648
+          "value": 3221225472
         }
       ],
       "timeFrom": null,
@@ -888,5 +887,5 @@
   "timezone": "",
   "title": "Pod Alerting Dashboard",
   "uid": "ZHt4pCiMz",
-  "version": 4
+  "version": 105
 }
