@@ -9,7 +9,7 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
-    "package": "ncc build index.js -o dist",
+    "package": "ncc build -s src/main.ts -o dist",
     "all": "yarn build && yarn format && yarn lint && yarn package"
   },
   "repository": {
