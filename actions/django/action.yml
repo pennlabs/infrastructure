@@ -25,10 +25,9 @@ runs:
   using: "composite"
   steps:
     - run: |
-        pwd
-        echo $INPUT_PROJECT_LOCACTION
-        echo $INPUT_PROJECT-LOCACTION
-        cd $INPUT_PROJECT-LOCACTION
+        set +x
+        echo $INPUT_PROJECT_LOCATION
+        cd $INPUT_PROJECT_LOCATION
         pwd
         sudo pip install pipenv
         pipenv install --deploy --dev
