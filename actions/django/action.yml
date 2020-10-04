@@ -27,8 +27,8 @@ runs:
     - run: |
         set +x
         echo "Test:"
-        echo ${INPUT_BLACK}
-        cd ./${INPUT_PROJECT-LOCATION}
+        echo ${INPUT_PROJECT_LOCATION}
+        cd ./${INPUT_PROJECT_LOCATION}
         pwd
         sudo pip install pipenv
         pipenv install --deploy --dev
