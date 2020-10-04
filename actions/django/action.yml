@@ -27,8 +27,8 @@ runs:
     - run: |
         set +x
         echo "Project location:"
-        echo ${INPUT_PROJECT_LOCATION}
-        cd ./${INPUT_PROJECT_LOCATION}
+        echo ${INPUT_PROJECT-LOCATION}
+        cd ./${INPUT_PROJECT-LOCATION}
         pwd
         sudo pip install pipenv
         pipenv install --deploy --dev
