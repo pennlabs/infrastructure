@@ -26,7 +26,8 @@ runs:
   steps:
     - run: |
         pwd
-        env | grep INPUT
+        echo $INPUT_PROJECT_LOCACTION
+        echo $INPUT_PROJECT-LOCACTION
         cd $INPUT_PROJECT_LOCACTION
         pwd
         sudo pip install pipenv
