@@ -1,0 +1,31 @@
+name: "Django"
+description: "Test, lint, and upload code coverage for a django project. Built for internal use at Penn Labs."
+author: "Penn Labs"
+inputs:
+  project-location:
+    required: false
+    description: Location of the django project. Defaults to .
+    default: "."
+
+  project-name:
+    required: true
+    description: Name of the django project. Required
+
+  black:
+    required: false
+    description: Run black?
+    default: "true"
+
+  flake8:
+    required: false
+    description: Run flake8?
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        cd $INPUT_PROJECT_LOCACTION
+        sudo pip install pipenv
+        pipenv install --deploy --dev
+      shell: bash
