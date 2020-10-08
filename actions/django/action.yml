@@ -27,6 +27,7 @@ runs:
     - run: |
         set +x
         echo "Test:"
+        echo ${{ inputs.project-location }}
         cd ${{ inputs.project-location }}
         pwd
         sudo pip install pipenv
