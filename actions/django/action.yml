@@ -36,5 +36,5 @@ runs:
       shell: bash
     - name: Lint (black)
       run: |
-        ${{ inputs.black }} && pipenv run black .
+        ${{ inputs.black }} && pipenv run black --check .
       shell: bash
