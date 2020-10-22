@@ -43,7 +43,7 @@ runs:
     - name: Test
       run: |
         cd ${{ inputs.project-location }}
-        pipenv run coverage run manage.py test --settings=${{ inputs.project-name }}.settings.ci
+        pipenv run coverage run manage.py test --settings=${{ inputs.project-name }}.settings.ci --parallel
       env:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
       shell: bash
