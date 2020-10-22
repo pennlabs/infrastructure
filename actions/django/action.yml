@@ -29,23 +29,25 @@ runs:
         cd ${{ inputs.project-location }}
         sudo pip install pipenv
         pipenv install --deploy --dev
-        pwd
       shell: bash
     - name: Lint (flake8)
       run: |
-        pwd
+        cd ${{ inputs.project-location }}
         ${{ inputs.flake8 }} && pipenv run flake8 .
       shell: bash
     - name: Lint (black)
       run: |
+        cd ${{ inputs.project-location }}
         ${{ inputs.black }} && pipenv run black --check .
       shell: bash
     - name: Test
       run: |
+        cd ${{ inputs.project-location }}
         pipenv run coverage run manage.py test --settings=${{ inputs.project-name }}.settings.ci
       shell: bash
     - name: Upload code coverage
       run: |
         echo "Need to add a root flag? TODO:"
+        cd ${{ inputs.project-location }}
         pipenv run codecov --flags backend
       shell: bash
