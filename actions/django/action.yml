@@ -29,9 +29,11 @@ runs:
         cd ${{ inputs.project-location }}
         sudo pip install pipenv
         pipenv install --deploy --dev
+        pwd
       shell: bash
     - name: Lint (flake8)
       run: |
+        pwd
         ${{ inputs.flake8 }} && pipenv run flake8 .
       shell: bash
     - name: Lint (black)
