@@ -45,7 +45,7 @@ runs:
         cd ${{ inputs.project-location }}
         pipenv run coverage run manage.py test --settings=${{ inputs.project-name }}.settings.ci
       env:
-        DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
       shell: bash
     - name: Upload code coverage
       run: |
