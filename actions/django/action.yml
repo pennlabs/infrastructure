@@ -45,5 +45,5 @@ runs:
     - name: Upload code coverage
       run: |
         echo "Need to add a root flag? TODO:"
-        pipenv run coverage run codecov --flags backend
+        pipenv run codecov --flags backend
       shell: bash
