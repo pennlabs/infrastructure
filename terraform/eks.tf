@@ -59,14 +59,38 @@ resource "helm_release" "aws-node-termination-handler" {
 }
 
 // Kubectl role
+data "aws_iam_policy_document" "view-k8s" {
+  statement {
+    actions   = ["eks:DescribeCluster"]
+    resources = [module.eks-production.cluster_arn]
+  }
+}
+
+data "aws_iam_policy_document" "kubectl" {
+  statement {
+    actions   = ["sts:AssumeRole"]
+
+    principals {
+      identifiers = [for member in local.platform_members : aws_iam_user.platform[member].arn]
+      type = "AWS"
+    }
+  }
+}
+
 resource "aws_iam_role" "kubectl" {
   name = "kubectl"
 
-  assume_role_policy = data.aws_iam_policy_document.assume-role-policy.json
+  assume_role_policy = data.aws_iam_policy_document.kubectl.json
 
   tags = {
     created-by = "terraform"
   }
 }
 
-// TODO: fix assume role for kubectl
+resource "aws_iam_role_policy" "kubectl" {
+  name   = "kubectl"
+  role   = aws_iam_role.kubectl.name
+  policy = data.aws_iam_policy_document.view-k8s.json
+}
+
+// TODO: output kubeconfig to vault

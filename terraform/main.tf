@@ -15,6 +15,10 @@ locals {
     "platform-dev",
     "student-life"
   ])
+  platform_members = toset([
+    "armaan",
+    "peyton"
+  ])
   k8s_cluster_name = "production"
 }
 
