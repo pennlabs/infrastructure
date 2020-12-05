@@ -74,13 +74,12 @@ resource "aws_instance" "vault" {
   iam_instance_profile   = aws_iam_instance_profile.vault.name
   key_name               = aws_key_pair.armaan.key_name
   user_data = templatefile("files/vault_user_data.sh", {
-    connection_url = "postgres://vault:${random_password.postgres-password["vault"].result}@${aws_db_instance.production.endpoint}/vault"
+    connection_url = format("postgres://vault:%s@%s/vault", random_password.postgres-password["vault"].result, aws_db_instance.production.endpoint)
     kms_key_id     = aws_kms_key.vault.key_id
   })
   tags = {
     Name       = "Vault"
     created-by = "terraform"
-
   }
   // TODO: local exec for table
   // Create the vault_kv_store table needed for vault
