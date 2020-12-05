@@ -74,7 +74,7 @@ resource "aws_instance" "vault" {
   vpc_security_group_ids = [aws_security_group.vault.id]
   iam_instance_profile   = aws_iam_instance_profile.vault.name
   key_name               = aws_key_pair.armaan.key_name
-  user_data = templatefile("vault_user_data.sh", {
+  user_data = templatefile("files/vault_user_data.sh", {
     connection_url = "postgres://vault:${random_password.postgres-password["vault"].result}@${aws_db_instance.production.endpoint}/vault"
     kms_key_id     = aws_kms_key.vault.key_id
   })
