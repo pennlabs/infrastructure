@@ -96,9 +96,9 @@ resource "aws_iam_role_policy" "kubectl" {
 resource "vault_generic_secret" "kubeconfig" {
   path = "${module.vault.secrets-path}/breakglass/aws/kubeconfig"
 
-  data_json = jsonencode({"kubeconfig" = templatefile("files/kubeconfig", {
+  data_json = jsonencode({ "kubeconfig" = templatefile("files/kubeconfig", {
     endpoint = module.eks-production.cluster_endpoint
-    ca = module.eks-production.cluster_certificate_authority_data
-    role = aws_iam_role.kubectl.arn
-  })})
+    ca       = module.eks-production.cluster_certificate_authority_data
+    role     = aws_iam_role.kubectl.arn
+  }) })
 }

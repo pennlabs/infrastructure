@@ -28,7 +28,7 @@ resource "aws_iam_user_policy" "platform" {
 
 resource "vault_generic_secret" "aws-auth" {
   for_each = local.platform_members
-  path = "${module.vault.secrets-path}/breakglass/aws/${each.key}"
+  path     = "${module.vault.secrets-path}/breakglass/aws/${each.key}"
 
   data_json = jsonencode({
     "ACCESS_KEY" = aws_iam_access_key.platform[each.key].id

@@ -20,7 +20,7 @@ locals {
     "peyton"
   ])
   k8s_cluster_name = "production"
-  vault_ami = "ami-0eec2c28d4dd94628"
+  vault_ami        = "ami-0eec2c28d4dd94628"
 }
 
 data "aws_iam_policy_document" "assume-role-policy" {
