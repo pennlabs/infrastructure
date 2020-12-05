@@ -67,8 +67,7 @@ resource "aws_iam_instance_profile" "vault" {
 // EC2 Instance
 resource "aws_instance" "vault" {
   // Official Vault OSS AMI
-  // TODO: factor ami out into local variable for readability
-  ami                    = "ami-0eec2c28d4dd94628"
+  ami                    = local.vault_ami
   instance_type          = "t3.small"
   subnet_id              = module.vpc.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.vault.id]
