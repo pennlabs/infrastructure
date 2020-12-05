@@ -22,3 +22,13 @@ variable "GF_SLACK_URL" {
   type        = string
   description = "Slack notification URL used for Grafana notifications"
 }
+
+variable "ELASTIC_PASSWORD" {
+  type        = string
+  description = "Managed Elasticsearch password"
+}
+
+variable "ELASTIC_HOST" {
+  type        = string
+  description = "Managed Elasticsearch host"
+}

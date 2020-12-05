@@ -1,9 +1,10 @@
 # Terraform
 
-comment s3 in terraform
+## Bootstrapping
+
+comment s3 in terraform and vault module
 
 ``` bash
-cd chronos
 terraform init
 terraform apply --target module.tfstate_backend
 ```
@@ -17,9 +18,17 @@ terraform apply
 
 If you run into any issues, a second `terraform apply` usually solves them.
 
+Configure vault DNS CNAME + SSL CNAME
+
+Uncomment vault module
+
+``` bash
+terraform init
+terraform apply
+```
+
 ## Transition plan
 
-* Create kubectl role and make sure we can assume access
 * Get secret syncing working in eks (vault aws policy + docker image changes)
 * Get team sync working in eks (modify docker image)
 * Modify helm deploy to use gh-action iam user and get kubeconfig that way

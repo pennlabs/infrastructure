@@ -1,6 +1,6 @@
 resource "vault_policy" "secret-sync" {
   name = "secret-sync"
-  policy = templatefile("policies/secret-sync.hcl", {
+  policy = templatefile("${path.module}/policies/secret-sync.hcl", {
     PATH = vault_mount.secrets.path
     }
   )

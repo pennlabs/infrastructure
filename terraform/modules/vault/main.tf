@@ -20,7 +20,7 @@ resource "vault_github_team" "sre" {
 
 resource "vault_policy" "admin" {
   name = "admin"
-  policy = templatefile("policies/admin.hcl", {
+  policy = templatefile("${path.module}/policies/admin.hcl", {
     PATH = vault_mount.secrets.path
     }
   )
