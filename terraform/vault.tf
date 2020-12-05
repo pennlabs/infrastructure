@@ -24,6 +24,23 @@ resource "aws_iam_role" "vault" {
   }
 }
 
+data "aws_iam_policy_document" "vault-iam" {
+  statement {
+    actions = [
+      "iam:GetUser",
+      "iam:GetRole"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "vault-iam" {
+  name = "iam"
+  role = aws_iam_role.vault.id
+
+  policy = data.aws_iam_policy_document.vault-iam.json
+}
+
 data "aws_iam_policy_document" "vault-kms" {
   statement {
     actions = [
@@ -213,10 +230,10 @@ resource "aws_lb_target_group_attachment" "vault" {
 
 // Vault configuration
 module "vault" {
-  source = "./modules/vault"
-  CF_API_KEY = var.CF_API_KEY
-  GH_PERSONAL_TOKEN = var.GH_PERSONAL_TOKEN
-  GF_GH_CLIENT_ID = var.GF_GH_CLIENT_ID
+  source              = "./modules/vault"
+  CF_API_KEY          = var.CF_API_KEY
+  GH_PERSONAL_TOKEN   = var.GH_PERSONAL_TOKEN
+  GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
-  GF_SLACK_URL = var.GF_SLACK_URL
+  GF_SLACK_URL        = var.GF_SLACK_URL
 }

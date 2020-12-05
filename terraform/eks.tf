@@ -68,11 +68,11 @@ data "aws_iam_policy_document" "view-k8s" {
 
 data "aws_iam_policy_document" "kubectl" {
   statement {
-    actions   = ["sts:AssumeRole"]
+    actions = ["sts:AssumeRole"]
 
     principals {
       identifiers = [for member in local.platform_members : aws_iam_user.platform[member].arn]
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }
@@ -93,4 +93,12 @@ resource "aws_iam_role_policy" "kubectl" {
   policy = data.aws_iam_policy_document.view-k8s.json
 }
 
-// TODO: output kubeconfig to vault
+resource "vault_generic_secret" "kubeconfig" {
+  path = "${module.vault.secrets-path}/breakglass/aws/kubeconfig"
+
+  data_json = jsonencode({"kubeconfig" = templatefile("files/kubeconfig", {
+    endpoint = module.eks-production.cluster_endpoint
+    ca = module.eks-production.cluster_certificate_authority_data
+    role = aws_iam_role.kubectl.arn
+  })})
+}
