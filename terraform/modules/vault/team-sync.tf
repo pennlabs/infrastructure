@@ -18,11 +18,9 @@ resource "vault_approle_auth_backend_role_secret_id" "team-sync" {
 resource "vault_generic_secret" "team-sync" {
   path = "${vault_mount.secrets.path}/chronos/default/team-sync"
 
-  data_json = <<EOT
-{
-  "ROLE_ID":      "${vault_approle_auth_backend_role.team-sync.role_id}",
-  "SECRET_ID":    "${vault_approle_auth_backend_role_secret_id.team-sync.secret_id}",
-  "GITHUB_TOKEN": "${var.GH_PERSONAL_TOKEN}"
-}
-EOT
+  data_json = jsonencode({
+    "ROLE_ID" = vault_approle_auth_backend_role.team-sync.role_id
+    "SECRET_ID" = vault_approle_auth_backend_role_secret_id.team-sync.secret_id
+    "GITHUB_TOKEN" = var.GH_PERSONAL_TOKEN
+  })
 }
