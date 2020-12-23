@@ -92,6 +92,7 @@ export class ApplicationStack extends Stack {
     new DjangoCheck(workflow,
       {
         projectName: fullConfig.djangoProjectName,
+        projectLocation: fullConfig.backendPath,
         ...fullConfig.djangoCheckProps,
       },
       fullConfig.djangoCheckOverrides);
