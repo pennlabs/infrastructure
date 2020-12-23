@@ -1,7 +1,5 @@
 # kraken
 
-TODO: work out publishing docs through kraken-docs repo
-
 ## pypi
 
 * test
