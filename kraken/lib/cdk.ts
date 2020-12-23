@@ -55,6 +55,7 @@ export class CDKStack extends Stack {
       {
         name: 'Publish to npm',
         run: dedent`cd ${id}
+        npm login --always-auth
         npm publish --access public`,
         if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       }],

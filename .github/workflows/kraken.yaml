@@ -29,6 +29,7 @@ jobs:
       - name: Publish to npm
         run: |-
           cd kraken
+          npm login --always-auth
           npm publish --access public
         if: github.ref == 'refs/heads/feature/kraken'
     container:
