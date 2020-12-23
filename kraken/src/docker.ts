@@ -33,7 +33,7 @@ export class DockerPublish extends CheckoutJob {
       tags: fullConfig.tags,
     };
     if (fullConfig.cache) {
-      dockerWith.cache_from = `${dockerWith.repository}:latest`;
+      dockerWith.cache_froms = `${dockerWith.repository}:latest`;
     }
 
     // Create job

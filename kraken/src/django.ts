@@ -33,7 +33,7 @@ export class DjangoCheck extends CheckoutJob {
       {
         name: 'Install Dependencies',
         run: dedent`cd ${fullConfig.projectLocation}
-      sudo pip install pipenv
+      pip install pipenv
       pipenv install --deploy --dev`,
       },
     ];

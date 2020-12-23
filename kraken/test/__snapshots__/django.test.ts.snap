@@ -36,7 +36,7 @@ Object {
     Object {
       "name": "Install Dependencies",
       "run": "cd .
-sudo pip install pipenv
+pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {
@@ -100,7 +100,7 @@ Object {
     Object {
       "name": "Install Dependencies",
       "run": "cd backend
-sudo pip install pipenv
+pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {
@@ -164,7 +164,7 @@ Object {
     Object {
       "name": "Install Dependencies",
       "run": "cd .
-sudo pip install pipenv
+pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {
@@ -228,7 +228,7 @@ Object {
     Object {
       "name": "Install Dependencies",
       "run": "cd .
-sudo pip install pipenv
+pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {
@@ -283,7 +283,7 @@ Object {
     Object {
       "name": "Install Dependencies",
       "run": "cd .
-sudo pip install pipenv
+pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {

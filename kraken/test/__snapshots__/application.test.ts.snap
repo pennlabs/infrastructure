@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd .
-          sudo pip install pipenv
+          pip install pipenv
           pipenv install --deploy --dev
       - name: Lint (flake8)
         run: |-
@@ -64,7 +64,7 @@ jobs:
           password: \${{ secrets.DOCKER_PASSWORD }}
           push: \${{ github.ref == 'refs/heads/master' }}
           tags: 'latest,\${{ github.sha }}'
-          cache_from: 'pennlabs/example:latest'
+          cache_froms: 'pennlabs/example:latest'
     needs: django-check
   deploy:
     runs-on: ubuntu-latest
@@ -122,7 +122,7 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd backend
-          sudo pip install pipenv
+          pip install pipenv
           pipenv install --deploy --dev
       - name: Lint (flake8)
         run: |-
@@ -167,7 +167,7 @@ jobs:
           password: \${{ secrets.DOCKER_PASSWORD }}
           push: \${{ github.ref == 'refs/heads/master' }}
           tags: 'latest,\${{ github.sha }}'
-          cache_from: 'pennlabs/example-backend:latest'
+          cache_froms: 'pennlabs/example-backend:latest'
     needs: django-check
   react-check:
     name: React Check
@@ -208,7 +208,7 @@ jobs:
           password: \${{ secrets.DOCKER_PASSWORD }}
           push: \${{ github.ref == 'refs/heads/master' }}
           tags: 'latest,\${{ github.sha }}'
-          cache_from: 'pennlabs/example-frontend:latest'
+          cache_froms: 'pennlabs/example-frontend:latest'
     needs: react-check
   deploy:
     runs-on: ubuntu-latest
