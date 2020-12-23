@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { DjangoStack, ApplicationStack } from '../lib';
+import { DjangoStack, ApplicationStack } from '../src';
 import { TestingApp } from './utils';
 
 

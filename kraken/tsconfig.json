@@ -22,12 +22,15 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2018"
+    "target": "ES2018",
+    "outDir": "lib",
+    "rootDir": "src"
   },
   "include": [
-    "**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

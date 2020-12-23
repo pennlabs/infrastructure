@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { CDKStack } from '../lib';
+import { CDKStack } from '../src';
 import { TestingApp } from './utils';
 
 test('default', () => {

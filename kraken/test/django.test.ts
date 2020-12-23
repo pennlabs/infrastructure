@@ -1,4 +1,4 @@
-import { DjangoCheck } from '../lib';
+import { DjangoCheck } from '../src';
 
 test('default', () => {
   const dc = new DjangoCheck(undefined as any, { projectName: 'example' });

@@ -11,6 +11,7 @@
   "scripts": {
     "test": "jest && yarn run eslint",
     "eslint": "eslint --ext .ts --fix lib test",
+    "compile": "tsc",
     "docs": "rm -rf docs/ && yarn run typedoc lib --out docs --theme minimal && touch docs/.nojekyll",
     "upgrade-cdk": "yarn upgrade cdkactions@latest cdkactions-cli@latest"
   },

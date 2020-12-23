@@ -1,4 +1,4 @@
-import { DockerPublish } from '../lib';
+import { DockerPublish } from '../src';
 
 // DockerPublish
 test('default', () => {
