@@ -8,7 +8,7 @@ const project = new TypeScriptProject({
   devDeps: ['codecov'],
   keywords: ['cdk', 'github', 'actions', 'constructs', 'cdkactions'],
   homepage: 'https://kraken.pennlabs.org',
-  repositoryDirectory: 'kraken',
+  repositoryDirectory: 'cdk/kraken',
   ...common.options,
 });
 

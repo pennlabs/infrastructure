@@ -4,7 +4,7 @@ name: Publish kraken
 on:
   push:
     paths:
-      - kraken/**
+      - cdk/kraken/**
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -14,23 +14,23 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: v0-${{ hashFiles('kraken/yarn.lock') }}
+          key: v0-${{ hashFiles('cdk/kraken/yarn.lock') }}
       - name: Install Dependencies
         run: |-
-          cd kraken
+          cd cdk/kraken
           yarn projen
       - name: Test
         run: |-
-          cd kraken
+          cd cdk/kraken
           yarn test
       - name: Upload Code Coverage
         run: |-
           ROOT=$(pwd)
-          cd kraken
+          cd cdk/kraken
           yarn run codecov -p $ROOT -F kraken
       - name: Publish to npm
         run: |-
-          cd kraken
+          cd cdk/kraken
           yarn compile
           yarn package
           mv dist/js/*.tgz dist/js/kraken.tgz
@@ -38,5 +38,19 @@ jobs:
         if: github.ref == 'refs/heads/feature/kraken'
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Build docs
+        run: |-
+          cd cdk/kraken
+          yarn docgen
+      - name: Publish docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.BOT_GITHUB_PAT }}
+          external_repository: pennlabs/kraken-docs
+          cname: kraken.pennlabs.org
+          publish_branch: master
+          publish_dir: cdk/kraken/docs
+          user_name: github-actions
+          user_email: 'github-actions[bot]@users.noreply.github.com'
     container:
       image: 'node:14'
