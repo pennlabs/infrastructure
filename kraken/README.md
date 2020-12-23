@@ -1,7 +1,6 @@
 # kraken
 
-TODO: switch docs to cdk8s form (hugo)
-Publish docs through kraken-docs repo
+TODO: work out publishing docs through kraken-docs repo
 
 ## django
 

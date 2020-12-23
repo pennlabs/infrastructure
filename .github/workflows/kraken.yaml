@@ -30,6 +30,6 @@ jobs:
         run: |-
           cd kraken
           npm publish --access public
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/feature/kraken'
     container:
       image: 'node:14'
