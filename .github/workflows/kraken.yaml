@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd kraken
-          yarn install --frozen-lockfile
+          yarn projen
       - name: Test
         run: |-
           cd kraken
@@ -29,7 +29,10 @@ jobs:
       - name: Publish to npm
         run: |-
           cd kraken
-          yarn publish --non-interactive --access public
+          yarn compile
+          yarn package
+          mv dist/js/*.tgz dist/js/kraken.tgz
+          yarn publish --non-interactive --access public dist/js/kraken.tgz
         if: github.ref == 'refs/heads/feature/kraken'
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
