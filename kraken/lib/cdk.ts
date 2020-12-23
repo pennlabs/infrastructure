@@ -33,7 +33,7 @@ export class CDKStack extends Stack {
         with: {
           path: '**/node_modules',
           // TODO: fix extra quotes here
-          key: `v0-\${{ hashFiles("${id}/yarn.lock") }}`,
+          key: `v0-\${{ hashFiles('${id}/yarn.lock') }}`,
         },
       },
       {
