@@ -7,7 +7,7 @@ name: Publish example
 on:
   push:
     paths:
-      - example/**
+      - cdk/example/**
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -17,23 +17,23 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: v0-\${{ hashFiles('example/yarn.lock') }}
+          key: v0-\${{ hashFiles('cdk/example/yarn.lock') }}
       - name: Install Dependencies
         run: |-
-          cd example
+          cd cdk/example
           yarn projen
       - name: Test
         run: |-
-          cd example
+          cd cdk/example
           yarn test
       - name: Upload Code Coverage
         run: |-
           ROOT=$(pwd)
-          cd example
+          cd cdk/example
           yarn run codecov -p $ROOT -F example
       - name: Publish to npm
         run: |-
-          cd example
+          cd cdk/example
           yarn compile
           yarn package
           mv dist/js/*.tgz dist/js/kraken.tgz
@@ -41,6 +41,20 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           NPM_AUTH_TOKEN: \${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Build docs
+        run: |-
+          cd cdk/example
+          yarn docgen
+      - name: Publish docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: \${{ secrets.BOT_GITHUB_PAT }}
+          external_repository: pennlabs/example-docs
+          cname: example.pennlabs.org
+          publish_branch: master
+          publish_dir: cdk/example/docs
+          user_name: github-actions
+          user_email: 'github-actions[bot]@users.noreply.github.com'
     container:
       image: 'node:14'
 "

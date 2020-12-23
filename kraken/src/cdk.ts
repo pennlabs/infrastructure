@@ -15,12 +15,13 @@ export class CDKStack extends Stack {
       nodeVersion: '14',
       ...config,
     };
+    const path = `cdk/${id}`;
     super(scope, id);
     const workflow = new Workflow(this, id, {
       name: `Publish ${id}`,
       on: {
         push: {
-          paths: [`${id}/**`],
+          paths: [`${path}/**`],
         },
       },
       ...overrides,
@@ -32,28 +33,28 @@ export class CDKStack extends Stack {
         uses: 'actions/cache@v2',
         with: {
           path: '**/node_modules',
-          key: `v0-\${{ hashFiles('${id}/yarn.lock') }}`,
+          key: `v0-\${{ hashFiles('${path}/yarn.lock') }}`,
         },
       },
       {
         name: 'Install Dependencies',
-        run: dedent`cd ${id}
+        run: dedent`cd ${path}
         yarn projen`,
       },
       {
         name: 'Test',
-        run: dedent`cd ${id}
+        run: dedent`cd ${path}
         yarn test`,
       },
       {
         name: 'Upload Code Coverage',
         run: dedent`ROOT=$(pwd)
-        cd ${id}
+        cd ${path}
         yarn run codecov -p $ROOT -F ${id}`,
       },
       {
         name: 'Publish to npm',
-        run: dedent`cd ${id}
+        run: dedent`cd ${path}
         yarn compile
         yarn package
         mv dist/js/*.tgz dist/js/kraken.tgz
@@ -62,8 +63,25 @@ export class CDKStack extends Stack {
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
         },
+      },
+      {
+        name: 'Build docs',
+        run: dedent`cd ${path}
+        yarn docgen`,
+      },
+      {
+        name: 'Publish docs',
+        uses: 'peaceiris/actions-gh-pages@v3',
+        with: {
+          personal_token: '${{ secrets.BOT_GITHUB_PAT }}',
+          external_repository: `pennlabs/${id}-docs`,
+          cname: `${id}.pennlabs.org`,
+          publish_branch: 'master',
+          publish_dir: `${path}/docs`,
+          user_name: 'github-actions',
+          user_email: 'github-actions[bot]@users.noreply.github.com',
+        },
       }],
-      // TODO: publish docs
       container: {
         image: `node:${fullConfig.nodeVersion}`,
       },
