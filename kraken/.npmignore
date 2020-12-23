@@ -1,0 +1,7 @@
+/tsconfig.json
+/.vscode
+/.idea
+/coverage
+/test
+/.eslintrc.json
+/docs
