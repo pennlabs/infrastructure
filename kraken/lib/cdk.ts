@@ -32,6 +32,7 @@ export class CDKStack extends Stack {
         uses: 'actions/cache@v2',
         with: {
           path: '**/node_modules',
+          // TODO: fix extra quotes here
           key: `v0-\${{ hashFiles('${id}/yarn.lock') }}`,
         },
       },
