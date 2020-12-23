@@ -118,28 +118,28 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.local/share/virtualenvs
-          key: v0-\${{ hashFiles('./Pipfile.lock') }}
+          key: v0-\${{ hashFiles('backend/Pipfile.lock') }}
       - name: Install Dependencies
         run: |-
-          cd .
+          cd backend
           sudo pip install pipenv
           pipenv install --deploy --dev
       - name: Lint (flake8)
         run: |-
-          cd .
+          cd backend
           pipenv run flake8 .
       - name: Lint (black)
         run: |-
-          cd .
+          cd backend
           pipenv run black --check .
       - name: Test
         run: |-
-          cd .
+          cd backend
           pipenv run coverage run manage.py test --settings=example.settings.ci --parallel
       - name: Upload Code Coverage
         run: |-
           ROOT=$(pwd)
-          cd .
+          cd backend
           pipenv run codecov --root ROOT --flags backend
     container:
       image: 'python:3.8'
