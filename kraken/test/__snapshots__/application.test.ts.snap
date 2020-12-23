@@ -15,7 +15,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.local/share/virtualenvs
-          key: 'v0-\${{ hashFiles('./Pipfile.lock') }}'
+          key: v0-\${{ hashFiles('./Pipfile.lock') }}
       - name: Install Dependencies
         run: |-
           cd .
@@ -118,7 +118,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.local/share/virtualenvs
-          key: 'v0-\${{ hashFiles('./Pipfile.lock') }}'
+          key: v0-\${{ hashFiles('./Pipfile.lock') }}
       - name: Install Dependencies
         run: |-
           cd .
@@ -178,7 +178,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: 'v0-\${{ hashFiles('frontend/yarn.lock') }}'
+          key: v0-\${{ hashFiles('frontend/yarn.lock') }}
       - name: Install Dependencies
         run: |-
           cd frontend

@@ -32,14 +32,13 @@ export class CDKStack extends Stack {
         uses: 'actions/cache@v2',
         with: {
           path: '**/node_modules',
-          // TODO: fix extra quotes here
           key: `v0-\${{ hashFiles('${id}/yarn.lock') }}`,
         },
       },
       {
         name: 'Install Dependencies',
         run: dedent`cd ${id}
-        yarn install --frozen-lockfile`,
+        yarn projen`,
       },
       {
         name: 'Test',
@@ -55,8 +54,10 @@ export class CDKStack extends Stack {
       {
         name: 'Publish to npm',
         run: dedent`cd ${id}
-        npm login --always-auth
-        npm publish --access public`,
+        yarn compile
+        yarn package
+        mv dist/js/*.tgz dist/js/kraken.tgz
+        yarn publish --non-interactive --access public dist/js/kraken.tgz`,
         if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',

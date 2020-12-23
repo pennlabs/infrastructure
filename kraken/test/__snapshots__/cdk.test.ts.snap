@@ -17,11 +17,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: 'v0-\${{ hashFiles('example/yarn.lock') }}'
+          key: v0-\${{ hashFiles('example/yarn.lock') }}
       - name: Install Dependencies
         run: |-
           cd example
-          yarn install --frozen-lockfile
+          yarn projen
       - name: Test
         run: |-
           cd example
@@ -34,8 +34,10 @@ jobs:
       - name: Publish to npm
         run: |-
           cd example
-          npm login --always-auth
-          npm publish --access public
+          yarn compile
+          yarn package
+          mv dist/js/*.tgz dist/js/kraken.tgz
+          yarn publish --non-interactive --access public dist/js/kraken.tgz
         if: github.ref == 'refs/heads/master'
         env:
           NPM_AUTH_TOKEN: \${{ secrets.NPM_AUTH_TOKEN }}
