@@ -12,7 +12,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: 'v0-${{ hashFiles('kraken/yarn.lock') }}'
+          key: v0-${{ hashFiles('kraken/yarn.lock') }}
       - name: Install Dependencies
         run: |-
           cd kraken
