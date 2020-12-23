@@ -1,0 +1,35 @@
+name: Publish kraken
+on:
+  push:
+    paths:
+      - kraken/**
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: 'v0-${{ hashFiles('kraken/yarn.lock') }}'
+      - name: Install Dependencies
+        run: |-
+          cd kraken
+          yarn install --frozen-lockfile
+      - name: Test
+        run: |-
+          cd kraken
+          yarn test
+      - name: Upload Code Coverage
+        run: |-
+          ROOT=$(pwd)
+          cd kraken
+          yarn run codecov -p $ROOT -F kraken
+      - name: Publish to npm
+        run: |-
+          cd kraken
+          npm publish --access public
+        if: github.ref == 'refs/heads/master'
+    container:
+      image: 'node:14'

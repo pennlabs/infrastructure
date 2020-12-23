@@ -1,0 +1,5 @@
+node_modules/
+main.js
+main.d.ts
+coverage
+docs

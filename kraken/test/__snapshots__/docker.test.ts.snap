@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default 1`] = `
+Object {
+  "name": "Publish publish",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Publish",
+      "uses": "docker/build-push-action@v1",
+      "with": Object {
+        "cache_from": "pennlabs/example:latest",
+        "password": "\${{ secrets.DOCKER_PASSWORD }}",
+        "path": ".",
+        "push": "\${{ github.ref == 'refs/heads/master' }}",
+        "repository": "pennlabs/example",
+        "tags": "latest,\${{ github.sha }}",
+        "username": "\${{ secrets.DOCKER_USERNAME }}",
+      },
+    },
+  ],
+}
+`;
+
+exports[`disable cache 1`] = `
+Object {
+  "name": "Publish publish",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Publish",
+      "uses": "docker/build-push-action@v1",
+      "with": Object {
+        "password": "\${{ secrets.DOCKER_PASSWORD }}",
+        "path": ".",
+        "push": "\${{ github.ref == 'refs/heads/master' }}",
+        "repository": "pennlabs/example",
+        "tags": "latest,\${{ github.sha }}",
+        "username": "\${{ secrets.DOCKER_USERNAME }}",
+      },
+    },
+  ],
+}
+`;
+
+exports[`with overrides 1`] = `
+Object {
+  "continue-on-error": true,
+  "name": "Publish publish",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Publish",
+      "uses": "docker/build-push-action@v1",
+      "with": Object {
+        "cache_from": "pennlabs/example:latest",
+        "password": "\${{ secrets.DOCKER_PASSWORD }}",
+        "path": ".",
+        "push": "\${{ github.ref == 'refs/heads/master' }}",
+        "repository": "pennlabs/example",
+        "tags": "latest,\${{ github.sha }}",
+        "username": "\${{ secrets.DOCKER_USERNAME }}",
+      },
+    },
+  ],
+}
+`;
