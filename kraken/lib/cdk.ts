@@ -58,6 +58,9 @@ export class CDKStack extends Stack {
         npm login --always-auth
         npm publish --access public`,
         if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+        env: {
+          NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
+        },
       }],
       // TODO: publish docs
       container: {

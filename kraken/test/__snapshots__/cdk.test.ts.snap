@@ -37,6 +37,8 @@ jobs:
           npm login --always-auth
           npm publish --access public
         if: github.ref == 'refs/heads/master'
+        env:
+          NPM_AUTH_TOKEN: \${{ secrets.NPM_AUTH_TOKEN }}
     container:
       image: 'node:14'
 "

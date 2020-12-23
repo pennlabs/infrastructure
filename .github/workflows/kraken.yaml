@@ -29,7 +29,9 @@ jobs:
       - name: Publish to npm
         run: |-
           cd kraken
-          yarn publish --access public
+          yarn publish --non-interactive --access public
         if: github.ref == 'refs/heads/feature/kraken'
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     container:
       image: 'node:14'
