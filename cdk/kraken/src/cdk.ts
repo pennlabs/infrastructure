@@ -78,8 +78,8 @@ export class CDKStack extends Stack {
           cname: `${id}.pennlabs.org`,
           publish_branch: 'master',
           publish_dir: `${path}/docs`,
-          user_name: 'github-actions',
-          user_email: 'github-actions[bot]@users.noreply.github.com',
+          user_name: 'pennlabsbot',
+          user_email: '59706823+pennlabsbot@users.noreply.github.com',
         },
       }],
       container: {
