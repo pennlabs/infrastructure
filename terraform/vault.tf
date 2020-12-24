@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "vault-iam" {
       "iam:GetUser",
       "iam:GetRole"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:iam::*:role/*"]
   }
 }
 
