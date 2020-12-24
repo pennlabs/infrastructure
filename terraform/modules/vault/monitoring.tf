@@ -4,7 +4,7 @@ resource "random_password" "grafana-admin" {
 }
 
 resource "vault_generic_secret" "grafana" {
-  path = "${vault_mount.secrets.path}/default/default/grafana"
+  path = "${vault_mount.secrets.path}/production/default/grafana"
 
   data_json = jsonencode({
     "ADMIN_USER" = "admin"
