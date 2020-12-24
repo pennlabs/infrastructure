@@ -13,10 +13,10 @@ echo "Starting backup"
 # Dump each database and upload to S3
 for DB in $DATABASES
 do
-  (FILENAME="$STAMP - $DB.sql.gz" &&
-  echo "Creating dump of $DB" &&
-  pg_dump $DATABASE_URL/$DB | gzip > $DB.dump &&
-  echo "Uploading dump of $DB" &&
+  (FILENAME="$STAMP - $DB.sql.gz";
+  echo "Creating dump of $DB";
+  pg_dump $DATABASE_URL/$DB | gzip > $DB.dump;
+  echo "Uploading dump of $DB";
   cat $DB.dump | aws s3 cp - "s3://$S3_BUCKET/$STAMP/$FILENAME") &
 done
 
