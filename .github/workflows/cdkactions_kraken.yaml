@@ -18,9 +18,6 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd cdk/kraken
-          nodejs --version
-          ls
-          pwd
           yarn projen
       - name: Test
         run: |-
