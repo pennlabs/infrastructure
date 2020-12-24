@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd cdk/example
-          yarn projen
+          yarn install --frozen-lockfile
       - name: Test
         run: |-
           cd cdk/example
