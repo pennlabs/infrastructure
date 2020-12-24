@@ -39,7 +39,7 @@ export class CDKStack extends Stack {
       {
         name: 'Install Dependencies',
         run: dedent`cd ${path}
-        yarn projen`,
+        yarn install --frozen-lockfile`,
       },
       {
         name: 'Test',
