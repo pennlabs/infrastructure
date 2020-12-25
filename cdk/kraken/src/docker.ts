@@ -1,17 +1,63 @@
 import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
 
+/**
+ * Props to configure the Docker publish job.
+ */
 export interface DockerPublishProps {
+  /**
+   * Image name to publish
+   */
   imageName: string;
+
+  /**
+   * Path to the docker context
+   * @default "."
+   */
   path?: string;
+
+  /**
+   * A condition on when to push the built image.
+   * @default Only push on master.
+   */
   push?: string;
+
+  /**
+   * Tags to apply to the built image.
+   * @default latest and the current git sha.
+   */
   tags?: string;
+
+  /**
+   * Username to authenticate with Docker Hub.
+   * @default load the "DOCKER_USERNAME" GitHub Actions secret.
+   */
   username?: string;
+
+  /**
+   * Password to authenticate with Docker Hub.
+   * @default load the "DOCKER_PASSWORD" GitHub Actions secret.
+   */
   password?: string;
+
+  /**
+   * If enabled, will cache_from the latest version of the docker image.
+   * @default true
+   */
   cache?: boolean;
 }
 
-// TODO: look into docker build action v2
+/**
+ * A job to build and publish a Docker image.
+ * TODO: look into docker build action v2
+ */
 export class DockerPublish extends CheckoutJob {
+  /**
+   *
+   * @param scope cdkactions Workflow instance.
+   * @param id Id of the job.
+   * @param config Configuration for the docker publish job.
+   * @param overrides Optional overrices for the job.
+   */
   public constructor(scope: Workflow, id: string, config: DockerPublishProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<DockerPublishProps> = {

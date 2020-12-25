@@ -1,13 +1,34 @@
 import { Workflow, JobProps, CheckoutJob } from 'cdkactions';
 import * as dedent from 'dedent-js';
 
+/**
+ * Optional props to configure the React check job.
+ */
 export interface ReactCheckProps {
+  /**
+   * Node version to test the project with.
+   * @default "14"
+   */
   nodeVersion?: string;
+
+  /**
+   * Location of the React project within the repo
+   * @default "."
+   */
   projectLocation?: string;
 }
 
+/**
+ * A job to test a React project and upload code coverage.
+ */
 export class ReactCheck extends CheckoutJob {
-  public constructor(scope: Workflow, config: ReactCheckProps, overrides?: Partial<JobProps>) {
+  /**
+   *
+   * @param scope cdkactions Workflow instance.
+   * @param config Optional configuration for the React check job.
+   * @param overrides Optional overrides for the job.
+   */
+  public constructor(scope: Workflow, config?: ReactCheckProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<ReactCheckProps> = {
       nodeVersion: '14',

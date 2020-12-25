@@ -1,13 +1,39 @@
 import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
 import * as dedent from 'dedent-js';
 
+/**
+ * Optional props to configure the deploy job.
+ */
 export interface DeployJobProps {
+  /**
+   * Deploy tag to set in icarus.
+   * @default current git sha
+   */
   deployTag?: string;
+
+  /**
+   * Image to run the deploy job in.
+   * @default pennlabs/helm-tools
+   */
   image?: string;
+
+  /**
+   * Branch to limit deploys to.
+   * @default master
+   */
   defaultBranch?: string;
 }
 
+/**
+ * A job to deploy an application using Icarus.
+ */
 export class DeployJob extends CheckoutJob {
+  /**
+   *
+   * @param scope cdkactions Workflow instance
+   * @param config Optional configuration for the deploy job.
+   * @param overrides Optinoal overrides for the job.
+   */
   public constructor(scope: Workflow, config?: DeployJobProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<DeployJobProps> = {

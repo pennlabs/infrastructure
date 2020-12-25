@@ -2,15 +2,37 @@ import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
 import { Construct } from 'constructs';
 import * as dedent from 'dedent-js';
 
-export interface CDKPublishProps {
+/**
+ * Optional props to configure the CDK publish stack.
+ */
+export interface CDKPublishStackProps {
+  /**
+   * Branch to restrict publishing to
+   * @default master
+   */
   defaultBranch?: string;
+
+  /**
+   * Node version to test the cdk application in
+   * @default "14"
+   */
   nodeVersion?: string;
 }
 
-export class CDKStack extends Stack {
-  public constructor(scope: Construct, id: string, config?: CDKPublishProps, overrides?: Partial<WorkflowProps>) {
+/**
+ * Test, upload code coverage for, and publish a cdk application.
+ */
+export class CDKPublishStack extends Stack {
+  /**
+   *
+   * @param scope cdkactions App instance.
+   * @param id Id of the job.
+   * @param config Optional configuration for the cdk publish stack.
+   * @param overrides Optional overrides for the stack.
+   */
+  public constructor(scope: Construct, id: string, config?: CDKPublishStackProps, overrides?: Partial<WorkflowProps>) {
     // Build config
-    const fullConfig: Required<CDKPublishProps> = {
+    const fullConfig: Required<CDKPublishStackProps> = {
       defaultBranch: 'master',
       nodeVersion: '14',
       ...config,

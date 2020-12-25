@@ -1,15 +1,50 @@
 import { CheckoutJob, Workflow, StepsProps, JobProps } from 'cdkactions';
 import * as dedent from 'dedent-js';
 
+/**
+ * Props to configure the Django check job.
+ */
 export interface DjangoCheckProps {
+  /**
+   * Python version to test the project with.
+   * @default "3.8"
+   */
   pythonVersion?: string;
+
+  /**
+   * Location of the Django project within the repo.
+   * @default "."
+   */
   projectLocation?: string;
+
+  /**
+   * Name of the Django project to test.
+   */
   projectName: string;
+
+  /**
+   * Check the project with black?
+   * @default true
+   */
   black?: boolean;
+
+  /**
+   * Check the project with flake8?
+   * @default true
+   */
   flake8?: boolean;
 }
 
+/**
+ * A job to test a Django project and upload code coverage.
+ */
 export class DjangoCheck extends CheckoutJob {
+  /**
+   *
+   * @param scope cdkactions Workflow instance.
+   * @param config Configuration for the Django check job.
+   * @param overrides Optional overrices for the job.
+   */
   public constructor(scope: Workflow, config: DjangoCheckProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<DjangoCheckProps> = {
