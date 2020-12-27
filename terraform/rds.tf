@@ -34,7 +34,7 @@ resource "aws_db_subnet_group" "rds" {
 
 resource "aws_db_instance" "production" {
   identifier                          = "production"
-  instance_class                      = "db.t2.micro"
+  instance_class                      = "db.t3.xlarge"
   engine                              = "postgres"
   engine_version                      = "11.8"
   availability_zone                   = "us-east-1a"
