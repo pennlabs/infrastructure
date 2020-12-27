@@ -15,6 +15,12 @@ locals {
     "platform-dev",
     "student-life"
   ])
+  iam_service_accounts = setunion(local.products,
+    toset([
+      "secret-sync",
+      "team-sync",
+    ])
+  )
   platform_members = toset([
     "armaan",
     "peyton"
