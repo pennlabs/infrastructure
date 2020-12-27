@@ -226,6 +226,10 @@ resource "aws_lb_target_group_attachment" "vault" {
   target_id        = aws_instance.vault.id
 }
 
+// ----------------------------------------------------
+// Comment out everything below this when bootstrapping
+// ----------------------------------------------------
+
 // Vault configuration
 module "vault" {
   source              = "./modules/vault"
@@ -234,4 +238,15 @@ module "vault" {
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
+  secret-sync-arn     = module.iam-products["secret-sync"].role-arn
+  team-sync-arn       = module.iam-products["team-sync"].role-arn
+}
+
+// Database secrets
+module "db-secret-flush" {
+  source = "./modules/vault_flush"
+  // Vault exists outside of EKS, so don't create an entry for it
+  for_each = setsubtract(local.database_users, ["vault"])
+  path = "secrets/production/default/${each.key}"
+  entry = {DATABASE_URL = "postgres://${each.key}:${postgresql_role.role[each.key].password}@${aws_db_instance.production.endpoint}/${each.key}"}
 }

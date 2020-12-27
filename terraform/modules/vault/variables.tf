@@ -22,3 +22,13 @@ variable "GF_SLACK_URL" {
   type        = string
   description = "Slack notification URL used for Grafana notifications"
 }
+
+variable "secret-sync-arn"{
+  type = string
+  description = "Role ARN for secret-sync"
+}
+
+variable "team-sync-arn"{
+  type = string
+  description = "Role ARN for team-sync"
+}

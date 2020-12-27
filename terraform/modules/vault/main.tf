@@ -4,6 +4,10 @@ resource "vault_mount" "secrets" {
   description = "Secrets backend"
 }
 
+resource "vault_auth_backend" "aws" {
+  type = "aws"
+}
+
 resource "vault_auth_backend" "approle" {
   type = "approle"
 }
