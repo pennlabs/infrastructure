@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default 1`] = `
+Object {
+  "container": Object {
+    "image": "node:14",
+  },
+  "name": "React Check",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+        "path": "**/node_modules",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+yarn test",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+yarn run codecov -p $ROOT -F frontend",
+    },
+  ],
+}
+`;
+
+exports[`different directory 1`] = `
+Object {
+  "container": Object {
+    "image": "node:14",
+  },
+  "name": "React Check",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('frontend/yarn.lock') }}",
+        "path": "**/node_modules",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd frontend
+yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd frontend
+yarn test",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd frontend
+yarn run codecov -p $ROOT -F frontend",
+    },
+  ],
+}
+`;
+
+exports[`different node version 1`] = `
+Object {
+  "container": Object {
+    "image": "node:12",
+  },
+  "name": "React Check",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+        "path": "**/node_modules",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+yarn test",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+yarn run codecov -p $ROOT -F frontend",
+    },
+  ],
+}
+`;
+
+exports[`with overrides 1`] = `
+Object {
+  "container": Object {
+    "image": "node:14",
+  },
+  "continue-on-error": true,
+  "name": "React Check",
+  "runs-on": "ubuntu-latest",
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+        "path": "**/node_modules",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+yarn test",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+yarn run codecov -p $ROOT -F frontend",
+    },
+  ],
+}
+`;
