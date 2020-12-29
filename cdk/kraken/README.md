@@ -19,12 +19,12 @@ When creating a new project, do the following:
 
 Most Penn Labs products follow the mold of a Django project in the `backend` directory and a React project in the `frontend` directory.
 
-Since this is a common use-case, kraken provides an `ApplicationStack` that can easily configure the CI for this type of project.
+Since this is a common use-case, kraken provides an `LabsApplicationStack` that can easily configure the CI for this type of project.
 
-To use an `ApplicationStack` stack, just replace the generated stack with:
+To use an `LabsApplicationStack` stack, just replace the generated stack with:
 
 ``` javascript
-new ApplicationStack(app, {
+new LabsApplicationStack(app, {
   djangoProjectName: 'exampleDjangoProject',
   dockerImageBaseName: 'example-product',
 });

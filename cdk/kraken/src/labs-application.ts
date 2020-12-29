@@ -10,9 +10,9 @@ import { ReactProject } from './react-project';
 
 
 /**
- * Props to configure the Application stack
+ * Props to configure the LabsApplication stack
  */
-export interface ApplicationStackProps {
+export interface LabsApplicationStackProps {
   /**
    * Path to the django project.
    * @default "backend"
@@ -106,16 +106,16 @@ export interface ApplicationStackProps {
  * By default the docker images will be published as $dockerImageBaseName-backend and
  * $dockerImageBaseName-frontend
  */
-export class ApplicationStack extends Stack {
+export class LabsApplicationStack extends Stack {
   /**
    *
    * @param scope cdkactions App instance.
-   * @param config Configuration for the Application stack.
+   * @param config Configuration for the LabsApplication stack.
    * @param overrides Optional overrides for the workflow.
    */
-  public constructor(scope: Construct, config: ApplicationStackProps, overrides?: Partial<WorkflowProps>) {
+  public constructor(scope: Construct, config: LabsApplicationStackProps, overrides?: Partial<WorkflowProps>) {
     // Build config
-    const fullConfig: Required<ApplicationStackProps> = {
+    const fullConfig: Required<LabsApplicationStackProps> = {
       backendPath: 'backend',
       frontendPath: 'frontend',
       integrationTests: false,

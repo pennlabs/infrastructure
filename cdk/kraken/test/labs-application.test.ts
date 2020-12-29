@@ -1,12 +1,11 @@
 import * as fs from 'fs';
-import { ApplicationStack } from '../src';
+import { LabsApplicationStack } from '../src';
 import { TestingApp } from './utils';
 
 
-// ApplicationStack
 test('default', () => {
   const app = TestingApp({ createValidateWorkflow: false });
-  new ApplicationStack(app, {
+  new LabsApplicationStack(app, {
     djangoProjectName: 'example',
     dockerImageBaseName: 'example',
   });
@@ -20,7 +19,7 @@ test('default', () => {
 
 test('integration tests', () => {
   const app = TestingApp({ createValidateWorkflow: false });
-  new ApplicationStack(app, {
+  new LabsApplicationStack(app, {
     djangoProjectName: 'example',
     dockerImageBaseName: 'example',
     integrationTests: true,
