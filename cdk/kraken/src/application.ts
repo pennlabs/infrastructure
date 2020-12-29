@@ -221,7 +221,7 @@ export class ApplicationStack extends Stack {
     new DjangoCheckJob(workflow,
       {
         projectName: fullConfig.djangoProjectName,
-        projectLocation: fullConfig.backendPath,
+        path: fullConfig.backendPath,
         ...fullConfig.djangoCheckJobProps,
       },
       fullConfig.djangoCheckOverrides);
@@ -236,7 +236,7 @@ export class ApplicationStack extends Stack {
         ...fullConfig.djangoDockerOverrides,
       });
     // React
-    new ReactCheckJob(workflow, { projectLocation: fullConfig.frontendPath }, fullConfig.reactCheckOverrides);
+    new ReactCheckJob(workflow, { path: fullConfig.frontendPath }, fullConfig.reactCheckOverrides);
     new DockerPublishJob(workflow, 'publish-react',
       {
         imageName: `${fullConfig.dockerImageBaseName}-frontend`,

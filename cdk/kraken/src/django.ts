@@ -15,7 +15,7 @@ export interface DjangoCheckJobProps {
    * Location of the Django project within the repo.
    * @default "."
    */
-  projectLocation?: string;
+  path?: string;
 
   /**
    * Name of the Django project to test.
@@ -49,7 +49,7 @@ export class DjangoCheckJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DjangoCheckJobProps> = {
       pythonVersion: '3.8',
-      projectLocation: '.',
+      path: '.',
       black: true,
       flake8: true,
       ...config,
@@ -62,12 +62,12 @@ export class DjangoCheckJob extends CheckoutJob {
         uses: 'actions/cache@v2',
         with: {
           path: '~/.local/share/virtualenvs',
-          key: `v0-\${{ hashFiles('${fullConfig.projectLocation}/Pipfile.lock') }}`,
+          key: `v0-\${{ hashFiles('${fullConfig.path}/Pipfile.lock') }}`,
         },
       },
       {
         name: 'Install Dependencies',
-        run: dedent`cd ${fullConfig.projectLocation}
+        run: dedent`cd ${fullConfig.path}
       pip install pipenv
       pipenv install --deploy --dev`,
       },
@@ -75,26 +75,26 @@ export class DjangoCheckJob extends CheckoutJob {
     if (fullConfig.flake8) {
       steps.push({
         name: 'Lint (flake8)',
-        run: dedent`cd ${fullConfig.projectLocation}
+        run: dedent`cd ${fullConfig.path}
         pipenv run flake8 .`,
       });
     }
     if (fullConfig.black) {
       steps.push({
         name: 'Lint (black)',
-        run: dedent`cd ${fullConfig.projectLocation}
+        run: dedent`cd ${fullConfig.path}
         pipenv run black --check .`,
       });
     }
     steps.push({
       name: 'Test',
-      run: dedent`cd ${fullConfig.projectLocation}
+      run: dedent`cd ${fullConfig.path}
       pipenv run coverage run manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel`,
     });
     steps.push({
       name: 'Upload Code Coverage',
       run: dedent`ROOT=$(pwd)
-      cd ${fullConfig.projectLocation}
+      cd ${fullConfig.path}
       pipenv run codecov --root ROOT --flags backend`,
     });
 

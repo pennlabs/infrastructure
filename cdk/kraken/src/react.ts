@@ -15,7 +15,7 @@ export interface ReactCheckJobProps {
    * Location of the React project within the repo
    * @default "."
    */
-  projectLocation?: string;
+  path?: string;
 }
 
 /**
@@ -32,7 +32,7 @@ export class ReactCheckJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<ReactCheckJobProps> = {
       nodeVersion: '14',
-      projectLocation: '.',
+      path: '.',
       ...config,
     };
 
@@ -46,23 +46,23 @@ export class ReactCheckJob extends CheckoutJob {
         uses: 'actions/cache@v2',
         with: {
           path: '**/node_modules',
-          key: `v0-\${{ hashFiles('${fullConfig.projectLocation}/yarn.lock') }}`,
+          key: `v0-\${{ hashFiles('${fullConfig.path}/yarn.lock') }}`,
         },
       },
       {
         name: 'Install Dependencies',
-        run: dedent`cd ${fullConfig.projectLocation}
+        run: dedent`cd ${fullConfig.path}
         yarn install --frozen-lockfile`,
       },
       {
         name: 'Test',
-        run: dedent`cd ${fullConfig.projectLocation}
+        run: dedent`cd ${fullConfig.path}
         yarn test`,
       },
       {
         name: 'Upload Code Coverage',
         run: dedent`ROOT=$(pwd)
-        cd ${fullConfig.projectLocation}
+        cd ${fullConfig.path}
         yarn run codecov -p $ROOT -F frontend`,
       }],
       container: {

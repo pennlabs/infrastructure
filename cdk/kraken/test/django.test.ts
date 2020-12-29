@@ -11,7 +11,7 @@ test('different python version', () => {
 });
 
 test('different directory', () => {
-  const dc = new DjangoCheckJob(undefined as any, { projectLocation: 'backend', projectName: 'example' });
+  const dc = new DjangoCheckJob(undefined as any, { path: 'backend', projectName: 'example' });
   expect(dc.toGHAction()).toMatchSnapshot();
 });
 
