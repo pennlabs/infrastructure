@@ -1,6 +1,8 @@
 import { JobProps, Workflow } from 'cdkactions';
 import { DockerPublishJob, DockerPublishJobProps } from './docker';
 import { ReactCheckJob, ReactCheckJobProps } from './react';
+import { buildId } from './utils';
+
 
 export interface ReactProjectProps {
   id?: string;
@@ -26,18 +28,17 @@ export class ReactProject {
       ...config,
     };
 
-    const suffix = fullConfig.id ? `-${fullConfig.id}` : '';
-
     // Add jobs
     const reactCheckJob = new ReactCheckJob(workflow,
       {
+        id: fullConfig.id,
         path: fullConfig.path,
         ...config.checkProps,
       },
       fullConfig.checkOverrides,
     );
 
-    const publishJob = new DockerPublishJob(workflow, `frontend${suffix}`,
+    const publishJob = new DockerPublishJob(workflow, buildId('frontend', fullConfig.id),
       {
         imageName: fullConfig.imageName,
         path: fullConfig.path,

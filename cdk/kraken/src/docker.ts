@@ -1,4 +1,6 @@
 import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
+import { buildId, buildName } from './utils';
+
 
 /**
  * Props to configure the Docker publish job.
@@ -83,8 +85,8 @@ export class DockerPublishJob extends CheckoutJob {
     }
 
     // Create job
-    super(scope, `publish-${id}`, {
-      name: `Publish ${id}`,
+    super(scope, buildId('publish', id), {
+      name: buildName('Publish', id),
       runsOn: 'ubuntu-latest',
       steps: [{
         name: 'Publish',

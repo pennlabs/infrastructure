@@ -1,10 +1,18 @@
 import { CheckoutJob, Workflow, StepsProps, JobProps } from 'cdkactions';
 import * as dedent from 'dedent-js';
+import { buildId, buildName } from './utils';
 
 /**
  * Props to configure the Django check job.
  */
 export interface DjangoCheckJobProps {
+  /**
+   * A custom id to append onto job name and ids. Useful when using
+   * multiple instances of DjangoCheckJob in a single workflow.
+   * @default no suffix
+   */
+  id?: string;
+
   /**
    * Python version to test the project with.
    * @default "3.8"
@@ -48,6 +56,7 @@ export class DjangoCheckJob extends CheckoutJob {
   public constructor(scope: Workflow, config: DjangoCheckJobProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<DjangoCheckJobProps> = {
+      id: '',
       pythonVersion: '3.8',
       path: '.',
       black: true,
@@ -99,8 +108,8 @@ export class DjangoCheckJob extends CheckoutJob {
     });
 
     // Create Job
-    super(scope, 'django-check', {
-      name: 'Django Check',
+    super(scope, buildId('django-check', fullConfig.id), {
+      name: buildName('Django Check', fullConfig.id),
       runsOn: 'ubuntu-latest',
       steps,
       container: {

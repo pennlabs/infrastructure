@@ -1,4 +1,5 @@
 import { Workflow, JobProps, CheckoutJob } from 'cdkactions';
+import { buildId, buildName } from './utils';
 
 
 export interface IntegrationTestsJobProps {
@@ -14,11 +15,9 @@ export class IntegrationTestsJob extends CheckoutJob {
       ...config,
     };
 
-    const suffix = fullConfig.id ? `-${fullConfig.id}` : '';
-
     // Create Job
-    super(scope, `integration-tests${suffix}`, {
-      name: `Integration Tests ${fullConfig.id}`.trim(),
+    super(scope, buildId('integration-tests', fullConfig.id), {
+      name: buildName('Integration Tests', fullConfig.id),
       runsOn: 'ubuntu-latest',
       steps: [{
         name: 'Run docker compose',

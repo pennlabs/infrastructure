@@ -1,10 +1,18 @@
 import { Workflow, JobProps, CheckoutJob } from 'cdkactions';
 import * as dedent from 'dedent-js';
+import { buildId, buildName } from './utils';
 
 /**
  * Optional props to configure the React check job.
  */
 export interface ReactCheckJobProps {
+  /**
+   * A custom id to append onto job name and ids. Useful when using
+   * multiple instances of ReactCheckJob in a single workflow.
+   * @default no suffix
+   */
+  id?: string;
+
   /**
    * Node version to test the project with.
    * @default "14"
@@ -31,6 +39,7 @@ export class ReactCheckJob extends CheckoutJob {
   public constructor(scope: Workflow, config?: ReactCheckJobProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<ReactCheckJobProps> = {
+      id: '',
       nodeVersion: '14',
       path: '.',
       ...config,
@@ -38,8 +47,8 @@ export class ReactCheckJob extends CheckoutJob {
 
 
     // Create Job
-    super(scope, 'react-check', {
-      name: 'React Check',
+    super(scope, buildId('react-check', fullConfig.id), {
+      name: buildName('React Check', fullConfig.id),
       runsOn: 'ubuntu-latest',
       steps: [{
         name: 'Cache',

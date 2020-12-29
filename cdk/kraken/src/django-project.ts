@@ -1,6 +1,7 @@
 import { JobProps, Workflow } from 'cdkactions';
 import { DjangoCheckJob, DjangoCheckJobProps } from './django';
 import { DockerPublishJob, DockerPublishJobProps } from './docker';
+import { buildId } from './utils';
 
 export interface DjangoProjectProps {
   id?: string;
@@ -27,11 +28,10 @@ export class DjangoProject {
       ...config,
     };
 
-    const suffix = fullConfig.id ? `-${fullConfig.id}` : '';
-
     // Add jobs
     const djangoCheckJob = new DjangoCheckJob(workflow,
       {
+        id: fullConfig.id,
         projectName: fullConfig.projectName,
         path: fullConfig.path,
         ...config.checkProps,
@@ -39,7 +39,7 @@ export class DjangoProject {
       fullConfig.checkOverrides,
     );
 
-    const publishJob = new DockerPublishJob(workflow, `backend${suffix}`,
+    const publishJob = new DockerPublishJob(workflow, buildId('backend', fullConfig.id),
       {
         imageName: fullConfig.imageName,
         path: fullConfig.path,
