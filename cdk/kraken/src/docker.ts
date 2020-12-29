@@ -58,7 +58,7 @@ export class DockerPublishJob extends CheckoutJob {
    * @param scope cdkactions Workflow instance.
    * @param id Id of the job.
    * @param config Configuration for the docker publish job.
-   * @param overrides Optional overrices for the job.
+   * @param overrides Optional overrides for the job.
    */
   public constructor(scope: Workflow, id: string, config: DockerPublishJobProps, overrides?: Partial<JobProps>) {
     // Build config

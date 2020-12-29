@@ -2,12 +2,30 @@ import { Workflow, JobProps, CheckoutJob } from 'cdkactions';
 import { buildId, buildName } from './utils';
 
 
+/**
+ * Optional props to configure the IntegrationTestsJob.
+ */
 export interface IntegrationTestsJobProps {
+  /**
+   * A custom id to append onto job name and ids. Useful when using
+   * multiple instances of IntegrationTestsJob in a single workflow.
+   * @default no suffix
+   */
   id?: string;
 }
 
-// TODO: finish this
+/**
+ * Creates a Job that utilizes a docker-compose file to run integration
+ * tests.
+ * TODO: not finished
+ */
 export class IntegrationTestsJob extends CheckoutJob {
+  /**
+   *
+   * @param scope cdkactions Workflow instance.
+   * @param config Configuration for the integration tests.
+   * @param overrides Optional Overrides for the job.
+   */
   public constructor(scope: Workflow, config?: IntegrationTestsJobProps, overrides?: Partial<JobProps>) {
     // Build config
     const fullConfig: Required<IntegrationTestsJobProps> = {

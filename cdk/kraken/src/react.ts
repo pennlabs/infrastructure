@@ -27,7 +27,7 @@ export interface ReactCheckJobProps {
 }
 
 /**
- * A job to test a React project and upload code coverage.
+ * A job to lint and test a React project as well as upload code coverage.
  */
 export class ReactCheckJob extends CheckoutJob {
   /**

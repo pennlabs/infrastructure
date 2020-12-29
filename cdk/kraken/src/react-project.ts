@@ -4,18 +4,64 @@ import { ReactCheckJob, ReactCheckJobProps } from './react';
 import { buildId } from './utils';
 
 
+/**
+ * Props to configure the ReactProject.
+ */
 export interface ReactProjectProps {
+  /**
+   * A custom id to append onto job name and ids. Useful when using
+   * multiple instances of ReactProject in a single workflow.
+   * @default no suffix
+   */
   id?: string;
+
+  /**
+   * Location of the React project within the repo.
+   * @default "."
+   */
   path?: string;
+
+  /**
+   * Docker image name to publish
+   */
   imageName: string;
+
+  /**
+   * Optional props to pass to the check job.
+   */
   checkProps?: Partial<ReactCheckJobProps>;
+
+  /**
+   * Optional overrides for the check job.
+   */
   checkOverrides?: Partial<JobProps>;
+
+  /**
+   * Optional props to pass to the docker publish job.
+   */
   publishProps?: Partial<DockerPublishJobProps>;
+
+  /**
+   * Optional overrides for the docker publish job.
+   */
   publishOverrides?: Partial<JobProps>;
 }
 
+/**
+ * Creates a ReactCheckJob and a DockerPublishJob to lint, test, build, and publish
+ * a docker image of a react project. The jobs run sequentially.
+ */
 export class ReactProject {
+  /**
+   * ID of the docker publish job.
+   */
   public readonly publishJobId: string;
+
+  /**
+   *
+   * @param workflow cdkaction Workflow instance.
+   * @param config Configuration for the react project,
+   */
   public constructor(workflow: Workflow, config: ReactProjectProps) {
     // Build config
     const fullConfig: Required<ReactProjectProps> = {

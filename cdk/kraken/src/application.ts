@@ -99,7 +99,12 @@ export interface ApplicationStackProps {
 }
 
 /**
- * A stack to test, build, and deploy a fullstack application (Django + React).
+ * A stack that will lint, test, build, publish docker images for, and deploy both a
+ * Django project and a React project. This stack will also optionally run integration
+ * tests before deploying.
+ *
+ * By default the docker images will be published as $dockerImageBaseName-backend and
+ * $dockerImageBaseName-frontend
  */
 export class ApplicationStack extends Stack {
   /**

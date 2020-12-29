@@ -44,14 +44,14 @@ export interface DjangoCheckJobProps {
 }
 
 /**
- * A job to test a Django project and upload code coverage.
+ * A job to lint and test a Django project as well as upload code coverage.
  */
 export class DjangoCheckJob extends CheckoutJob {
   /**
    *
    * @param scope cdkactions Workflow instance.
    * @param config Configuration for the Django check job.
-   * @param overrides Optional overrices for the job.
+   * @param overrides Optional overrides for the job.
    */
   public constructor(scope: Workflow, config: DjangoCheckJobProps, overrides?: Partial<JobProps>) {
     // Build config
