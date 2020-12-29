@@ -3,6 +3,7 @@ import { DjangoCheckJob, DjangoCheckJobProps } from './django';
 import { DockerPublishJob, DockerPublishJobProps } from './docker';
 import { buildId } from './utils';
 
+
 export interface DjangoProjectProps {
   id?: string;
   projectName: string;
