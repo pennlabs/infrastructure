@@ -1,10 +1,11 @@
 import { Workflow, JobProps, WorkflowProps, Stack, CheckoutJob } from 'cdkactions';
 import { Construct } from 'constructs';
 import { DeployJob, DeployJobProps } from './deploy';
-import { DjangoCheckJobProps, DjangoCheckJob } from './django';
-import { DockerPublishJob, DockerPublishJobProps } from './docker';
-import { ReactCheckJob, ReactCheckJobProps } from './react';
-
+import { DjangoCheckJobProps } from './django';
+import { DjangoProject } from './django-project';
+import { DockerPublishJobProps } from './docker';
+import { ReactCheckJobProps } from './react';
+import { ReactProject } from './react-project';
 
 
 /**
@@ -132,44 +133,38 @@ export class ApplicationStack extends Stack {
       on: 'push',
       ...overrides,
     });
-    const deployNeeds = fullConfig.integrationTests ? ['integration-tests'] : ['publish-django', 'publish-react'];
+
     // Django
-    new DjangoCheckJob(workflow,
+    const djangoProject = new DjangoProject(workflow,
       {
         projectName: fullConfig.djangoProjectName,
         path: fullConfig.backendPath,
-        ...fullConfig.djangoCheckJobProps,
-      },
-      fullConfig.djangoCheckOverrides);
-    new DockerPublishJob(workflow, 'publish-django',
-      {
         imageName: `${fullConfig.dockerImageBaseName}-backend`,
-        path: fullConfig.backendPath,
-        ...fullConfig.djangoDockerProps,
-      },
-      {
-        needs: 'django-check',
-        ...fullConfig.djangoDockerOverrides,
-      });
-    // React
-    new ReactCheckJob(workflow, { path: fullConfig.frontendPath }, fullConfig.reactCheckOverrides);
-    new DockerPublishJob(workflow, 'publish-react',
-      {
-        imageName: `${fullConfig.dockerImageBaseName}-frontend`,
-        path: fullConfig.frontendPath,
-        ...fullConfig.reactDockerProps,
-      },
-      {
-        needs: 'react-check',
-        ...fullConfig.reactDockerOverrides,
+        checkProps: fullConfig.djangoCheckProps,
+        checkOverrides: fullConfig.djangoCheckOverrides,
+        publishProps: fullConfig.djangoDockerProps,
+        publishOverrides: fullConfig.djangoDockerOverrides,
       });
 
+    // React
+    const reactProject = new ReactProject(workflow,
+      {
+        path: fullConfig.frontendPath,
+        imageName: `${fullConfig.dockerImageBaseName}-frontend`,
+        checkProps: fullConfig.reactCheckProps,
+        checkOverrides: fullConfig.reactCheckOverrides,
+        publishProps: fullConfig.reactDockerProps,
+        publishOverrides: fullConfig.reactDockerOverrides,
+      },
+    );
+
+    const integrationTestsId = 'integration-tests';
     if (fullConfig.integrationTests) {
       // TODO: finish this
-      new CheckoutJob(workflow, 'integration-tests', {
+      new CheckoutJob(workflow, integrationTestsId, {
         name: 'Integration Tests',
         runsOn: 'ubuntu-latest',
-        needs: ['publish-django', 'publish-react'],
+        needs: [djangoProject.publishJobId, reactProject.publishJobId],
         steps: [{
           name: 'Run docker compose',
           run: 'docker-compose up -d -f docker-compose.test.yaml',
@@ -190,6 +185,7 @@ export class ApplicationStack extends Stack {
     }
 
     // Deploy
+    const deployNeeds = fullConfig.integrationTests ? [integrationTestsId] : [djangoProject.publishJobId, reactProject.publishJobId];
     new DeployJob(workflow, fullConfig.deployProps,
       {
         needs: deployNeeds,

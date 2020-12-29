@@ -83,7 +83,7 @@ export class DockerPublishJob extends CheckoutJob {
     }
 
     // Create job
-    super(scope, id, {
+    super(scope, `publish-${id}`, {
       name: `Publish ${id}`,
       runsOn: 'ubuntu-latest',
       steps: [{
