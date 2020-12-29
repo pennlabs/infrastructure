@@ -1,9 +1,10 @@
-import { Workflow, JobProps, WorkflowProps, Stack, CheckoutJob } from 'cdkactions';
+import { Workflow, JobProps, WorkflowProps, Stack } from 'cdkactions';
 import { Construct } from 'constructs';
 import { DeployJob, DeployJobProps } from './deploy';
 import { DjangoCheckJobProps } from './django';
 import { DjangoProject } from './django-project';
 import { DockerPublishJobProps } from './docker';
+import { IntegrationTestsJob } from './integration-tests';
 import { ReactCheckJobProps } from './react';
 import { ReactProject } from './react-project';
 
@@ -158,38 +159,23 @@ export class ApplicationStack extends Stack {
       },
     );
 
-    const integrationTestsId = 'integration-tests';
+    let integrationTestsId = '';
     if (fullConfig.integrationTests) {
-      // TODO: finish this
-      new CheckoutJob(workflow, integrationTestsId, {
-        name: 'Integration Tests',
-        runsOn: 'ubuntu-latest',
-        needs: [djangoProject.publishJobId, reactProject.publishJobId],
-        steps: [{
-          name: 'Run docker compose',
-          run: 'docker-compose up -d -f docker-compose.test.yaml',
-        },
+      const integrationTest = new IntegrationTestsJob(workflow, {},
         {
-          name: 'Populate backend',
-          run: 'docker run backend python manage.py populate',
+          ...fullConfig.integrationOverrides,
+          needs: [djangoProject.publishJobId, reactProject.publishJobId],
         },
-        {
-          name: 'Run integration tests',
-          run: 'docker run frontend yarn integration',
-        }],
-        env: {
-          GIT_SHA: '${{ github.sha }}',
-        },
-        ...fullConfig.integrationOverrides,
-      });
+      );
+      integrationTestsId = integrationTest.id;
     }
 
     // Deploy
     const deployNeeds = fullConfig.integrationTests ? [integrationTestsId] : [djangoProject.publishJobId, reactProject.publishJobId];
     new DeployJob(workflow, fullConfig.deployProps,
       {
-        needs: deployNeeds,
         ...fullConfig.deployOverrides,
+        needs: deployNeeds,
       });
   }
 }
