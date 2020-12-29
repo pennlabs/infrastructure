@@ -4,7 +4,7 @@ import * as dedent from 'dedent-js';
 /**
  * Optional props to configure the React check job.
  */
-export interface ReactCheckProps {
+export interface ReactCheckJobProps {
   /**
    * Node version to test the project with.
    * @default "14"
@@ -21,16 +21,16 @@ export interface ReactCheckProps {
 /**
  * A job to test a React project and upload code coverage.
  */
-export class ReactCheck extends CheckoutJob {
+export class ReactCheckJob extends CheckoutJob {
   /**
    *
    * @param scope cdkactions Workflow instance.
    * @param config Optional configuration for the React check job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config?: ReactCheckProps, overrides?: Partial<JobProps>) {
+  public constructor(scope: Workflow, config?: ReactCheckJobProps, overrides?: Partial<JobProps>) {
     // Build config
-    const fullConfig: Required<ReactCheckProps> = {
+    const fullConfig: Required<ReactCheckJobProps> = {
       nodeVersion: '14',
       projectLocation: '.',
       ...config,

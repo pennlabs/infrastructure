@@ -3,7 +3,7 @@ import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
 /**
  * Props to configure the Docker publish job.
  */
-export interface DockerPublishProps {
+export interface DockerPublishJobProps {
   /**
    * Image name to publish
    */
@@ -50,7 +50,7 @@ export interface DockerPublishProps {
  * A job to build and publish a Docker image.
  * TODO: look into docker build action v2
  */
-export class DockerPublish extends CheckoutJob {
+export class DockerPublishJob extends CheckoutJob {
   /**
    *
    * @param scope cdkactions Workflow instance.
@@ -58,9 +58,9 @@ export class DockerPublish extends CheckoutJob {
    * @param config Configuration for the docker publish job.
    * @param overrides Optional overrices for the job.
    */
-  public constructor(scope: Workflow, id: string, config: DockerPublishProps, overrides?: Partial<JobProps>) {
+  public constructor(scope: Workflow, id: string, config: DockerPublishJobProps, overrides?: Partial<JobProps>) {
     // Build config
-    const fullConfig: Required<DockerPublishProps> = {
+    const fullConfig: Required<DockerPublishJobProps> = {
       path: '.',
       push: "${{ github.ref == 'refs/heads/master' }}",
       tags: 'latest,${{ github.sha }}',

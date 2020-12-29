@@ -1,9 +1,9 @@
 import { Workflow, JobProps, WorkflowProps, Stack, CheckoutJob } from 'cdkactions';
 import { Construct } from 'constructs';
 import { DeployJob, DeployJobProps } from './deploy';
-import { DjangoCheckProps, DjangoCheck } from './django';
-import { DockerPublish, DockerPublishProps } from './docker';
-import { ReactCheck, ReactCheckProps } from './react';
+import { DjangoCheckJobProps, DjangoCheckJob } from './django';
+import { DockerPublishJob, DockerPublishJobProps } from './docker';
+import { ReactCheckJob, ReactCheckJobProps } from './react';
 
 /**
  * Props to configure the Django stack.
@@ -23,7 +23,7 @@ export interface DjangoStackProps {
   /**
    * Optional props to pass to the django check job.
    */
-  checkProps?: Partial<DjangoCheckProps>;
+  checkProps?: Partial<DjangoCheckJobProps>;
 
   /**
    * Optional overrides for the django check job.
@@ -33,7 +33,7 @@ export interface DjangoStackProps {
   /**
    * Optional props to pass to the docker publish job.
    */
-  dockerProps?: Partial<DockerPublishProps>;
+  dockerProps?: Partial<DockerPublishJobProps>;
 
   /**
    * Optional overrides for the docker publish job.
@@ -68,13 +68,13 @@ export class DjangoStack extends Stack {
       on: 'push',
       ...overrides,
     });
-    new DjangoCheck(workflow,
+    new DjangoCheckJob(workflow,
       {
         projectName: config.djangoProjectName,
         ...config.checkProps,
       },
       config.checkOverrides);
-    new DockerPublish(workflow, 'publish',
+    new DockerPublishJob(workflow, 'publish',
       {
         imageName: config.dockerImageName,
         ...config.dockerProps,
@@ -127,7 +127,7 @@ export interface ApplicationStackProps {
   /**
    * Optional props to pass to the django check job.
    */
-  djangoCheckProps?: Partial<DjangoCheckProps>;
+  djangoCheckJobProps?: Partial<DjangoCheckJobProps>;
 
   /**
    * Optional overrides for the django check job.
@@ -137,7 +137,7 @@ export interface ApplicationStackProps {
   /**
    * Optional props to pass to the django docker publish job.
    */
-  djangoDockerProps?: Partial<DockerPublishProps>;
+  djangoDockerProps?: Partial<DockerPublishJobProps>;
 
   /**
    * Optional overrides for the django docker publish job.
@@ -147,7 +147,7 @@ export interface ApplicationStackProps {
   /**
    * Optional props to pass to the react check job.
    */
-  reactCheckProps?: Partial<ReactCheckProps>;
+  reactCheckProps?: Partial<ReactCheckJobProps>;
 
   /**
    * Optional overrides for the react check job.
@@ -157,7 +157,7 @@ export interface ApplicationStackProps {
   /**
    * Optional props to pass to the react docker publish job.
    */
-  reactDockerProps?: Partial<DockerPublishProps>;
+  reactDockerProps?: Partial<DockerPublishJobProps>;
 
   /**
    * Optional overrides for the react docker publish job.
@@ -196,7 +196,7 @@ export class ApplicationStack extends Stack {
       backendPath: 'backend',
       frontendPath: 'frontend',
       integrationTests: false,
-      djangoCheckProps: {},
+      djangoCheckJobProps: {},
       djangoCheckOverrides: {},
       djangoDockerProps: {},
       djangoDockerOverrides: {},
@@ -218,14 +218,14 @@ export class ApplicationStack extends Stack {
     });
     const deployNeeds = fullConfig.integrationTests ? ['integration-tests'] : ['publish-django', 'publish-react'];
     // Django
-    new DjangoCheck(workflow,
+    new DjangoCheckJob(workflow,
       {
         projectName: fullConfig.djangoProjectName,
         projectLocation: fullConfig.backendPath,
-        ...fullConfig.djangoCheckProps,
+        ...fullConfig.djangoCheckJobProps,
       },
       fullConfig.djangoCheckOverrides);
-    new DockerPublish(workflow, 'publish-django',
+    new DockerPublishJob(workflow, 'publish-django',
       {
         imageName: `${fullConfig.dockerImageBaseName}-backend`,
         path: fullConfig.backendPath,
@@ -236,8 +236,8 @@ export class ApplicationStack extends Stack {
         ...fullConfig.djangoDockerOverrides,
       });
     // React
-    new ReactCheck(workflow, { projectLocation: fullConfig.frontendPath }, fullConfig.reactCheckOverrides);
-    new DockerPublish(workflow, 'publish-react',
+    new ReactCheckJob(workflow, { projectLocation: fullConfig.frontendPath }, fullConfig.reactCheckOverrides);
+    new DockerPublishJob(workflow, 'publish-react',
       {
         imageName: `${fullConfig.dockerImageBaseName}-frontend`,
         path: fullConfig.frontendPath,

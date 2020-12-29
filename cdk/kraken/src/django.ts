@@ -4,7 +4,7 @@ import * as dedent from 'dedent-js';
 /**
  * Props to configure the Django check job.
  */
-export interface DjangoCheckProps {
+export interface DjangoCheckJobProps {
   /**
    * Python version to test the project with.
    * @default "3.8"
@@ -38,16 +38,16 @@ export interface DjangoCheckProps {
 /**
  * A job to test a Django project and upload code coverage.
  */
-export class DjangoCheck extends CheckoutJob {
+export class DjangoCheckJob extends CheckoutJob {
   /**
    *
    * @param scope cdkactions Workflow instance.
    * @param config Configuration for the Django check job.
    * @param overrides Optional overrices for the job.
    */
-  public constructor(scope: Workflow, config: DjangoCheckProps, overrides?: Partial<JobProps>) {
+  public constructor(scope: Workflow, config: DjangoCheckJobProps, overrides?: Partial<JobProps>) {
     // Build config
-    const fullConfig: Required<DjangoCheckProps> = {
+    const fullConfig: Required<DjangoCheckJobProps> = {
       pythonVersion: '3.8',
       projectLocation: '.',
       black: true,
