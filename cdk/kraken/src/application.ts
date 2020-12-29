@@ -43,7 +43,7 @@ export interface ApplicationStackProps {
   /**
    * Optional props to pass to the django check job.
    */
-  djangoCheckJobProps?: Partial<DjangoCheckJobProps>;
+  djangoCheckProps?: Partial<DjangoCheckJobProps>;
 
   /**
    * Optional overrides for the django check job.
@@ -112,7 +112,7 @@ export class ApplicationStack extends Stack {
       backendPath: 'backend',
       frontendPath: 'frontend',
       integrationTests: false,
-      djangoCheckJobProps: {},
+      djangoCheckProps: {},
       djangoCheckOverrides: {},
       djangoDockerProps: {},
       djangoDockerOverrides: {},
