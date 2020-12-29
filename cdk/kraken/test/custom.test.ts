@@ -11,23 +11,27 @@ test('workflow with 2 django+react projects', () => {
     {
       id: 'one',
       projectName: 'projectOne',
+      path: 'backendOne',
       imageName: 'imageOne-backend',
     });
   const djangoTwo = new DjangoProject(workflow,
     {
       id: 'two',
       projectName: 'projectTwo',
+      path: 'backendTwo',
       imageName: 'imageTwo-backend',
     });
 
   const reactOne = new ReactProject(workflow,
     {
       id: 'one',
+      path: 'frontendOne',
       imageName: 'imageOne-frontend',
     });
   const reactTwo = new ReactProject(workflow,
     {
       id: 'two',
+      path: 'frontendTwo',
       imageName: 'imageTwo-frontend',
     });
   new DeployJob(workflow, {},

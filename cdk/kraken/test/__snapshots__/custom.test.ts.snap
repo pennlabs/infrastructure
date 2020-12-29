@@ -75,35 +75,35 @@ done",
           "name": "Cache",
           "uses": "actions/cache@v2",
           "with": Object {
-            "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+            "key": "v0-\${{ hashFiles('backendOne/Pipfile.lock') }}",
             "path": "~/.local/share/virtualenvs",
           },
         },
         Object {
           "name": "Install Dependencies",
-          "run": "cd .
+          "run": "cd backendOne
 pip install pipenv
 pipenv install --deploy --dev",
         },
         Object {
           "name": "Lint (flake8)",
-          "run": "cd .
+          "run": "cd backendOne
 pipenv run flake8 .",
         },
         Object {
           "name": "Lint (black)",
-          "run": "cd .
+          "run": "cd backendOne
 pipenv run black --check .",
         },
         Object {
           "name": "Test",
-          "run": "cd .
+          "run": "cd backendOne
 pipenv run coverage run manage.py test --settings=projectOne.settings.ci --parallel",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
-cd .
+cd backendOne
 pipenv run codecov --root ROOT --flags backend",
         },
       ],
@@ -136,35 +136,35 @@ pipenv run codecov --root ROOT --flags backend",
           "name": "Cache",
           "uses": "actions/cache@v2",
           "with": Object {
-            "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+            "key": "v0-\${{ hashFiles('backendTwo/Pipfile.lock') }}",
             "path": "~/.local/share/virtualenvs",
           },
         },
         Object {
           "name": "Install Dependencies",
-          "run": "cd .
+          "run": "cd backendTwo
 pip install pipenv
 pipenv install --deploy --dev",
         },
         Object {
           "name": "Lint (flake8)",
-          "run": "cd .
+          "run": "cd backendTwo
 pipenv run flake8 .",
         },
         Object {
           "name": "Lint (black)",
-          "run": "cd .
+          "run": "cd backendTwo
 pipenv run black --check .",
         },
         Object {
           "name": "Test",
-          "run": "cd .
+          "run": "cd backendTwo
 pipenv run coverage run manage.py test --settings=projectTwo.settings.ci --parallel",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
-cd .
+cd backendTwo
 pipenv run codecov --root ROOT --flags backend",
         },
       ],
@@ -183,7 +183,7 @@ pipenv run codecov --root ROOT --flags backend",
           "with": Object {
             "cache_froms": "pennlabs/imageOne-backend:latest",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
+            "path": "backendOne",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
             "repository": "pennlabs/imageOne-backend",
             "tags": "latest,\${{ github.sha }}",
@@ -206,7 +206,7 @@ pipenv run codecov --root ROOT --flags backend",
           "with": Object {
             "cache_froms": "pennlabs/imageTwo-backend:latest",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
+            "path": "backendTwo",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
             "repository": "pennlabs/imageTwo-backend",
             "tags": "latest,\${{ github.sha }}",
@@ -229,7 +229,7 @@ pipenv run codecov --root ROOT --flags backend",
           "with": Object {
             "cache_froms": "pennlabs/imageOne-frontend:latest",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
+            "path": "frontendOne",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
             "repository": "pennlabs/imageOne-frontend",
             "tags": "latest,\${{ github.sha }}",
@@ -252,7 +252,7 @@ pipenv run codecov --root ROOT --flags backend",
           "with": Object {
             "cache_froms": "pennlabs/imageTwo-frontend:latest",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
+            "path": "frontendTwo",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
             "repository": "pennlabs/imageTwo-frontend",
             "tags": "latest,\${{ github.sha }}",
@@ -275,24 +275,24 @@ pipenv run codecov --root ROOT --flags backend",
           "name": "Cache",
           "uses": "actions/cache@v2",
           "with": Object {
-            "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+            "key": "v0-\${{ hashFiles('frontendOne/yarn.lock') }}",
             "path": "**/node_modules",
           },
         },
         Object {
           "name": "Install Dependencies",
-          "run": "cd .
+          "run": "cd frontendOne
 yarn install --frozen-lockfile",
         },
         Object {
           "name": "Test",
-          "run": "cd .
+          "run": "cd frontendOne
 yarn test",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
-cd .
+cd frontendOne
 yarn run codecov -p $ROOT -F frontend",
         },
       ],
@@ -311,24 +311,24 @@ yarn run codecov -p $ROOT -F frontend",
           "name": "Cache",
           "uses": "actions/cache@v2",
           "with": Object {
-            "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+            "key": "v0-\${{ hashFiles('frontendTwo/yarn.lock') }}",
             "path": "**/node_modules",
           },
         },
         Object {
           "name": "Install Dependencies",
-          "run": "cd .
+          "run": "cd frontendTwo
 yarn install --frozen-lockfile",
         },
         Object {
           "name": "Test",
-          "run": "cd .
+          "run": "cd frontendTwo
 yarn test",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
-cd .
+cd frontendTwo
 yarn run codecov -p $ROOT -F frontend",
         },
       ],
