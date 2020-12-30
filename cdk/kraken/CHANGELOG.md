@@ -1,5 +1,5 @@
 # Changelog
 
-## 0.0.1 (2020-12-22)
+## 0.3.10 (2020-12-30)
 
-* Initial release
+* Initial beta release
