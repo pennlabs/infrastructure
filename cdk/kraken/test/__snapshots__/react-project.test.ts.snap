@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`custom id 1`] = `
+Object {
+  "jobs": Object {
+    "publish-frontend-custom": Object {
+      "name": "Publish frontend-custom",
+      "needs": "react-check-custom",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Publish",
+          "uses": "docker/build-push-action@v1",
+          "with": Object {
+            "cache_froms": "pennlabs/example:latest",
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "path": ".",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "repository": "pennlabs/example",
+            "tags": "latest,\${{ github.sha }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+      ],
+    },
+    "react-check-custom": Object {
+      "container": Object {
+        "image": "node:14",
+      },
+      "name": "React Check custom",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Cache",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+            "path": "**/node_modules",
+          },
+        },
+        Object {
+          "name": "Install Dependencies",
+          "run": "cd .
+yarn install --frozen-lockfile",
+        },
+        Object {
+          "name": "Test",
+          "run": "cd .
+yarn test",
+        },
+        Object {
+          "name": "Upload Code Coverage",
+          "run": "ROOT=$(pwd)
+cd .
+yarn run codecov -p $ROOT -F frontend",
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;
+
+exports[`default 1`] = `
+Object {
+  "jobs": Object {
+    "publish-frontend": Object {
+      "name": "Publish frontend",
+      "needs": "react-check",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Publish",
+          "uses": "docker/build-push-action@v1",
+          "with": Object {
+            "cache_froms": "pennlabs/example:latest",
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "path": ".",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "repository": "pennlabs/example",
+            "tags": "latest,\${{ github.sha }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+      ],
+    },
+    "react-check": Object {
+      "container": Object {
+        "image": "node:14",
+      },
+      "name": "React Check",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Cache",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "v0-\${{ hashFiles('./yarn.lock') }}",
+            "path": "**/node_modules",
+          },
+        },
+        Object {
+          "name": "Install Dependencies",
+          "run": "cd .
+yarn install --frozen-lockfile",
+        },
+        Object {
+          "name": "Test",
+          "run": "cd .
+yarn test",
+        },
+        Object {
+          "name": "Upload Code Coverage",
+          "run": "ROOT=$(pwd)
+cd .
+yarn run codecov -p $ROOT -F frontend",
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;

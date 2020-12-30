@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default 1`] = `
+Object {
+  "container": Object {
+    "image": "python:3.8",
+  },
+  "env": Object {
+    "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+  },
+  "name": "Django Check",
+  "runs-on": "ubuntu-latest",
+  "services": Object {
+    "postgres": Object {
+      "env": Object {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
+        "POSTGRES_USER": "postgres",
+      },
+      "image": "postgres:12",
+      "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+    },
+  },
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+        "path": "~/.local/share/virtualenvs",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+    },
+    Object {
+      "name": "Lint (flake8)",
+      "run": "cd .
+pipenv run flake8 .",
+    },
+    Object {
+      "name": "Lint (black)",
+      "run": "cd .
+pipenv run black --check .",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+    },
+  ],
+}
+`;
+
+exports[`different directory 1`] = `
+Object {
+  "container": Object {
+    "image": "python:3.8",
+  },
+  "env": Object {
+    "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+  },
+  "name": "Django Check",
+  "runs-on": "ubuntu-latest",
+  "services": Object {
+    "postgres": Object {
+      "env": Object {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
+        "POSTGRES_USER": "postgres",
+      },
+      "image": "postgres:12",
+      "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+    },
+  },
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('backend/Pipfile.lock') }}",
+        "path": "~/.local/share/virtualenvs",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd backend
+pip install pipenv
+pipenv install --deploy --dev",
+    },
+    Object {
+      "name": "Lint (flake8)",
+      "run": "cd backend
+pipenv run flake8 .",
+    },
+    Object {
+      "name": "Lint (black)",
+      "run": "cd backend
+pipenv run black --check .",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd backend
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd backend
+pipenv run codecov --root ROOT --flags backend",
+    },
+  ],
+}
+`;
+
+exports[`different python version 1`] = `
+Object {
+  "container": Object {
+    "image": "python:2.7",
+  },
+  "env": Object {
+    "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+  },
+  "name": "Django Check",
+  "runs-on": "ubuntu-latest",
+  "services": Object {
+    "postgres": Object {
+      "env": Object {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
+        "POSTGRES_USER": "postgres",
+      },
+      "image": "postgres:12",
+      "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+    },
+  },
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+        "path": "~/.local/share/virtualenvs",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+    },
+    Object {
+      "name": "Lint (flake8)",
+      "run": "cd .
+pipenv run flake8 .",
+    },
+    Object {
+      "name": "Lint (black)",
+      "run": "cd .
+pipenv run black --check .",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+    },
+  ],
+}
+`;
+
+exports[`no lint 1`] = `
+Object {
+  "container": Object {
+    "image": "python:3.8",
+  },
+  "env": Object {
+    "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+  },
+  "name": "Django Check",
+  "runs-on": "ubuntu-latest",
+  "services": Object {
+    "postgres": Object {
+      "env": Object {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
+        "POSTGRES_USER": "postgres",
+      },
+      "image": "postgres:12",
+      "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+    },
+  },
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+        "path": "~/.local/share/virtualenvs",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+    },
+  ],
+}
+`;
+
+exports[`with overrides 1`] = `
+Object {
+  "container": Object {
+    "image": "python:3.8",
+  },
+  "continue-on-error": true,
+  "env": Object {
+    "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+  },
+  "name": "Django Check",
+  "runs-on": "ubuntu-latest",
+  "services": Object {
+    "postgres": Object {
+      "env": Object {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
+        "POSTGRES_USER": "postgres",
+      },
+      "image": "postgres:12",
+      "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+    },
+  },
+  "steps": Array [
+    Object {
+      "uses": "actions/checkout@v2",
+    },
+    Object {
+      "name": "Cache",
+      "uses": "actions/cache@v2",
+      "with": Object {
+        "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+        "path": "~/.local/share/virtualenvs",
+      },
+    },
+    Object {
+      "name": "Install Dependencies",
+      "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+    },
+    Object {
+      "name": "Lint (flake8)",
+      "run": "cd .
+pipenv run flake8 .",
+    },
+    Object {
+      "name": "Lint (black)",
+      "run": "cd .
+pipenv run black --check .",
+    },
+    Object {
+      "name": "Test",
+      "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+    },
+    Object {
+      "name": "Upload Code Coverage",
+      "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+    },
+  ],
+}
+`;

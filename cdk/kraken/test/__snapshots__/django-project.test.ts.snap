@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`custom id 1`] = `
+Object {
+  "jobs": Object {
+    "django-check-custom": Object {
+      "container": Object {
+        "image": "python:3.8",
+      },
+      "env": Object {
+        "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+      },
+      "name": "Django Check custom",
+      "runs-on": "ubuntu-latest",
+      "services": Object {
+        "postgres": Object {
+          "env": Object {
+            "POSTGRES_DB": "postgres",
+            "POSTGRES_PASSWORD": "postgres",
+            "POSTGRES_USER": "postgres",
+          },
+          "image": "postgres:12",
+          "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+        },
+      },
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Cache",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+            "path": "~/.local/share/virtualenvs",
+          },
+        },
+        Object {
+          "name": "Install Dependencies",
+          "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+        },
+        Object {
+          "name": "Lint (flake8)",
+          "run": "cd .
+pipenv run flake8 .",
+        },
+        Object {
+          "name": "Lint (black)",
+          "run": "cd .
+pipenv run black --check .",
+        },
+        Object {
+          "name": "Test",
+          "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+        },
+        Object {
+          "name": "Upload Code Coverage",
+          "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+        },
+      ],
+    },
+    "publish-backend-custom": Object {
+      "name": "Publish backend-custom",
+      "needs": "django-check-custom",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Publish",
+          "uses": "docker/build-push-action@v1",
+          "with": Object {
+            "cache_froms": "pennlabs/example:latest",
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "path": ".",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "repository": "pennlabs/example",
+            "tags": "latest,\${{ github.sha }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;
+
+exports[`default 1`] = `
+Object {
+  "jobs": Object {
+    "django-check": Object {
+      "container": Object {
+        "image": "python:3.8",
+      },
+      "env": Object {
+        "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
+      },
+      "name": "Django Check",
+      "runs-on": "ubuntu-latest",
+      "services": Object {
+        "postgres": Object {
+          "env": Object {
+            "POSTGRES_DB": "postgres",
+            "POSTGRES_PASSWORD": "postgres",
+            "POSTGRES_USER": "postgres",
+          },
+          "image": "postgres:12",
+          "options": "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
+        },
+      },
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Cache",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
+            "path": "~/.local/share/virtualenvs",
+          },
+        },
+        Object {
+          "name": "Install Dependencies",
+          "run": "cd .
+pip install pipenv
+pipenv install --deploy --dev",
+        },
+        Object {
+          "name": "Lint (flake8)",
+          "run": "cd .
+pipenv run flake8 .",
+        },
+        Object {
+          "name": "Lint (black)",
+          "run": "cd .
+pipenv run black --check .",
+        },
+        Object {
+          "name": "Test",
+          "run": "cd .
+pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+        },
+        Object {
+          "name": "Upload Code Coverage",
+          "run": "ROOT=$(pwd)
+cd .
+pipenv run codecov --root ROOT --flags backend",
+        },
+      ],
+    },
+    "publish-backend": Object {
+      "name": "Publish backend",
+      "needs": "django-check",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "name": "Publish",
+          "uses": "docker/build-push-action@v1",
+          "with": Object {
+            "cache_froms": "pennlabs/example:latest",
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "path": ".",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "repository": "pennlabs/example",
+            "tags": "latest,\${{ github.sha }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;
