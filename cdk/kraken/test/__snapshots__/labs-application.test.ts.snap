@@ -32,12 +32,13 @@ jobs:
       - name: Test
         run: |-
           cd backend
-          pipenv run coverage run manage.py test --settings=example.settings.ci --parallel
+          pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
+          pipenv run coverage combine
       - name: Upload Code Coverage
         run: |-
           ROOT=$(pwd)
           cd backend
-          pipenv run codecov --root ROOT --flags backend
+          pipenv run codecov --root $ROOT --flags backend
     container:
       image: python:3.8
     env:
@@ -178,12 +179,13 @@ jobs:
       - name: Test
         run: |-
           cd backend
-          pipenv run coverage run manage.py test --settings=example.settings.ci --parallel
+          pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
+          pipenv run coverage combine
       - name: Upload Code Coverage
         run: |-
           ROOT=$(pwd)
           cd backend
-          pipenv run codecov --root ROOT --flags backend
+          pipenv run codecov --root $ROOT --flags backend
     container:
       image: python:3.8
     env:

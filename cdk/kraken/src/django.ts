@@ -98,13 +98,14 @@ export class DjangoCheckJob extends CheckoutJob {
     steps.push({
       name: 'Test',
       run: dedent`cd ${fullConfig.path}
-      pipenv run coverage run manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel`,
+      pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel
+      pipenv run coverage combine`,
     });
     steps.push({
       name: 'Upload Code Coverage',
       run: dedent`ROOT=$(pwd)
       cd ${fullConfig.path}
-      pipenv run codecov --root ROOT --flags backend`,
+      pipenv run codecov --root $ROOT --flags backend`,
     });
 
     // Create Job

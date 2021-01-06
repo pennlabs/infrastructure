@@ -54,13 +54,14 @@ pipenv run black --check .",
         Object {
           "name": "Test",
           "run": "cd .
-pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
+pipenv run coverage combine",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
 cd .
-pipenv run codecov --root ROOT --flags backend",
+pipenv run codecov --root $ROOT --flags backend",
         },
       ],
     },
@@ -148,13 +149,14 @@ pipenv run black --check .",
         Object {
           "name": "Test",
           "run": "cd .
-pipenv run coverage run manage.py test --settings=example.settings.ci --parallel",
+pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
+pipenv run coverage combine",
         },
         Object {
           "name": "Upload Code Coverage",
           "run": "ROOT=$(pwd)
 cd .
-pipenv run codecov --root ROOT --flags backend",
+pipenv run codecov --root $ROOT --flags backend",
         },
       ],
     },
