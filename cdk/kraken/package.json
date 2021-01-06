@@ -50,7 +50,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "cdkactions": "^0.1.4",
+    "cdkactions": "^0.2.0",
     "constructs": "^3.2.80",
     "dedent-js": "^1.0.1"
   },
@@ -64,7 +64,7 @@
   ],
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "jest": {
     "clearMocks": true,
     "collectCoverage": true,

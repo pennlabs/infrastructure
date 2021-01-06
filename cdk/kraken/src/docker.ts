@@ -18,6 +18,12 @@ export interface DockerPublishJobProps {
   path?: string;
 
   /**
+   * Path to the dockerfile (relative to `path`)
+   * @default "Dockerfile"
+   */
+  dockerfile?: string;
+
+  /**
    * A condition on when to push the built image.
    * @default Only push on master.
    */
@@ -68,6 +74,7 @@ export class DockerPublishJob extends CheckoutJob {
       tags: 'latest,${{ github.sha }}',
       username: '${{ secrets.DOCKER_USERNAME }}',
       password: '${{ secrets.DOCKER_PASSWORD }}',
+      dockerfile: 'Dockerfile',
       cache: true,
       ...config,
     };
@@ -75,6 +82,7 @@ export class DockerPublishJob extends CheckoutJob {
     const dockerWith: any = {
       repository: `pennlabs/${fullConfig.imageName}`,
       path: fullConfig.path,
+      dockerfile: `${fullConfig.path}/${fullConfig.dockerfile}`,
       username: fullConfig.username,
       password: fullConfig.password,
       push: fullConfig.push,

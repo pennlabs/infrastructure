@@ -16,7 +16,7 @@ jobs:
       - name: Cache
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: \\"**/node_modules\\"
           key: v0-\${{ hashFiles('cdk/example/yarn.lock') }}
       - name: Install Dependencies
         run: |-
@@ -54,8 +54,8 @@ jobs:
           publish_branch: master
           publish_dir: cdk/example/docs
           user_name: github-actions
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          user_email: github-actions[bot]@users.noreply.github.com
     container:
-      image: 'node:14'
+      image: node:14
 "
 `;

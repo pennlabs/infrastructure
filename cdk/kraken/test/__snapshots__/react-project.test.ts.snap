@@ -16,6 +16,7 @@ Object {
           "uses": "docker/build-push-action@v1",
           "with": Object {
             "cache_froms": "pennlabs/example:latest",
+            "dockerfile": "./Dockerfile",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
             "path": ".",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
@@ -84,6 +85,7 @@ Object {
           "uses": "docker/build-push-action@v1",
           "with": Object {
             "cache_froms": "pennlabs/example:latest",
+            "dockerfile": "./Dockerfile",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
             "path": ".",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
