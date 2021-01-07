@@ -56,9 +56,12 @@ export class DeployJob extends CheckoutJob {
         
         export KUBECONFIG=/kubeconfig.conf
         
+        # get repo name (by removing owner/organization)
+        RELEASE_NAME=\${REPOSITORY#*/}
+
         # this specifies what tag of icarus to pull down
         DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
-        if [ "$DEPLOY_TAG" == "null" ]; then
+        if [ "$DEPLOY_TAG" = "null" ]; then
             echo "Could not find deploy tag"
             exit 1
         fi
@@ -74,6 +77,7 @@ export class DeployJob extends CheckoutJob {
           IMAGE_TAG: fullConfig.deployTag,
           DO_AUTH_TOKEN: '${{ secrets.DO_AUTH_TOKEN }}',
           K8S_CLUSTER_ID: '${{ secrets.K8S_CLUSTER_ID }}',
+          REPOSITORY: '${{ github.repository }}',
         },
       }],
       ...overrides,

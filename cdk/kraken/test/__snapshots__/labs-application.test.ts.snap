@@ -123,9 +123,12 @@ jobs:
 
           export KUBECONFIG=/kubeconfig.conf
 
+          # get repo name (by removing owner/organization)
+          RELEASE_NAME=\${REPOSITORY#*/}
+
           # this specifies what tag of icarus to pull down
           DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
-          if [ \\"$DEPLOY_TAG\\" == \\"null\\" ]; then
+          if [ \\"$DEPLOY_TAG\\" = \\"null\\" ]; then
               echo \\"Could not find deploy tag\\"
               exit 1
           fi
@@ -141,6 +144,7 @@ jobs:
           IMAGE_TAG: \${{ github.sha }}
           DO_AUTH_TOKEN: \${{ secrets.DO_AUTH_TOKEN }}
           K8S_CLUSTER_ID: \${{ secrets.K8S_CLUSTER_ID }}
+          REPOSITORY: \${{ github.repository }}
     needs:
       - publish-backend
       - publish-frontend
@@ -286,9 +290,12 @@ jobs:
 
           export KUBECONFIG=/kubeconfig.conf
 
+          # get repo name (by removing owner/organization)
+          RELEASE_NAME=\${REPOSITORY#*/}
+
           # this specifies what tag of icarus to pull down
           DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
-          if [ \\"$DEPLOY_TAG\\" == \\"null\\" ]; then
+          if [ \\"$DEPLOY_TAG\\" = \\"null\\" ]; then
               echo \\"Could not find deploy tag\\"
               exit 1
           fi
@@ -304,6 +311,7 @@ jobs:
           IMAGE_TAG: \${{ github.sha }}
           DO_AUTH_TOKEN: \${{ secrets.DO_AUTH_TOKEN }}
           K8S_CLUSTER_ID: \${{ secrets.K8S_CLUSTER_ID }}
+          REPOSITORY: \${{ github.repository }}
     needs:
       - integration-tests
 "
