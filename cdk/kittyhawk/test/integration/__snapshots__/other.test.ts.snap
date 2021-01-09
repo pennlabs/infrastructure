@@ -1,0 +1,708 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CFA 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "penncfa.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "penncfa.com",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "common-funding-application",
+                  },
+                },
+              ],
+              "image": "pennlabs/common-funding-application:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "penncfa.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "penncfa.com",
+          ],
+          "secretName": "penncfa-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncfa-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncfa.com",
+        "*.penncfa.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncfa-com-tls",
+    },
+  },
+]
+`;
+
+exports[`Penn Basics 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-react",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-react",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-react",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-react",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennbasics.com",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-basics",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-basics:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennbasics.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-react",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennbasics.com",
+          ],
+          "secretName": "pennbasics-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennbasics-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennbasics.com",
+        "*.pennbasics.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennbasics-com-tls",
+    },
+  },
+]
+`;
+
+exports[`Penn Labs Website 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-serve",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-serve",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-serve",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-serve",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennlabs.org",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/website:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennlabs.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-serve",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennlabs.org",
+          ],
+          "secretName": "pennlabs-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennlabs-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennlabs.org",
+        "*.pennlabs.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennlabs-org-tls",
+    },
+  },
+]
+`;
+
+exports[`Platform API 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 443,
+          "targetPort": 443,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-platform",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-platform",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-platform",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-platform",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "Platform.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "platform.pennlabs.org",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "platform",
+                  },
+                },
+              ],
+              "image": "pennlabs/platform:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 443,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/etc/shibboleth/sp-cert.pem",
+                  "name": "platform",
+                  "subPath": "SHIBBOLETH_CERT",
+                },
+                Object {
+                  "mountPath": "/etc/shibboleth/sp-key.pem",
+                  "name": "platform",
+                  "subPath": "SHIBBOLETH_KEY",
+                },
+              ],
+            },
+          ],
+          "volumes": Array [
+            Object {
+              "name": "platform-shibboleth-cert",
+              "secret": Object {
+                "items": Array [
+                  Object {
+                    "key": "SHIBBOLETH_CERT",
+                    "path": "SHIBBOLETH_CERT",
+                  },
+                ],
+                "secretName": "platform",
+              },
+            },
+            Object {
+              "name": "platform-shibboleth-key",
+              "secret": Object {
+                "items": Array [
+                  Object {
+                    "key": "SHIBBOLETH_KEY",
+                    "path": "SHIBBOLETH_KEY",
+                  },
+                ],
+                "secretName": "platform",
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "platform.pennlabs.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-platform",
+                  "servicePort": 443,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "platform.pennlabs.org",
+          ],
+          "secretName": "pennlabs-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennlabs-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennlabs.org",
+        "*.pennlabs.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennlabs-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-clear-expired-tokens",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-clear-expired-tokens",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python3",
+                    "manage.py",
+                    "cleartokens",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "platform",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/platform:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 5 * * SUN",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;

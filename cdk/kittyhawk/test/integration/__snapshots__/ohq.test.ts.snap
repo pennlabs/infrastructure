@@ -1,0 +1,704 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OHQ 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django-asgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django-asgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django-asgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django-asgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "/usr/local/bin/asgi-run",
+              ],
+              "env": Array [
+                Object {
+                  "name": "REDIS_URL",
+                  "value": "redis://office-hours-queue-redis:6379",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "ohq.io",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "office-hours-queue",
+                  },
+                },
+              ],
+              "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "ohq.io",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-asgi",
+                  "servicePort": 80,
+                },
+                "path": "/api/ws",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "ohq.io",
+          ],
+          "secretName": "ohq-io-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "ohq-io",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "ohq.io",
+        "*.ohq.io",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "ohq-io-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django-wsgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django-wsgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 4,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django-wsgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django-wsgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "REDIS_URL",
+                  "value": "redis://office-hours-queue-redis:6379",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "ohq.io",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "office-hours-queue",
+                  },
+                },
+              ],
+              "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "ohq.io",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-wsgi",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-wsgi",
+                  "servicePort": 80,
+                },
+                "path": "/admin",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-wsgi",
+                  "servicePort": 80,
+                },
+                "path": "/assets",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "ohq.io",
+          ],
+          "secretName": "ohq-io-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "ohq-io",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "ohq.io",
+        "*.ohq.io",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "ohq-io-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-react",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-react",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-react",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-react",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "ohq.io",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "ohq.io",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-react",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "ohq.io",
+          ],
+          "secretName": "ohq-io-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "ohq-io",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "ohq.io",
+        "*.ohq.io",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "ohq-io-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-redis",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-celery",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-celery",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-celery",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-celery",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "celery",
+                "-A",
+                "officehoursqueue",
+                "worker",
+                "-lINFO",
+              ],
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
+                },
+                Object {
+                  "name": "REDIS_URL",
+                  "value": "redis://office-hours-queue-redis:6379",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "office-hours-queue",
+                  },
+                },
+              ],
+              "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-calculate-waits",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-calculate-waits",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "calculatewaittimes",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "office-hours-queue",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "*/5 * * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;

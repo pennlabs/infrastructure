@@ -1,0 +1,1034 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Penn Courses 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-redis",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:4.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-celery",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-celery",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-celery",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-celery",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "celery",
+                "worker",
+                "-A",
+                "PennCourses",
+                "-Q",
+                "alerts,celery",
+                "-linfo",
+              ],
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "PennCourses.settings.production",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-courses",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-backend",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-backend",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-backend",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-backend",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 3,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-backend",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-backend",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "celery",
+                "worker",
+                "-A",
+                "PennCourses",
+                "-Q",
+                "alerts,celery",
+                "-linfo",
+              ],
+              "env": Array [
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "PennCourses.settings.production",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-courses",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-backend",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "penncourseplan.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/admin",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/accounts",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/assets",
+              },
+            ],
+          },
+        },
+        Object {
+          "host": "penncoursealert.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/admin",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/accounts",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/assets",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/webhook",
+              },
+            ],
+          },
+        },
+        Object {
+          "host": "review.penncourses.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/admin",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/accounts",
+              },
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-backend",
+                  "servicePort": 80,
+                },
+                "path": "/assets",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "penncourseplan.com",
+          ],
+          "secretName": "penncourseplan-com-tls",
+        },
+        Object {
+          "hosts": Array [
+            "penncoursealert.com",
+          ],
+          "secretName": "penncoursealert-com-tls",
+        },
+        Object {
+          "hosts": Array [
+            "review.penncourses.org",
+          ],
+          "secretName": "penncourses-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncourseplan-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncourseplan.com",
+        "*.penncourseplan.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncourseplan-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncoursealert-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncoursealert.com",
+        "*.penncoursealert.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncoursealert-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncourses-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncourses.org",
+        "*.penncourses.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncourses-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-plan",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-plan",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-plan",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-plan",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-plan",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-plan",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "penncourseplan.com",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/pcp-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-plan",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "penncourseplan.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-plan",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "penncourseplan.com",
+          ],
+          "secretName": "penncourseplan-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncourseplan-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncourseplan.com",
+        "*.penncourseplan.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncourseplan-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-alert",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-alert",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-alert",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-alert",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-alert",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-alert",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "penncoursealert.com",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/pcp-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-alert",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "penncoursealert.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-alert",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "penncoursealert.com",
+          ],
+          "secretName": "penncoursealert-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncoursealert-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncoursealert.com",
+        "*.penncoursealert.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncoursealert-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-review",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-review",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-review",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-review",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-review",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-review",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "review.penncourses.org",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/pcp-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-review",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "review.penncourses.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-review",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "review.penncourses.org",
+          ],
+          "secretName": "penncourses-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncourses-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncourses.org",
+        "*.penncourses.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncourses-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-load-courses",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-load-courses",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "registrarimport",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-courses",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 3 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-report-stats",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-report-stats",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "alertstats",
+                    "1",
+                    "--slack",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-courses",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 20 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;

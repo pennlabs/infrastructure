@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Autoscaling 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-serve",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-serve",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-serve",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-serve",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/website:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "autoscaling/v2beta2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-serve",
+    },
+    "spec": Object {
+      "maxReplicas": 10,
+      "metrics": Array [
+        Object {
+          "resource": Object {
+            "name": "cpu",
+            "target": Object {
+              "averageUtilization": 80,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+        Object {
+          "resource": Object {
+            "name": "memory",
+            "target": Object {
+              "averageValue": 80,
+              "type": "AverageValue",
+            },
+          },
+          "type": "Resource",
+        },
+        Object {
+          "pods": Object {
+            "metric": Object {
+              "name": "http_requests",
+            },
+            "target": Object {
+              "averageValue": 80,
+              "type": "AverageValue",
+            },
+          },
+          "type": "Pod",
+        },
+      ],
+      "minReplicas": 2,
+      "scaleTargetRef": Object {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "RELEASE_NAME-serve",
+      },
+    },
+  },
+]
+`;

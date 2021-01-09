@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Penn Basics 1`] = `
+Array [
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-calculate-waits",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-calculate-waits",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "calculatewaittimes",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-courses",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                  "volumeMounts": Array [
+                    Object {
+                      "mountPath": "/app/ios_key.p8",
+                      "name": "labs-api-server",
+                      "subPath": "ios-key",
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+              "volumes": Array [
+                Object {
+                  "name": "labs-api-server-ios-key",
+                  "secret": Object {
+                    "items": Array [
+                      Object {
+                        "key": "ios-key",
+                        "path": "ios-key",
+                      },
+                    ],
+                    "secretName": "labs-api-server",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      "schedule": "*/5 * * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;
