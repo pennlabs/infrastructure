@@ -47,7 +47,7 @@
     "projen": "^0.14.4",
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.4",
-    "typedoc": "^0.20.13",
+    "typedoc": "^0.19.2",
     "typescript": "^3.9.5"
   },
   "dependencies": {
