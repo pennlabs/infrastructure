@@ -50,7 +50,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
     },
     Object {
-      "name": "Test",
+      "name": "Test (run in parallel)",
       "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
 pipenv run coverage combine",
@@ -115,7 +115,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
     },
     Object {
-      "name": "Test",
+      "name": "Test (run in parallel)",
       "run": "cd backend
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
 pipenv run coverage combine",
@@ -180,7 +180,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
     },
     Object {
-      "name": "Test",
+      "name": "Test (run in parallel)",
       "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
 pipenv run coverage combine",
@@ -235,7 +235,7 @@ pip install pipenv
 pipenv install --deploy --dev",
     },
     Object {
-      "name": "Test",
+      "name": "Test (run in parallel)",
       "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
 pipenv run coverage combine",
@@ -301,7 +301,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
     },
     Object {
-      "name": "Test",
+      "name": "Test (run in parallel)",
       "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
 pipenv run coverage combine",

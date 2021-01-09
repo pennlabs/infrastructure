@@ -45,6 +45,8 @@ export interface DjangoCheckJobProps {
 
 /**
  * A job to lint and test a Django project as well as upload code coverage.
+ *
+ * Note that tests are run in parallel to reduce testing time.
  */
 export class DjangoCheckJob extends CheckoutJob {
   /**
@@ -96,7 +98,7 @@ export class DjangoCheckJob extends CheckoutJob {
       });
     }
     steps.push({
-      name: 'Test',
+      name: 'Test (run in parallel)',
       run: dedent`cd ${fullConfig.path}
       pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel
       pipenv run coverage combine`,

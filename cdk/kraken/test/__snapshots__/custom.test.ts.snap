@@ -100,7 +100,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
         },
         Object {
-          "name": "Test",
+          "name": "Test (run in parallel)",
           "run": "cd backendOne
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=projectOne.settings.ci --parallel
 pipenv run coverage combine",
@@ -162,7 +162,7 @@ pipenv run flake8 .",
 pipenv run black --check .",
         },
         Object {
-          "name": "Test",
+          "name": "Test (run in parallel)",
           "run": "cd backendTwo
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=projectTwo.settings.ci --parallel
 pipenv run coverage combine",
