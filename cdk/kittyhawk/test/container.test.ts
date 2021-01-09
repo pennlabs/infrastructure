@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Application } from '../src/application';
-import { chartTest, failingTest } from './utils'
+import { chartTest, failingTest } from './utils';
 
 export function buildProbeChart(scope: Construct) {
   /** Probe tests **/
@@ -17,9 +17,9 @@ export function buildFailingProbeChart(scope: Construct) {
   new Application(scope, 'serve', {
     image: 'pennlabs/website',
     tag: 'latest',
-    readinessProbe: { delay: 5 }, 
+    readinessProbe: { delay: 5 },
     livenessProbe: { period: 5 },
-  })
+  });
 }
 
 test('Readiness/Liveliness Probes', () => chartTest(buildProbeChart));

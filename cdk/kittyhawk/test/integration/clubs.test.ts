@@ -1,40 +1,41 @@
 import { Construct } from 'constructs';
-import { CronJob } from '../../src/cronjob';
-import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application'
-import { chartTest } from '../utils'
 import cronTime from 'cron-time-generator';
+import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
+import { CronJob } from '../../src/cronjob';
+import { chartTest } from '../utils';
 
 export function buildClubsChart(scope: Construct) {
 
-  /** Penn Clubs 
+  /** Penn Clubs
    * https://github.com/pennlabs/penn-clubs/blob/master/k8s/values.yaml
   */
-  new RedisApplication(scope, 'redis', {})
+  new RedisApplication(scope, 'redis', {});
 
   const clubsCommon = {
     image: 'pennlabs/penn-clubs-backend',
     secret: 'penn-clubs',
-  }
+  };
   const clubsDjangoCommon = {
     ...clubsCommon,
     domain: 'pennclubs.com',
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
-      { name: 'REDIS_HOST', value: 'penn-clubs-redis' }],
-  }
+      { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
+    ],
+  };
 
   new DjangoApplication(scope, 'django-asgi', {
     ...clubsDjangoCommon,
     cmd: ['/usr/local/bin/asgi-run'],
     replicas: 2,
     ingressPaths: ['/api/ws'],
-  })
+  });
 
   new DjangoApplication(scope, 'django-wsgi', {
     ...clubsDjangoCommon,
     replicas: 3,
     ingressPaths: ['/api'],
-  })
+  });
 
   new ReactApplication(scope, 'react', {
     image: 'pennlabs/penn-clubs-frontend',
@@ -42,16 +43,16 @@ export function buildClubsChart(scope: Construct) {
     domain: 'pennclubs.com',
     ingressPaths: ['/'],
     portEnv: '80',
-  })
+  });
 
   /** FYH */
 
-  new RedisApplication(scope, 'hub-redis', {})
+  new RedisApplication(scope, 'hub-redis', {});
 
   const fyhCommon = {
     image: 'pennlabs/penn-clubs-backend',
     secret: 'first-year-hub',
-  }
+  };
 
   const fyhDjangoCommon = {
     ...fyhCommon,
@@ -59,21 +60,22 @@ export function buildClubsChart(scope: Construct) {
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
-      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' }],
-  }
+      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
+    ],
+  };
 
   new DjangoApplication(scope, 'hub-django-asgi', {
     ...fyhDjangoCommon,
     cmd: ['/usr/local/bin/asgi-run'],
     replicas: 2,
     ingressPaths: ['/api/ws'],
-  })
+  });
 
   new DjangoApplication(scope, 'hub-django-wsgi', {
     ...fyhDjangoCommon,
     replicas: 3,
     ingressPaths: ['/api'],
-  })
+  });
 
 
   new ReactApplication(scope, 'hub-react', {
@@ -83,8 +85,9 @@ export function buildClubsChart(scope: Construct) {
     ingressPaths: ['/'],
     portEnv: '80',
     extraEnv: [
-      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' }],
-  })
+      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
+    ],
+  });
 
   /** Cronjobs **/
 

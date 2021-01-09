@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { KubeIngressV1Beta1 as IngressApiObject, IntOrString } from '../imports/k8s';
+import { KubeIngressV1Beta1 as IngressApiObject, IntOrString } from './imports/k8s';
 
 
 export interface IngressProps {
@@ -15,7 +15,7 @@ export interface IngressProps {
      *
      * @default undefined
      */
-  readonly ingress?: { host: string, paths: string[] }[];
+  readonly ingress?: { host: string; paths: string[] }[];
 }
 
 export class Ingress extends Construct {
@@ -28,13 +28,12 @@ export class Ingress extends Construct {
     if (ingress) {
       let tls = ingress.map(h => {
         // Regex to compute the apex domain
-        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g)
+        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g);
         if (apex_domain) {
           const host_string = apex_domain[0].split('.').join('-').concat('-tls');
-          return { hosts: [h.host], secretName: host_string }
-        } else
-          throw new Error(`Ingress construction failed: apex domain regex failed on ${h}`)
-      })
+          return { hosts: [h.host], secretName: host_string };
+        } else {throw new Error(`Ingress construction failed: apex domain regex failed on ${h}`);}
+      });
 
       let rules = ingress.map(h => {
         return {
@@ -47,11 +46,11 @@ export class Ingress extends Construct {
                   serviceName: appname,
                   servicePort: IntOrString.fromNumber(port),
                 },
-              }
+              };
             }),
           },
-        }
-      })
+        };
+      });
 
       new IngressApiObject(this, `ingress-${appname}`, {
         metadata: {

@@ -1,7 +1,7 @@
 
 import { Construct } from 'constructs';
-import { Application } from '../src/application'
-import { failingTest, chartTest } from './utils'
+import { Application } from '../src/application';
+import { failingTest, chartTest } from './utils';
 
 export function buildAutoscalingChart(scope: Construct) {
 
@@ -9,7 +9,7 @@ export function buildAutoscalingChart(scope: Construct) {
   new Application(scope, 'serve', {
     image: 'pennlabs/website',
     autoScalingProps: { cpu: 80, memory: 80, requests: 80 },
-  })
+  });
 }
 
 export function buildFailingAutoscalingChart(scope: Construct) {
@@ -20,7 +20,7 @@ export function buildFailingAutoscalingChart(scope: Construct) {
     tag: 'latest',
     replicas: 2,
     autoScalingProps: { cpu: 80 },
-  })
+  });
 }
 
 test('Autoscaling -- Failing', () => failingTest(buildFailingAutoscalingChart));

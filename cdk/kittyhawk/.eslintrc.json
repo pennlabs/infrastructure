@@ -32,12 +32,7 @@
     }
   },
   "ignorePatterns": [
-    "*.js",
-    "!.projenrc.js",
-    "*.d.ts",
-    "node_modules/",
-    "*.generated.ts",
-    "coverage"
+    "src/imports/*"
   ],
   "rules": {
     "@typescript-eslint/no-require-imports": [

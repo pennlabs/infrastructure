@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Application } from '../src/application';
-import { failingTest } from './utils'
+import { failingTest } from './utils';
 
 export function buildFailingIngressChart(scope: Construct) {
 
@@ -9,7 +9,7 @@ export function buildFailingIngressChart(scope: Construct) {
     image: 'pennlabs/website',
     tag: 'latest',
     ingress: [{ host: 'pennlabsorg', paths: ['/'] }],
-  })
+  });
 }
 
 test('Ingress Regex -- Failing', () => failingTest(buildFailingIngressChart));

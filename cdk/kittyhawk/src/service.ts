@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { KubeService as ServiceApiObject, IntOrString } from '../imports/k8s';
+import { KubeService as ServiceApiObject, IntOrString } from './imports/k8s';
 
 
 export interface ServiceProps {

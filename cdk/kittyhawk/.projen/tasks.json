@@ -1,5 +1,13 @@
 {
   "tasks": {
+    "import": {
+      "name": "import",
+      "steps": [
+        {
+          "exec": "yarn run cdk8s import --output src/imports"
+        }
+      ]
+    },
     "compile": {
       "name": "compile",
       "category": "00.build",

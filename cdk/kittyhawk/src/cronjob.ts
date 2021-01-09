@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
-import { KubeCronJobV1Beta1 as CronJobApiObject } from '../imports/k8s';
 import { Container, ContainerProps, Volume } from './container';
+import { KubeCronJobV1Beta1 as CronJobApiObject } from './imports/k8s';
 
 export interface CronJobProps extends ContainerProps {
 
@@ -11,26 +11,26 @@ export interface CronJobProps extends ContainerProps {
 
   /**
     * Restart policy for all containers.
-    * 
+    *
     * @default "Never"
-    * 
+    *
     */
 
   readonly restartPolicy?: 'Always' | 'OnFailure' | 'Never';
 
   /**
-    * The number of successful finished jobs to retain. 
-    * 
+    * The number of successful finished jobs to retain.
+    *
     * @default 1
-    * 
+    *
     */
   readonly successLimit?: number;
 
   /**
     * The number of failed jobs to retain.
-    * 
+    *
     * @default 1
-    * 
+    *
     */
   readonly failureLimit?: number;
 
@@ -39,7 +39,7 @@ export interface CronJobProps extends ContainerProps {
     *
     * @default undefined
     */
-  readonly secretMounts?: { name: string, mountPath: string, subPath: string }[]
+  readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
 
 }
 
@@ -50,9 +50,9 @@ export class CronJob extends Construct {
 
     // We want to prepend the project name to the name of each component
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
-    const fullname = `${release_name}-${jobname}`
+    const fullname = `${release_name}-${jobname}`;
     const containers: Container[] = [new Container(props)];
-    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m))
+    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m));
 
     new CronJobApiObject(this, `cronjob-${fullname}`, {
       metadata: {

@@ -1,4 +1,4 @@
-import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, Probe as ProbeInterface, VolumeMount, SecretVolumeSource, HttpGetAction, ExecAction } from '../imports/k8s';
+import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, Probe as ProbeInterface, VolumeMount, SecretVolumeSource, HttpGetAction, ExecAction } from './imports/k8s';
 
 
 export interface ContainerProps {
@@ -28,9 +28,9 @@ export interface ContainerProps {
 
   /**
       * Container commands.
-      * 
+      *
       * @default []
-      * 
+      *
       */
   readonly cmd?: string[];
 
@@ -46,14 +46,14 @@ export interface ContainerProps {
        *
        * @default []
        */
-  readonly extraEnv?: { name: string, value: string }[];
+  readonly extraEnv?: { name: string; value: string }[];
 
   /**
        * Secret mounts for deployment container.
        *
        * @default []
        */
-  readonly secretMounts?: { name: string, mountPath: string, subPath: string }[]
+  readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
 
   /**
        * Internal port.
@@ -63,22 +63,22 @@ export interface ContainerProps {
   readonly containerPort?: number;
 
   /**
-      * Container pull policy. 
-      * 
+      * Container pull policy.
+      *
       * @default "IfNotPresent"
-      * 
+      *
       */
   readonly pullPolicy?: 'IfNotPresent' | 'Always' | 'Never';
 
   /**
       * Liveliness Probe definitions for the container.
       */
-  readonly livenessProbe?: probeProps
+  readonly livenessProbe?: probeProps;
 
   /**
       * Readiness Probe definitions for the container.
       */
-  readonly readinessProbe?: probeProps
+  readonly readinessProbe?: probeProps;
 
 }
 
@@ -94,15 +94,15 @@ export interface probeProps {
   readonly command?: string[];
 
   /**
-       * Short for initialDelaySeconds: Number of seconds after the container has started before liveness or readiness probes are initiated. 
-       * 
+       * Short for initialDelaySeconds: Number of seconds after the container has started before liveness or readiness probes are initiated.
+       *
        * @default 0
        */
   readonly delay?: number;
 
   /**
-       * Short for periodSeconds: How often (in seconds) to perform the probe. 
-       * 
+       * Short for periodSeconds: How often (in seconds) to perform the probe.
+       *
        * @default 10
        */
   readonly period?: number;
@@ -112,27 +112,27 @@ export interface probeProps {
 export class Container implements ContainerInterface {
 
   /**
-       * Entrypoint array. 
+       * Entrypoint array.
        */
   readonly command?: string[];
 
   /**
-       * List of environment variables to set in the container. 
+       * List of environment variables to set in the container.
        */
   readonly env?: EnvVar[];
 
   /**
-       * List of sources to populate environment variables in the container. 
+       * List of sources to populate environment variables in the container.
        */
   readonly envFrom?: EnvFromSource[];
 
   /**
-       * Docker image name. 
+       * Docker image name.
        */
   readonly image?: string;
 
   /**
-       * Image pull policy. 
+       * Image pull policy.
        */
   readonly imagePullPolicy?: string;
 
@@ -142,7 +142,7 @@ export class Container implements ContainerInterface {
   readonly name: string;
 
   /**
-       * List of ports to expose from the container. 
+       * List of ports to expose from the container.
        *
        */
   readonly ports?: ContainerPort[];
@@ -158,18 +158,18 @@ export class Container implements ContainerInterface {
   readonly readinessProbe?: Probe;
 
   /**
-       * Periodic probe of container liveness. 
+       * Periodic probe of container liveness.
        */
   readonly livenessProbe?: Probe;
 
   constructor(props: ContainerProps) {
 
-    this.name = 'worker'
+    this.name = 'worker';
     // Priority is tag set, GIT_SHA env var, 'latest'
     const GIT_SHA = process.env.GIT_SHA || 'latest';
     const tag = props.tag || GIT_SHA;
     this.image = `${props.image}:${tag}`;
-    this.ports = [{ containerPort: props.port ?? 80 }]
+    this.ports = [{ containerPort: props.port ?? 80 }];
     this.imagePullPolicy = props.pullPolicy || 'IfNotPresent';
     this.command = props.cmd;
     this.volumeMounts = props.secretMounts;
@@ -196,7 +196,7 @@ export class Probe implements ProbeInterface {
   readonly httpGet?: HttpGetAction;
 
   /**
-       * Number of seconds after the container has started before liveness probes are initiated. 
+       * Number of seconds after the container has started before liveness probes are initiated.
        */
   readonly initialDelaySeconds?: number;
 
@@ -210,27 +210,27 @@ export class Probe implements ProbeInterface {
     this.initialDelaySeconds = props.delay ?? 1;
     this.periodSeconds = props.period ?? 10;
     if (props.command) {
-      this.exec = { command: props.command }
+      this.exec = { command: props.command };
     } else if (props.path) {
-      this.httpGet = { path: props.path, port: 80 }
-    } else throw new Error('Must provide either probe command or HTTP path')
+      this.httpGet = { path: props.path, port: 80 };
+    } else {throw new Error('Must provide either probe command or HTTP path');}
   }
 }
 
 export interface VolumeProps {
 
   /**
-       * Secret volume name. 
+       * Secret volume name.
        */
   readonly name: string;
 
   /**
-       * Secret volume mountPath. 
+       * Secret volume mountPath.
        */
   readonly mountPath: string;
 
   /**
-       * Secret volume subPath. 
+       * Secret volume subPath.
        */
   readonly subPath: string;
 
@@ -253,14 +253,14 @@ export class Volume implements VolumeInterface {
   constructor(props: VolumeProps) {
     let mountString = (a: string) => a.toLowerCase().split('_').join('-');
 
-    this.name = `${mountString(props.name)}-${mountString(props.subPath)}`
+    this.name = `${mountString(props.name)}-${mountString(props.subPath)}`;
     this.secret = {
       secretName: props.name,
       items: [{
         key: props.subPath,
         path: props.subPath,
       }],
-    }
+    };
   }
 
 

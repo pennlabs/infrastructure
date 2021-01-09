@@ -1,12 +1,12 @@
 import { Construct } from 'constructs';
+import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
 import { Ingress, IngressProps } from './ingress';
-import { Service, ServiceProps } from './service'
-import { Certificate } from './certificate';
+import { Service, ServiceProps } from './service';
 
 /**
- * Warning: Before editing any interfaces, make sure that none of the interfaces will have 
- * property names that conflict with each other. Typescript may not throw an error and it 
+ * Warning: Before editing any interfaces, make sure that none of the interfaces will have
+ * property names that conflict with each other. Typescript may not throw an error and it
  * could cause problems.
  */
 export interface ApplicationProps extends IngressProps, DeploymentProps,
@@ -19,31 +19,31 @@ export class Application extends Construct {
 
     // We want to prepend the project name to the name of each component
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
-    const fullname = `${release_name}-${appname}`
+    const fullname = `${release_name}-${appname}`;
 
     new Service(this, fullname, props);
 
     new Deployment(this, fullname, props);
 
     if (props.ingress) {
-      new Ingress(this, fullname, props)
+      new Ingress(this, fullname, props);
 
-      new Certificate(this, fullname, props)
+      new Certificate(this, fullname, props);
     }
   }
 }
 
 /**
- * Helper function that first checks to make sure that the environment variable array 
+ * Helper function that first checks to make sure that the environment variable array
  * doesn't already contain the env var, then inserts it into the array.
- * @param envArray array of environment variables to insert into 
+ * @param envArray array of environment variables to insert into
  * @param envKey name of the environment variable to insert
  * @param envValue value of the environment variable
  */
-function insertIfNotPresent(envArray: { name: string, value: string }[], envKey: string, envValue: any) {
+function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
   const envSettingsModule = envArray?.filter(env => (env.name === envKey));
   if (envSettingsModule?.length > 0) {
-    throw new Error(`${envKey} should not be redefined as an enviroment variable.`)
+    throw new Error(`${envKey} should not be redefined as an enviroment variable.`);
   }
   envArray.push({ name: envKey, value: envValue });
 
@@ -72,11 +72,11 @@ export class DjangoApplication extends Application {
     let djangoExtraEnv = Array.from(props.extraEnv || []);
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
-    insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule)
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain)
+    insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
+    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain);
 
     // Configure the ingress using ingressPaths.
-    const djangoIngress = [{ host: props.domain, paths: props.ingressPaths }]
+    const djangoIngress = [{ host: props.domain, paths: props.ingressPaths }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -111,11 +111,11 @@ export class ReactApplication extends Application {
     let reactExtraEnv = Array.from(props.extraEnv || []);
 
     // Insert DOMAIN and PORT as env vars.
-    insertIfNotPresent(reactExtraEnv, 'DOMAIN', props.domain)
-    insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80')
+    insertIfNotPresent(reactExtraEnv, 'DOMAIN', props.domain);
+    insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
 
     // Configure the ingress using ingressPaths.
-    const reactIngress = [{ host: props.domain, paths: props.ingressPaths }]
+    const reactIngress = [{ host: props.domain, paths: props.ingressPaths }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {

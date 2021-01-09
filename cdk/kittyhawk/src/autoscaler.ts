@@ -1,7 +1,7 @@
 // Mostly borrowed from https://github.com/awslabs/cdk8s/blob/master/examples/typescript/podinfo/lib/autoscaler.ts
 
 import { Construct } from 'constructs';
-import { KubeHorizontalPodAutoscalerV2Beta2 as HorizontalPodAutoscalerApiObject, MetricSpec, Quantity } from '../imports/k8s';
+import { KubeHorizontalPodAutoscalerV2Beta2 as HorizontalPodAutoscalerApiObject, MetricSpec, Quantity } from './imports/k8s';
 
 export interface ScaleTarget {
   readonly apiVersion: string;

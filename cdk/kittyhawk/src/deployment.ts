@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
-import { KubeDeployment as DeploymentApiObject } from '../imports/k8s';
 import { Autoscaler, AutoscalingProps } from './autoscaler';
 import { Container, ContainerProps, Volume } from './container';
+import { KubeDeployment as DeploymentApiObject } from './imports/k8s';
 
 export interface DeploymentProps extends ContainerProps {
   /**
@@ -16,10 +16,10 @@ export interface DeploymentProps extends ContainerProps {
    *
    * @default []
    */
-  readonly secretMounts?: { name: string, mountPath: string, subPath: string }[]
+  readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
 
   /**
-   * Properties for autoscaling. 
+   * Properties for autoscaling.
    * @default - see default autoscaler props
    */
   readonly autoScalingProps?: AutoscalingProps;
@@ -32,8 +32,8 @@ export class Deployment extends Construct {
 
     const label = { name: appname };
     const containers: Container[] = [new Container(props)];
-    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m))
-    const autoScalingOn : boolean = props.autoScalingProps !== undefined
+    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m));
+    const autoScalingOn : boolean = props.autoScalingProps !== undefined;
 
     // See https://github.com/kubernetes/kubernetes/issues/25238#issuecomment-570257435 for info
     if (autoScalingOn && props.replicas !== undefined) {

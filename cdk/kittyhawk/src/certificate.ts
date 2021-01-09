@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Certificate as CertApiObject } from '../imports/cert-manager.io/certificate';
+import { Certificate as CertApiObject } from './imports/cert-manager.io';
 import { IngressProps } from './ingress';
 
 export class Certificate extends Construct {
@@ -11,7 +11,7 @@ export class Certificate extends Construct {
       // We want to generate a certificate for each host
       for (const h of props.ingress) {
         // Regex to compute the apex domain
-        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g)
+        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g);
         if (apex_domain != null) {
           let host_string = apex_domain[0].split('.').join('-');
           new CertApiObject(this, `certificate-${appname}-${host_string}`, {
@@ -28,8 +28,7 @@ export class Certificate extends Construct {
               },
             },
           });
-        } else
-          throw `Certificate construction failed: apex domain regex failed on ${h}`
+        } else {throw `Certificate construction failed: apex domain regex failed on ${h}`;}
       }
     }
   }
