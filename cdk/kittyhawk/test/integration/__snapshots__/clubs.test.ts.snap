@@ -1,0 +1,1358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Penn Clubs 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-redis",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-redis",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django-asgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django-asgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django-asgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django-asgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "/usr/local/bin/asgi-run",
+              ],
+              "env": Array [
+                Object {
+                  "name": "REDIS_HOST",
+                  "value": "penn-clubs-redis",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-clubs",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennclubs.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-asgi",
+                  "servicePort": 80,
+                },
+                "path": "/api/ws",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennclubs.com",
+          ],
+          "secretName": "pennclubs-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennclubs-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennclubs.com",
+        "*.pennclubs.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennclubs-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django-wsgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django-wsgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 3,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django-wsgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django-wsgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "REDIS_HOST",
+                  "value": "penn-clubs-redis",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-clubs",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennclubs.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-django-wsgi",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennclubs.com",
+          ],
+          "secretName": "pennclubs-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennclubs-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennclubs.com",
+        "*.pennclubs.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennclubs-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-react",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-react",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-react",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-react",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/penn-clubs-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennclubs.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-react",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennclubs.com",
+          ],
+          "secretName": "pennclubs-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennclubs-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennclubs.com",
+        "*.pennclubs.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennclubs-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-hub-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-redis",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-redis",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-hub-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-hub-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-asgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-hub-django-asgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-django-asgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-hub-django-asgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-hub-django-asgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "/usr/local/bin/asgi-run",
+              ],
+              "env": Array [
+                Object {
+                  "name": "REDIS_HOST",
+                  "value": "penn-clubs-hub-redis",
+                },
+                Object {
+                  "name": "NEXT_PUBLIC_SITE_NAME",
+                  "value": "fyh",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "hub.provost.upenn.edu",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "first-year-hub",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-asgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "hub.provost.upenn.edu",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-hub-django-asgi",
+                  "servicePort": 80,
+                },
+                "path": "/api/ws",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "hub.provost.upenn.edu",
+          ],
+          "secretName": "upenn-edu-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "upenn-edu",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "upenn.edu",
+        "*.upenn.edu",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "upenn-edu-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-wsgi",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-hub-django-wsgi",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-django-wsgi",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 3,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-hub-django-wsgi",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-hub-django-wsgi",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "REDIS_HOST",
+                  "value": "penn-clubs-hub-redis",
+                },
+                Object {
+                  "name": "NEXT_PUBLIC_SITE_NAME",
+                  "value": "fyh",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "hub.provost.upenn.edu",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "first-year-hub",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-django-wsgi",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "hub.provost.upenn.edu",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-hub-django-wsgi",
+                  "servicePort": 80,
+                },
+                "path": "/api",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "hub.provost.upenn.edu",
+          ],
+          "secretName": "upenn-edu-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "upenn-edu",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "upenn.edu",
+        "*.upenn.edu",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "upenn-edu-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-react",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-hub-react",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-react",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-hub-react",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-hub-react",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "NEXT_PUBLIC_SITE_NAME",
+                  "value": "fyh",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/penn-clubs-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-react",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennclubs.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "serviceName": "RELEASE_NAME-hub-react",
+                  "servicePort": 80,
+                },
+                "path": "/",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennclubs.com",
+          ],
+          "secretName": "pennclubs-com-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennclubs-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennclubs.com",
+        "*.pennclubs.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennclubs-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-rank-clubs",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-rank-clubs",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "rank",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-clubs",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 8 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-daily-notifications",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-daily-notifications",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "daily_notifications",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-clubs",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 13 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-daily-notifications",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-daily-notifications",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "daily_notifications",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "first-year-hub",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 13 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-calendar-import",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-calendar-import",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "import_calendar_events",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-clubs",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 12 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1beta1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-calendar-import",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-calendar-import",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "import_calendar_events",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "first-year-hub",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "ports": Array [
+                    Object {
+                      "containerPort": 80,
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 12 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;
