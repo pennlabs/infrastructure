@@ -1,4 +1,4 @@
-# replace this# Kittyhawk
+# Kittyhawk
 
 Kittyhawk is the automated Kubernetes YAML generator for Penn Labs. 
 With Kittyhawk, you can define an application's deployment configuration in Typescript using objects called [constructs](https://cdk8s.io/docs/v1.0.0-beta.3/concepts/constructs/).
@@ -32,8 +32,8 @@ export function buildChart(scope: Construct) {
     replicas: 2,
     domain: 'pennclubs.com',
     ingressPaths: ['/api/ws'],
+    djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
-      { name: 'DJANGO_SETTINGS_MODULE', value: 'pennclubs.settings.production' },
       { name: 'REDIS_HOST', value: 'penn-clubs-redis' }],
   })
 
@@ -43,7 +43,7 @@ export function buildChart(scope: Construct) {
     replicas: 2,
     domain: 'pennclubs.com',
     ingressPaths: ['/'],
-    extraEnv: [{ name: 'PORT', value: '80' }],
+    portEnv: '80',
   })
 
 }

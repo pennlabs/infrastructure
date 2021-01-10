@@ -1,6 +1,6 @@
 ## Available Constructs
 
-You can find the full API reference [here:](https://pennlabs.github.io/kittyhawk/index.html) 
+You can find the full API reference [here:](https://kittyhawk.pennlabs.org/) 
 
 There are two main constructs, Application and Cronjob. Application has multiple subclasses, including  RedisApplication, ReactApplication and DjangoApplication. There are also constructs for defining individual deployments, services, ingresses, etc. 
 
@@ -11,7 +11,7 @@ There are two main constructs, Application and Cronjob. Application has multiple
 
 
 ### Properties for Application
-You can find the full reference [here](https://pennlabs.github.io/kittyhawk/interfaces/_lib_application_.applicationprops.html). A summary of the properties is listed below:
+You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces/_lib_application_.applicationprops.html). A summary of the properties is listed below:
 - image (string) - Docker image to use. (**Required**)
 - tag (string) - tag to use for your image  (**Optional**, defaults to CircleCI SHA1, or "latest" if SHA1 is not set)
 - port (number) - Port exposed by the application. (**Optional**, default 80)
@@ -30,9 +30,9 @@ You can find the full reference [here](https://pennlabs.github.io/kittyhawk/inte
       - name - name of secret (**Required**)
       - mountPath - Path within the container to mount the secret. (**Required**)
       - subPath (Required) - [sub-path](https://kubernetes.io/docs/concepts/storage/volumes/#using-subpath) to mount the secret in the volume (**Required**)
-- readinessProbe ([probeProps](https://pennlabs.github.io/kittyhawk/interfaces/_lib_container_.probeprops.html)) - A [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to start. (**Optional**, default undefined)
-- livenessProbe ([probeProps](https://pennlabs.github.io/kittyhawk/interfaces/_lib_container_.probeprops.html)) - A [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to start. (**Optional**, default undefined)
- - autoScalingProps ([AutoscalingProps](https://pennlabs.github.io/kittyhawk/interfaces/_lib_autoscaler_.autoscalingprops.html)) - Options to configure a Horizontal Pod Autoscaler ([HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)) based on CPU, memory, or request usage. (**Optional**, default undefined)
+- readinessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_lib_container_.probeprops.html)) - A [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to start. (**Optional**, default undefined)
+- livenessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_lib_container_.probeprops.html)) - A [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to start. (**Optional**, default undefined)
+ - autoScalingProps ([AutoscalingProps](https://kittyhawk.pennlabs.org/interfaces/_lib_autoscaler_.autoscalingprops.html)) - Options to configure a Horizontal Pod Autoscaler ([HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)) based on CPU, memory, or request usage. (**Optional**, default undefined)
 
 ### Properties for ReactApplication and DjangoApplication
 DjangoApplication and ReactApplication have special properties that override properties from Application.
@@ -49,7 +49,7 @@ For ReactApplication:
 
 Use these properties instead of defining an ingress, and the ingress will be auto-configured. Additionally, do not set a DOMAIN environment variable in extraEnv, since it will automatically be set. 
 
-You can also check out the full API reference for [DjangoApplication](https://pennlabs.github.io/kittyhawk/interfaces/_lib_application_.djangoapplicationprops.html) and [ReactApplication](https://pennlabs.github.io/kittyhawk/interfaces/_lib_application_.reactapplicationprops.html).
+You can also check out the full API reference for [DjangoApplication](https://kittyhawk.pennlabs.org/interfaces/_lib_application_.djangoapplicationprops.html) and [ReactApplication](https://kittyhawk.pennlabs.org/kittyhawk/interfaces/_lib_application_.reactapplicationprops.html).
 
 ### Properties for RedisApplication
 
@@ -63,7 +63,7 @@ Additionally, the image is set to 'redis'.
 
 [Cronjob](lib/cronjob.ts) is the construct for deploying a cronjob. To create an cronjob, it must be passed a scope, name and a properties object containing a valid configuration. 
 ### Properties for Cronjob
-You can find the full reference [here](https://pennlabs.github.io/kittyhawk/interfaces/_lib_cronjob_.cronjobprops.html). A summary of the properties is listed below:
+You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces/_lib_cronjob_.cronjobprops.html). A summary of the properties is listed below:
 - image (string) - Docker image to use. (**Required**)
 - schedule (string) - The schedule to run the job at, in Cron format. Use the [cron-time-generator](https://www.npmjs.com/package/cron-time-generator) package to ensure that the cron schedule is written correctly.  (**Required**)
 - restartPolicy (string) - [Policy](https://kubernetes.io/docs/concepts/workloads/controllers/job/#handling-pod-and-container-failures) for when the job should be restarted, either 'Always', 'OnFailure', or 'Never' (**Optional**, default 'Never')
