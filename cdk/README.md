@@ -16,7 +16,7 @@ npx projen new typescript
 
 Then modify the generated `.projenrc.js` to use the shared `cdk/project-common.js`. See kraken for an example.
 
-Now add the following to the infrastructure repo cdk `new CDKStack(app, '$name');`.
+Now add the following to the `main.ts` file in the infrastructure repo cdk `new CDKPublishStack(app, '$name');`.
 
 Finally, create a new repo named "$name-docs", make sure the pennlabsbot account has push access, and set up a CNAME so `$name.pennlabs.org` points to `pennlabs.github.io.`
 

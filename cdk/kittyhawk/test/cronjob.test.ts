@@ -18,15 +18,15 @@ export function buildCronjobVolumeChart(scope: Construct) {
 
 export function buildCronjobLimitsChart(scope: Construct) {
 
-    /** Tests a Cronjob with success and failure limits. */
-    new CronJob(scope, 'calculate-waits', {
-      schedule: cronTime.every(5).minutes(),
-      image: 'pennlabs/penn-courses-backend',
-      secret: 'penn-courses',
-      cmd: ['python', 'manage.py', 'calculatewaittimes'],
-      successLimit: 3,
-      failureLimit: 3,
-    });
+  /** Tests a Cronjob with success and failure limits. */
+  new CronJob(scope, 'calculate-waits', {
+    schedule: cronTime.every(5).minutes(),
+    image: 'pennlabs/penn-courses-backend',
+    secret: 'penn-courses',
+    cmd: ['python', 'manage.py', 'calculatewaittimes'],
+    successLimit: 3,
+    failureLimit: 3,
+  });
 }
 
 test('Cron Job with volume', () => chartTest(buildCronjobVolumeChart));
