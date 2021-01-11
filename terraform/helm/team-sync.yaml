@@ -7,3 +7,7 @@ cronjobs:
     extraEnv:
       - name: VAULT_ADDR
         value: http://vault.default:8200
+
+rbac:
+  enabled: true
+  roleARN: ${roleARN}

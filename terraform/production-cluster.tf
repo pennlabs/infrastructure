@@ -6,7 +6,9 @@
 //   version    = "0.1.20"
 
 //   values = [
-//     file("helm/team-sync.yaml")
+//     templatefile("helm/team-sync.yaml", {
+//       roleARN = module.iam-products["team-sync"].role-arn
+//     })
 //   ]
 // }
 
