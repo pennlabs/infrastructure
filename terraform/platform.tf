@@ -12,13 +12,6 @@ resource "aws_iam_access_key" "platform" {
   user     = aws_iam_user.platform[each.key].name
 }
 
-data "aws_iam_policy_document" "assume-kubectl" {
-  statement {
-    actions   = ["sts:AssumeRole"]
-    resources = [aws_iam_role.kubectl.arn]
-  }
-}
-
 resource "aws_iam_user_policy" "platform" {
   for_each = local.platform_members
   name     = "kubectl"

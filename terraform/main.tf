@@ -38,3 +38,10 @@ data "aws_iam_policy_document" "assume-role-policy" {
     }
   }
 }
+
+data "aws_iam_policy_document" "assume-kubectl" {
+  statement {
+    actions   = ["sts:AssumeRole"]
+    resources = [aws_iam_role.kubectl.arn]
+  }
+}

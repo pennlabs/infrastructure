@@ -8,13 +8,6 @@ module "eks-production" {
   vpc_id           = module.vpc.vpc_id
   write_kubeconfig = false
   enable_irsa      = true
-  map_users = [
-    {
-      userarn  = aws_iam_user.gh-actions.arn
-      username = aws_iam_user.gh-actions.name
-      groups   = ["system:masters"]
-    }
-  ]
   map_roles = [
     {
       rolearn  = aws_iam_role.kubectl.arn
@@ -71,7 +64,7 @@ data "aws_iam_policy_document" "kubectl" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      identifiers = [for member in local.platform_members : aws_iam_user.platform[member].arn]
+      identifiers = concat([for member in local.platform_members : aws_iam_user.platform[member].arn], [aws_iam_user.gh-actions.arn])
       type        = "AWS"
     }
   }

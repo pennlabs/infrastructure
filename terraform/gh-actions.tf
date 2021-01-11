@@ -13,5 +13,5 @@ resource "aws_iam_access_key" "gh-actions" {
 resource "aws_iam_user_policy" "gh-actions" {
   name   = "gh-actions"
   user   = aws_iam_user.gh-actions.name
-  policy = data.aws_iam_policy_document.view-k8s.json
+  policy = data.aws_iam_policy_document.assume-kubectl.json
 }
