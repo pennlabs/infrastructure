@@ -22,15 +22,6 @@
 //   ]
 // }
 
-// resource "helm_release" "atlantis" {
-//   name       = "atlantis"
-//   repository = "https://kubernetes-charts.storage.googleapis.com"
-//   chart      = "atlantis"
-//   version    = "3.12.0"
-
-//   values = [file("helm/atlantis.yaml")]
-// }
-
 // resource "helm_release" "bitwarden" {
 //   name       = "bitwarden"
 //   repository = "https://helm.pennlabs.org"
@@ -47,5 +38,13 @@
 //   prometheus_values        = [file("helm/prometheus.yaml")]
 // }
 
-// // TODO: secret sync
-// // TODO: db backup
+// TODO: secret sync
+
+// resource "helm_release" "db-backup" {
+//   name       = "db-backup"
+//   repository = "https://helm.pennlabs.org"
+//   chart      = "icarus"
+//   version    = "0.1.20"
+
+//   values = [file("helm/db-backup.yaml")]
+// }

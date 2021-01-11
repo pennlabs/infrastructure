@@ -1,0 +1,9 @@
+cronjobs:
+  - name: db-backup
+    schedule: "21 2 * * *"
+    secret: db-backup
+    image: pennlabs/pg-s3-backup
+    tag: dca1814fb78f71d7646a957c1e71a4595b8175d8
+    extraEnv:
+      - name: AWS_DEFAULT_REGION
+        value: "us-east-1"
