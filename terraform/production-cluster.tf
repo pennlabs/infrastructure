@@ -38,6 +38,7 @@ module "production-cluster" {
 }
 
 
+// TODO: uncomment just before final merge
 // resource "helm_release" "db-backup" {
 //   name       = "db-backup"
 //   repository = "https://helm.pennlabs.org"
