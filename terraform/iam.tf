@@ -5,3 +5,11 @@ module "iam-products" {
   oidc_issuer_url   = module.eks-production.cluster_oidc_issuer_url
   oidc_provider_arn = module.eks-production.oidc_provider_arn
 }
+
+module "iam-secret-sync" {
+  source            = "./modules/iam"
+  role              = "secret-sync"
+  namespaces        = ["default", "cert-manager", "staging"]
+  oidc_issuer_url   = module.eks-production.cluster_oidc_issuer_url
+  oidc_provider_arn = module.eks-production.oidc_provider_arn
+}

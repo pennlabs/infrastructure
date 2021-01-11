@@ -1,14 +1,3 @@
-resource "helm_release" "vault-secret-sync" {
-  name       = "secret-sync"
-  repository = "https://helm.pennlabs.org"
-  chart      = "vault-secret-sync"
-  version    = "0.1.4"
-
-  values = [templatefile("helm/vault-secret-sync.yaml", {
-    role_arn = module.iam-products["secret-sync"].role-arn
-  })]
-}
-
 // // TODO: modify this for aws auth
 // resource "helm_release" "team-sync" {
 //   name       = "team-sync"
@@ -42,12 +31,14 @@ resource "helm_release" "vault-secret-sync" {
 //   values = [file("helm/bitwarden.yaml")]
 // }
 
-// module "production-cluster" {
-//   source                   = "./modules/base_clusrer"
-//   traefik_values           = [file("helm/traefik.yaml")]
-//   vault_secret_sync_values = [file("helm/vault-secret-sync.yaml")]
-//   prometheus_values        = [file("helm/prometheus.yaml")]
-// }
+module "production-cluster" {
+  source                   = "./modules/base_cluster"
+  traefik_values           = [file("helm/traefik.yaml")]
+  vault_secret_sync_values = [templatefile("helm/vault-secret-sync.yaml", {
+    role_arn = module.iam-secret-sync.role-arn
+  })]
+  prometheus_values        = [file("helm/prometheus.yaml")]
+}
 
 
 // resource "helm_release" "db-backup" {

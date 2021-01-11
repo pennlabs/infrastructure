@@ -17,7 +17,6 @@ locals {
   ])
   iam_service_accounts = setunion(local.products,
     toset([
-      "secret-sync",
       "team-sync",
     ])
   )

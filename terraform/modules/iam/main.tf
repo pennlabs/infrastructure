@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "k8s" {
     condition {
       test     = "StringEquals"
       variable = "${replace(var.oidc_issuer_url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:${var.namespace}:${var.role}"]
+      values   = [for namespace in var.namespaces : "system:serviceaccount:${namespace}:${var.role}"]
     }
 
     principals {

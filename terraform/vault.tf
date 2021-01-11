@@ -238,7 +238,8 @@ module "vault" {
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
-  secret-sync-arn     = module.iam-products["secret-sync"].role-arn
+  // TODO: move these out of module
+  secret-sync-arn     = module.iam-secret-sync.role-arn
   team-sync-arn       = module.iam-products["team-sync"].role-arn
 }
 

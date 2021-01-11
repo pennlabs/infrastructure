@@ -3,10 +3,10 @@ variable "role" {
   type        = string
 }
 
-variable "namespace" {
-  description = "Namespace of the k8s SA"
-  type        = string
-  default     = "default"
+variable "namespaces" {
+  description = "Namespace(s) of the k8s SA"
+  type        = set(string)
+  default     = ["default"]
 }
 
 variable "oidc_issuer_url" {
