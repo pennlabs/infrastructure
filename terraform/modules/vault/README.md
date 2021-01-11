@@ -63,10 +63,6 @@ Configures team sync by:
 * Creating an AppRole team-sync user
 * Saving the role id and secret id in a secret that will be synced to the `default` namespace in `chronos`
 
-## terraform-user.tf
-
-Creates a terraform AppRole user with admin privileges
-
 ## outputs.tf
 
 Exports the role id and secret id of the terraform AppRole vault user so that [base](../base) can use those credentials to make additional changes to vault.
