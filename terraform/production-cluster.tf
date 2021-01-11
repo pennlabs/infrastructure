@@ -1,3 +1,14 @@
+resource "helm_release" "vault-secret-sync" {
+  name       = "secret-sync"
+  repository = "https://helm.pennlabs.org"
+  chart      = "vault-secret-sync"
+  version    = "0.1.4"
+
+  values = [templatefile("helm/vault-secret-sync.yaml", {
+    role_arn = module.iam-products["secret-sync"].role-arn
+  })]
+}
+
 // // TODO: modify this for aws auth
 // resource "helm_release" "team-sync" {
 //   name       = "team-sync"
@@ -38,7 +49,6 @@
 //   prometheus_values        = [file("helm/prometheus.yaml")]
 // }
 
-// TODO: secret sync
 
 // resource "helm_release" "db-backup" {
 //   name       = "db-backup"
