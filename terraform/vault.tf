@@ -14,6 +14,17 @@ resource "aws_kms_key" "vault" {
 }
 
 // IAM
+data "aws_iam_policy_document" "assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
 resource "aws_iam_role" "vault" {
   name = "vault"
 

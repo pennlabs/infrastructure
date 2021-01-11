@@ -28,17 +28,6 @@ locals {
   vault_ami        = "ami-0eec2c28d4dd94628"
 }
 
-data "aws_iam_policy_document" "assume-role-policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
 data "aws_iam_policy_document" "assume-kubectl" {
   statement {
     actions   = ["sts:AssumeRole"]
