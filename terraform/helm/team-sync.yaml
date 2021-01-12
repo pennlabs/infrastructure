@@ -3,11 +3,11 @@ cronjobs:
     schedule: "*/10 * * * *"
     secret: team-sync
     image: pennlabs/team-sync
-    tag: fa5c54f2edb5311f1e6dc543a938b5254c7b0aca
+    tag: 98bd93b34e2269d3d9d534f05fb8d170077eeb32
     extraEnv:
       - name: VAULT_ADDR
-        value: http://vault.default:8200
+        value: https://vault.pennlabs.org
 
 rbac:
-  enabled: true
+  createSA: true
   roleARN: ${roleARN}

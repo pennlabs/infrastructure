@@ -1,16 +1,15 @@
-// // TODO: modify this for aws auth
-// resource "helm_release" "team-sync" {
-//   name       = "team-sync"
-//   repository = "https://helm.pennlabs.org"
-//   chart      = "icarus"
-//   version    = "0.1.20"
+resource "helm_release" "team-sync" {
+  name       = "team-sync"
+  repository = "https://helm.pennlabs.org"
+  chart      = "icarus"
+  version    = "0.1.23"
 
-//   values = [
-//     templatefile("helm/team-sync.yaml", {
-//       roleARN = module.iam-products["team-sync"].role-arn
-//     })
-//   ]
-// }
+  values = [
+    templatefile("helm/team-sync.yaml", {
+      roleARN = module.iam-products["team-sync"].role-arn
+    })
+  ]
+}
 
 resource "helm_release" "grafana" {
   name       = "grafana"
@@ -41,6 +40,7 @@ module "production-cluster" {
 
 
 // TODO: uncomment just before final merge
+// modify to use iam for s3 perms
 // resource "helm_release" "db-backup" {
 //   name       = "db-backup"
 //   repository = "https://helm.pennlabs.org"
