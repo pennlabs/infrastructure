@@ -1,19 +1,18 @@
 # Base Cluster
 
-A terraform module to create a Kubernetes cluster on DigitalOcean with some additional software installed.
+A terraform module to populate a Kubernetes cluster with some useful additional software.
 
 ## Inputs
 
 | Name                     | Description                                           |
 | ------------------------ | ----------------------------------------------------- |
 | traefik_values           | Values to provide to the traefik helm chart           |
-| cert_manager_values      | Values to provide to the Cert Manager helm chart      |
 | vault_secret_sync_values | Values to provide to the Vault Secret Sync helm chart |
 | prometheus_values        | Values to provide to the Prometheus helm chart        |
 
 ## main.tf
 
-Creates the actual Kubernetes cluster in DigitalOcean
+Doesn't do anything
 
 ## cert-manager.tf
 

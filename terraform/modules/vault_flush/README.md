@@ -5,7 +5,7 @@ A terraform module to flush updated secrets to vault. It takes in an existing se
 ## Inputs
 
 | Name  | Description                          |
-|-------|--------------------------------------|
+| ----- | ------------------------------------ |
 | path  | Path to the existing secret in Vault |
 | entry | Entries to replace within the secret |
 
