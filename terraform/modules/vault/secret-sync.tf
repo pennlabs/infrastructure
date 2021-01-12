@@ -7,7 +7,7 @@ resource "vault_policy" "secret-sync" {
 }
 resource "vault_aws_auth_backend_role" "secret-sync" {
   role                     = "secret-sync"
-  bound_iam_principal_arns = [var.secret-sync-arn]
+  bound_iam_principal_arns = [var.SECRET_SYNC_ARN]
   token_policies = [vault_policy.secret-sync.name]
 }
 

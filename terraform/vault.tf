@@ -249,8 +249,8 @@ module "vault" {
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
-  secret-sync-arn     = module.iam-secret-sync.role-arn
-  team-sync-arn       = module.iam-products["team-sync"].role-arn
+  SECRET_SYNC_ARN     = module.iam-secret-sync.role-arn
+  TEAM_SYNC_ARN       = module.iam-products["team-sync"].role-arn
 }
 
 // db-backup secret
