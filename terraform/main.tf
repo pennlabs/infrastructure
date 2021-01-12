@@ -18,6 +18,7 @@ locals {
   iam_service_accounts = setunion(local.products,
     toset([
       "team-sync",
+      "db-backup",
     ])
   )
   platform_members = toset([

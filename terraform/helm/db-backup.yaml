@@ -7,3 +7,7 @@ cronjobs:
     extraEnv:
       - name: AWS_DEFAULT_REGION
         value: "us-east-1"
+
+rbac:
+  createSA: true
+  roleARN: ${roleARN}

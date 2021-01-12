@@ -253,6 +253,17 @@ module "vault" {
   team-sync-arn       = module.iam-products["team-sync"].role-arn
 }
 
+// db-backup secret
+// TODO: figure out a master read-only user for this
+resource "vault_generic_secret" "db-backup" {
+  path = "${module.vault.secrets-path}/production/default/db-backup"
+
+  data_json = jsonencode({
+    "DATABASE_URL" = "postgres://postgres:${aws_db_instance.production.password}@${aws_db_instance.production.endpoint}"
+    "S3_BUCKET" = "sql.pennlabs.org"
+  })
+}
+
 // Database secrets
 module "db-secret-flush" {
   source = "./modules/vault_flush"

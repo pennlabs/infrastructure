@@ -39,13 +39,15 @@ module "production-cluster" {
 }
 
 
-// TODO: uncomment just before final merge
-// modify to use iam for s3 perms
-// resource "helm_release" "db-backup" {
-//   name       = "db-backup"
-//   repository = "https://helm.pennlabs.org"
-//   chart      = "icarus"
-//   version    = "0.1.20"
+resource "helm_release" "db-backup" {
+  name       = "db-backup"
+  repository = "https://helm.pennlabs.org"
+  chart      = "icarus"
+  version    = "0.1.23"
 
-//   values = [file("helm/db-backup.yaml")]
-// }
+  values = [
+    templatefile("helm/db-backup.yaml", {
+      roleARN = module.iam-products["db-backup"].role-arn
+    })
+  ]
+}
