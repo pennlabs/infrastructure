@@ -260,7 +260,7 @@ resource "vault_generic_secret" "db-backup" {
 
   data_json = jsonencode({
     "DATABASE_URL" = "postgres://postgres:${aws_db_instance.production.password}@${aws_db_instance.production.endpoint}"
-    "S3_BUCKET" = "sql.pennlabs.org"
+    "S3_BUCKET"    = "sql.pennlabs.org"
   })
 }
 
@@ -269,6 +269,6 @@ module "db-secret-flush" {
   source = "./modules/vault_flush"
   // Vault exists outside of EKS, so don't create an entry for it
   for_each = setsubtract(local.database_users, ["vault"])
-  path = "secrets/production/default/${each.key}"
-  entry = {DATABASE_URL = "postgres://${each.key}:${postgresql_role.role[each.key].password}@${aws_db_instance.production.endpoint}/${each.key}"}
+  path     = "secrets/production/default/${each.key}"
+  entry    = { DATABASE_URL = "postgres://${each.key}:${postgresql_role.role[each.key].password}@${aws_db_instance.production.endpoint}/${each.key}" }
 }

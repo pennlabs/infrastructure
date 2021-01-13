@@ -13,9 +13,9 @@ resource "helm_release" "cert-manager" {
   // This is set to ensure that cert-manager is working before the CRs are applied
   atomic = true
   set {
-    name = "installCRDs"
+    name  = "installCRDs"
     value = true
-  }  
+  }
 }
 
 resource "time_sleep" "cert-manager-cr" {
@@ -29,7 +29,7 @@ resource "helm_release" "labs-clusterissuer" {
   repository = "https://helm.pennlabs.org"
   chart      = "helm-wrapper"
   version    = "0.1.0"
-  values = [file("${path.module}/clusterissuer.yaml")]
+  values     = [file("${path.module}/clusterissuer.yaml")]
 
   depends_on = [
     time_sleep.cert-manager-cr
@@ -41,7 +41,7 @@ resource "helm_release" "pennlabs-wildcard-cert" {
   repository = "https://helm.pennlabs.org"
   chart      = "helm-wrapper"
   version    = "0.1.0"
-  values = [file("${path.module}/wildcard-cert.yaml")]
+  values     = [file("${path.module}/wildcard-cert.yaml")]
 
   depends_on = [
     time_sleep.cert-manager-cr

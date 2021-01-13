@@ -8,7 +8,7 @@ resource "vault_policy" "secret-sync" {
 resource "vault_aws_auth_backend_role" "secret-sync" {
   role                     = "secret-sync"
   bound_iam_principal_arns = [var.SECRET_SYNC_ARN]
-  token_policies = [vault_policy.secret-sync.name]
+  token_policies           = [vault_policy.secret-sync.name]
 }
 
 resource "vault_approle_auth_backend_role" "secret-sync" {
@@ -24,7 +24,7 @@ resource "vault_generic_secret" "secret-sync" {
   path = "${vault_mount.secrets.path}/secret-sync"
 
   data_json = jsonencode({
-    "ROLE_ID" = vault_approle_auth_backend_role.secret-sync.role_id
+    "ROLE_ID"   = vault_approle_auth_backend_role.secret-sync.role_id
     "SECRET_ID" = vault_approle_auth_backend_role_secret_id.secret-sync.secret_id
   })
 }

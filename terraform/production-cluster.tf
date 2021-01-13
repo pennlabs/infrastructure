@@ -30,12 +30,12 @@ resource "helm_release" "bitwarden" {
 }
 
 module "production-cluster" {
-  source                   = "./modules/base_cluster"
-  traefik_values           = [file("helm/traefik.yaml")]
+  source         = "./modules/base_cluster"
+  traefik_values = [file("helm/traefik.yaml")]
   vault_secret_sync_values = [templatefile("helm/vault-secret-sync.yaml", {
     role_arn = module.iam-secret-sync.role-arn
   })]
-  prometheus_values        = [file("helm/prometheus.yaml")]
+  prometheus_values = [file("helm/prometheus.yaml")]
 }
 
 
