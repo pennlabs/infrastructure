@@ -1,5 +1,6 @@
 // Production
 module "eks-production" {
+  // https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
   source           = "terraform-aws-modules/eks/aws"
   version          = "13.2.1"
   cluster_name     = local.k8s_cluster_name

@@ -1,6 +1,7 @@
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
+  // https://registry.terraform.io/modules/terraform-aws-modules/eks/vpc/latest
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.64.0"
 
