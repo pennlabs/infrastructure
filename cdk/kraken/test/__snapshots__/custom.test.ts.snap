@@ -295,6 +295,11 @@ pipenv run codecov --root $ROOT --flags backend",
 yarn install --frozen-lockfile",
         },
         Object {
+          "name": "Lint",
+          "run": "cd frontendOne
+yarn lint",
+        },
+        Object {
           "name": "Test",
           "run": "cd frontendOne
 yarn test",
@@ -329,6 +334,11 @@ yarn run codecov -p $ROOT -F frontend",
           "name": "Install Dependencies",
           "run": "cd frontendTwo
 yarn install --frozen-lockfile",
+        },
+        Object {
+          "name": "Lint",
+          "run": "cd frontendTwo
+yarn lint",
         },
         Object {
           "name": "Test",

@@ -64,6 +64,11 @@ export class ReactCheckJob extends CheckoutJob {
         yarn install --frozen-lockfile`,
       },
       {
+        name: 'Lint',
+        run: dedent`cd ${fullConfig.path}
+        yarn lint`,
+      },
+      {
         name: 'Test',
         run: dedent`cd ${fullConfig.path}
         yarn test`,

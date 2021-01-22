@@ -25,6 +25,11 @@ Object {
 yarn install --frozen-lockfile",
     },
     Object {
+      "name": "Lint",
+      "run": "cd .
+yarn lint",
+    },
+    Object {
       "name": "Test",
       "run": "cd .
 yarn test",
@@ -62,6 +67,11 @@ Object {
       "name": "Install Dependencies",
       "run": "cd frontend
 yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Lint",
+      "run": "cd frontend
+yarn lint",
     },
     Object {
       "name": "Test",
@@ -103,6 +113,11 @@ Object {
 yarn install --frozen-lockfile",
     },
     Object {
+      "name": "Lint",
+      "run": "cd .
+yarn lint",
+    },
+    Object {
       "name": "Test",
       "run": "cd .
 yarn test",
@@ -141,6 +156,11 @@ Object {
       "name": "Install Dependencies",
       "run": "cd .
 yarn install --frozen-lockfile",
+    },
+    Object {
+      "name": "Lint",
+      "run": "cd .
+yarn lint",
     },
     Object {
       "name": "Test",

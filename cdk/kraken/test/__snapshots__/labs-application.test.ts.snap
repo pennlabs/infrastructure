@@ -82,6 +82,10 @@ jobs:
         run: |-
           cd frontend
           yarn install --frozen-lockfile
+      - name: Lint
+        run: |-
+          cd frontend
+          yarn lint
       - name: Test
         run: |-
           cd frontend
@@ -233,6 +237,10 @@ jobs:
         run: |-
           cd frontend
           yarn install --frozen-lockfile
+      - name: Lint
+        run: |-
+          cd frontend
+          yarn lint
       - name: Test
         run: |-
           cd frontend
