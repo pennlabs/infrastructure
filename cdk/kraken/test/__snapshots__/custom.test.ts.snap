@@ -190,6 +190,14 @@ pipenv run codecov --root $ROOT --flags backend",
           "uses": "docker/setup-buildx-action@v1",
         },
         Object {
+          "name": "Cache Docker layers",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "buildx-publish-backend-one",
+            "path": "/tmp/.buildx-cache",
+          },
+        },
+        Object {
           "uses": "docker/login-action@v1",
           "with": Object {
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
@@ -200,7 +208,8 @@ pipenv run codecov --root $ROOT --flags backend",
           "name": "Build/Publish",
           "uses": "docker/build-push-action@v2",
           "with": Object {
-            "cache-from": "type=registry,ref=pennlabs/imageOne-backend:latest",
+            "cache-from": "type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/imageOne-backend:latest",
+            "cache-to": "type=local,dest=/tmp/.buildx-cache",
             "context": "backendOne",
             "file": "backendOne/Dockerfile",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
@@ -224,6 +233,14 @@ pipenv run codecov --root $ROOT --flags backend",
           "uses": "docker/setup-buildx-action@v1",
         },
         Object {
+          "name": "Cache Docker layers",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "buildx-publish-backend-two",
+            "path": "/tmp/.buildx-cache",
+          },
+        },
+        Object {
           "uses": "docker/login-action@v1",
           "with": Object {
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
@@ -234,7 +251,8 @@ pipenv run codecov --root $ROOT --flags backend",
           "name": "Build/Publish",
           "uses": "docker/build-push-action@v2",
           "with": Object {
-            "cache-from": "type=registry,ref=pennlabs/imageTwo-backend:latest",
+            "cache-from": "type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/imageTwo-backend:latest",
+            "cache-to": "type=local,dest=/tmp/.buildx-cache",
             "context": "backendTwo",
             "file": "backendTwo/Dockerfile",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
@@ -258,6 +276,14 @@ pipenv run codecov --root $ROOT --flags backend",
           "uses": "docker/setup-buildx-action@v1",
         },
         Object {
+          "name": "Cache Docker layers",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "buildx-publish-frontend-one",
+            "path": "/tmp/.buildx-cache",
+          },
+        },
+        Object {
           "uses": "docker/login-action@v1",
           "with": Object {
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
@@ -268,7 +294,8 @@ pipenv run codecov --root $ROOT --flags backend",
           "name": "Build/Publish",
           "uses": "docker/build-push-action@v2",
           "with": Object {
-            "cache-from": "type=registry,ref=pennlabs/imageOne-frontend:latest",
+            "cache-from": "type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/imageOne-frontend:latest",
+            "cache-to": "type=local,dest=/tmp/.buildx-cache",
             "context": "frontendOne",
             "file": "frontendOne/Dockerfile",
             "push": "\${{ github.ref == 'refs/heads/master' }}",
@@ -292,6 +319,14 @@ pipenv run codecov --root $ROOT --flags backend",
           "uses": "docker/setup-buildx-action@v1",
         },
         Object {
+          "name": "Cache Docker layers",
+          "uses": "actions/cache@v2",
+          "with": Object {
+            "key": "buildx-publish-frontend-two",
+            "path": "/tmp/.buildx-cache",
+          },
+        },
+        Object {
           "uses": "docker/login-action@v1",
           "with": Object {
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
@@ -302,7 +337,8 @@ pipenv run codecov --root $ROOT --flags backend",
           "name": "Build/Publish",
           "uses": "docker/build-push-action@v2",
           "with": Object {
-            "cache-from": "type=registry,ref=pennlabs/imageTwo-frontend:latest",
+            "cache-from": "type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/imageTwo-frontend:latest",
+            "cache-to": "type=local,dest=/tmp/.buildx-cache",
             "context": "frontendTwo",
             "file": "frontendTwo/Dockerfile",
             "push": "\${{ github.ref == 'refs/heads/master' }}",

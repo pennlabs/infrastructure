@@ -63,7 +63,6 @@ export interface DockerPublishJobProps {
 
 /**
  * A job to build and publish a Docker image.
- * TODO: look into docker build action v2
  */
 export class DockerPublishJob extends CheckoutJob {
   /**
@@ -91,12 +90,14 @@ export class DockerPublishJob extends CheckoutJob {
     // Define docker action with
     const imageName = `pennlabs/${fullConfig.imageName}`;
     const dockerWith: any = {
-      context: fullConfig.path,
-      file: `${fullConfig.path}/${fullConfig.dockerfile}`,
-      push: fullConfig.push,
+      'context': fullConfig.path,
+      'file': `${fullConfig.path}/${fullConfig.dockerfile}`,
+      'push': fullConfig.push,
+      'cache-from': 'type=local,src=/tmp/.buildx-cache',
+      'cache-to': 'type=local,dest=/tmp/.buildx-cache',
     };
     if (fullConfig.cache) {
-      dockerWith['cache-from'] = `type=registry,ref=${imageName}:latest`;
+      dockerWith['cache-from'] = dockerWith['cache-from'].concat(`,type=registry,ref=${imageName}:latest`);
     }
 
     // Build tags string
@@ -110,6 +111,14 @@ export class DockerPublishJob extends CheckoutJob {
       },
       {
         uses: 'docker/setup-buildx-action@v1',
+      },
+      {
+        name: 'Cache Docker layers',
+        uses: 'actions/cache@v2',
+        with: {
+          path: '/tmp/.buildx-cache',
+          key: `buildx-${formattedId}`,
+        },
       },
       {
         uses: 'docker/login-action@v1',
@@ -136,7 +145,7 @@ export class DockerPublishJob extends CheckoutJob {
           path: '/tmp/image.tar',
         },
       });
-      steps.splice(2, 1);
+      steps.splice(3, 1);
     }
 
     // Create job
