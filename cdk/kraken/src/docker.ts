@@ -66,6 +66,11 @@ export interface DockerPublishJobProps {
  */
 export class DockerPublishJob extends CheckoutJob {
   /**
+   * Full name of the docker image built.
+   */
+  public readonly dockerImageName: string;
+
+  /**
    *
    * @param scope cdkactions Workflow instance.
    * @param id Id of the job.
@@ -155,5 +160,8 @@ export class DockerPublishJob extends CheckoutJob {
       steps,
       ...overrides,
     });
+
+    // Set public fields
+    this.dockerImageName = imageName;
   }
 }
