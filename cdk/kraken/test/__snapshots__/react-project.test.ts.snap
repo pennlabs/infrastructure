@@ -12,17 +12,27 @@ Object {
           "uses": "actions/checkout@v2",
         },
         Object {
-          "name": "Publish",
-          "uses": "docker/build-push-action@v1",
+          "uses": "docker/setup-qemu-action@v1",
+        },
+        Object {
+          "uses": "docker/setup-buildx-action@v1",
+        },
+        Object {
+          "uses": "docker/login-action@v1",
           "with": Object {
-            "cache_froms": "pennlabs/example:latest",
-            "dockerfile": "./Dockerfile",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
-            "push": "\${{ github.ref == 'refs/heads/master' }}",
-            "repository": "pennlabs/example",
-            "tags": "latest,\${{ github.sha }}",
             "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
+          "name": "Build/Publish",
+          "uses": "docker/build-push-action@v2",
+          "with": Object {
+            "cache-from": "type=registry,ref=pennlabs/example:latest",
+            "context": ".",
+            "file": "./Dockerfile",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "tags": "pennlabs/example:latest,pennlabs/example:\${{ github.sha }}",
           },
         },
       ],
@@ -86,17 +96,27 @@ Object {
           "uses": "actions/checkout@v2",
         },
         Object {
-          "name": "Publish",
-          "uses": "docker/build-push-action@v1",
+          "uses": "docker/setup-qemu-action@v1",
+        },
+        Object {
+          "uses": "docker/setup-buildx-action@v1",
+        },
+        Object {
+          "uses": "docker/login-action@v1",
           "with": Object {
-            "cache_froms": "pennlabs/example:latest",
-            "dockerfile": "./Dockerfile",
             "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "path": ".",
-            "push": "\${{ github.ref == 'refs/heads/master' }}",
-            "repository": "pennlabs/example",
-            "tags": "latest,\${{ github.sha }}",
             "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
+          "name": "Build/Publish",
+          "uses": "docker/build-push-action@v2",
+          "with": Object {
+            "cache-from": "type=registry,ref=pennlabs/example:latest",
+            "context": ".",
+            "file": "./Dockerfile",
+            "push": "\${{ github.ref == 'refs/heads/master' }}",
+            "tags": "pennlabs/example:latest,pennlabs/example:\${{ github.sha }}",
           },
         },
       ],

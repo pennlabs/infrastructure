@@ -11,6 +11,10 @@ test('disable cache', () => {
   expect(dc.toGHAction()).toMatchSnapshot();
 });
 
+test('no publish', () => {
+  const dc = new DockerPublishJob(undefined as any, 'publish', { imageName: 'example', noPublish: true });
+  expect(dc.toGHAction()).toMatchSnapshot();
+});
 
 test('with overrides', () => {
   const dc = new DockerPublishJob(undefined as any, 'publish', { imageName: 'example' }, { continueOnError: true });
