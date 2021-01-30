@@ -4,7 +4,7 @@ import { DeployJob, DeployJobProps } from './deploy';
 import { DjangoCheckJobProps } from './django';
 import { DjangoProject } from './django-project';
 import { DockerPublishJobProps } from './docker';
-import { IntegrationTestsJob } from './integration-tests';
+import { IntegrationTestsJob, IntegrationTestsJobProps } from './integration-tests';
 import { ReactCheckJobProps } from './react';
 import { ReactProject } from './react-project';
 
@@ -83,6 +83,11 @@ export interface LabsApplicationStackProps {
   reactDockerOverrides?: Partial<JobProps>;
 
   /**
+   * Optional props to pass to the integration tests job.
+   */
+  integrationProps?: Partial<IntegrationTestsJobProps>;
+
+  /**
    * Optional overrides for the integration tests job.
    */
   integrationOverrides?: Partial<JobProps>;
@@ -127,11 +132,15 @@ export class LabsApplicationStack extends Stack {
       reactCheckOverrides: {},
       reactDockerProps: {},
       reactDockerOverrides: {},
+      integrationProps: {},
       integrationOverrides: {},
       deployProps: {},
       deployOverrides: {},
       ...config,
     };
+    fullConfig.djangoDockerProps.noPublish = fullConfig.integrationTests;
+    fullConfig.reactDockerProps.noPublish = fullConfig.integrationTests;
+
     // Create stack
     super(scope, 'application');
     const workflow = new Workflow(this, 'build-and-deploy', {
@@ -164,19 +173,26 @@ export class LabsApplicationStack extends Stack {
       },
     );
 
-    let integrationTestsId = '';
+    let deployNeeds: string[];
     if (fullConfig.integrationTests) {
-      const integrationTest = new IntegrationTestsJob(workflow, {},
+      const integrationTest = new IntegrationTestsJob(workflow,
+        {
+          dockerBuildIds: [djangoProject.publishJobId, reactProject.publishJobId],
+          dockerImages: [djangoProject.dockerImageName, reactProject.dockerImageName],
+          testCommand: 'echo "Add an integration test command" && exit 1',
+          ...fullConfig.integrationProps,
+        },
         {
           ...fullConfig.integrationOverrides,
           needs: [djangoProject.publishJobId, reactProject.publishJobId],
         },
       );
-      integrationTestsId = integrationTest.id;
+      deployNeeds = [integrationTest.finalJobId];
+    } else {
+      deployNeeds = [djangoProject.publishJobId, reactProject.publishJobId];
     }
 
     // Deploy
-    const deployNeeds = fullConfig.integrationTests ? [integrationTestsId] : [djangoProject.publishJobId, reactProject.publishJobId];
     new DeployJob(workflow, fullConfig.deployProps,
       {
         ...fullConfig.deployOverrides,

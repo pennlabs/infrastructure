@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default 1`] = `
+Object {
+  "jobs": Object {
+    "integration-tests": Object {
+      "env": Object {
+        "GIT_SHA": "\${{ github.sha }}",
+      },
+      "name": "Integration Tests",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "uses": "actions/download-artifact@v2",
+        },
+        Object {
+          "name": "Load docker images",
+          "run": "docker load --input id/image.tar",
+        },
+        Object {
+          "name": "Run docker compose",
+          "run": "mkdir -p /tmp/test-results
+docker-compose -f docker-compose.test.yaml up -d",
+        },
+        Object {
+          "name": "Wait for backend",
+          "run": "for try in {1..10}; do
+  docker-compose -f docker-compose.test.yaml exec -T backend python manage.py migrate --check && break
+  sleep 5
+done",
+        },
+        Object {
+          "name": "Populate backend",
+          "run": "docker-compose -f docker-compose.test.yaml exec -T backend python manage.py populate",
+        },
+        Object {
+          "name": "Run integration tests",
+          "run": "exit 0",
+        },
+        Object {
+          "if": "failure() || github.ref != 'refs/heads/master'",
+          "name": "Delete artifacts when no longer needed",
+          "uses": "geekyeggo/delete-artifact@v1",
+          "with": Object {
+            "name": "id",
+          },
+        },
+        Object {
+          "if": "failure()",
+          "name": "Print logs on failure",
+          "run": "docker-compose -f docker-compose.test.yaml logs",
+        },
+        Object {
+          "if": "failure()",
+          "name": "Upload artifacts on failure",
+          "uses": "actions/upload-artifact@v2",
+          "with": Object {
+            "name": "cypress-output",
+            "path": "/tmp/test-results",
+          },
+        },
+      ],
+    },
+    "post-integration-publish": Object {
+      "if": "github.ref == 'refs/heads/master'",
+      "name": "Publish Images",
+      "needs": "integration-tests",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "uses": "actions/download-artifact@v2",
+        },
+        Object {
+          "uses": "geekyeggo/delete-artifact@v1",
+          "with": Object {
+            "name": "id",
+          },
+        },
+        Object {
+          "name": "Load docker images",
+          "run": "docker load --input id/image.tar",
+        },
+        Object {
+          "uses": "docker/login-action@v1",
+          "with": Object {
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
+          "name": "Load docker images",
+          "run": "docker push --all-tags image",
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;
+
+exports[`no post image publish 1`] = `
+Object {
+  "jobs": Object {
+    "integration-tests": Object {
+      "env": Object {
+        "GIT_SHA": "\${{ github.sha }}",
+      },
+      "name": "Integration Tests",
+      "runs-on": "ubuntu-latest",
+      "steps": Array [
+        Object {
+          "uses": "actions/checkout@v2",
+        },
+        Object {
+          "uses": "actions/download-artifact@v2",
+        },
+        Object {
+          "name": "Load docker images",
+          "run": "docker load --input id/image.tar",
+        },
+        Object {
+          "name": "Run docker compose",
+          "run": "mkdir -p /tmp/test-results
+docker-compose -f docker-compose.test.yaml up -d",
+        },
+        Object {
+          "name": "Wait for backend",
+          "run": "for try in {1..10}; do
+  docker-compose -f docker-compose.test.yaml exec -T backend python manage.py migrate --check && break
+  sleep 5
+done",
+        },
+        Object {
+          "name": "Populate backend",
+          "run": "docker-compose -f docker-compose.test.yaml exec -T backend python manage.py populate",
+        },
+        Object {
+          "name": "Run integration tests",
+          "run": "exit 0",
+        },
+        Object {
+          "if": "failure() || github.ref != 'refs/heads/master'",
+          "name": "Delete artifacts when no longer needed",
+          "uses": "geekyeggo/delete-artifact@v1",
+          "with": Object {
+            "name": "id",
+          },
+        },
+        Object {
+          "if": "failure()",
+          "name": "Print logs on failure",
+          "run": "docker-compose -f docker-compose.test.yaml logs",
+        },
+        Object {
+          "if": "failure()",
+          "name": "Upload artifacts on failure",
+          "uses": "actions/upload-artifact@v2",
+          "with": Object {
+            "name": "cypress-output",
+            "path": "/tmp/test-results",
+          },
+        },
+      ],
+    },
+  },
+  "name": "Workflow",
+  "on": "push",
+}
+`;
