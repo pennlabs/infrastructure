@@ -63,6 +63,11 @@ export class DjangoProject {
   public readonly publishJobId: string;
 
   /**
+   * Full name of the docker image built.
+   */
+  public readonly dockerImageName: string;
+
+  /**
    *
    * @param workflow cdkaction Workflow instance.
    * @param config Configuration for the django project,
@@ -101,7 +106,8 @@ export class DjangoProject {
         , ...fullConfig.publishOverrides,
       });
 
-    // Set publishJobID
+    // Set public fields
     this.publishJobId = publishJob.id;
+    this.dockerImageName = publishJob.dockerImageName;
   }
 }

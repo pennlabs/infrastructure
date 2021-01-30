@@ -58,6 +58,11 @@ export class ReactProject {
   public readonly publishJobId: string;
 
   /**
+   * Full name of the docker image built.
+   */
+  public readonly dockerImageName: string;
+
+  /**
    *
    * @param workflow cdkaction Workflow instance.
    * @param config Configuration for the react project,
@@ -95,7 +100,8 @@ export class ReactProject {
         , ...fullConfig.publishOverrides,
       });
 
-    // Set publishJobID
+    // Set public fields
     this.publishJobId = publishJob.id;
+    this.dockerImageName = publishJob.dockerImageName;
   }
 }
