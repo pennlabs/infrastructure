@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.6 (2021-01-30)
+
+* Bugfix post-integration publish job
+
 ## 0.4.5 (2021-01-30)
 
 * Update `docker/build-push-action` to v2

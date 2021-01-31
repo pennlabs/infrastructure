@@ -374,8 +374,8 @@ jobs:
           password: \${{ secrets.DOCKER_PASSWORD }}
       - name: Load docker images
         run: |-
-          docker push --all-tags pennlabs/example-backend
-          docker push --all-tags pennlabs/example-frontend
+          docker push pennlabs/example-backend
+          docker push pennlabs/example-frontend
     needs: integration-tests
   deploy:
     runs-on: ubuntu-latest

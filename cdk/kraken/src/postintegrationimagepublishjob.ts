@@ -82,7 +82,7 @@ export class PostIntegrationPublishJob extends CheckoutJob {
         },
         {
           name: 'Load docker images',
-          run: fullConfig.dockerImages.map(image => `docker push --all-tags ${image}`).join('\n'),
+          run: fullConfig.dockerImages.map(image => `docker push ${image}`).join('\n'),
         },
       ],
       ...overrides,

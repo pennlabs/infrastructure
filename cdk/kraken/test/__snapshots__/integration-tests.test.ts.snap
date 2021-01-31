@@ -95,7 +95,7 @@ done",
         },
         Object {
           "name": "Load docker images",
-          "run": "docker push --all-tags image",
+          "run": "docker push image",
         },
       ],
     },
