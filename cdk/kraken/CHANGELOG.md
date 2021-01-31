@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.7 (2021-01-30)
+
+* Bugfix post-integration publish job again
+
 ## 0.4.6 (2021-01-30)
 
 * Bugfix post-integration publish job
