@@ -36,7 +36,7 @@ export function buildClubsChart(scope: Construct) {
       { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
     ],
   };
-  
+
 
   new RedisApplication(scope, 'redis', {});
 

@@ -10,9 +10,9 @@ export function buildCoursesChart(scope: Construct) {
    * https://github.com/pennlabs/penn-courses/blob/master/k8s/values.yaml
   */
 
-   const backendImage = 'pennlabs/penn-courses-backend';
-   const secret = 'penn-courses';
-  
+  const backendImage = 'pennlabs/penn-courses-backend';
+  const secret = 'penn-courses';
+
 
   new RedisApplication(scope, 'redis', { tag: '4.0' });
 
@@ -24,7 +24,7 @@ export function buildCoursesChart(scope: Construct) {
     domains: [{ host: 'penncourseplan.com', isSubdomain: false },
     { host: 'penncoursealert.com', isSubdomain: false },
     { host: 'review.penncourses.org', isSubdomain: true }],
-   });
+  });
 
   new DjangoApplication(scope, 'backend', {
     image: backendImage,
@@ -35,8 +35,8 @@ export function buildCoursesChart(scope: Construct) {
     extraEnv: [{ name: 'PORT', value: '80' }],
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
     domains: [{ host: 'penncourseplan.com', isSubdomain: false },
-      { host: 'penncoursealert.com', isSubdomain: false },
-      { host: 'review.penncourses.org', isSubdomain: true }],
+    { host: 'penncoursealert.com', isSubdomain: false },
+    { host: 'review.penncourses.org', isSubdomain: true }],
   });
 
   new ReactApplication(scope, 'plan', {
