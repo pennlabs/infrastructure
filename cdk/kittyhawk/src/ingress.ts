@@ -15,7 +15,24 @@ export interface IngressProps {
      *
      * @default undefined
      */
-  readonly ingress?: { host: string; paths: string[] }[];
+  readonly ingress?: HostRules[];
+}
+
+export interface HostRules {
+  /**
+   * The domain for the ingress.
+   */
+  readonly host: string; 
+
+  /**
+   * Paths on the domain that the application should be avaiable.
+   */
+  readonly paths: string[]; 
+
+  /**
+   * If the host is a subdomain. Make this not optional.
+   */
+  readonly isSubdomain?: boolean;
 }
 
 export class Ingress extends Construct {

@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
-import { Ingress, IngressProps } from './ingress';
+import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service, ServiceProps } from './service';
 
 /**
@@ -55,9 +55,11 @@ export interface DjangoApplicationProps extends ApplicationProps {
   readonly domain: string[];
 
   /**
-   * Just the list of paths passed to the ingress since we already know the host.
+   * Just the list of paths passed to the ingress since we already know the host. Optional.
+   * 
+   * @default undefined
    */
-  readonly ingressPaths: string[];
+  readonly ingressPaths?: string[];
 
   /**
    * DJANGO_SETTINGS_MODULE environment variable.
@@ -75,10 +77,13 @@ export class DjangoApplication extends Application {
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
     insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain.join(','));
 
-    // Configure the ingress using ingressPaths.
-    const djangoIngress = props.domain.map(h => {
-      return { host: h, paths: props.ingressPaths };
-    });
+    // Configure the ingress using ingressPaths only if ingressPaths is defined.
+    let djangoIngress: HostRules[] | undefined = undefined;
+    if (props.ingressPaths) {
+      djangoIngress = props.domain.map(h => {
+        return { host: h, paths: props.ingressPaths || [] };
+      })
+    } 
 
     // If everything passes, construct the Application.
     super(scope, appname, {
