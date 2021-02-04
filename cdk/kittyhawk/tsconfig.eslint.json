@@ -21,8 +21,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2018",
-    "esModuleInterop": true
+    "target": "ES2018"
   },
   "include": [
     ".projenrc.js",

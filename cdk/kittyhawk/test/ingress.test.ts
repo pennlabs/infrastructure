@@ -1,3 +1,4 @@
+import { Testing } from 'cdk8s';
 import { Construct } from 'constructs';
 import { Application } from '../src/application';
 import { failingTest } from './utils';
@@ -13,3 +14,5 @@ export function buildFailingIngressChart(scope: Construct) {
 }
 
 test('Ingress Regex -- Failing', () => failingTest(buildFailingIngressChart));
+
+test('')

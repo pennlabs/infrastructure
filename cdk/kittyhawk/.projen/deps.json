@@ -21,7 +21,7 @@
     },
     {
       "name": "cdk8s-cli",
-      "version": "^1.0.0-beta.5",
+      "version": "^1.0.0-beta.8",
       "type": "build"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "name": "projen",
-      "version": "^0.14.4",
+      "version": "^0.16.2",
       "type": "build"
     },
     {
@@ -86,7 +86,7 @@
     },
     {
       "name": "cdk8s",
-      "version": "^1.0.0-beta.5",
+      "version": "^1.0.0-beta.8",
       "type": "runtime"
     },
     {
