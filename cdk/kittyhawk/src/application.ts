@@ -50,9 +50,9 @@ function insertIfNotPresent(envArray: { name: string; value: string }[], envKey:
 }
 export interface DjangoApplicationProps extends ApplicationProps {
   /**
-   * Domain of the application.
+   * List of domain(s) of the application.
    */
-  readonly domain: string;
+  readonly domain: string[];
 
   /**
    * Just the list of paths passed to the ingress since we already know the host.
@@ -73,10 +73,12 @@ export class DjangoApplication extends Application {
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain);
+    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain.join(','));
 
     // Configure the ingress using ingressPaths.
-    const djangoIngress = [{ host: props.domain, paths: props.ingressPaths }];
+    const djangoIngress = props.domain.map(h => {
+      return { host: h, paths: props.ingressPaths };
+    });
 
     // If everything passes, construct the Application.
     super(scope, appname, {

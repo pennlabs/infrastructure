@@ -18,7 +18,7 @@ export function buildFailingDjangoChart(scope: Construct) {
   /** Django Duplicated DOMAIN Env should fail **/
   new DjangoApplication(scope, 'platform', {
     image: 'pennlabs/platform',
-    domain: 'platform.pennlabs.org',
+    domain: ['platform.pennlabs.org'],
     djangoSettingsModule: 'Platform.settings.production',
     extraEnv: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
     ingressPaths: ['/'],

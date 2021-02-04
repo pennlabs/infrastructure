@@ -17,7 +17,7 @@ export function buildOHQChart(scope: Construct) {
   const djangoCommon = {
     ...common,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domain: 'ohq.io',
+    domain: ['ohq.io'],
     extraEnv: [
       { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
     ],
@@ -37,8 +37,8 @@ export function buildOHQChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'react', {
-    image: common.image,
-    domain: djangoCommon.domain,
+    image: 'pennlabs/office-hours-queue-frontend',
+    domain: 'ohq.io',
     replicas: 2,
     ingressPaths: ['/'],
     portEnv: '80',

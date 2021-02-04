@@ -17,7 +17,7 @@ export function buildClubsChart(scope: Construct) {
   };
   const clubsDjangoCommon = {
     ...clubsCommon,
-    domain: 'pennclubs.com',
+    domain: ['pennclubs.com'],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
@@ -56,7 +56,7 @@ export function buildClubsChart(scope: Construct) {
 
   const fyhDjangoCommon = {
     ...fyhCommon,
-    domain: 'hub.provost.upenn.edu',
+    domain: ['hub.provost.upenn.edu'],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },

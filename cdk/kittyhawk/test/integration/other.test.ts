@@ -45,7 +45,7 @@ export function buildPlatformChart(scope: Construct) {
   new DjangoApplication(scope, 'platform', {
     ...common,
     port: 443,
-    domain: 'platform.pennlabs.org',
+    domain: ['platform.pennlabs.org'],
     djangoSettingsModule: 'Platform.settings.production',
     ingressPaths: ['/'],
     secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
@@ -68,7 +68,7 @@ export function buildCFAChart(scope: Construct) {
   new DjangoApplication(scope, 'django', {
     image: 'pennlabs/common-funding-application',
     secret: 'common-funding-application',
-    domain: 'penncfa.com',
+    domain: ['penncfa.com'],
     ingressPaths: ['/'],
     djangoSettingsModule: 'penncfa.settings.production',
   });
