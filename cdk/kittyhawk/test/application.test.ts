@@ -18,7 +18,7 @@ export function buildFailingDjangoChart(scope: Construct) {
   /** Django Duplicated DOMAIN Env should fail **/
   new DjangoApplication(scope, 'platform', {
     image: 'pennlabs/platform',
-    domain: ['platform.pennlabs.org'],
+    domains: [{host: 'platform.pennlabs.org', isSubdomain: true}],
     djangoSettingsModule: 'Platform.settings.production',
     extraEnv: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
     ingressPaths: ['/'],
@@ -32,6 +32,7 @@ export function buildFailingReactChart(scope: Construct) {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
     domain: 'pennclubs.com',
+    isSubdomain: false,
     ingressPaths: ['/'],
     extraEnv: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
     portEnv: '80',

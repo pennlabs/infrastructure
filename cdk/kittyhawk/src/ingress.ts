@@ -22,17 +22,17 @@ export interface HostRules {
   /**
    * The domain for the ingress.
    */
-  readonly host: string; 
+  readonly host: string;
 
   /**
    * Paths on the domain that the application should be avaiable.
    */
-  readonly paths: string[]; 
+  readonly paths: string[];
 
   /**
-   * If the host is a subdomain. Make this not optional.
+   * If the host is a subdomain.
    */
-  readonly isSubdomain?: boolean;
+  readonly isSubdomain: boolean;
 }
 
 export class Ingress extends Construct {
@@ -44,12 +44,8 @@ export class Ingress extends Construct {
 
     if (ingress) {
       let tls = ingress.map(h => {
-        // Regex to compute the apex domain
-        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g);
-        if (apex_domain) {
-          const host_string = apex_domain[0].split('.').join('-').concat('-tls');
-          return { hosts: [h.host], secretName: host_string };
-        } else {throw new Error(`Ingress construction failed: apex domain regex failed on ${h}`);}
+        let hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
+        return { hosts: [h.host], secretName: hostString };
       });
 
       let rules = ingress.map(h => {
@@ -81,4 +77,34 @@ export class Ingress extends Construct {
       });
     }
   }
+}
+
+/**
+ * Removes the subdomain from an url if isSubdomain is true
+ * @param d the domain as a string
+ * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate.
+ */
+export function removeSubdomain(d: string, isSubdomain: boolean) {
+  if (isSubdomain) {
+    // Must have at least 3 parts to the domain (e.g. xxx.abc.com)
+    if (d.split('.').length < 3) {
+      throw `No subdomain found in ${d}.`
+    }
+    return d.split('.').slice(1).join('.');
+  } else {
+    return d;
+  }
+}
+
+/**
+ * Converts a domain to a dash-separated form (e.g. abc-def-org), optionally removing the subdomain.
+ * @param d the domain as a string
+ * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate.
+ */
+export function domainToCertName(d: string, isSubdomain: boolean) {
+  // Remove everything before the 1st '.' if it is a subdomain.
+  if (d.split('.').length < 2) {
+    throw `Ingress creation failed: domain ${d} is invalid.`
+  }
+  return removeSubdomain(d, isSubdomain).split('.').join('-');
 }

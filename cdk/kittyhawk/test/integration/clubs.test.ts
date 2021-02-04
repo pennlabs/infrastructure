@@ -17,7 +17,7 @@ export function buildClubsChart(scope: Construct) {
   };
   const clubsDjangoCommon = {
     ...clubsCommon,
-    domain: ['pennclubs.com'],
+    domains: [{host: 'pennclubs.com', isSubdomain: false}],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
@@ -41,6 +41,7 @@ export function buildClubsChart(scope: Construct) {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
     domain: 'pennclubs.com',
+    isSubdomain: false,
     ingressPaths: ['/'],
     portEnv: '80',
   });
@@ -56,7 +57,7 @@ export function buildClubsChart(scope: Construct) {
 
   const fyhDjangoCommon = {
     ...fyhCommon,
-    domain: ['hub.provost.upenn.edu'],
+    domains: [{host: 'hub.provost.upenn.edu', isSubdomain: false}],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
@@ -82,6 +83,7 @@ export function buildClubsChart(scope: Construct) {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
     domain: 'pennclubs.com',
+    isSubdomain: false,
     ingressPaths: ['/'],
     portEnv: '80',
     extraEnv: [

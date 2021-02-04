@@ -742,7 +742,7 @@ Array [
           "hosts": Array [
             "hub.provost.upenn.edu",
           ],
-          "secretName": "upenn-edu-tls",
+          "secretName": "hub-provost-upenn-edu-tls",
         },
       ],
     },
@@ -754,19 +754,19 @@ Array [
       "labels": Object {
         "release": "RELEASE_NAME",
       },
-      "name": "upenn-edu",
+      "name": "hub-provost-upenn-edu",
     },
     "spec": Object {
       "dnsNames": Array [
-        "upenn.edu",
-        "*.upenn.edu",
+        "hub.provost.upenn.edu",
+        "*.hub.provost.upenn.edu",
       ],
       "issuerRef": Object {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
       },
-      "secretName": "upenn-edu-tls",
+      "secretName": "hub-provost-upenn-edu-tls",
     },
   },
   Object {
@@ -900,7 +900,7 @@ Array [
           "hosts": Array [
             "hub.provost.upenn.edu",
           ],
-          "secretName": "upenn-edu-tls",
+          "secretName": "hub-provost-upenn-edu-tls",
         },
       ],
     },
@@ -912,19 +912,19 @@ Array [
       "labels": Object {
         "release": "RELEASE_NAME",
       },
-      "name": "upenn-edu",
+      "name": "hub-provost-upenn-edu",
     },
     "spec": Object {
       "dnsNames": Array [
-        "upenn.edu",
-        "*.upenn.edu",
+        "hub.provost.upenn.edu",
+        "*.hub.provost.upenn.edu",
       ],
       "issuerRef": Object {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
       },
-      "secretName": "upenn-edu-tls",
+      "secretName": "hub-provost-upenn-edu-tls",
     },
   },
   Object {

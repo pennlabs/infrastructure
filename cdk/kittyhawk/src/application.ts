@@ -50,9 +50,9 @@ function insertIfNotPresent(envArray: { name: string; value: string }[], envKey:
 }
 export interface DjangoApplicationProps extends ApplicationProps {
   /**
-   * List of domain(s) of the application.
+   * List of domain(s) of the application and if they are a subdomain.
    */
-  readonly domain: string[];
+  readonly domains: {host: string, isSubdomain: boolean}[];
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.
@@ -75,13 +75,13 @@ export class DjangoApplication extends Application {
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain.join(','));
+    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join(','));
 
-    // Configure the ingress using ingressPaths only if ingressPaths is defined.
+    // Configure the ingress using ingressPaths if ingressPaths is defined.
     let djangoIngress: HostRules[] | undefined = undefined;
     if (props.ingressPaths) {
-      djangoIngress = props.domain.map(h => {
-        return { host: h, paths: props.ingressPaths || [] };
+      djangoIngress = props.domains.map(h => {
+        return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain};
       })
     } 
 
@@ -99,6 +99,11 @@ export interface ReactApplicationProps extends ApplicationProps {
    * Domain of the application.
    */
   readonly domain: string;
+
+  /**
+   * If the host is a subdomain.
+   */
+  readonly isSubdomain: boolean;
 
   /**
    * Just the list of paths passed to the ingress since we already know the host.
@@ -122,7 +127,7 @@ export class ReactApplication extends Application {
     insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
 
     // Configure the ingress using ingressPaths.
-    const reactIngress = [{ host: props.domain, paths: props.ingressPaths }];
+    const reactIngress = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {

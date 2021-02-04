@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Certificate as CertApiObject } from './imports/cert-manager.io';
-import { IngressProps } from './ingress';
+import { IngressProps, domainToCertName, removeSubdomain } from './ingress';
 
 export class Certificate extends Construct {
   constructor(scope: Construct, appname: string, props: IngressProps) {
@@ -10,25 +10,21 @@ export class Certificate extends Construct {
     if (props.ingress) {
       // We want to generate a certificate for each host
       for (const h of props.ingress) {
-        // Regex to compute the apex domain
-        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g);
-        if (apex_domain != null) {
-          let host_string = apex_domain[0].split('.').join('-');
-          new CertApiObject(this, `certificate-${appname}-${host_string}`, {
-            metadata: {
-              name: host_string,
+        let hostString: string = domainToCertName(h.host, h.isSubdomain);
+        new CertApiObject(this, `certificate-${appname}-${hostString}`, {
+          metadata: {
+            name: hostString,
+          },
+          spec: {
+            secretName: hostString.concat('-tls'),
+            dnsNames: [`${removeSubdomain(h.host, h.isSubdomain)}`, `*.${removeSubdomain(h.host, h.isSubdomain)}`],
+            issuerRef: {
+              name: 'wildcard-letsencrypt-prod',
+              kind: 'ClusterIssuer',
+              group: 'cert-manager.io',
             },
-            spec: {
-              secretName: host_string.concat('-tls'),
-              dnsNames: [`${apex_domain[0]}`, `*.${apex_domain[0]}`],
-              issuerRef: {
-                name: 'wildcard-letsencrypt-prod',
-                kind: 'ClusterIssuer',
-                group: 'cert-manager.io',
-              },
-            },
-          });
-        } else {throw `Certificate construction failed: apex domain regex failed on ${h}`;}
+          },
+        });
       }
     }
   }

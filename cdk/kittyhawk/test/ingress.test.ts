@@ -8,7 +8,7 @@ export function buildFailingIngressChart(scope: Construct) {
   new Application(scope, 'serve', {
     image: 'pennlabs/website',
     tag: 'latest',
-    ingress: [{ host: 'pennlabsorg', paths: ['/'] }],
+    ingress: [{ host: 'pennlabsorg', paths: ['/'], isSubdomain: false }],
   });
 }
 
