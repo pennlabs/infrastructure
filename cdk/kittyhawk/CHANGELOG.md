@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.7 (2021-02-04)
+## 1.0.7 (2021-02-05)
 
 * Added domain parsing for certificate generation, using the `isSubdomain` flag passed along with each domain.
 * Allow multiple domains in a Django application. 

@@ -75,6 +75,8 @@ export class Ingress extends Construct {
           rules,
         },
       });
+    } else {
+      throw new Error('Cannot generate ingress if props.ingress is undefined.');
     }
   }
 }
@@ -88,7 +90,7 @@ export function removeSubdomain(d: string, isSubdomain: boolean) {
   if (isSubdomain) {
     // Must have at least 3 parts to the domain (e.g. xxx.abc.com)
     if (d.split('.').length < 3) {
-      throw `No subdomain found in ${d}.`
+      throw new Error(`No subdomain found in ${d}.`);
     }
     return d.split('.').slice(1).join('.');
   } else {
@@ -104,7 +106,7 @@ export function removeSubdomain(d: string, isSubdomain: boolean) {
 export function domainToCertName(d: string, isSubdomain: boolean) {
   // Remove everything before the 1st '.' if it is a subdomain.
   if (d.split('.').length < 2) {
-    throw `Ingress creation failed: domain ${d} is invalid.`
+    throw new Error(`Ingress creation failed: domain ${d} is invalid.`);
   }
   return removeSubdomain(d, isSubdomain).split('.').join('-');
 }

@@ -40,9 +40,9 @@ export class Application extends Construct {
  * @param envKey name of the environment variable to insert
  * @param envValue value of the environment variable
  */
-function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
-  const envSettingsModule = envArray?.filter(env => (env.name === envKey));
-  if (envSettingsModule?.length > 0) {
+export function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
+  const envSettingsModule = envArray.filter(env => (env.name === envKey));
+  if (envSettingsModule.length > 0) {
     throw new Error(`${envKey} should not be redefined as an enviroment variable.`);
   }
   envArray.push({ name: envKey, value: envValue });
@@ -52,11 +52,11 @@ export interface DjangoApplicationProps extends ApplicationProps {
   /**
    * List of domain(s) of the application and if they are a subdomain.
    */
-  readonly domains: {host: string, isSubdomain: boolean}[];
+  readonly domains: {host: string; isSubdomain: boolean}[];
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.
-   * 
+   *
    * @default undefined
    */
   readonly ingressPaths?: string[];
@@ -81,9 +81,9 @@ export class DjangoApplication extends Application {
     let djangoIngress: HostRules[] | undefined = undefined;
     if (props.ingressPaths) {
       djangoIngress = props.domains.map(h => {
-        return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain};
-      })
-    } 
+        return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain };
+      });
+    }
 
     // If everything passes, construct the Application.
     super(scope, appname, {

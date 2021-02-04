@@ -990,7 +990,7 @@ Array [
                 },
                 Object {
                   "name": "DOMAIN",
-                  "value": "pennclubs.com",
+                  "value": "hub.provost.upenn.edu",
                 },
                 Object {
                   "name": "PORT",
@@ -1028,7 +1028,7 @@ Array [
     "spec": Object {
       "rules": Array [
         Object {
-          "host": "pennclubs.com",
+          "host": "hub.provost.upenn.edu",
           "http": Object {
             "paths": Array [
               Object {
@@ -1045,9 +1045,9 @@ Array [
       "tls": Array [
         Object {
           "hosts": Array [
-            "pennclubs.com",
+            "hub.provost.upenn.edu",
           ],
-          "secretName": "pennclubs-com-tls",
+          "secretName": "hub-provost-upenn-edu-tls",
         },
       ],
     },
@@ -1059,19 +1059,19 @@ Array [
       "labels": Object {
         "release": "RELEASE_NAME",
       },
-      "name": "pennclubs-com",
+      "name": "hub-provost-upenn-edu",
     },
     "spec": Object {
       "dnsNames": Array [
-        "pennclubs.com",
-        "*.pennclubs.com",
+        "hub.provost.upenn.edu",
+        "*.hub.provost.upenn.edu",
       ],
       "issuerRef": Object {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
       },
-      "secretName": "pennclubs-com-tls",
+      "secretName": "hub-provost-upenn-edu-tls",
     },
   },
   Object {

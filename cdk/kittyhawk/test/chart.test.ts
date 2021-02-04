@@ -5,7 +5,7 @@ export function buildWebsiteChart(scope: Construct) {
 
   new Application(scope, 'serve', {
     image: 'pennlabs/website',
-    ingress: [{ host: 'pennlabs.org', paths: ['/'], isSubdomain: false}],
+    ingress: [{ host: 'pennlabs.org', paths: ['/'], isSubdomain: false }],
   });
 }
 

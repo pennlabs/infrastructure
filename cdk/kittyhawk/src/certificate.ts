@@ -26,6 +26,8 @@ export class Certificate extends Construct {
           },
         });
       }
+    } else {
+      throw new Error('Cannot generate certificate if props.ingress is undefined.');
     }
   }
 }

@@ -10,32 +10,33 @@ export function buildCoursesChart(scope: Construct) {
    * https://github.com/pennlabs/penn-courses/blob/master/k8s/values.yaml
   */
 
-  const common = {
-    image: 'pennlabs/penn-courses-backend',
-    secret: 'penn-courses',
-  };
+   const backendImage = 'pennlabs/penn-courses-backend';
+   const secret = 'penn-courses';
+  
 
   new RedisApplication(scope, 'redis', { tag: '4.0' });
 
   new DjangoApplication(scope, 'celery', {
-    ...common,
+    image: backendImage,
+    secret: secret,
     cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
-    djangoSettingsModule:  'PennCourses.settings.production',
-    domains: [{host: 'penncourseplan.com', isSubdomain: false},
-              {host: 'penncoursealert.com', isSubdomain: false},
-              {host: 'review.penncourses.org', isSubdomain: false }]
-    });
+    djangoSettingsModule: 'PennCourses.settings.production',
+    domains: [{ host: 'penncourseplan.com', isSubdomain: false },
+    { host: 'penncoursealert.com', isSubdomain: false },
+    { host: 'review.penncourses.org', isSubdomain: true }],
+   });
 
   new DjangoApplication(scope, 'backend', {
-    ...common,
+    image: backendImage,
+    secret: secret,
     cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
     replicas: 3,
     djangoSettingsModule: 'PennCourses.settings.production',
     extraEnv: [{ name: 'PORT', value: '80' }],
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
-    domains: [{host: 'penncourseplan.com', isSubdomain: false},
-              {host: 'penncoursealert.com', isSubdomain: false},
-              {host: 'review.penncourses.org', isSubdomain: true }]
+    domains: [{ host: 'penncourseplan.com', isSubdomain: false },
+      { host: 'penncoursealert.com', isSubdomain: false },
+      { host: 'review.penncourses.org', isSubdomain: true }],
   });
 
   new ReactApplication(scope, 'plan', {
@@ -46,14 +47,14 @@ export function buildCoursesChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'alert', {
-    image: 'pennlabs/pcp-frontend',
+    image: 'pennlabs/pca-frontend',
     domain: 'penncoursealert.com',
     isSubdomain: false,
     ingressPaths: ['/'],
   });
 
   new ReactApplication(scope, 'review', {
-    image: 'pennlabs/pcp-frontend',
+    image: 'pennlabs/pcr-frontend',
     domain: 'review.penncourses.org',
     isSubdomain: true,
     ingressPaths: ['/'],
@@ -61,13 +62,15 @@ export function buildCoursesChart(scope: Construct) {
 
   new CronJob(scope, 'load-courses', {
     schedule: cronTime.everyDayAt(3),
-    ...common,
+    image: backendImage,
+    secret: secret,
     cmd: ['python', 'manage.py', 'registrarimport'],
   });
 
   new CronJob(scope, 'report-stats', {
     schedule: cronTime.everyDayAt(20),
-    ...common,
+    image: backendImage,
+    secret: secret,
     cmd: ['python', 'manage.py', 'alertstats', '1', '--slack'],
   });
 }

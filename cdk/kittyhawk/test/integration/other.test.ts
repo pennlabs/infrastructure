@@ -39,15 +39,14 @@ export function buildPlatformChart(scope: Construct) {
    * https://github.com/pennlabs/platform/blob/master/k8s/values.yaml
    */
 
-  const common = {
-    image: 'pennlabs/platform',
-    secret: 'platform',
-  };
+  const image = 'pennlabs/platform';
+  const secret = 'platform';
 
   new DjangoApplication(scope, 'platform', {
-    ...common,
+    image: image,
+    secret: secret,
     port: 443,
-    domains: [{host: 'platform.pennlabs.org', isSubdomain: true}],
+    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
     djangoSettingsModule: 'Platform.settings.production',
     ingressPaths: ['/'],
     secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
@@ -55,7 +54,8 @@ export function buildPlatformChart(scope: Construct) {
   });
 
   new CronJob(scope, 'clear-expired-tokens', {
-    ...common,
+    image: image,
+    secret: secret,
     schedule: cronTime.everySundayAt(5),
     cmd: ['python3', 'manage.py', 'cleartokens'],
   });
@@ -70,7 +70,7 @@ export function buildCFAChart(scope: Construct) {
   new DjangoApplication(scope, 'django', {
     image: 'pennlabs/common-funding-application',
     secret: 'common-funding-application',
-    domains: [{host: 'penncfa.com', isSubdomain: false}],
+    domains: [{ host: 'penncfa.com', isSubdomain: false }],
     ingressPaths: ['/'],
     djangoSettingsModule: 'penncfa.settings.production',
   });
@@ -88,7 +88,7 @@ export function buildLabsAPIServerChart(scope: Construct) {
   };
   new Application(scope, 'flask', {
     ...common,
-    ingress: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true}],
+    ingress: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }],
     secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
   });
 

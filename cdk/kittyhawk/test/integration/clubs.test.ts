@@ -6,23 +6,39 @@ import { chartTest } from '../utils';
 
 export function buildClubsChart(scope: Construct) {
 
-  /** Penn Clubs
+  /** Penn Clubs and FYH
    * https://github.com/pennlabs/penn-clubs/blob/master/k8s/values.yaml
   */
-  new RedisApplication(scope, 'redis', {});
 
-  const clubsCommon = {
-    image: 'pennlabs/penn-clubs-backend',
-    secret: 'penn-clubs',
-  };
+  const backendImage = 'pennlabs/penn-clubs-backend';
+  const clubsSecret = 'penn-clubs';
+  const fyhSecret = 'first-year-hub';
+  const clubsDomain = 'pennclubs.com';
+  const fyhDomain = 'hub.provost.upenn.edu';
+
   const clubsDjangoCommon = {
-    ...clubsCommon,
-    domains: [{host: 'pennclubs.com', isSubdomain: false}],
+    image: backendImage,
+    secret: clubsSecret,
+    domains: [{ host: clubsDomain, isSubdomain: false }],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
       { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
     ],
   };
+
+  const fyhDjangoCommon = {
+    image: backendImage,
+    secret: fyhSecret,
+    domains: [{ host: fyhDomain, isSubdomain: false }],
+    djangoSettingsModule: 'pennclubs.settings.production',
+    extraEnv: [
+      { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
+      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
+    ],
+  };
+  
+
+  new RedisApplication(scope, 'redis', {});
 
   new DjangoApplication(scope, 'django-asgi', {
     ...clubsDjangoCommon,
@@ -40,7 +56,7 @@ export function buildClubsChart(scope: Construct) {
   new ReactApplication(scope, 'react', {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
-    domain: 'pennclubs.com',
+    domain: clubsDomain,
     isSubdomain: false,
     ingressPaths: ['/'],
     portEnv: '80',
@@ -49,21 +65,6 @@ export function buildClubsChart(scope: Construct) {
   /** FYH */
 
   new RedisApplication(scope, 'hub-redis', {});
-
-  const fyhCommon = {
-    image: 'pennlabs/penn-clubs-backend',
-    secret: 'first-year-hub',
-  };
-
-  const fyhDjangoCommon = {
-    ...fyhCommon,
-    domains: [{host: 'hub.provost.upenn.edu', isSubdomain: false}],
-    djangoSettingsModule: 'pennclubs.settings.production',
-    extraEnv: [
-      { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
-      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
-    ],
-  };
 
   new DjangoApplication(scope, 'hub-django-asgi', {
     ...fyhDjangoCommon,
@@ -82,7 +83,7 @@ export function buildClubsChart(scope: Construct) {
   new ReactApplication(scope, 'hub-react', {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
-    domain: 'pennclubs.com',
+    domain: fyhDomain,
     isSubdomain: false,
     ingressPaths: ['/'],
     portEnv: '80',
@@ -95,31 +96,36 @@ export function buildClubsChart(scope: Construct) {
 
   new CronJob(scope, 'rank-clubs', {
     schedule: cronTime.everyDayAt(8),
-    ...clubsCommon,
+    image: backendImage,
+    secret: clubsSecret,
     cmd: ['python', 'manage.py', 'rank'],
   });
 
   new CronJob(scope, 'daily-notifications', {
     schedule: cronTime.everyDayAt(13),
-    ...clubsCommon,
+    image: backendImage,
+    secret: clubsSecret,
     cmd: ['python', 'manage.py', 'daily_notifications'],
   });
 
   new CronJob(scope, 'hub-daily-notifications', {
     schedule: cronTime.everyDayAt(13),
-    ...fyhCommon,
+    image: backendImage,
+    secret: fyhSecret,
     cmd: ['python', 'manage.py', 'daily_notifications'],
   });
 
   new CronJob(scope, 'calendar-import', {
     schedule: cronTime.everyDayAt(12),
-    ...clubsCommon,
+    image: backendImage,
+    secret: clubsSecret,
     cmd: ['python', 'manage.py', 'import_calendar_events'],
   });
 
   new CronJob(scope, 'hub-calendar-import', {
     schedule: cronTime.everyDayAt(12),
-    ...fyhCommon,
+    image: backendImage,
+    secret: fyhSecret,
     cmd: ['python', 'manage.py', 'import_calendar_events'],
   });
 }

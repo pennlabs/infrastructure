@@ -722,7 +722,7 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "image": "pennlabs/pcp-frontend:TAG_FROM_CI",
+              "image": "pennlabs/pca-frontend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
               "ports": Array [
@@ -865,7 +865,7 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "image": "pennlabs/pcp-frontend:TAG_FROM_CI",
+              "image": "pennlabs/pcr-frontend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
               "ports": Array [

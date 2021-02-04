@@ -11,14 +11,14 @@ export function buildOHQChart(scope: Construct) {
    */
 
   const backendImage = 'pennlabs/office-hours-queue-backend';
-  const secret =  'office-hours-queue';
-  const domain = 'ohq.io'
+  const secret = 'office-hours-queue';
+  const domain = 'ohq.io';
 
   const djangoCommon = {
     image: backendImage,
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domains: [{host: domain, isSubdomain: false}],
+    domains: [{ host: domain, isSubdomain: false }],
     extraEnv: [
       { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
     ],

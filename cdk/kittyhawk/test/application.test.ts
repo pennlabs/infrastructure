@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Application, DjangoApplication, ReactApplication } from '../src/application';
+import { Application, DjangoApplication, ReactApplication, insertIfNotPresent } from '../src/application';
 import { chartTest, failingTest } from './utils';
 
 
@@ -18,7 +18,7 @@ export function buildFailingDjangoChart(scope: Construct) {
   /** Django Duplicated DOMAIN Env should fail **/
   new DjangoApplication(scope, 'platform', {
     image: 'pennlabs/platform',
-    domains: [{host: 'platform.pennlabs.org', isSubdomain: true}],
+    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
     djangoSettingsModule: 'Platform.settings.production',
     extraEnv: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
     ingressPaths: ['/'],
@@ -44,3 +44,9 @@ test('Tag Override', () => chartTest(buildTagOverrideChart));
 test('Django Application -- Failing', () => failingTest(buildFailingDjangoChart));
 
 test('React Application -- Failing', () => failingTest(buildFailingReactChart));
+
+test('insertIfNotPresent throws if already present', () => {
+  let myEnvArray = [{ name: 'KEY1', value: 'VALUE1' }];
+  expect(() => insertIfNotPresent(myEnvArray, 'KEY1', 'VALUE2'))
+    .toThrow('KEY1 should not be redefined as an enviroment variable.');
+});
