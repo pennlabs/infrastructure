@@ -26,6 +26,8 @@ locals {
     "peyton"
   ])
   k8s_cluster_name = "production"
+  // TODO: change to 10
+  k8s_cluster_size = 2
   vault_ami        = "ami-0eec2c28d4dd94628"
 }
 

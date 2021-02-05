@@ -21,11 +21,10 @@ module "eks-production" {
       name                    = "spot-1"
       override_instance_types = ["t3.medium"]
       spot_instance_pools     = 1
-      // TODO: change to 10
-      asg_max_size         = 2
-      asg_desired_capacity = 2
-      kubelet_extra_args   = "--node-labels=node.kubernetes.io/lifecycle=spot"
-      public_ip            = true
+      asg_max_size            = local.k8s_cluster_size
+      asg_desired_capacity    = local.k8s_cluster_size
+      kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
+      public_ip               = true
     },
   ]
   tags = {
