@@ -93,6 +93,7 @@ export class CDKPublishStack extends Stack {
       },
       {
         name: 'Publish docs',
+        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         uses: 'peaceiris/actions-gh-pages@v3',
         with: {
           personal_token: '${{ secrets.BOT_GITHUB_PAT }}',

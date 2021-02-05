@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.8 (2021-02-04)
+
+* Only publish docs in cdk stack on default branch
+
 ## 0.4.7 (2021-01-30)
 
 * Bugfix post-integration publish job again
