@@ -60,10 +60,10 @@ cdkactions@^0.1.3:
     dedent-js "^1.0.1"
     js-yaml "^3.14.1"
 
-cdkactions@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/cdkactions/-/cdkactions-0.2.0.tgz#58c3f3631b42f98ef92193e7b21b4e06def0f911"
-  integrity sha512-5YC6GVfW6oYkc29o77RLojj8stXxwFIFGZW1nmNNqEGBEBP7wSN1JpChWFy3Hthd9ZQ8aGAaud3BXR4ghJ9u1A==
+cdkactions@^0.2.0, cdkactions@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/cdkactions/-/cdkactions-0.2.2.tgz#ef3e134e296385fe6b9503fd54b6336ccf554263"
+  integrity sha512-Ah8WWiGGslbDTtUBBUVk03V9oz88lweeKucogNM3VfGzXvfBtXef7K7eENRI1DZB/rCti7/jXwJhzwFz/n+QgQ==
   dependencies:
     js-yaml "^4.0.0"
     ts-dedent "^2.0.0"
