@@ -1,3 +1,4 @@
+export * from './auto-approve';
 export * from './cdk';
 export * from './deploy';
 export * from './django-project';
