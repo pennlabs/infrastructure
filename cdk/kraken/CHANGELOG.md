@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.9 (2021-02-11)
+
+* Create an auto-approve stack for dependabot PRs
+
 ## 0.4.8 (2021-02-04)
 
 * Only publish docs in cdk stack on default branch
