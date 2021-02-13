@@ -1,8 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: ".github/cdk"
-    ignore:
-      - dependency-name: "constructs"
-    schedule:
-      interval: "daily"
