@@ -35,7 +35,7 @@
       "matchCurrentVersion": "< 1.0.0",
       "separateMinorPatch": true,
       "addLabels": [
-        "pre-1-0-0"
+        "pre-1.0.0"
       ],
       "minor": {
         "groupName": null,
