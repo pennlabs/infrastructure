@@ -28,7 +28,8 @@
       ],
       "addLabels": [
         "major"
-      ]
+      ],
+      "schedule": "at any time"
     }
   ],
   "github-actions": {
