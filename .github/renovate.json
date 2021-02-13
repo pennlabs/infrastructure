@@ -8,7 +8,6 @@
     ":updateNotScheduled",
     ":automergeDisabled",
     ":ignoreModulesAndTests",
-    ":autodetectPinVersions",
     ":prHourlyLimit2",
     "group:monorepos",
     "group:recommended",
@@ -17,6 +16,7 @@
     "workarounds:all",
     "schedule:weekly"
   ],
+  "rangeStrategy": "bump",
   "prConcurrentLimit": 5,
   "labels": [
     "dependencies"
