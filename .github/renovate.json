@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":ignoreModulesAndTests",
+    ":prHourlyLimit2",
+    "group:monorepos",
+    "group:recommended",
+    "group:allNonMajor",
+    "helpers:disableTypesNodeMajor",
+    "workarounds:all",
+    "schedule:weekly"
+  ],
+  "rangeStrategy": "bump",
+  "prConcurrentLimit": 5,
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "major"
+      ]
+    }
+  ],
+  "github-actions": {
+    "enabled": false
+  },
+  "terraform": {
+    "enabled": false
+  }
+}
