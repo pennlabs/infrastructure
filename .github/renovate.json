@@ -21,6 +21,16 @@
   "labels": [
     "dependencies"
   ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "major"
+      ]
+    }
+  ],
   "github-actions": {
     "enabled": false
   },
