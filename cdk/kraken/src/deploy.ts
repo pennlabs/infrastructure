@@ -73,8 +73,8 @@ export class DeployJob extends CheckoutJob {
         for i in {1..10}; do
           # This is bash soup, but it'll do.
           # 1. Attempt to install with helm
-          # 2. If this suceeds, exit with a success status code
-          # 3. If it fails, mark the command as suceeded so that `-e` doesn't kick us out
+          # 2. If this succeeds, exit with a success status code
+          # 3. If it fails, mark the command as succeeded so that '-e' doesn't kick us out
           # 4. Wait 10s and try again
           helm upgrade --install --atomic --set=image_tag=$IMAGE_TAG -f k8s/values.yaml --version "\${DEPLOY_TAG}" $RELEASE_NAME pennlabs/icarus && exit 0 || true
           sleep 10s
