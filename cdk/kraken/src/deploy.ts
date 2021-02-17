@@ -52,10 +52,7 @@ export class DeployJob extends CheckoutJob {
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [{
         name: 'Deploy',
-        run: dedent`# default options to make sure failures stop script execution
-        set -euo pipefail
-
-        curl -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $DO_AUTH_TOKEN" "https://api.digitalocean.com/v2/kubernetes/clusters/\${K8S_CLUSTER_ID}/kubeconfig" > /kubeconfig.conf
+        run: dedent`curl -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $DO_AUTH_TOKEN" "https://api.digitalocean.com/v2/kubernetes/clusters/\${K8S_CLUSTER_ID}/kubeconfig" > /kubeconfig.conf
 
         export KUBECONFIG=/kubeconfig.conf
 
