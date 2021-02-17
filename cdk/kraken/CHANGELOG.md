@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.10 (2021-02-13)
+
+* Modify deploy script to fully fail if a single command fails
+
 ## 0.4.9 (2021-02-11)
 
 * Create an auto-approve stack for dependabot PRs
