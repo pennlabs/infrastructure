@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.12 (2021-02-17)
+
+* Hotfix deploy job part 2
+
 ## 0.4.11 (2021-02-17)
 
 * Hotfix deploy job

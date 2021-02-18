@@ -379,10 +379,10 @@ jobs:
         with:
           username: \${{ secrets.DOCKER_USERNAME }}
           password: \${{ secrets.DOCKER_PASSWORD }}
-      - name: Load docker images
+      - name: Push docker images
         run: |-
-          docker push pennlabs/example-backend
-          docker push pennlabs/example-frontend
+          docker push -a pennlabs/example-backend
+          docker push -a pennlabs/example-frontend
     needs: integration-tests
   deploy:
     runs-on: ubuntu-latest
