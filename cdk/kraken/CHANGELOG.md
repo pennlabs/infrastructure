@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 (2021-02-25)
+
+* Modify deploy job to deploy to AWS EKS
+
 ## 0.4.12 (2021-02-17)
 
 * Hotfix deploy job part 2
