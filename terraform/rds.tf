@@ -70,15 +70,6 @@ resource "postgresql_role" "role" {
   password = random_password.postgres-password[each.key].result
 }
 
-resource "postgresql_grant" "grant" {
-  for_each    = local.database_users
-  database    = postgresql_database.db[each.key].name
-  role        = postgresql_role.role[each.key].name
-  schema      = "public"
-  object_type = "table"
-  privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES", "TRIGGER"]
-}
-
 resource "postgresql_default_privileges" "privileges" {
   for_each    = local.database_users
   database    = postgresql_database.db[each.key].name
