@@ -38,7 +38,7 @@ export class DeployJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DeployJobProps> = {
       deployTag: '${{ github.sha }}',
-      image: 'pennlabs/helm-tools:c964e53d3e3e88d36677e84f5437da40a289c7a4',
+      image: 'pennlabs/helm-tools:39b60af248944898fcbc58d1fe5b0f1995420aef',
       defaultBranch: 'master',
       ...config,
     };
@@ -52,9 +52,7 @@ export class DeployJob extends CheckoutJob {
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [{
         name: 'Deploy',
-        run: dedent`curl -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $DO_AUTH_TOKEN" "https://api.digitalocean.com/v2/kubernetes/clusters/\${K8S_CLUSTER_ID}/kubeconfig" > /kubeconfig.conf
-
-        export KUBECONFIG=/kubeconfig.conf
+        run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
 
         # get repo name (by removing owner/organization)
         RELEASE_NAME=\${REPOSITORY#*/}
@@ -82,6 +80,9 @@ export class DeployJob extends CheckoutJob {
         exit 1`,
         env: {
           IMAGE_TAG: fullConfig.deployTag,
+          AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
+          AWS_ACCESS_KEY_ID: '${{ secrets.GH_AWS_ACCESS_KEY_ID }}',
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}',
           DO_AUTH_TOKEN: '${{ secrets.DO_AUTH_TOKEN }}',
           K8S_CLUSTER_ID: '${{ secrets.K8S_CLUSTER_ID }}',
           REPOSITORY: '${{ github.repository }}',
