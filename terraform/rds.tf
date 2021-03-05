@@ -36,7 +36,7 @@ resource "aws_db_instance" "production" {
   identifier                          = "production"
   instance_class                      = "db.t3.xlarge"
   engine                              = "postgres"
-  engine_version                      = "11.8"
+  engine_version                      = "11.10"
   availability_zone                   = "us-east-1a"
   allocated_storage                   = 20
   username                            = "postgres"
