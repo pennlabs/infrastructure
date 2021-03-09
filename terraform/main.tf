@@ -36,7 +36,7 @@ locals {
     "penncoursealert.com",
     "penncourseplan.com",
     "penncoursereview.com", // Currently still in Google Domains
-    "penncourses.org", // Currently still in Google Domains
+    "penncourses.org",
     "pennlabs.org",
     "pennmobile.org",
   ])
