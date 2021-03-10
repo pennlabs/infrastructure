@@ -50,7 +50,7 @@ export function buildPlatformChart(scope: Construct) {
     djangoSettingsModule: 'Platform.settings.production',
     ingressPaths: ['/'],
     secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
-    { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
+      { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
   });
 
   new CronJob(scope, 'clear-expired-tokens', {

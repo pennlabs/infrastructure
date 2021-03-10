@@ -22,8 +22,8 @@ export function buildCoursesChart(scope: Construct) {
     cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
     djangoSettingsModule: 'PennCourses.settings.production',
     domains: [{ host: 'penncourseplan.com', isSubdomain: false },
-    { host: 'penncoursealert.com', isSubdomain: false },
-    { host: 'review.penncourses.org', isSubdomain: true }],
+      { host: 'penncoursealert.com', isSubdomain: false },
+      { host: 'review.penncourses.org', isSubdomain: true }],
   });
 
   new DjangoApplication(scope, 'backend', {
@@ -35,8 +35,8 @@ export function buildCoursesChart(scope: Construct) {
     extraEnv: [{ name: 'PORT', value: '80' }],
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
     domains: [{ host: 'penncourseplan.com', isSubdomain: false },
-    { host: 'penncoursealert.com', isSubdomain: false },
-    { host: 'review.penncourses.org', isSubdomain: true }],
+      { host: 'penncoursealert.com', isSubdomain: false },
+      { host: 'review.penncourses.org', isSubdomain: true }],
   });
 
   new ReactApplication(scope, 'plan', {
