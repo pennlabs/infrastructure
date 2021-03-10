@@ -83,7 +83,7 @@ export class IntegrationTestsJob extends CheckoutJob {
         },
         {
           name: 'Wait for backend',
-          run: dedent`for try in {1..10}; do
+          run: dedent`for try in {1..20}; do
             docker-compose -f docker-compose.test.yaml exec -T backend python manage.py migrate --check && break
             sleep 5
           done`,

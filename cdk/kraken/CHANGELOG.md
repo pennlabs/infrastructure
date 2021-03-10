@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.5.0 (2021-02-25)
+
+* Modify deploy job to deploy to AWS EKS
+
+## 0.4.12 (2021-02-17)
+
+* Hotfix deploy job part 2
+
+## 0.4.11 (2021-02-17)
+
+* Hotfix deploy job
+
+## 0.4.10 (2021-02-13)
+
+* Modify deploy script to fully fail if a single command fails
+
+## 0.4.9 (2021-02-11)
+
+* Create an auto-approve stack for dependabot PRs
+
+## 0.4.8 (2021-02-04)
+
+* Only publish docs in cdk stack on default branch
+
+## 0.4.7 (2021-01-30)
+
+* Bugfix post-integration publish job again
+
 ## 0.4.6 (2021-01-30)
 
 * Bugfix post-integration publish job
