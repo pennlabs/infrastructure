@@ -8,11 +8,6 @@ resource "vault_auth_backend" "aws" {
   type = "aws"
 }
 
-// TODO: remove after migration
-resource "vault_auth_backend" "approle" {
-  type = "approle"
-}
-
 resource "vault_github_auth_backend" "pennlabs" {
   organization = "pennlabs"
 }
