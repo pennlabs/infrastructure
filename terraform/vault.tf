@@ -83,7 +83,7 @@ resource "aws_instance" "vault" {
   subnet_id              = module.vpc.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.vault.id]
   iam_instance_profile   = aws_iam_instance_profile.vault.name
-  key_name               = aws_key_pair.armaan.key_name
+  key_name               = aws_key_pair.vault.key_name
   user_data = templatefile("files/vault_user_data.sh", {
     connection_url = format("postgres://vault:%s@%s/vault", random_password.postgres-password["vault"].result, aws_db_instance.production.endpoint)
     kms_key_id     = aws_kms_key.vault.key_id
@@ -116,10 +116,10 @@ resource "aws_instance" "vault" {
   }
 }
 
-// TODO: remove
-resource "aws_key_pair" "armaan" {
-  key_name   = "armaan"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDATHpBscMwZBByUmafMmIcbDB2my1Ejj88DAalX8lJHr4mav2ZrPVZK7XAz6SacmGiIEMCK6YgkXh502MgPKLoBEBf4OzvLJVpZlsjzJX3dK+MWTff/a1Jyo35nUOFSdjUyKPNV0CPq5bUqGvYo3hh/bCZQn+7cZ7pENPo/1J/vdmdE5CTrl0UuGqLj0OWjolJwSiL0zeUaRuWATukcn5qv4vgZ9H4woCaMEX5FEVWYPsB7kIz5jH7LlFnhvJ3N8ay3Y/2/2JzFR2RdivQID6vO8Cm7bxfoSF5GpAGJbKcFEJGuV+j/xd3QRHHsC/fHy1sSD4G2bszveHKQwQ1aVYUgq0dITx4o/WO1sbTzRruA0FA63SNAnikq7+eyJsUT/9RkHf3DKXZJqTFCZ1+dDZz9pQSv6dlx4lZ7qgUPcdBiA8WpNTxUZSZ/GvwieE8Zz5sQ6mWQlHgqoILe4t1NpRPLi5LFKvV+nR7Yt0vdlddRkuZE/hBo/XilC9lGYT9hHosZzhiQJ7NZvul9txA8N2YpDBAb1HOR3vd+mpGX0BzxpMUhrJwJdRlQANfULMalHHXTkjPqPUSctrj7zvMl/lzmbGlpClxcp+c3mlIM3lPtoW3dYnaVNK/tYuyzAAUzvNPkPKn1/6XgXhu6hf8TBFScvKSWjn2KFLbo2d0+exUMQ== armaan"
+// Modify this to be an actual SSH key if you need direct SSH access
+resource "aws_key_pair" "vault" {
+  key_name   = "vault-access"
+  public_key = "ssh-rsa fake-key vault"
 }
 
 resource "aws_security_group" "vault" {
@@ -135,14 +135,14 @@ resource "aws_security_group" "vault" {
     security_groups = [aws_security_group.vault-lb.id]
   }
 
-  // TODO: remove ssh
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  // Add this block when debugging
+  // ingress {
+  //   description = "SSH"
+  //   from_port   = 22
+  //   to_port     = 22
+  //   protocol    = "tcp"
+  //   cidr_blocks = ["0.0.0.0/0"]
+  // }
 
   egress {
     from_port   = 0
