@@ -92,32 +92,30 @@ resource "aws_instance" "vault" {
     Name       = "Vault"
     created-by = "terraform"
   }
-  // TODO: local exec for table
+
   // Create the vault_kv_store table needed for vault
   // taken from https://www.vaultproject.io/docs/configuration/storage/postgresql
-  //   provisioner "local-exec" {
-  //     command = <<EOF
-  // psql "postgres://$VAULT_DB_USER:$VAULT_DB_PASSWORD@$VAULT_DB_HOST:$VAULT_DB_PORT/$VAULT_DB_NAME" -c "
-  //   CREATE TABLE "vault_kv_store" (
-  //   parent_path TEXT COLLATE \"C\" NOT NULL,
-  //   path        TEXT COLLATE \"C\",
-  //   key         TEXT COLLATE \"C\",
-  //   value       BYTEA,
-  //   CONSTRAINT pkey PRIMARY KEY (path, key)
-  // );
+  provisioner "local-exec" {
+    command = <<EOF
+  psql "postgres://vault:$VAULT_DB_PASSWORD@$VAULT_DB_ENDPOINT/vault" -c "
+    CREATE TABLE "vault_kv_store" (
+    parent_path TEXT COLLATE \"C\" NOT NULL,
+    path        TEXT COLLATE \"C\",
+    key         TEXT COLLATE \"C\",
+    value       BYTEA,
+    CONSTRAINT pkey PRIMARY KEY (path, key)
+  );
 
-  // CREATE INDEX parent_path_idx ON vault_kv_store (parent_path);
-  // "
-  //     EOF
-  //     environment = {
-  //       VAULT_DB_USER     = "vault"
-  //       VAULT_DB_PASSWORD = module.postgres-cluster.passwords["vault"]
-  //       VAULT_DB_NAME     = "vault"
-  //       VAULT_DB_HOST     = module.postgres-cluster.host
-  //       VAULT_DB_PORT     = module.postgres-cluster.port
-  //     }
-  //   }
+  CREATE INDEX parent_path_idx ON vault_kv_store (parent_path);
+  "
+      EOF
+    environment = {
+      VAULT_DB_PASSWORD = random_password.postgres-password["vault"].result
+      VAULT_DB_ENDPOINT = aws_db_instance.production.endpoint
+    }
+  }
 }
+
 // TODO: remove
 resource "aws_key_pair" "armaan" {
   key_name   = "armaan"
