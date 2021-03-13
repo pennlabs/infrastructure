@@ -19,6 +19,9 @@ class TerraformLintStack extends Stack {
       runsOn: 'ubuntu-latest',
       steps: [
         {
+          uses: 'hashicorp/setup-terraform@v1'
+        },
+        {
           run: 'terraform fmt -check -recursive terraform'
         }
       ],
