@@ -76,6 +76,7 @@ resource "aws_iam_instance_profile" "vault" {
 }
 
 // EC2 Instance
+// TODO: look into moving to ECS or managed Vault
 resource "aws_instance" "vault" {
   // Official Vault OSS AMI
   ami                    = local.vault_ami
@@ -98,7 +99,7 @@ resource "aws_instance" "vault" {
   provisioner "local-exec" {
     command = <<EOF
   psql "postgres://vault:$VAULT_DB_PASSWORD@$VAULT_DB_ENDPOINT/vault" -c "
-    CREATE TABLE "vault_kv_store" (
+    CREATE TABLE IF NOT EXISTS "vault_kv_store" (
     parent_path TEXT COLLATE \"C\" NOT NULL,
     path        TEXT COLLATE \"C\",
     key         TEXT COLLATE \"C\",
@@ -106,7 +107,7 @@ resource "aws_instance" "vault" {
     CONSTRAINT pkey PRIMARY KEY (path, key)
   );
 
-  CREATE INDEX parent_path_idx ON vault_kv_store (parent_path);
+  CREATE INDEX IF NOT EXISTS parent_path_idx ON vault_kv_store (parent_path);
   "
       EOF
     environment = {
@@ -116,10 +117,10 @@ resource "aws_instance" "vault" {
   }
 }
 
-// Modify this to be an actual SSH key if you need direct SSH access
+// Modify this to be a different SSH key if you need direct SSH access
 resource "aws_key_pair" "vault" {
   key_name   = "vault-access"
-  public_key = "ssh-rsa fake-key vault"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDATHpBscMwZBByUmafMmIcbDB2my1Ejj88DAalX8lJHr4mav2ZrPVZK7XAz6SacmGiIEMCK6YgkXh502MgPKLoBEBf4OzvLJVpZlsjzJX3dK+MWTff/a1Jyo35nUOFSdjUyKPNV0CPq5bUqGvYo3hh/bCZQn+7cZ7pENPo/1J/vdmdE5CTrl0UuGqLj0OWjolJwSiL0zeUaRuWATukcn5qv4vgZ9H4woCaMEX5FEVWYPsB7kIz5jH7LlFnhvJ3N8ay3Y/2/2JzFR2RdivQID6vO8Cm7bxfoSF5GpAGJbKcFEJGuV+j/xd3QRHHsC/fHy1sSD4G2bszveHKQwQ1aVYUgq0dITx4o/WO1sbTzRruA0FA63SNAnikq7+eyJsUT/9RkHf3DKXZJqTFCZ1+dDZz9pQSv6dlx4lZ7qgUPcdBiA8WpNTxUZSZ/GvwieE8Zz5sQ6mWQlHgqoILe4t1NpRPLi5LFKvV+nR7Yt0vdlddRkuZE/hBo/XilC9lGYT9hHosZzhiQJ7NZvul9txA8N2YpDBAb1HOR3vd+mpGX0BzxpMUhrJwJdRlQANfULMalHHXTkjPqPUSctrj7zvMl/lzmbGlpClxcp+c3mlIM3lPtoW3dYnaVNK/tYuyzAAUzvNPkPKn1/6XgXhu6hf8TBFScvKSWjn2KFLbo2d0+exUMQ== vault"
 }
 
 resource "aws_security_group" "vault" {
