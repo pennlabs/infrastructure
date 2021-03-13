@@ -1,32 +1,18 @@
 # Base Cluster
 
-A terraform module to create a Kubernetes cluster on DigitalOcean with some additional software installed.
+A terraform module to populate a Kubernetes cluster with some useful additional software.
 
 ## Inputs
 
-| Name                     | Description                                                   |
-|--------------------------|---------------------------------------------------------------|
-| name                     | Name of the Kuberenetes cluster                               |
-| cluster_version          | Kubernetes version of the cluster (Default: 1.17.5-do.0)      |
-| node_count               | Number of nodes in cluster                                    |
-| node_size                | DigitalOcean size for Kubernetes nodes (Default: s-2vcpu-4gb) |
-| traefik_values           | Values to provide to the traefik helm chart                   |
-| cert_manager_values      | Values to provide to the Cert Manager helm chart              |
-| vault_secret_sync_values | Values to provide to the Vault Secret Sync helm chart         |
-| prometheus_values        | Values to provide to the Prometheus helm chart                |
-| fluentd_values           | Values to provide to the Fluentd helm chart                   |
-
-## Outputs
-
-| Name                   | Description                           |
-|------------------------|---------------------------------------|
-| endpoint               | Endpoint of the created cluster       |
-| token                  | Token to access the created cluster   |
-| cluster_ca_certificate | CA Certificate of the created cluster |
+| Name                     | Description                                           |
+| ------------------------ | ----------------------------------------------------- |
+| traefik_values           | Values to provide to the traefik helm chart           |
+| vault_secret_sync_values | Values to provide to the Vault Secret Sync helm chart |
+| prometheus_values        | Values to provide to the Prometheus helm chart        |
 
 ## main.tf
 
-Creates the actual Kubernetes cluster in DigitalOcean
+Doesn't do anything
 
 ## cert-manager.tf
 
@@ -43,7 +29,6 @@ Configure our monitoring stack by
 
 * Creating the `monitoring` namespace
 * Installing the [prometheus helm chart](https://github.com/helm/charts/tree/master/stable/prometheus) with the inputted values
-* Installing [fluentd-elasticsearch helm chart](https://github.com/kiwigrid/helm-charts/tree/master/charts/fluentd-elasticsearch) with the inputted values
 
 ## traefik.tf
 
