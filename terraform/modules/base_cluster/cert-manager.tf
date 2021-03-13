@@ -8,11 +8,14 @@ resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
-  version    = "0.15.0"
+  version    = "1.1.0"
   namespace  = kubernetes_namespace.cert-manager.metadata[0].name
   // This is set to ensure that cert-manager is working before the CRs are applied
   atomic = true
-  values = var.cert_manager_values
+  set {
+    name  = "installCRDs"
+    value = true
+  }
 }
 
 resource "time_sleep" "cert-manager-cr" {
@@ -26,9 +29,7 @@ resource "helm_release" "labs-clusterissuer" {
   repository = "https://helm.pennlabs.org"
   chart      = "helm-wrapper"
   version    = "0.1.0"
-  values = [
-    "${file("${path.module}/clusterissuer.yaml")}"
-  ]
+  values     = [file("${path.module}/clusterissuer.yaml")]
 
   depends_on = [
     time_sleep.cert-manager-cr
@@ -36,15 +37,11 @@ resource "helm_release" "labs-clusterissuer" {
 }
 
 resource "helm_release" "pennlabs-wildcard-cert" {
-  for_each   = toset(["default", "monitoring"])
   name       = "pennlabs-wildcard-cert"
   repository = "https://helm.pennlabs.org"
   chart      = "helm-wrapper"
   version    = "0.1.0"
-  namespace  = each.key
-  values = [
-    "${file("${path.module}/wildcard-cert.yaml")}"
-  ]
+  values     = [file("${path.module}/wildcard-cert.yaml")]
 
   depends_on = [
     time_sleep.cert-manager-cr

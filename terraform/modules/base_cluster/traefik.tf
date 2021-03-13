@@ -1,6 +1,6 @@
 resource "helm_release" "traefik" {
   name       = "traefik"
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "traefik"
   version    = "1.87.2"
   namespace  = "kube-system"

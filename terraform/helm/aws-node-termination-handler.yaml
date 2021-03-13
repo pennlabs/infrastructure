@@ -1,0 +1,13 @@
+## enableSpotInterruptionDraining If true, drain nodes when the spot interruption termination notice is received
+enableSpotInterruptionDraining: "true"
+
+# nodeSelector tells both linux and windows daemonsets where to place the node-termination-handler
+# pods. By default, this value is empty and every node will receive a pod.
+nodeSelector:
+  node.kubernetes.io/lifecycle: spot
+
+enablePrometheusServer: true
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9092"
