@@ -2,16 +2,6 @@
 
 We use [Terraform](https://www.terraform.io/docs/index.html) to manage our infrastructure in a declarative manner.
 
-## Migration plan
-
-* Modify helm deploy to use gh-action iam user and get kubeconfig from aws creds
-* Push updated kraken product repos (will deploy to eks)
-* transition domain name DNS
-* remove extra vault stuff (chronos, sandbox, prometheus basic auth)
-* Down the line
-  * Transition to IAM for S3 access
-  * Transition to IAM for django db auth
-
 ## Inputs
 
 |                     | Description                                                                                                                                                                       |
@@ -57,6 +47,9 @@ Defines a few locals that are used in various places:
 * `iam_service_accounts` - a set of all IAM roles that should be created with the ability to assume those roles from a Service Account.
 * `platform_members` - a set of platform members to grant kubectl access to.
 * `k8s_cluster_name` - the name of the EKS cluster.
+* `k8s_cluster_size` - the size of our cluster.
+* `domains` - a set of all our product domains.
+* `traefik_lb_name` - Name of the load balancer created by traefik.
 * `vault_ami` - The AMI of the official vault AMI.
 
 ## platform.tf
@@ -91,7 +84,7 @@ Additionally creates databases, database roles, and manages database grants for 
 
 ## route53.tf
 
-Creates a managed zone for `pennlabs.org`. This is only used for vault since it exists outside of our EKS cluster.
+Uses our [Domain Module](./modules/domain) to create Route53 hosted zones for all of our products that contain the minimal DNS entries we need configured.
 
 ## vault.tf
 
