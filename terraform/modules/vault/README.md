@@ -17,12 +17,10 @@ Defines the following inputs to store within vault. These variables can be provi
 | TEAM_SYNC_ARN       | ARN of the team-sync role                                                                                                                                                         |
 
 ## main.tf
-<!-- TODO: update this -->
 Sets up the base vault configuration we need. It involves
 
 * Enabling the [key-value secrets engine](https://www.vaultproject.io/docs/secrets/kv/kv-v2) on `secrets/`
 * Enabling the [aws auth backend](https://www.vaultproject.io/docs/auth/aws) on `/aws`
-* Enabling the [approle auth backend](https://www.vaultproject.io/docs/auth/approle) on `/approle`
 * Enabling [github auth backend](https://www.vaultproject.io/docs/auth/github) on `/github`
 * Creating an admin vault policy
 * Mapping the SRE team on GitHub to the admin policy
@@ -44,8 +42,6 @@ Configures secret sync by:
 
 * Creating a vault policy for secret-sync (stored in `policies/secret-sync.hcl`)
 * Mapping the secret-sync IAM role to that policy
-* ~~Creating an AppRole secret-sync user~~
-* ~~Saving the role id and secret id in a secret in vault that will later be synced into our Kubernetes clusters~~
 
 ## team-sync.tf
 
