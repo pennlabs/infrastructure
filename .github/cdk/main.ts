@@ -1,4 +1,4 @@
-import { App, Job, Stack, Workflow } from "cdkactions";
+import { App, CheckoutJob, Stack, Workflow } from "cdkactions";
 import { CDKPublishStack } from "@pennlabs/kraken"
 import { Construct } from "constructs";
 
@@ -15,7 +15,7 @@ class TerraformLintStack extends Stack {
       },
     });
 
-    new Job(workflow, 'lint', {
+    new CheckoutJob(workflow, 'lint', {
       runsOn: 'ubuntu-latest',
       steps: [
         {
