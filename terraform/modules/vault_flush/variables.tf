@@ -5,5 +5,5 @@ variable "path" {
 
 variable "entry" {
   description = "Entries to replace within the secret"
-  type        = map
+  type        = map(any)
 }

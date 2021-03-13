@@ -1,25 +1,28 @@
-import { App, Job, Stack, Workflow } from "cdkactions";
+import { App, CheckoutJob, Stack, Workflow } from "cdkactions";
 import { CDKPublishStack } from "@pennlabs/kraken"
 import { Construct } from "constructs";
 
-export class AutoApproveStack extends Stack {
+class TerraformLintStack extends Stack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    const workflow = new Workflow(this, 'approve', {
-      name: 'Auto Approve dependabot PRs',
-      on: 'pullRequest',
+    const workflow = new Workflow(this, 'terraform', {
+      name: 'Lint terraform files',
+      on: {
+        push: {
+          paths: ['terraform/**.tf']
+        }
+      },
     });
 
-    new Job(workflow, 'approve', {
+    new CheckoutJob(workflow, 'lint', {
       runsOn: 'ubuntu-latest',
       steps: [
         {
-          uses: 'hmarr/auto-approve-action@v2.0.0',
-          if: "github.actor == 'dependabot[bot]'",
-          with: {
-            "github-token": "${{ secrets.BOT_GITHUB_PAT }}"
-          }
+          uses: 'hashicorp/setup-terraform@v1'
+        },
+        {
+          run: 'terraform fmt -check -recursive terraform'
         }
       ],
     });
@@ -29,5 +32,5 @@ export class AutoApproveStack extends Stack {
 const app = new App();
 new CDKPublishStack(app, 'kraken');
 new CDKPublishStack(app, 'kittyhawk');
-new AutoApproveStack(app, 'approve');
+new TerraformLintStack(app, 'terraform');
 app.synth();
