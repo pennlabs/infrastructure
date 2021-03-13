@@ -76,7 +76,6 @@ resource "aws_iam_instance_profile" "vault" {
 }
 
 // EC2 Instance
-// TODO: look into moving to ECS or managed Vault
 resource "aws_instance" "vault" {
   // Official Vault OSS AMI
   ami                    = local.vault_ami
@@ -253,7 +252,6 @@ module "vault" {
 }
 
 // db-backup secret
-// TODO: figure out a master read-only user for this
 resource "vault_generic_secret" "db-backup" {
   path = "${module.vault.secrets-path}/production/default/db-backup"
 

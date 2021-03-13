@@ -6,8 +6,9 @@ resource "aws_security_group" "rds" {
     from_port = 5432
     to_port   = 5432
     protocol  = "tcp"
-    // TODO: be more restrictive?
-    // security_groups = [module.eks-production.worker_security_group_id]
+    // Setting this to be more restrictive would require always running
+    // terraform in the EKS cluster so it can access RDS. Probably not worth
+    // the trouble for the added security it provides.
     cidr_blocks = ["0.0.0.0/0"]
   }
 
