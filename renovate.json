@@ -30,6 +30,25 @@
         "major"
       ],
       "schedule": "at any time"
+    },
+    {
+      "matchCurrentVersion": "< 1.0.0",
+      "separateMinorPatch": true,
+      "addLabels": [
+        "pre-1-0-0"
+      ],
+      "minor": {
+        "groupName": null,
+        "groupSlug": null,
+        "addLabels": [
+          "major"
+        ],
+        "schedule": "at any time"
+      },
+      "patch": {
+        "groupName": "all non-major dependencies",
+        "groupSlug": "all-minor-patch"
+      }
     }
   ],
   "github-actions": {
