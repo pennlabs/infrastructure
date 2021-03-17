@@ -63,9 +63,16 @@ data "aws_iam_policy_document" "kubectl" {
   statement {
     actions = ["sts:AssumeRole"]
 
+    // Allow users to assume role
     principals {
       identifiers = concat([for member in local.platform_members : aws_iam_user.platform[member].arn], [aws_iam_user.gh-actions.arn])
       type        = "AWS"
+    }
+
+    // Allow bastion instance to assume role
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
     }
   }
 }
