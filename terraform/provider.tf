@@ -28,6 +28,10 @@ provider "postgresql" {
   sslmode          = "require"
 }
 
+provider "github" {
+  organization = "pennlabs"
+}
+
 terraform {
   backend "s3" {
     region         = "us-east-1"

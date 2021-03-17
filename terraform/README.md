@@ -36,6 +36,10 @@ Finally, a populated kubeconfig is pushed to vault for platform members to use. 
 
 Creates an IAM user for GitHub Actions that can assume the `kubectl` IAM role as well as describe the EKS cluster (so that it can generate its own kubeconfig).
 
+## github.tf
+
+Creates organization GitHub Actions secrets used by our CI. Currently just AWS credentials and our AWS account ID.
+
 ## iam.tf
 
 Uses our [IAM Module](./modules/iam) to create IAM roles for all of our products that can be assumed by the correct Service Account in the `default` namespace.
