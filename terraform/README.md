@@ -16,7 +16,7 @@ We use [Terraform](https://www.terraform.io/docs/index.html) to manage our infra
 
 Contains configuration to create a terraform S3 backend. `provider.tf` in is configured to use the remote S3 backend.
 
-## bastion
+## bastion.tf
 
 Configures a bastion that allows Team Leads to exec into pods (normally to run manage.py commands).
 
@@ -35,6 +35,10 @@ Finally, a populated kubeconfig is pushed to vault for platform members to use. 
 ## gh-actions.tf
 
 Creates an IAM user for GitHub Actions that can assume the `kubectl` IAM role as well as describe the EKS cluster (so that it can generate its own kubeconfig).
+
+## github.tf
+
+Creates organization GitHub Actions secrets used by our CI. Currently just AWS credentials and our AWS account ID.
 
 ## iam.tf
 
