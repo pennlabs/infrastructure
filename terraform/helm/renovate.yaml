@@ -1,0 +1,22 @@
+image:
+  repository: renovate/renovate
+  tag: 24.89.3
+
+renovate:
+  # See https://docs.renovatebot.com/self-hosted-configuration
+  config: |
+    {
+      "autodiscover": false,
+      "printConfig": true,
+      "logLevel": "debug",
+      "allowedPostUpgradeCommands": ["cd .github/cdk && yarn build"],
+      "trustLevel": "high",
+      "persistRepoData": true,
+      "gitAuthor": "Renovate Bot <githubbot@pennlabs.org>",
+      "repositories": ["ArmaanT/testbed"]
+    }
+
+existingSecret: "renovate"
+
+redis:
+  enabled: true
