@@ -84,7 +84,6 @@ export class DeployJob extends CheckoutJob {
           AWS_ACCESS_KEY_ID: '${{ secrets.GH_AWS_ACCESS_KEY_ID }}',
           AWS_SECRET_ACCESS_KEY: '${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}',
           DO_AUTH_TOKEN: '${{ secrets.DO_AUTH_TOKEN }}',
-          K8S_CLUSTER_ID: '${{ secrets.K8S_CLUSTER_ID }}',
           REPOSITORY: '${{ github.repository }}',
         },
       }],
