@@ -16,6 +16,10 @@ We use [Terraform](https://www.terraform.io/docs/index.html) to manage our infra
 
 Contains configuration to create a terraform S3 backend. `provider.tf` in is configured to use the remote S3 backend.
 
+## bastion
+
+Configures a bastion that allows Team Leads to exec into pods (normally to run manage.py commands).
+
 ## db-backup.tf
 
 Grants the `db-backup` IAM role access to the `sql.pennlabs.org` S3 bucket.
