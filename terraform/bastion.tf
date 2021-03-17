@@ -38,7 +38,8 @@ resource "aws_security_group" "bastion" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  // Access to Cluster
+  // Access to internet (can't restrict to just the cluster
+  // because we need to download tools on first startup)
   egress {
     from_port   = 0
     to_port     = 0
