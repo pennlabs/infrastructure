@@ -43,6 +43,8 @@ locals {
   traefik_lb_name = "a3b77cc4561e649d4bcc2a89e1b63d7d"
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "assume-kubectl" {
   statement {
     actions   = ["sts:AssumeRole"]
