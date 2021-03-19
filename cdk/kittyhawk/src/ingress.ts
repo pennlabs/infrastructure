@@ -42,42 +42,41 @@ export class Ingress extends Construct {
     const port = props.port || 80;
     const ingress = props.ingress;
 
-    if (ingress) {
-      let tls = ingress.map(h => {
-        let hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
-        return { hosts: [h.host], secretName: hostString };
-      });
-
-      let rules = ingress.map(h => {
-        return {
-          host: h.host,
-          http: {
-            paths: h.paths.map(path => {
-              return {
-                path: path,
-                backend: {
-                  serviceName: appname,
-                  servicePort: IntOrString.fromNumber(port),
-                },
-              };
-            }),
-          },
-        };
-      });
-
-      new IngressApiObject(this, `ingress-${appname}`, {
-        metadata: {
-          name: appname,
-          namespace: 'default',
-        },
-        spec: {
-          tls,
-          rules,
-        },
-      });
-    } else {
+    if (!ingress) {
       throw new Error('Cannot generate ingress if props.ingress is undefined.');
     }
+    let tls = ingress.map(h => {
+      let hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
+      return { hosts: [h.host], secretName: hostString };
+    });
+
+    let rules = ingress.map(h => {
+      return {
+        host: h.host,
+        http: {
+          paths: h.paths.map(path => {
+            return {
+              path: path,
+              backend: {
+                serviceName: appname,
+                servicePort: IntOrString.fromNumber(port),
+              },
+            };
+          }),
+        },
+      };
+    });
+
+    new IngressApiObject(this, `ingress-${appname}`, {
+      metadata: {
+        name: appname,
+        namespace: 'default',
+      },
+      spec: {
+        tls,
+        rules,
+      },
+    });
   }
 }
 

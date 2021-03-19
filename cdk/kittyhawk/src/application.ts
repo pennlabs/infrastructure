@@ -50,7 +50,9 @@ export function insertIfNotPresent(envArray: { name: string; value: string }[], 
 }
 export interface DjangoApplicationProps extends ApplicationProps {
   /**
-   * List of domain(s) of the application and if they are a subdomain.
+   * Array of domain(s). Host is the domain the application runs on,
+   * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
+   * See the certificate documentation for more details.
    */
   readonly domains: {host: string; isSubdomain: boolean}[];
 
@@ -75,7 +77,7 @@ export class DjangoApplication extends Application {
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join(','));
+    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
     let djangoIngress: HostRules[] | undefined = undefined;

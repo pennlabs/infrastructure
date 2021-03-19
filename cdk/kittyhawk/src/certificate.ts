@@ -10,14 +10,15 @@ export class Certificate extends Construct {
     if (props.ingress) {
       // We want to generate a certificate for each host
       for (const h of props.ingress) {
-        let hostString: string = domainToCertName(h.host, h.isSubdomain);
+        const hostString: string = domainToCertName(h.host, h.isSubdomain);
+        const finalDomain: string = removeSubdomain(h.host, h.isSubdomain);
         new CertApiObject(this, `certificate-${appname}-${hostString}`, {
           metadata: {
             name: hostString,
           },
           spec: {
             secretName: hostString.concat('-tls'),
-            dnsNames: [`${removeSubdomain(h.host, h.isSubdomain)}`, `*.${removeSubdomain(h.host, h.isSubdomain)}`],
+            dnsNames: [`${finalDomain}`, `*.${finalDomain}`],
             issuerRef: {
               name: 'wildcard-letsencrypt-prod',
               kind: 'ClusterIssuer',
