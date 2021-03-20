@@ -2,18 +2,20 @@ image:
   repository: renovate/renovate
   tag: 24.89.3
 
+cronjob:
+  schedule: "0 * * * *"
+
 renovate:
   # See https://docs.renovatebot.com/self-hosted-configuration
   config: |
     {
       "autodiscover": false,
+      "autodiscoverFilter": "pennlabs/*",
       "printConfig": true,
-      "logLevel": "debug",
       "allowedPostUpgradeCommands": ["cd .github/cdk && yarn build"],
       "trustLevel": "high",
-      "persistRepoData": true,
       "gitAuthor": "Renovate Bot <githubbot@pennlabs.org>",
-      "repositories": ["ArmaanT/testbed"]
+      "repositories": ["pennlabs/infrastructure", "pennlabs/platform"]
     }
 
 existingSecret: "renovate"
