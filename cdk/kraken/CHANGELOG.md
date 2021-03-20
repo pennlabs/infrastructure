@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (2021-03-17)
+
+* Remove unused env var from deploy job
+
 ## 0.5.0 (2021-02-25)
 
 * Modify deploy job to deploy to AWS EKS

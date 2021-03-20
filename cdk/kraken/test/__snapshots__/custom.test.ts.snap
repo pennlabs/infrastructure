@@ -26,7 +26,6 @@ Object {
             "AWS_SECRET_ACCESS_KEY": "\${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
             "DO_AUTH_TOKEN": "\${{ secrets.DO_AUTH_TOKEN }}",
             "IMAGE_TAG": "\${{ github.sha }}",
-            "K8S_CLUSTER_ID": "\${{ secrets.K8S_CLUSTER_ID }}",
             "REPOSITORY": "\${{ github.repository }}",
           },
           "name": "Deploy",
