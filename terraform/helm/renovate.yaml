@@ -1,6 +1,6 @@
 image:
   repository: renovate/renovate
-  tag: 24.89.3
+  tag: 24.91.0
 
 cronjob:
   schedule: "0 * * * *"
