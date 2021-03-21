@@ -30,7 +30,7 @@ export function buildChart(scope: Construct) {
     secret: 'penn-clubs',
     cmd: ['/usr/local/bin/asgi-run'],
     replicas: 2,
-    domain: 'pennclubs.com',
+    domains: [{ host: 'pennclubs.com', isSubdomain: false }],
     ingressPaths: ['/api/ws'],
     djangoSettingsModule: 'pennclubs.settings.production',
     extraEnv: [
@@ -42,6 +42,7 @@ export function buildChart(scope: Construct) {
     image: 'pennlabs/penn-clubs-frontend',
     replicas: 2,
     domain: 'pennclubs.com',
+    isSubdomain: false,
     ingressPaths: ['/'],
     portEnv: '80',
   })

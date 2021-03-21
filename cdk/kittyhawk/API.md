@@ -38,7 +38,7 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
 DjangoApplication and ReactApplication have special properties that override properties from Application.
 
 For DjangoApplication:
-- domain (string) - Domain for the application. (**Required**)
+- domains (Array\<String, Boolean\>) - Domains for the application, and whether each domain should be treated as a subdomain. (**Required**)
 - ingressPaths (Array\<String\>) - List of paths that should be available on the domain. (**Required**)
 - djangoSettingsModule (string) - DJANGO_SETTINGS_MODULE environment variable. (**Required**)
 
@@ -46,6 +46,7 @@ For ReactApplication:
 - domain (string) - Domain for the application. (**Required**)
 - ingressPaths (Array\<String\>) - List of paths that should be available on the domain. (**Required**)
 - portEnv (string) - PORT environment variable. (**Optional**, default '80')
+- isSubdomain (boolean) - If the domain should be treated as a subdomain for certificate purposes.
 
 Use these properties instead of defining an ingress, and the ingress will be auto-configured. Additionally, do not set a DOMAIN environment variable in extraEnv, since it will automatically be set. 
 
