@@ -20,6 +20,7 @@
   ],
   "rangeStrategy": "bump",
   "prConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
   "labels": [
     "dependencies"
   ],

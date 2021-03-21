@@ -26,6 +26,10 @@ PR major releases individually, but combine minor and patch releases. Default to
 
 [Docs](https://docs.renovatebot.com/configuration-options/#prconcurrentlimit). Limit renovate to 5 open PRs.
 
+### rebaseWhen
+
+[Docs](https://docs.renovatebot.com/configuration-options/#rebasewhen). Rebase PRs when they fall behind the default branch.
+
 ### labels
 
 [Docs](https://docs.renovatebot.com/configuration-options/#labels). Apply the `dependencies` label to all PRs.
