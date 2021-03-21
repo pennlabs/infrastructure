@@ -51,3 +51,15 @@ resource "helm_release" "db-backup" {
     })
   ]
 }
+
+resource "helm_release" "renovate" {
+  name       = "renovate"
+  repository = "https://docs.renovatebot.com/helm-charts"
+  chart      = "renovate"
+  version    = "24.89.3"
+
+  values = [
+    file("helm/renovate.yaml")
+  ]
+}
+

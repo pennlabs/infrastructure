@@ -1,6 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Default preset for Penn Labs repositories",
   "extends": [
+    "github>whitesource/merge-confidence:beta",
     ":separateMajorReleases",
     ":combinePatchMinorReleases",
     ":ignoreUnstable",
@@ -18,10 +20,24 @@
   ],
   "rangeStrategy": "bump",
   "prConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
   "labels": [
     "dependencies"
   ],
   "packageRules": [
+    {
+      "matchFiles": [
+        ".github/cdk/package.json"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "cd .github/cdk && yarn build"
+        ],
+        "fileFilters": [
+          ".github/workflows/cdkactions_*.yaml"
+        ]
+      }
+    },
     {
       "matchUpdateTypes": [
         "major"
