@@ -2,7 +2,7 @@
 
 [Renovate](https://github.com/renovatebot/renovate) automates dependency updates. It's similar to [dependabot](https://dependabot.com/), but significantly more customizable.
 
-We have a `renovate.json` file within the root of this directory and then use renovate's [GitHub-hosted Presents](https://docs.renovatebot.com/config-presets/#github-hosted-presets) functionality to use this base config in all of our repos configured with renovate. Ideally we would want to put this config file within this directory, but currently renovate doesn't support loading presets from subdirectories. When that changes we'll move `renovate.json` into this folder.
+We have a `renovate.json` file within this directory and then use renovate's [GitHub-hosted Presents](https://docs.renovatebot.com/config-presets/#github-hosted-presets) functionality to use this base config in all of our repos configured with renovate.
 
 ## Overview
 
@@ -25,6 +25,10 @@ PR major releases individually, but combine minor and patch releases. Default to
 ### prConcurrentLimit
 
 [Docs](https://docs.renovatebot.com/configuration-options/#prconcurrentlimit). Limit renovate to 5 open PRs.
+
+### rebaseWhen
+
+[Docs](https://docs.renovatebot.com/configuration-options/#rebasewhen). Rebase PRs when they fall behind the default branch.
 
 ### labels
 

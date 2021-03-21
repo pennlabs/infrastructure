@@ -70,7 +70,7 @@ Additionally pushes credentials for those users into vault (where only platform 
 
 Uses our [Base Cluster Module](./modules/base_cluster) to configure our K8s cluster.
 
-Additionally also installs `team-sync`, `grafana`, `bitwarden`, and `db-backup`.
+Additionally also installs `team-sync`, `grafana`, `bitwarden`, `renovate`, and `db-backup`.
 
 ## provider.tf
 
