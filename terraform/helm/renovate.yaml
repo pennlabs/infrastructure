@@ -15,6 +15,13 @@ renovate:
       "allowedPostUpgradeCommands": ["cd .github/cdk && yarn build"],
       "trustLevel": "high",
       "gitAuthor": "Renovate Bot <githubbot@pennlabs.org>",
+      "onboardingConfigFileName": ".github/renovate.json",
+      "onboardingConfig": {
+        "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+        "extends": [
+          "github>pennlabs/infrastructure//renovate/renovate.json"
+        ]
+      },
       "repositories": ["pennlabs/infrastructure", "pennlabs/platform"]
     }
 
