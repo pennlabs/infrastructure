@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Default preset for Penn Labs repositories",
   "extends": [
     "github>whitesource/merge-confidence:beta",
     ":separateMajorReleases",
