@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (UNRELEASED)
+
+* Migrate to kittyhawk for deployments
+
 ## 0.5.1 (2021-03-17)
 
 * Remove unused env var from deploy job
