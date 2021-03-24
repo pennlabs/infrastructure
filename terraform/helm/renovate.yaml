@@ -1,0 +1,31 @@
+image:
+  repository: renovate/renovate
+  tag: 24.91.0
+
+cronjob:
+  schedule: "0 * * * *"
+
+renovate:
+  # See https://docs.renovatebot.com/self-hosted-configuration
+  config: |
+    {
+      "autodiscover": false,
+      "autodiscoverFilter": "pennlabs/*",
+      "printConfig": true,
+      "allowedPostUpgradeCommands": ["cd .github/cdk && yarn build"],
+      "trustLevel": "high",
+      "gitAuthor": "Renovate Bot <githubbot@pennlabs.org>",
+      "onboardingConfigFileName": ".github/renovate.json",
+      "onboardingConfig": {
+        "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+        "extends": [
+          "github>pennlabs/infrastructure//renovate/renovate"
+        ]
+      },
+      "repositories": ["pennlabs/infrastructure", "pennlabs/platform"]
+    }
+
+existingSecret: "renovate"
+
+redis:
+  enabled: true

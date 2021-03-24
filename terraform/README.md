@@ -16,6 +16,10 @@ We use [Terraform](https://www.terraform.io/docs/index.html) to manage our infra
 
 Contains configuration to create a terraform S3 backend. `provider.tf` in is configured to use the remote S3 backend.
 
+## bastion.tf
+
+Configures a bastion that allows Team Leads to exec into pods (normally to run manage.py commands).
+
 ## db-backup.tf
 
 Grants the `db-backup` IAM role access to the `sql.pennlabs.org` S3 bucket.
@@ -31,6 +35,10 @@ Finally, a populated kubeconfig is pushed to vault for platform members to use. 
 ## gh-actions.tf
 
 Creates an IAM user for GitHub Actions that can assume the `kubectl` IAM role as well as describe the EKS cluster (so that it can generate its own kubeconfig).
+
+## github.tf
+
+Creates organization GitHub Actions secrets used by our CI. Currently just AWS credentials and our AWS account ID.
 
 ## iam.tf
 
@@ -62,7 +70,7 @@ Additionally pushes credentials for those users into vault (where only platform 
 
 Uses our [Base Cluster Module](./modules/base_cluster) to configure our K8s cluster.
 
-Additionally also installs `team-sync`, `grafana`, `bitwarden`, and `db-backup`.
+Additionally also installs `team-sync`, `grafana`, `bitwarden`, `renovate`, and `db-backup`.
 
 ## provider.tf
 

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Default preset for Penn Labs repositories",
+  "extends": [
+    "github>whitesource/merge-confidence:beta",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":ignoreModulesAndTests",
+    ":prHourlyLimit2",
+    "group:monorepos",
+    "group:recommended",
+    "group:allNonMajor",
+    "helpers:disableTypesNodeMajor",
+    "workarounds:all",
+    "schedule:weekly"
+  ],
+  "rangeStrategy": "bump",
+  "prConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchFiles": [
+        ".github/cdk/package.json"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "cd .github/cdk && yarn build"
+        ],
+        "fileFilters": [
+          ".github/workflows/cdkactions_*.yaml"
+        ]
+      }
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "major"
+      ],
+      "schedule": "at any time"
+    },
+    {
+      "matchCurrentVersion": "< 1.0.0",
+      "separateMinorPatch": true,
+      "addLabels": [
+        "pre-1-0-0"
+      ],
+      "minor": {
+        "groupName": null,
+        "groupSlug": null,
+        "addLabels": [
+          "major"
+        ],
+        "schedule": "at any time"
+      },
+      "patch": {
+        "groupName": "all non-major dependencies",
+        "groupSlug": "all-minor-patch"
+      }
+    }
+  ],
+  "github-actions": {
+    "enabled": false
+  },
+  "terraform": {
+    "enabled": false
+  }
+}
