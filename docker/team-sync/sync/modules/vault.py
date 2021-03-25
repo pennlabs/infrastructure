@@ -6,8 +6,6 @@ from jinja2 import Template
 
 
 def sync(teams):
-    # TODO: remove
-    return
     session = boto3.Session()
     credentials = session.get_credentials()
     client = hvac.Client(url=os.getenv("VAULT_ADDR"))
