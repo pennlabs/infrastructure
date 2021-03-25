@@ -15,6 +15,7 @@ hvac = "*"
 jinja2 = "*"
 pygithub = "*"
 boto3 = "*"
+airtable-python-wrapper = "*"
 
 [requires]
 python_version = "3"
