@@ -1,11 +1,11 @@
 # Build stage
 FROM debian:buster-slim AS build
 
-ENV NGINX_VERSION=1.16.1-1~buster
+ENV NGINX_VERSION=1.18.0-2~buster
 
 # Install dependencies
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-release devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev debhelper \
+    && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-release devscripts fakeroot quilt libssl-dev libpcre3-dev zlib1g-dev debhelper libxml2-utils xsltproc \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Nginx repository and install
@@ -30,7 +30,7 @@ FROM debian:buster-slim
 
 LABEL maintainer="Penn Labs"
 
-ENV NGINX_VERSION=1.16.1-1~buster
+ENV NGINX_VERSION=1.18.0-2~buster
 
 # Install dependencies
 RUN apt-get update \
