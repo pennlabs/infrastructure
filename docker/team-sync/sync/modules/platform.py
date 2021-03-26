@@ -6,7 +6,7 @@ import requests
 PLATFORM_API_KEY = os.environ.get("PLATFORM_API_KEY", "")
 
 
-def sync(teams, pennkeys):
+def sync(teams, users):
     """
     Sync team leads from GitHub to admin permissions on platform
     """
@@ -21,7 +21,7 @@ def sync(teams, pennkeys):
         team_slugs.append(slug)
         for member in team.get_members():
             gh_username = member.login.lower()
-            pennkey = pennkeys.get(gh_username, None)
+            pennkey = users.get(gh_username, {}).get("pennkey", None)
             if pennkey:
                 content.setdefault(pennkey, []).append(slug)
                 # If user is a lead of clubs, also make h@p admin
@@ -32,7 +32,7 @@ def sync(teams, pennkeys):
     for team in teams["directors"]:
         for member in team.get_members():
             gh_username = member.login.lower()
-            pennkey = pennkeys.get(gh_username, None)
+            pennkey = users.get(gh_username, {}).get("pennkey", None)
             if pennkey:
                 content[pennkey] = team_slugs
 
