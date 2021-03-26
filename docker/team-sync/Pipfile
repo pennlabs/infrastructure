@@ -16,6 +16,7 @@ jinja2 = "*"
 pygithub = "*"
 boto3 = "*"
 airtable-python-wrapper = "*"
+pyotp = "*"
 
 [requires]
 python_version = "3"
