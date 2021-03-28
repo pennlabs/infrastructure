@@ -109,7 +109,7 @@ def invite_members(organization_uuid, team, users, session):
                 "emails": [email],
                 "collections": None,
                 "accessAll": True,
-                "type": 3,
+                "type": 1,
                 "permissions": {
                     "response": None,
                     "accessBusinessPortal": False,
