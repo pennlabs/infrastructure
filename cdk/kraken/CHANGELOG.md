@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6.0 (UNRELEASED)
+## 0.6.0 (2021-04-01)
 
 * Modify PyPI stack to use a matrix
 
