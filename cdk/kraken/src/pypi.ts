@@ -10,6 +10,12 @@ export interface PyPIPublishStackProps {
    * @default "3.8"
    */
   pythonVersion?: string;
+
+  /**
+   * List of python versions to run tox with.
+   * @default 3.6, 3.7, 3.8, 3.9
+   */
+  pythonMatrixVersions?: number[];
 }
 
 /**
@@ -27,6 +33,7 @@ export class PyPIPublishStack extends Stack {
     // Build config
     const fullConfig: Required<PyPIPublishStackProps> = {
       pythonVersion: '3.8',
+      pythonMatrixVersions: [3.6, 3.7, 3.8, 3.9],
       ...config,
     };
 
@@ -43,13 +50,22 @@ export class PyPIPublishStack extends Stack {
     });
     new CheckoutJob(workflow, 'test', {
       runsOn: 'ubuntu-latest',
-      container: {
-        image: 'themattrix/tox',
+      strategy: {
+        matrix: {
+          'python-version': fullConfig.pythonMatrixVersions,
+        },
       },
       steps: [
         {
+          name: 'Set up Python ${{ matrix.python-version }}',
+          uses: 'actions/setup-python@v2',
+          with: {
+            'python-version': '${{ matrix.python-version }}',
+          },
+        },
+        {
           name: 'Install dependencies',
-          run: 'pip install codecov',
+          run: 'pip install tox tox-gh-actions codecov',
         },
         {
           name: 'Test',
