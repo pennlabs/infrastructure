@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (2021-04-01)
+
+* Modify PyPI stack to use a matrix
+
 ## 0.5.1 (2021-03-17)
 
 * Remove unused env var from deploy job
