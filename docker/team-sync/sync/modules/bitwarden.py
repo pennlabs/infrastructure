@@ -2,6 +2,7 @@ import base64
 import hashlib
 import os
 import subprocess
+import time
 
 import requests
 from pyotp import TOTP
@@ -71,6 +72,12 @@ def sync(teams, users):
         },
     )
     body = res.json()
+    if "access_token" not in body:
+        # Authentication failed. Most likely due to TOTP
+        print("Bitwarden: TOTP code invalid")
+        # Sleep to ensure next job uses a different TOTP code
+        time.sleep(45)
+        exit(1)
     session.headers.update({"Authorization": f"Bearer {body['access_token']}"})
 
     # Generate mapping of organization to uuid
