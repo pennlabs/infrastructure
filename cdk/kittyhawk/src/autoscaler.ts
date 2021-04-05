@@ -91,6 +91,10 @@ export class Autoscaler extends Construct {
       });
     }
 
+    if (!(props.cpu || props.memory || props.requests)) {
+      throw 'must define CPU, memory, or requests to scale.';
+    }
+
     new HorizontalPodAutoscalerApiObject(this, 'default', {
       metadata: {
         name: appname,

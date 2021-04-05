@@ -23,6 +23,15 @@ export function buildFailingAutoscalingChart(scope: Construct) {
   });
 }
 
-test('Autoscaling -- Failing', () => failingTest(buildFailingAutoscalingChart));
+export function buildEmptyAutoscalingChart(scope: Construct) {
 
+  /** Autoscaling test with empty autoScalingProps should throw **/
+  new Application(scope, 'serve', {
+    image: 'pennlabs/website',
+    autoScalingProps: {},
+  });
+}
+
+test('Autoscaling -- Failing', () => failingTest(buildFailingAutoscalingChart));
+test('Autoscaling Empty -- Failing', () => failingTest(buildEmptyAutoscalingChart));
 test('Autoscaling', () => chartTest(buildAutoscalingChart));

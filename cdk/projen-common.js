@@ -18,4 +18,5 @@ exports.options = {
     license: 'MIT',
     licensed: true,
     gitignore: ['/docs'],
+    defaultReleaseBranch: 'master',
 }

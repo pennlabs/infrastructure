@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import cronTime from 'cron-time-generator';
-import { Application, DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
+import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
 import { CronJob } from '../../src/cronjob';
 import { chartTest } from '../utils';
 
@@ -9,15 +9,16 @@ export function buildOHQChart(scope: Construct) {
   /** OHQ
    * https://github.com/pennlabs/office-hours-queue/blob/master/k8s/values.yaml
    */
-  const common = {
-    image: 'pennlabs/office-hours-queue-backend',
-    secret: 'office-hours-queue',
-  };
+
+  const backendImage = 'pennlabs/office-hours-queue-backend';
+  const secret = 'office-hours-queue';
+  const domain = 'ohq.io';
 
   const djangoCommon = {
-    ...common,
+    image: backendImage,
+    secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domain: 'ohq.io',
+    domains: [{ host: domain, isSubdomain: false }],
     extraEnv: [
       { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
     ],
@@ -37,8 +38,9 @@ export function buildOHQChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'react', {
-    image: common.image,
-    domain: djangoCommon.domain,
+    image: 'pennlabs/office-hours-queue-frontend',
+    domain: domain,
+    isSubdomain: false,
     replicas: 2,
     ingressPaths: ['/'],
     portEnv: '80',
@@ -46,16 +48,15 @@ export function buildOHQChart(scope: Construct) {
 
   new RedisApplication(scope, 'redis', {});
 
-  new Application(scope, 'celery', {
-    ...common,
+  new DjangoApplication(scope, 'celery', {
+    ...djangoCommon,
     cmd: ['celery', '-A', 'officehoursqueue', 'worker', '-lINFO'],
-    extraEnv: [{ name: 'DJANGO_SETTINGS_MODULE', value: 'officehoursqueue.settings.production' },
-      { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' }],
   });
 
   new CronJob(scope, 'calculate-waits', {
     schedule: cronTime.every(5).minutes(),
-    ...common,
+    image: backendImage,
+    secret: secret,
     cmd: ['python', 'manage.py', 'calculatewaittimes'],
   });
 

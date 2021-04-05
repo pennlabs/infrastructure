@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
-import { Ingress, IngressProps } from './ingress';
+import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service, ServiceProps } from './service';
 
 /**
@@ -40,9 +40,9 @@ export class Application extends Construct {
  * @param envKey name of the environment variable to insert
  * @param envValue value of the environment variable
  */
-function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
-  const envSettingsModule = envArray?.filter(env => (env.name === envKey));
-  if (envSettingsModule?.length > 0) {
+export function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
+  const envSettingsModule = envArray.filter(env => (env.name === envKey));
+  if (envSettingsModule.length > 0) {
     throw new Error(`${envKey} should not be redefined as an enviroment variable.`);
   }
   envArray.push({ name: envKey, value: envValue });
@@ -50,14 +50,18 @@ function insertIfNotPresent(envArray: { name: string; value: string }[], envKey:
 }
 export interface DjangoApplicationProps extends ApplicationProps {
   /**
-   * Domain of the application.
+   * Array of domain(s). Host is the domain the application runs on,
+   * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
+   * See the certificate documentation for more details.
    */
-  readonly domain: string;
+  readonly domains: {host: string; isSubdomain: boolean}[];
 
   /**
-   * Just the list of paths passed to the ingress since we already know the host.
+   * Just the list of paths passed to the ingress since we already know the host. Optional.
+   *
+   * @default undefined
    */
-  readonly ingressPaths: string[];
+  readonly ingressPaths?: string[];
 
   /**
    * DJANGO_SETTINGS_MODULE environment variable.
@@ -73,10 +77,15 @@ export class DjangoApplication extends Application {
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domain);
+    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
 
-    // Configure the ingress using ingressPaths.
-    const djangoIngress = [{ host: props.domain, paths: props.ingressPaths }];
+    // Configure the ingress using ingressPaths if ingressPaths is defined.
+    let djangoIngress: HostRules[] | undefined = undefined;
+    if (props.ingressPaths) {
+      djangoIngress = props.domains.map(h => {
+        return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain };
+      });
+    }
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -92,6 +101,11 @@ export interface ReactApplicationProps extends ApplicationProps {
    * Domain of the application.
    */
   readonly domain: string;
+
+  /**
+   * If the host is a subdomain.
+   */
+  readonly isSubdomain: boolean;
 
   /**
    * Just the list of paths passed to the ingress since we already know the host.
@@ -115,7 +129,7 @@ export class ReactApplication extends Application {
     insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
 
     // Configure the ingress using ingressPaths.
-    const reactIngress = [{ host: props.domain, paths: props.ingressPaths }];
+    const reactIngress = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {

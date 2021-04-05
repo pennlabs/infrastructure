@@ -12,6 +12,7 @@ export function buildWebsiteChart(scope: Construct) {
   new ReactApplication(scope, 'serve', {
     image: 'pennlabs/website',
     domain: 'pennlabs.org',
+    isSubdomain: false,
     ingressPaths: ['/'],
   });
 }
@@ -26,6 +27,7 @@ export function buildBasicsChart(scope: Construct) {
     secret: 'penn-basics',
     portEnv: '80',
     domain: 'pennbasics.com',
+    isSubdomain: false,
     ingressPaths: ['/'],
   });
 }
@@ -37,15 +39,14 @@ export function buildPlatformChart(scope: Construct) {
    * https://github.com/pennlabs/platform/blob/master/k8s/values.yaml
    */
 
-  const common = {
-    image: 'pennlabs/platform',
-    secret: 'platform',
-  };
+  const image = 'pennlabs/platform';
+  const secret = 'platform';
 
   new DjangoApplication(scope, 'platform', {
-    ...common,
+    image: image,
+    secret: secret,
     port: 443,
-    domain: 'platform.pennlabs.org',
+    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
     djangoSettingsModule: 'Platform.settings.production',
     ingressPaths: ['/'],
     secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
@@ -53,7 +54,8 @@ export function buildPlatformChart(scope: Construct) {
   });
 
   new CronJob(scope, 'clear-expired-tokens', {
-    ...common,
+    image: image,
+    secret: secret,
     schedule: cronTime.everySundayAt(5),
     cmd: ['python3', 'manage.py', 'cleartokens'],
   });
@@ -68,7 +70,7 @@ export function buildCFAChart(scope: Construct) {
   new DjangoApplication(scope, 'django', {
     image: 'pennlabs/common-funding-application',
     secret: 'common-funding-application',
-    domain: 'penncfa.com',
+    domains: [{ host: 'penncfa.com', isSubdomain: false }],
     ingressPaths: ['/'],
     djangoSettingsModule: 'penncfa.settings.production',
   });
@@ -86,7 +88,7 @@ export function buildLabsAPIServerChart(scope: Construct) {
   };
   new Application(scope, 'flask', {
     ...common,
-    ingress: [{ host: 'api.pennlabs.org', paths: ['/'] }],
+    ingress: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }],
     secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
   });
 
