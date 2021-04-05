@@ -48,7 +48,7 @@ export class PyPIPublishStack extends Stack {
       },
       ...overrides,
     });
-    new CheckoutJob(workflow, 'test', {
+    const testJob = new CheckoutJob(workflow, 'test', {
       runsOn: 'ubuntu-latest',
       strategy: {
         matrix: {
@@ -83,6 +83,7 @@ export class PyPIPublishStack extends Stack {
       container: {
         image: `python:${fullConfig.pythonVersion}`,
       },
+      needs: testJob.id,
       if: "startsWith(github.ref, 'refs/tags')",
       steps: [
         {

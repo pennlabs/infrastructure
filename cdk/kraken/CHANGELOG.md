@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (2021-04-04)
+
+* Fix PyPI job dependencies
+
 ## 0.6.0 (2021-04-01)
 
 * Modify PyPI stack to use a matrix
