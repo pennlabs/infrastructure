@@ -65,7 +65,7 @@ export class PyPIPublishStack extends Stack {
         },
         {
           name: 'Install dependencies',
-          run: 'pip install tox tox-gh-actions codecov',
+          run: 'pip install poetry tox tox-gh-actions codecov',
         },
         {
           name: 'Test',

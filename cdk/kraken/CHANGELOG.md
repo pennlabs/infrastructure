@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.6.0 (2021-04-04)
+## 0.6.2 (2021-04-04)
+
+* Add poetry install to PyPI stack
+
+## 0.6.1 (2021-04-04)
 
 * Fix PyPI job dependencies
 
