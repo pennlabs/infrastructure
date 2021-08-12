@@ -12,7 +12,8 @@ def sync(teams, users):
     """
     # Dictionary of pennkey to list of admin permissions
     content = {}
-    team_slugs = []
+    # Hub@Penn needs to be pre-populated
+    team_slugs = ["hub_admin"]
 
     # Team Leads are admins of their products
     for team in teams["leads"]:
