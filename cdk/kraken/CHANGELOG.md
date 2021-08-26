@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.3 (2021-08-26)
+
+* Pin OS to buster within django check
+
 ## 0.6.2 (2021-04-04)
 
 * Add poetry install to PyPI stack
