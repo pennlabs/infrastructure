@@ -35,7 +35,7 @@ locals {
     "pennclubs.com",
     "penncoursealert.com",
     "penncourseplan.com",
-    "penncoursereview.com", // Currently still in Google Domains
+    "penncoursereview.com",
     "penncourses.org",
     "pennlabs.org",
     "pennmobile.org",
