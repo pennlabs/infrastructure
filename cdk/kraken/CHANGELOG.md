@@ -1,5 +1,9 @@
 # Changelog
 
+## X.Y.Z (UNRELEASED)
+
+* Modify PyPI publish to use poetry
+
 ## 0.6.3 (2021-08-26)
 
 * Pin OS to buster within django check

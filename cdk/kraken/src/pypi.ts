@@ -1,3 +1,4 @@
+import * as dedent from 'dedent-js';
 import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
 import { Construct } from 'constructs';
 
@@ -88,19 +89,20 @@ export class PyPIPublishStack extends Stack {
       steps: [
         {
           name: 'Verify tag',
-          run: 'python3 setup.py verify',
+          run: dedent`GIT_TAG=\${GITHUB_REF/refs\\/tags\\//}
+          LIBRARY_VERSION=$(poetry version -s)
+          if [[ "$GIT_TAG" != LIBRARY_VERSION ]]; then exit 1; fi`,
         },
         {
           name: 'Build',
-          run: 'python3 setup.py sdist bdist_wheel',
+          run: 'poetry build',
         },
         {
           name: 'Publish',
-          uses: 'pypa/gh-action-pypi-publish@v1',
-          with: {
-            user: '__token__',
-            password: '${{ secrets.PYPI_PASSWORD }}',
-          },
+          run: 'poetry publish',
+          env: {
+            POETRY_PYPI_TOKEN_PYPI: '${{ secrets.PYPI_PASSWORD }}'
+          }
         },
       ],
     });
