@@ -1,6 +1,6 @@
 # Changelog
 
-## X.Y.Z (UNRELEASED)
+## 0.6.4 (2021-10-04)
 
 * Modify PyPI publish to use poetry
 
