@@ -238,7 +238,6 @@ resource "aws_lb_target_group_attachment" "vault" {
 module "vault" {
   source              = "./modules/vault"
   CF_API_KEY          = var.CF_API_KEY
-  GH_PERSONAL_TOKEN   = var.GH_PERSONAL_TOKEN
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
@@ -263,4 +262,13 @@ module "db-secret-flush" {
   for_each = setsubtract(local.database_users, ["vault"])
   path     = "secrets/production/default/${each.key}"
   entry    = { DATABASE_URL = "postgres://${each.key}:${postgresql_role.role[each.key].password}@${aws_db_instance.production.endpoint}/${each.key}" }
+}
+
+module "team-sync-flush" {
+  source = "./modules/vault_flush"
+  path   = "${module.vault.secrets-path}/production/default/team-sync"
+
+  entry = {
+    GITHUB_TOKEN = var.GH_PERSONAL_TOKEN
+  }
 }

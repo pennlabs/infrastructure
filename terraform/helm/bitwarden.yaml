@@ -1,7 +1,7 @@
 applications:
   - name: bitwarden
-    image: bitwardenrs/server-postgresql
-    tag: "1.16.3"
+    image: bitwardenrs/server
+    tag: "1.19.0"
     secret: bitwarden
     ingress:
       hosts:

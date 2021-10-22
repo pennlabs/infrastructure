@@ -12,10 +12,3 @@ resource "vault_aws_auth_backend_role" "team-sync" {
   token_policies           = [vault_policy.team-sync.name]
 }
 
-resource "vault_generic_secret" "team-sync" {
-  path = "${vault_mount.secrets.path}/production/default/team-sync"
-
-  data_json = jsonencode({
-    "GITHUB_TOKEN" = var.GH_PERSONAL_TOKEN
-  })
-}

@@ -60,7 +60,7 @@ exit 1",
     },
     "django-check-one": Object {
       "container": Object {
-        "image": "python:3.8",
+        "image": "python:3.8-buster",
       },
       "env": Object {
         "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -122,7 +122,7 @@ pipenv run codecov --root $ROOT --flags backend",
     },
     "django-check-two": Object {
       "container": Object {
-        "image": "python:3.8",
+        "image": "python:3.8-buster",
       },
       "env": Object {
         "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",

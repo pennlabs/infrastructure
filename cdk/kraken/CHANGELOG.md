@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.6.4 (2021-10-04)
+
+* Modify PyPI publish to use poetry
+
+## 0.6.3 (2021-08-26)
+
+* Pin OS to buster within django check
+
+## 0.6.2 (2021-04-04)
+
+* Add poetry install to PyPI stack
+
+## 0.6.1 (2021-04-04)
+
+* Fix PyPI job dependencies
+
+## 0.6.0 (2021-04-01)
+
+* Modify PyPI stack to use a matrix
+
 ## 0.5.1 (2021-03-17)
 
 * Remove unused env var from deploy job

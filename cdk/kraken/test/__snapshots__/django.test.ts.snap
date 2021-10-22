@@ -3,7 +3,7 @@
 exports[`default 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8",
+    "image": "python:3.8-buster",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -68,7 +68,7 @@ pipenv run codecov --root $ROOT --flags backend",
 exports[`different directory 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8",
+    "image": "python:3.8-buster",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -198,7 +198,7 @@ pipenv run codecov --root $ROOT --flags backend",
 exports[`no lint 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8",
+    "image": "python:3.8-buster",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -253,7 +253,7 @@ pipenv run codecov --root $ROOT --flags backend",
 exports[`with overrides 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8",
+    "image": "python:3.8-buster",
   },
   "continue-on-error": true,
   "env": Object {

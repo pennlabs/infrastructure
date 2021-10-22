@@ -7,13 +7,13 @@ locals {
   )
   products = toset([
     "common-funding-application",
-    "first-year-hub",
+    "hub-at-penn",
     "office-hours-queue",
     "penn-clubs",
     "penn-courses",
     "platform",
     "platform-dev",
-    "student-life"
+    "penn-mobile"
   ])
   iam_service_accounts = setunion(local.products,
     toset([
@@ -35,7 +35,7 @@ locals {
     "pennclubs.com",
     "penncoursealert.com",
     "penncourseplan.com",
-    "penncoursereview.com", // Currently still in Google Domains
+    "penncoursereview.com",
     "penncourses.org",
     "pennlabs.org",
     "pennmobile.org",
