@@ -3,5 +3,10 @@
 # Django Migrate
 /usr/local/bin/python3 /app/manage.py migrate --noinput
 
+# If RUN_POPULATE is set, run populate
+if [[ ! -z "${RUN_POPULATE}" ]]; then
+  /usr/local/bin/python3 /app/manage.py populate
+fi
+
 # Run UWSGI
 exec /usr/local/bin/uwsgi --ini /app/setup.cfg
