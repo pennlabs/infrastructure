@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Django Migrate
 /usr/local/bin/python3 /app/manage.py migrate --noinput
