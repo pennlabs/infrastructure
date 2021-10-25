@@ -9,7 +9,7 @@ export class Chart extends ChartApiObject {
   }
 }
 
-export function synth (chartBuilder: (scope: Construct) => void) {
+export function synth(chartBuilder: (scope: Construct) => void) {
   const app = new App();
   new Chart(app, 'kittyhawk', chartBuilder);
   app.synth();

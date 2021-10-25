@@ -54,7 +54,7 @@ export interface DjangoApplicationProps extends ApplicationProps {
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * See the certificate documentation for more details.
    */
-  readonly domains: {host: string; isSubdomain: boolean}[];
+  readonly domains: { host: string; isSubdomain: boolean }[];
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.

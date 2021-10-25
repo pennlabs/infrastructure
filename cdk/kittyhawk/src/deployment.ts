@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { Autoscaler, AutoscalingProps } from './autoscaler';
 import { Container, ContainerProps, Volume } from './container';
-import { KubeDeployment as DeploymentApiObject } from './imports/k8s';
+import { IntOrString, KubeDeployment as DeploymentApiObject } from './imports/k8s';
 
 export interface DeploymentProps extends ContainerProps {
   /**
@@ -33,7 +33,7 @@ export class Deployment extends Construct {
     const label = { name: appname };
     const containers: Container[] = [new Container(props)];
     const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m));
-    const autoScalingOn : boolean = props.autoScalingProps !== undefined;
+    const autoScalingOn: boolean = props.autoScalingProps !== undefined;
 
     // See https://github.com/kubernetes/kubernetes/issues/25238#issuecomment-570257435 for info
     if (autoScalingOn && props.replicas !== undefined) {
@@ -54,8 +54,7 @@ export class Deployment extends Construct {
         strategy: {
           type: 'RollingUpdate',
           rollingUpdate: {
-            maxSurge: 3,
-            maxUnavailable: 0,
+            maxSurge: IntOrString.fromNumber(3),
           },
         },
         template: {

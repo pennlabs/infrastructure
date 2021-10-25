@@ -248,7 +248,7 @@ export class Volume implements VolumeInterface {
        * Secret, stored as a volume
        *
        */
-  readonly secret?: SecretVolumeSource
+  readonly secret?: SecretVolumeSource;
 
   constructor(props: VolumeProps) {
     let mountString = (a: string) => a.toLowerCase().split('_').join('-');
