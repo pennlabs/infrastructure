@@ -13,9 +13,9 @@ export interface IngressProps {
   /**
      * A list of host rules used to configure the Ingress.
      *
-     * @default undefined
+     * @default []
      */
-  readonly ingress?: HostRules[];
+  readonly ingress: HostRules[];
 }
 
 export interface HostRules {
@@ -25,7 +25,7 @@ export interface HostRules {
   readonly host: string;
 
   /**
-   * Paths on the domain that the application should be avaiable.
+   * Paths on the domain that the application should be available.
    */
   readonly paths: string[];
 
@@ -39,18 +39,17 @@ export class Ingress extends Construct {
   constructor(scope: Construct, appname: string, props: IngressProps) {
     super(scope, `ingress-${appname}`);
 
-    const port = props.port || 80;
-    const ingress = props.ingress;
+    const fullConfig: Required<IngressProps> = {
+      port: 80,
+      ...props,
+    };
 
-    if (!ingress) {
-      throw new Error('Cannot generate ingress if props.ingress is undefined.');
-    }
-    let tls = ingress.map(h => {
-      let hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
+    const tls = props.ingress.map(h => {
+      const hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
       return { hosts: [h.host], secretName: hostString };
     });
 
-    let rules: IngressRule[] = ingress.map(h => {
+    const rules: IngressRule[] = props.ingress.map(h => {
       return {
         host: h.host,
         http: {
@@ -62,7 +61,7 @@ export class Ingress extends Construct {
                 service: {
                   name: appname,
                   port: {
-                    number: port,
+                    number: fullConfig.port,
                   },
                 },
               },
