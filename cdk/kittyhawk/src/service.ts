@@ -23,8 +23,13 @@ export class Service extends Construct {
   constructor(scope: Construct, appname: string, props: ServiceProps) {
     super(scope, `service-${appname}`);
 
-    const port = props.port || 80;
-    const containerPort = props.containerPort || port;
+    const port = props.port ?? 80;
+    const containerPort = props.containerPort ?? port;
+    const fullConfig: Required<ServiceProps> = {
+      port: port,
+      containerPort: containerPort,
+      ...props,
+    };
 
     new ServiceApiObject(this, `service-${appname}`, {
       metadata: {
@@ -32,7 +37,7 @@ export class Service extends Construct {
       },
       spec: {
         type: 'ClusterIP',
-        ports: [{ port, targetPort: IntOrString.fromNumber(containerPort) }],
+        ports: [{ port, targetPort: IntOrString.fromNumber(fullConfig.containerPort) }],
         selector: { name: appname },
       },
     });
