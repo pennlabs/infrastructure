@@ -53,7 +53,7 @@ export interface ContainerProps {
        *
        * @default []
        */
-  readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
+  readonly secretMounts?: VolumeMount[];
 
   /**
        * Internal port.
@@ -216,27 +216,8 @@ export class Probe implements ProbeInterface {
   }
 }
 
-export interface VolumeProps {
 
-  /**
-       * Secret volume name.
-       */
-  readonly name: string;
-
-  /**
-       * Secret volume mountPath.
-       */
-  readonly mountPath: string;
-
-  /**
-       * Secret volume subPath.
-       */
-  readonly subPath: string;
-
-}
-
-
-export class Volume implements VolumeInterface {
+export class SecretVolume implements VolumeInterface {
 
   /**
        * Name of the volume
@@ -249,16 +230,16 @@ export class Volume implements VolumeInterface {
        */
   readonly secret?: SecretVolumeSource;
 
-  constructor(props: VolumeProps) {
+  constructor(props: VolumeMount) {
     let mountString = (a: string) => a.toLowerCase().split('_').join('-');
-
-    this.name = `${mountString(props.name)}-${mountString(props.subPath)}`;
+    const items = props.subPath ? [{
+      key: props.subPath,
+      path: props.subPath,
+    }] : [];
+    this.name = `${mountString(props.name)}-${props.subPath && mountString(props.subPath)}`;
     this.secret = {
       secretName: props.name,
-      items: [{
-        key: props.subPath,
-        path: props.subPath,
-      }],
+      items: items,
     };
   }
 }

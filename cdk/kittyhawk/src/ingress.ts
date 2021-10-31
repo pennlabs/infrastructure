@@ -15,7 +15,7 @@ export interface IngressProps {
      *
      * @default []
      */
-  readonly ingress: HostRules[];
+  readonly rules: HostRules[];
 }
 
 export interface HostRules {
@@ -44,12 +44,12 @@ export class Ingress extends Construct {
       ...props,
     };
 
-    const tls = props.ingress.map(h => {
+    const tls = props.rules.map(h => {
       const hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
       return { hosts: [h.host], secretName: hostString };
     });
 
-    const rules: IngressRule[] = props.ingress.map(h => {
+    const rules: IngressRule[] = props.rules.map(h => {
       return {
         host: h.host,
         http: {
