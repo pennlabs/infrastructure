@@ -1,4 +1,4 @@
-import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, Probe as ProbeInterface, VolumeMount, SecretVolumeSource, HttpGetAction, ExecAction } from './imports/k8s';
+import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, Probe as ProbeInterface, VolumeMount, SecretVolumeSource, HttpGetAction, ExecAction, IntOrString } from './imports/k8s';
 
 
 export interface ContainerProps {
@@ -46,7 +46,7 @@ export interface ContainerProps {
        *
        * @default []
        */
-  readonly extraEnv?: { name: string; value: string }[];
+  readonly env?: { name: string; value: string }[];
 
   /**
        * Secret mounts for deployment container.
@@ -165,7 +165,7 @@ export class Container implements ContainerInterface {
   constructor(props: ContainerProps) {
 
     this.name = 'worker';
-    // Priority is tag set, GIT_SHA env var, 'latest'
+    // tag priority is provided tag, GIT_SHA env var, then 'latest'
     const GIT_SHA = process.env.GIT_SHA || 'latest';
     const tag = props.tag || GIT_SHA;
     this.image = `${props.image}:${tag}`;
@@ -174,9 +174,8 @@ export class Container implements ContainerInterface {
     this.command = props.cmd;
     this.volumeMounts = props.secretMounts;
     this.envFrom = props.secret ? [{ secretRef: { name: props.secret } }] : undefined;
-    let envVars = [...(props.extraEnv || [])];
-    envVars.push({ name: 'GIT_SHA', value: GIT_SHA });
-    this.env = envVars;
+    const env = props.env ?? [];
+    this.env = [...env, { name: 'GIT_SHA', value: GIT_SHA }];
     this.readinessProbe = props.readinessProbe && new Probe(props.readinessProbe);
     this.livenessProbe = props.livenessProbe && new Probe(props.livenessProbe);
   }
@@ -212,8 +211,8 @@ export class Probe implements ProbeInterface {
     if (props.command) {
       this.exec = { command: props.command };
     } else if (props.path) {
-      this.httpGet = { path: props.path, port: 80 };
-    } else {throw new Error('Must provide either probe command or HTTP path');}
+      this.httpGet = { path: props.path, port: IntOrString.fromNumber(80) };
+    } else { throw new Error('Must provide either probe command or HTTP path'); }
   }
 }
 
@@ -262,7 +261,5 @@ export class Volume implements VolumeInterface {
       }],
     };
   }
-
-
 }
 
