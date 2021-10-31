@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Container, ContainerProps, Volume } from './container';
+import { Container, ContainerProps, SecretVolume } from './container';
 import { KubeCronJobV1Beta1 as CronJobApiObject } from './imports/k8s';
 
 export interface CronJobProps extends ContainerProps {
@@ -52,7 +52,7 @@ export class CronJob extends Construct {
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
     const fullname = `${release_name}-${jobname}`;
     const containers: Container[] = [new Container(props)];
-    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m));
+    const volumes: SecretVolume[] | undefined = props.secretMounts?.map(m => new SecretVolume(m));
 
     new CronJobApiObject(this, `cronjob-${fullname}`, {
       metadata: {
