@@ -2,34 +2,12 @@ import { Construct } from 'constructs';
 import { KubeService as ServiceApiObject, IntOrString } from './imports/k8s';
 
 
-export interface ServiceProps {
-  /**
-   * External port.
-   *
-   * @default 80
-   */
-  readonly port?: number;
-
-  /**
-* Internal port.
-*
-* @default port
-*/
-  readonly containerPort?: number;
-}
-
-
 export class Service extends Construct {
-  constructor(scope: Construct, appname: string, props: ServiceProps) {
+  constructor(scope: Construct, appname: string, port?: number) {
     super(scope, `service-${appname}`);
 
-    const port = props.port ?? 80;
-    const containerPort = props.containerPort ?? port;
-    const fullConfig: Required<ServiceProps> = {
-      port: port,
-      containerPort: containerPort,
-      ...props,
-    };
+    const targetPort = port ?? 80;
+
 
     new ServiceApiObject(this, `service-${appname}`, {
       metadata: {
@@ -37,7 +15,7 @@ export class Service extends Construct {
       },
       spec: {
         type: 'ClusterIP',
-        ports: [{ port, targetPort: IntOrString.fromNumber(fullConfig.containerPort) }],
+        ports: [{ port: targetPort, targetPort: IntOrString.fromNumber(targetPort) }],
         selector: { name: appname },
       },
     });
