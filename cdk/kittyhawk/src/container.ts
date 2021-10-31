@@ -166,6 +166,7 @@ export class Container implements ContainerInterface {
 
     this.name = 'worker';
     // tag priority is provided tag, GIT_SHA env var, then 'latest'
+    // TODO: look at this
     const GIT_SHA = process.env.GIT_SHA || 'latest';
     const tag = props.tag || GIT_SHA;
     this.image = `${props.image}:${tag}`;

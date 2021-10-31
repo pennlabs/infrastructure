@@ -23,7 +23,7 @@ export interface DeploymentProps extends ContainerProps {
    * @default - see default autoscaler props
    */
   readonly autoScalingProps?: AutoscalingProps;
-
+  // TODO: allow multiple containers
 }
 
 export class Deployment extends Construct {

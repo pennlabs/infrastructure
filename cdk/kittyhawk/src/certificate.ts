@@ -7,6 +7,7 @@ export class Certificate extends Construct {
     super(scope, `certificate-${appname}`);
 
     // We want to generate a certificate for each host
+    // TODO: see if this is okay with multiple products on same domain
     rules.map(h => {
       const hostString: string = domainToCertName(h.host, h.isSubdomain);
       const finalDomain: string = removeSubdomain(h.host, h.isSubdomain);
