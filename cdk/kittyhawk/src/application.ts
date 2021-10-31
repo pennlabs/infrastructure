@@ -2,15 +2,18 @@ import { Construct } from 'constructs';
 import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
 import { HostRules, Ingress, IngressProps } from './ingress';
-import { Service, ServiceProps } from './service';
+import { Service } from './service';
 
 /**
  * Warning: Before editing any interfaces, make sure that none of the interfaces will have
  * property names that conflict with each other. Typescript may not throw an error and it
  * could cause problems.
  */
-export interface ApplicationProps extends IngressProps, DeploymentProps,
-  ServiceProps { }
+export interface ApplicationProps {
+  readonly ingress?: IngressProps;
+  readonly deployment: DeploymentProps;
+  readonly port?: number;
+}
 
 
 export class Application extends Construct {
@@ -21,14 +24,14 @@ export class Application extends Construct {
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
     const fullname = `${release_name}-${appname}`;
 
-    new Service(this, fullname, props);
+    new Service(this, fullname, props.port);
 
-    new Deployment(this, fullname, props);
+    new Deployment(this, fullname, props.deployment);
 
     if (props.ingress) {
-      new Ingress(this, fullname, props);
+      new Ingress(this, fullname, props.ingress);
 
-      new Certificate(this, fullname, props);
+      new Certificate(this, fullname, props.ingress.rules);
     }
   }
 }
@@ -73,25 +76,25 @@ export class DjangoApplication extends Application {
   constructor(scope: Construct, appname: string, props: DjangoApplicationProps) {
 
     // Have to be careful here with references when mutating things
-    let djangoExtraEnv = Array.from(props.extraEnv || []);
+    let djangoExtraEnv = Array.from(props.deployment.env || []);
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
     insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
-    let djangoIngress: HostRules[] | undefined = undefined;
-    if (props.ingressPaths) {
-      djangoIngress = props.domains.map(h => {
-        return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain };
-      });
-    }
+    const djangoIngress: HostRules[] = props.domains?.map(h => {
+      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain };
+    });
 
     // If everything passes, construct the Application.
     super(scope, appname, {
       ...props,
-      extraEnv: djangoExtraEnv,
-      ingress: djangoIngress,
+      deployment: {
+        ...props.deployment,
+        env: djangoExtraEnv,
+      },
+      ingress: { rules: djangoIngress },
     });
   }
 }
@@ -122,7 +125,7 @@ export class ReactApplication extends Application {
   constructor(scope: Construct, appname: string, props: ReactApplicationProps) {
 
     // Have to be careful here with references when mutating things
-    let reactExtraEnv = Array.from(props.extraEnv || []);
+    let reactExtraEnv = Array.from(props.deployment.env || []);
 
     // Insert DOMAIN and PORT as env vars.
     insertIfNotPresent(reactExtraEnv, 'DOMAIN', props.domain);
@@ -134,8 +137,11 @@ export class ReactApplication extends Application {
     // If everything passes, construct the Application.
     super(scope, appname, {
       ...props,
-      extraEnv: reactExtraEnv,
-      ingress: reactIngress,
+      deployment: {
+        ...props.deployment,
+        env: reactExtraEnv,
+      },
+      ingress: { rules: reactIngress },
     });
   }
 }
@@ -144,8 +150,10 @@ export class RedisApplication extends Application {
   constructor(scope: Construct, appname: string, redisProps: Partial<ApplicationProps>) {
     super(scope, appname, {
       ...redisProps,
-      image: 'redis',
-      tag: redisProps.tag || '6.0',
+      deployment: {
+        image: 'redis',
+        tag: redisProps.deployment?.tag ?? '6.0',
+      },
       port: redisProps.port || 6379,
     });
   }
