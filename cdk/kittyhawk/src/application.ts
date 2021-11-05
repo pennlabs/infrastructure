@@ -46,7 +46,7 @@ export class Application extends Construct {
 export function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
   const envSettingsModule = envArray.filter(env => (env.name === envKey));
   if (envSettingsModule.length > 0) {
-    throw new Error(`${envKey} should not be redefined as an enviroment variable.`);
+    throw new Error(`${envKey} should not be redefined as an environment variable.`);
   }
   envArray.push({ name: envKey, value: envValue });
 
