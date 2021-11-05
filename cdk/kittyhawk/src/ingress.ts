@@ -53,20 +53,18 @@ export class Ingress extends Construct {
       return {
         host: h.host,
         http: {
-          paths: h.paths.map(path => {
-            return {
-              path: path,
-              pathType: 'Prefix',
-              backend: {
-                service: {
-                  name: appname,
-                  port: {
-                    number: fullConfig.port,
-                  },
+          paths: h.paths.map(path => ({
+            path: path,
+            pathType: 'Prefix',
+            backend: {
+              service: {
+                name: appname,
+                port: {
+                  number: fullConfig.port,
                 },
               },
-            };
-          }),
+            },
+          })),
         },
       };
     });
