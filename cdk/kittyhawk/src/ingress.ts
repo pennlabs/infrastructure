@@ -45,7 +45,7 @@ export class Ingress extends Construct {
     };
 
     const tls = props.rules.map(h => {
-      const hostString: string = domainToCertName(h.host, h.isSubdomain).concat('-tls');
+      const hostString: string = `${domainToCertName(h.host, h.isSubdomain)}-tls`;
       return { hosts: [h.host], secretName: hostString };
     });
 
