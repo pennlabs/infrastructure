@@ -15,3 +15,9 @@ variable "prometheus_values" {
   description = "Values to provide to the Prometheus helm chart"
   type        = list(string)
 }
+
+// Cert Manager values
+variable "cert_manager_values" {
+  description = "Values to provide to the Cert Manager helm chart"
+  type        = list(string)
+}

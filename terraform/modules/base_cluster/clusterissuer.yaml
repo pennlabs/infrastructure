@@ -11,9 +11,5 @@ spec:
     solvers:
       - selector: {}
         dns01:
-          cnameStrategy: Follow
-          cloudflare:
-            email: pennappslabs@gmail.com
-            apiKeySecretRef:
-              name: cloudflare-api-key-secret
-              key: api-key
+          route53:
+            region: us-east-1

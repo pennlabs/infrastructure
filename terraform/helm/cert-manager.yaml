@@ -1,0 +1,9 @@
+installCRDs: true
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: ${roleARN}
+
+securityContext:
+  enabled: true
+  fsGroup: 1001

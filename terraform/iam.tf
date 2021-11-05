@@ -13,3 +13,11 @@ module "iam-secret-sync" {
   oidc_issuer_url   = module.eks-production.cluster_oidc_issuer_url
   oidc_provider_arn = module.eks-production.oidc_provider_arn
 }
+
+module "iam-cert-manager" {
+  source            = "./modules/iam"
+  role              = "cert-manager"
+  namespaces        = ["cert-manager"]
+  oidc_issuer_url   = module.eks-production.cluster_oidc_issuer_url
+  oidc_provider_arn = module.eks-production.oidc_provider_arn
+}
