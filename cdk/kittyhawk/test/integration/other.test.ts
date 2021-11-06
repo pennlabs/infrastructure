@@ -10,7 +10,9 @@ export function buildWebsiteChart(scope: Construct) {
    * https://github.com/pennlabs/website/blob/master/k8s/values.yaml
    */
   new ReactApplication(scope, 'serve', {
-    image: 'pennlabs/website',
+    deployment: {
+      image: 'pennlabs/website',
+    },
     domain: 'pennlabs.org',
     ingressPaths: ['/'],
   });
@@ -22,8 +24,10 @@ export function buildBasicsChart(scope: Construct) {
    * https://github.com/pennlabs/penn-basics/blob/master/k8s/values.yaml
   */
   new ReactApplication(scope, 'react', {
-    image: 'pennlabs/penn-basics',
-    secret: 'penn-basics',
+    deployment: {
+      image: 'pennlabs/penn-basics',
+      secret: 'penn-basics',
+    },
     portEnv: '80',
     domain: 'pennbasics.com',
     ingressPaths: ['/'],

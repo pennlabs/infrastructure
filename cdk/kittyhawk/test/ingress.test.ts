@@ -31,7 +31,7 @@ test('Remove subdomain -- true', () => {
 
 test('Remove subdomain -- false', () => {
   expect(removeSubdomain('abc.platform.pennlabs.org', false)).toEqual('abc.platform.pennlabs.org');
-  expect(removeSubdomain('ohq.io', false)).toEqual('ohq.io');
+  expect(removeSubdomain('ohq.io')).toEqual('ohq.io');
 
 });
 
@@ -44,9 +44,9 @@ test('domainToCertName subdomain', () => {
 });
 
 test('domainToCertName non-subdomain', () => {
-  expect(domainToCertName('hub.provost.upenn.edu', false)).toEqual('hub-provost-upenn-edu');
+  expect(domainToCertName('hub.provost.upenn.edu')).toEqual('hub-provost-upenn-edu');
 });
 
 test('domainToCertName fails on invalid domain', () => {
-  expect(() => domainToCertName('pennlabsorg', false)).toThrow('Ingress creation failed: domain pennlabsorg is invalid.');
+  expect(() => domainToCertName('pennlabsorg')).toThrow('Ingress creation failed: domain pennlabsorg is invalid.');
 });

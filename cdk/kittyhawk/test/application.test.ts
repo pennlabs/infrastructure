@@ -29,11 +29,13 @@ export function buildFailingReactChart(scope: Construct) {
 
   /** React Duplicated DOMAIN Env should fail **/
   new ReactApplication(scope, 'react', {
-    image: 'pennlabs/penn-clubs-frontend', // TODO: fix this type error
-    replicas: 2,
+    deployment: {
+      image: 'pennlabs/penn-clubs-frontend', // TODO: fix this type error
+      replicas: 2,
+      env: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
+    },
     domain: 'pennclubs.com',
     ingressPaths: ['/'],
-    extraEnv: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
     portEnv: '80',
   });
 }

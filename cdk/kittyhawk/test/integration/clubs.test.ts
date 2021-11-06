@@ -54,8 +54,10 @@ export function buildClubsChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'react', {
-    image: 'pennlabs/penn-clubs-frontend',
-    replicas: 2,
+    deployment: {
+      image: 'pennlabs/penn-clubs-frontend',
+      replicas: 2,
+    },
     domain: clubsDomain,
     ingressPaths: ['/'],
     portEnv: '80',
@@ -80,14 +82,16 @@ export function buildClubsChart(scope: Construct) {
 
 
   new ReactApplication(scope, 'hub-react', {
-    image: 'pennlabs/penn-clubs-frontend',
-    replicas: 2,
+    deployment: {
+      image: 'pennlabs/penn-clubs-frontend',
+      replicas: 2,
+      env: [
+        { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
+      ],
+    },
     domain: fyhDomain,
     ingressPaths: ['/'],
     portEnv: '80',
-    extraEnv: [
-      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
-    ],
   });
 
   /** Cronjobs **/

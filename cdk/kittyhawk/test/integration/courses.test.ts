@@ -40,19 +40,25 @@ export function buildCoursesChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'plan', {
-    image: 'pennlabs/pcp-frontend',
+    deployment: {
+      image: 'pennlabs/pcp-frontend',
+    },
     domain: 'penncourseplan.com',
     ingressPaths: ['/'],
   });
 
   new ReactApplication(scope, 'alert', {
-    image: 'pennlabs/pca-frontend',
+    deployment: {
+      image: 'pennlabs/pca-frontend',
+    },
     domain: 'penncoursealert.com',
     ingressPaths: ['/'],
   });
 
   new ReactApplication(scope, 'review', {
-    image: 'pennlabs/pcr-frontend',
+    deployment: {
+      image: 'pennlabs/pcr-frontend'
+    },
     domain: 'review.penncourses.org',
     isSubdomain: true,
     ingressPaths: ['/'],

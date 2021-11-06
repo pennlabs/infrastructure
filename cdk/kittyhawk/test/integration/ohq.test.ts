@@ -38,9 +38,11 @@ export function buildOHQChart(scope: Construct) {
   });
 
   new ReactApplication(scope, 'react', {
-    image: 'pennlabs/office-hours-queue-frontend',
+    deployment: {
+      image: 'pennlabs/office-hours-queue-frontend',
+      replicas: 2,
+    },
     domain: domain,
-    replicas: 2,
     ingressPaths: ['/'],
     portEnv: '80',
   });
