@@ -18,7 +18,7 @@ export function buildOHQChart(scope: Construct) {
     image: backendImage,
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domains: [{ host: domain, isSubdomain: false }],
+    domains: [{ host: domain }],
     extraEnv: [
       { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
     ],
@@ -40,7 +40,6 @@ export function buildOHQChart(scope: Construct) {
   new ReactApplication(scope, 'react', {
     image: 'pennlabs/office-hours-queue-frontend',
     domain: domain,
-    isSubdomain: false,
     replicas: 2,
     ingressPaths: ['/'],
     portEnv: '80',

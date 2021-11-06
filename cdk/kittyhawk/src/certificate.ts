@@ -9,8 +9,8 @@ export class Certificate extends Construct {
     // We want to generate a certificate for each host
     // TODO: see if this is okay with multiple products on same domain
     rules.map(h => {
-      const hostString: string = domainToCertName(h.host, h.isSubdomain);
-      const finalDomain: string = removeSubdomain(h.host, h.isSubdomain);
+      const hostString: string = domainToCertName(h.host, h.isSubdomain ?? false);
+      const finalDomain: string = removeSubdomain(h.host, h.isSubdomain ?? false);
       new CertApiObject(this, `certificate-${appname}-${hostString}`, {
         metadata: {
           name: hostString,

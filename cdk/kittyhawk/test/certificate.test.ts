@@ -8,7 +8,7 @@ export function buildFailingCertificateChart(scope: Construct) {
 
   /** If domain is invalid certificate creation should throw an error. **/
   new Certificate(scope, 'serve', {
-    ingress: [{ host: 'pennlabsorg', paths: ['/'], isSubdomain: false }],
+    ingress: [{ host: 'pennlabsorg', paths: ['/'] }],
   });
 }
 

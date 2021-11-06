@@ -12,7 +12,6 @@ export function buildWebsiteChart(scope: Construct) {
   new ReactApplication(scope, 'serve', {
     image: 'pennlabs/website',
     domain: 'pennlabs.org',
-    isSubdomain: false,
     ingressPaths: ['/'],
   });
 }
@@ -27,7 +26,6 @@ export function buildBasicsChart(scope: Construct) {
     secret: 'penn-basics',
     portEnv: '80',
     domain: 'pennbasics.com',
-    isSubdomain: false,
     ingressPaths: ['/'],
   });
 }
@@ -70,7 +68,7 @@ export function buildCFAChart(scope: Construct) {
   new DjangoApplication(scope, 'django', {
     image: 'pennlabs/common-funding-application',
     secret: 'common-funding-application',
-    domains: [{ host: 'penncfa.com', isSubdomain: false }],
+    domains: [{ host: 'penncfa.com' }],
     ingressPaths: ['/'],
     djangoSettingsModule: 'penncfa.settings.production',
   });

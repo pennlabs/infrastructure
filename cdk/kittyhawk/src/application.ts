@@ -57,7 +57,7 @@ export interface DjangoApplicationProps extends ApplicationProps {
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * See the certificate documentation for more details.
    */
-  readonly domains: { host: string; isSubdomain: boolean }[];
+  readonly domains: { host: string; isSubdomain?: boolean }[];
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.
@@ -84,7 +84,7 @@ export class DjangoApplication extends Application {
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
     const djangoIngress: HostRules[] = props.domains?.map(h => {
-      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain };
+      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain ?? false};
     });
 
     // If everything passes, construct the Application.
@@ -108,7 +108,7 @@ export interface ReactApplicationProps extends ApplicationProps {
   /**
    * If the host is a subdomain.
    */
-  readonly isSubdomain: boolean;
+  readonly isSubdomain?: boolean;
 
   /**
    * Just the list of paths passed to the ingress since we already know the host.
@@ -132,7 +132,7 @@ export class ReactApplication extends Application {
     insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
 
     // Configure the ingress using ingressPaths.
-    const reactIngress = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain }];
+    const reactIngress = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain ?? false }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {

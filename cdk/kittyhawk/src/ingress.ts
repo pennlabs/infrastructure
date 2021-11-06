@@ -32,7 +32,7 @@ export interface HostRules {
   /**
    * If the host is a subdomain.
    */
-  readonly isSubdomain: boolean;
+  readonly isSubdomain?: boolean;
 }
 
 export class Ingress extends Construct {
@@ -45,7 +45,7 @@ export class Ingress extends Construct {
     };
 
     const tls = props.rules.map(h => {
-      const hostString: string = `${domainToCertName(h.host, h.isSubdomain)}-tls`;
+      const hostString: string = `${domainToCertName(h.host, h.isSubdomain ?? false)}-tls`;
       return { hosts: [h.host], secretName: hostString };
     });
 
@@ -85,9 +85,9 @@ export class Ingress extends Construct {
 /**
  * Removes the subdomain from an url if isSubdomain is true
  * @param d the domain as a string
- * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate.
+ * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate; default to false if unspecified.
  */
-export function removeSubdomain(d: string, isSubdomain: boolean) {
+export function removeSubdomain(d: string, isSubdomain = false) {
   if (isSubdomain) {
     // Must have at least 3 parts to the domain (e.g. xxx.abc.com)
     if (d.split('.').length < 3) {
@@ -102,9 +102,9 @@ export function removeSubdomain(d: string, isSubdomain: boolean) {
 /**
  * Converts a domain to a dash-separated form (e.g. abc-def-org), optionally removing the subdomain.
  * @param d the domain as a string
- * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate.
+ * @param isSubdomain true if the url is a subdomain of a domain that already has a certificate; default to false if unspecified.
  */
-export function domainToCertName(d: string, isSubdomain: boolean) {
+export function domainToCertName(d: string, isSubdomain = false) {
   // Remove everything before the 1st '.' if it is a subdomain.
   if (d.split('.').length < 2) {
     throw new Error(`Ingress creation failed: domain ${d} is invalid.`);

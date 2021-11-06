@@ -46,7 +46,7 @@ For ReactApplication:
 - domain (string) - Domain for the application. (**Required**)
 - ingressPaths (Array\<String\>) - List of paths that should be available on the domain. (**Required**)
 - portEnv (string) - PORT environment variable. (**Optional**, default '80')
-- isSubdomain (boolean) - If the domain should be treated as a subdomain for certificate purposes.
+- isSubdomain (boolean optional) - If the domain should be treated as a subdomain for certificate purposes. Defaults to false if unspecified.
 
 Use these properties instead of defining an ingress, and the ingress will be auto-configured. Additionally, do not set a DOMAIN environment variable in extraEnv, since it will automatically be set. 
 
