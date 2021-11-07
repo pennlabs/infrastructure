@@ -29,7 +29,7 @@ provider "postgresql" {
 }
 
 provider "github" {
-  organization = "pennlabs"
+  owner = "pennlabs"
 }
 
 terraform {
@@ -69,6 +69,10 @@ terraform {
     postgresql = {
       source  = "cyrilgdn/postgresql"
       version = "~> 1.8"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 4.0"
     }
   }
 }

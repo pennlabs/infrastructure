@@ -1,9 +1,9 @@
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
-  // https://registry.terraform.io/modules/terraform-aws-modules/eks/vpc/latest
+  // https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.64.0"
+  version = "3.11.0"
 
   name                 = "vpc"
   cidr                 = "10.0.0.0/16"
