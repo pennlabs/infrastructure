@@ -15,6 +15,10 @@ export interface ApplicationProps {
   readonly port?: number;
 }
 
+export interface RedisProps {
+  readonly deployment?: Partial<DeploymentProps>;
+  readonly port?: number;
+}
 
 export class Application extends Construct {
   constructor(scope: Construct, appname: string, props: ApplicationProps) {
@@ -147,12 +151,12 @@ export class ReactApplication extends Application {
 }
 
 export class RedisApplication extends Application {
-  constructor(scope: Construct, appname: string, redisProps: Partial<ApplicationProps>) {
+  constructor(scope: Construct, appname: string, redisProps: RedisProps) {
     super(scope, appname, {
-      ...redisProps,
       deployment: {
-        image: 'redis',
+        image: redisProps.deployment?.image ?? 'redis',
         tag: redisProps.deployment?.tag ?? '6.0',
+        ...redisProps.deployment
       },
       port: redisProps.port || 6379,
     });

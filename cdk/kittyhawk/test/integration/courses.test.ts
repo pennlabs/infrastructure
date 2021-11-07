@@ -14,7 +14,7 @@ export function buildCoursesChart(scope: Construct) {
   const secret = 'penn-courses';
 
 
-  new RedisApplication(scope, 'redis', { tag: '4.0' });
+  new RedisApplication(scope, 'redis', { deployment: { tag: '4.0' }});
 
   new DjangoApplication(scope, 'celery', {
     image: backendImage,

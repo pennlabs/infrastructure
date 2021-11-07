@@ -94,7 +94,7 @@ export function buildLabsAPIServerChart(scope: Construct) {
     secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
   });
 
-  new RedisApplication(scope, 'redis', { tag: '5' });
+  new RedisApplication(scope, 'redis', { deployment: {tag: '5' }});
 
   new CronJob(scope, 'laundry', {
     ...common,
