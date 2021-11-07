@@ -4,8 +4,12 @@ import { Application, synth } from '../src';
 export function buildWebsiteChart(scope: Construct) {
 
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    ingress: [{ host: 'pennlabs.org', paths: ['/'] }],
+    deployment: {
+      image: 'pennlabs/website',
+    },
+    ingress: { 
+      rules: [{ host: 'pennlabs.org', paths: ['/'] }]
+    },
   });
 }
 

@@ -45,14 +45,16 @@ export function buildPlatformChart(scope: Construct) {
   const secret = 'platform';
 
   new DjangoApplication(scope, 'platform', {
-    image: image,
-    secret: secret,
+    deployment: {
+      image: image,
+      secret: secret,
+      secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
+      { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
+    },
     port: 443,
     domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
     djangoSettingsModule: 'Platform.settings.production',
     ingressPaths: ['/'],
-    secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
-      { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
   });
 
   new CronJob(scope, 'clear-expired-tokens', {
@@ -70,8 +72,10 @@ export function buildCFAChart(scope: Construct) {
    * https://github.com/pennlabs/common-funding-application/blob/master/k8s/values.yaml
    */
   new DjangoApplication(scope, 'django', {
-    image: 'pennlabs/common-funding-application',
-    secret: 'common-funding-application',
+    deployment: {
+      image: 'pennlabs/common-funding-application',
+      secret: 'common-funding-application',
+    },
     domains: [{ host: 'penncfa.com' }],
     ingressPaths: ['/'],
     djangoSettingsModule: 'penncfa.settings.production',
@@ -90,8 +94,13 @@ export function buildLabsAPIServerChart(scope: Construct) {
   };
   new Application(scope, 'flask', {
     ...common,
-    ingress: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }],
-    secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
+    ingress: {
+      rules: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }]
+    },
+    deployment: {
+      image: common.image,
+      secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
+    }
   });
 
   new RedisApplication(scope, 'redis', { deployment: {tag: '5' }});

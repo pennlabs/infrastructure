@@ -17,7 +17,9 @@ export function buildClubsChart(scope: Construct) {
   const fyhDomain = 'hub.provost.upenn.edu';
 
   const clubsDjangoCommon = {
-    image: backendImage,
+    deployment: {
+      image: backendImage,
+    },
     secret: clubsSecret,
     domains: [{ host: clubsDomain }],
     djangoSettingsModule: 'pennclubs.settings.production',
@@ -27,7 +29,9 @@ export function buildClubsChart(scope: Construct) {
   };
 
   const fyhDjangoCommon = {
-    image: backendImage,
+    deployment: {
+      image: backendImage,
+    },
     secret: fyhSecret,
     domains: [{ host: fyhDomain }],
     djangoSettingsModule: 'pennclubs.settings.production',
@@ -42,14 +46,20 @@ export function buildClubsChart(scope: Construct) {
 
   new DjangoApplication(scope, 'django-asgi', {
     ...clubsDjangoCommon,
-    cmd: ['/usr/local/bin/asgi-run'],
-    replicas: 2,
+    deployment: {
+      image: clubsDjangoCommon.deployment.image,
+      cmd: ['/usr/local/bin/asgi-run'],
+      replicas: 2,
+    },
     ingressPaths: ['/api/ws'],
   });
 
   new DjangoApplication(scope, 'django-wsgi', {
     ...clubsDjangoCommon,
-    replicas: 3,
+    deployment: {
+      image: clubsDjangoCommon.deployment.image,
+      replicas: 3,
+    },
     ingressPaths: ['/api'],
   });
 
@@ -69,14 +79,20 @@ export function buildClubsChart(scope: Construct) {
 
   new DjangoApplication(scope, 'hub-django-asgi', {
     ...fyhDjangoCommon,
-    cmd: ['/usr/local/bin/asgi-run'],
-    replicas: 2,
+    deployment: {
+      image: fyhDjangoCommon.deployment.image,
+      cmd: ['/usr/local/bin/asgi-run'],
+      replicas: 2,
+    },
     ingressPaths: ['/api/ws'],
   });
 
   new DjangoApplication(scope, 'hub-django-wsgi', {
     ...fyhDjangoCommon,
-    replicas: 3,
+    deployment: {
+      image: backendImage,
+      replicas: 3,
+    },
     ingressPaths: ['/api'],
   });
 

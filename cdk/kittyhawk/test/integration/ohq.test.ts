@@ -15,7 +15,9 @@ export function buildOHQChart(scope: Construct) {
   const domain = 'ohq.io';
 
   const djangoCommon = {
-    image: backendImage,
+    deployment: {
+      image: backendImage,
+    },
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
     domains: [{ host: domain }],
@@ -26,14 +28,20 @@ export function buildOHQChart(scope: Construct) {
 
   new DjangoApplication(scope, 'django-asgi', {
     ...djangoCommon,
-    cmd: ['/usr/local/bin/asgi-run'],
-    replicas: 2,
+    deployment: {
+      image: djangoCommon.deployment.image,
+      cmd: ['/usr/local/bin/asgi-run'],
+      replicas: 2,
+    },
     ingressPaths: ['/api/ws'],
   });
 
   new DjangoApplication(scope, 'django-wsgi', {
     ...djangoCommon,
-    replicas: 4,
+    deployment: {
+      image: djangoCommon.deployment.image,
+      replicas: 4,
+    },
     ingressPaths: ['/api', '/admin', '/assets'],
   });
 
@@ -51,7 +59,10 @@ export function buildOHQChart(scope: Construct) {
 
   new DjangoApplication(scope, 'celery', {
     ...djangoCommon,
-    cmd: ['celery', '-A', 'officehoursqueue', 'worker', '-lINFO'],
+    deployment: {
+      image: djangoCommon.deployment.image,
+      cmd: ['celery', '-A', 'officehoursqueue', 'worker', '-lINFO'],
+    }
   });
 
   new CronJob(scope, 'calculate-waits', {

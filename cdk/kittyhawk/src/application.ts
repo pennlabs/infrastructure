@@ -15,9 +15,58 @@ export interface ApplicationProps {
   readonly port?: number;
 }
 
-export interface RedisProps {
+export interface RedisApplicationProps {
   readonly deployment?: Partial<DeploymentProps>;
   readonly port?: number;
+}
+
+export interface ReactApplicationProps {
+  readonly deployment: DeploymentProps;
+  readonly port?: number;
+  
+  /**
+   * Domain of the application.
+   */
+  readonly domain: string;
+
+  /**
+   * If the host is a subdomain.
+   */
+  readonly isSubdomain?: boolean;
+
+  /**
+   * Just the list of paths passed to the ingress since we already know the host.
+   */
+  readonly ingressPaths: string[];
+
+  /**
+   * PORT environment variable for react. Default '80'.
+   */
+  readonly portEnv?: string;
+}
+
+export interface DjangoApplicationProps {
+  readonly deployment: DeploymentProps;
+  readonly port?: number;
+
+  /**
+   * Array of domain(s). Host is the domain the application runs on,
+   * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
+   * See the certificate documentation for more details.
+   */
+  readonly domains: { host: string; isSubdomain?: boolean }[];
+
+  /**
+   * Just the list of paths passed to the ingress since we already know the host. Optional.
+   *
+   * @default undefined
+   */
+  readonly ingressPaths?: string[];
+
+  /**
+   * DJANGO_SETTINGS_MODULE environment variable.
+   */
+  readonly djangoSettingsModule: string;
 }
 
 export class Application extends Construct {
@@ -55,32 +104,12 @@ export function insertIfNotPresent(envArray: { name: string; value: string }[], 
   envArray.push({ name: envKey, value: envValue });
 
 }
-export interface DjangoApplicationProps extends ApplicationProps {
-  /**
-   * Array of domain(s). Host is the domain the application runs on,
-   * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
-   * See the certificate documentation for more details.
-   */
-  readonly domains: { host: string; isSubdomain?: boolean }[];
-
-  /**
-   * Just the list of paths passed to the ingress since we already know the host. Optional.
-   *
-   * @default undefined
-   */
-  readonly ingressPaths?: string[];
-
-  /**
-   * DJANGO_SETTINGS_MODULE environment variable.
-   */
-  readonly djangoSettingsModule: string;
-}
 
 export class DjangoApplication extends Application {
   constructor(scope: Construct, appname: string, props: DjangoApplicationProps) {
 
     // Have to be careful here with references when mutating things
-    let djangoExtraEnv = Array.from(props.deployment.env || []);
+    let djangoExtraEnv = Array.from(props.deployment?.env || []);
 
     // Insert DJANGO_SETTINGS_MODULE and DOMAIN
     insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
@@ -93,7 +122,7 @@ export class DjangoApplication extends Application {
 
     // If everything passes, construct the Application.
     super(scope, appname, {
-      ...props,
+      port: props.port ?? 80,
       deployment: {
         ...props.deployment,
         env: djangoExtraEnv,
@@ -101,28 +130,6 @@ export class DjangoApplication extends Application {
       ingress: { rules: djangoIngress },
     });
   }
-}
-
-export interface ReactApplicationProps extends ApplicationProps {
-  /**
-   * Domain of the application.
-   */
-  readonly domain: string;
-
-  /**
-   * If the host is a subdomain.
-   */
-  readonly isSubdomain?: boolean;
-
-  /**
-   * Just the list of paths passed to the ingress since we already know the host.
-   */
-  readonly ingressPaths: string[];
-
-  /**
-   * PORT environment variable for react. Default '80'.
-   */
-  readonly portEnv?: string;
 }
 
 export class ReactApplication extends Application {
@@ -140,7 +147,7 @@ export class ReactApplication extends Application {
 
     // If everything passes, construct the Application.
     super(scope, appname, {
-      ...props,
+      port: props.port ?? 80,
       deployment: {
         ...props.deployment,
         env: reactExtraEnv,
@@ -151,7 +158,7 @@ export class ReactApplication extends Application {
 }
 
 export class RedisApplication extends Application {
-  constructor(scope: Construct, appname: string, redisProps: RedisProps) {
+  constructor(scope: Construct, appname: string, redisProps: RedisApplicationProps) {
     super(scope, appname, {
       deployment: {
         image: redisProps.deployment?.image ?? 'redis',

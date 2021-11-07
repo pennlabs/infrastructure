@@ -7,8 +7,10 @@ export function buildTagOverrideChart(scope: Construct) {
 
   /** Overrides the image tag set as env var **/
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    tag: 'latest',
+    deployment: {
+      image: 'pennlabs/website',
+      tag: 'latest',
+    },
   });
 }
 
@@ -17,10 +19,12 @@ export function buildFailingDjangoChart(scope: Construct) {
 
   /** Django Duplicated DOMAIN Env should fail **/
   new DjangoApplication(scope, 'platform', {
-    image: 'pennlabs/platform', // TODO: fix this type error
+    deployment: {
+      image: 'pennlabs/platform',
+      env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
+    },
     domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
     djangoSettingsModule: 'Platform.settings.production',
-    extraEnv: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
     ingressPaths: ['/'],
   });
 }

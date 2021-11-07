@@ -17,9 +17,11 @@ export function buildCoursesChart(scope: Construct) {
   new RedisApplication(scope, 'redis', { deployment: { tag: '4.0' }});
 
   new DjangoApplication(scope, 'celery', {
-    image: backendImage,
-    secret: secret,
-    cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
+    deployment: {
+      image: backendImage,
+      secret: secret,
+      cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
+    },
     djangoSettingsModule: 'PennCourses.settings.production',
     domains: [{ host: 'penncourseplan.com' },
       { host: 'penncoursealert.com' },
@@ -27,12 +29,14 @@ export function buildCoursesChart(scope: Construct) {
   });
 
   new DjangoApplication(scope, 'backend', {
-    image: backendImage,
-    secret: secret,
-    cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
-    replicas: 3,
+    deployment: {
+      image: backendImage,
+      secret: secret,
+      cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
+      replicas: 3,
+      env: [{ name: 'PORT', value: '80' }],
+    },
     djangoSettingsModule: 'PennCourses.settings.production',
-    extraEnv: [{ name: 'PORT', value: '80' }],
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
     domains: [{ host: 'penncourseplan.com' },
       { host: 'penncoursealert.com' },

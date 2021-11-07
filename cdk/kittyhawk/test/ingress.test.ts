@@ -7,9 +7,13 @@ export function buildFailingIngressChart(scope: Construct) {
 
   /** Incorrect ingress host string should fail**/
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    tag: 'latest',
-    ingress: [{ host: 'pennlabsorg', paths: ['/'] }],
+    deployment: {
+      image: 'pennlabs/website',
+      tag: 'latest',
+    },
+    ingress: {
+      rules: [{ host: 'pennlabsorg', paths: ['/'] }]
+    },
   });
 }
 
@@ -17,6 +21,7 @@ export function buildUndefinedIngressChartFails(scope: Construct) {
   /** Creating an ingress without defining ingress prop should fail  */
   new Ingress(scope, 'test', {
     port: 80,
+    rules: [],
   });
 }
 

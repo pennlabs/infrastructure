@@ -7,8 +7,10 @@ export function buildAutoscalingChart(scope: Construct) {
 
   /** Autoscaling test **/
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    autoScalingProps: { cpu: 80, memory: 80, requests: 80 },
+    deployment: {
+      image: 'pennlabs/website',
+      autoScalingProps: { cpu: 80, memory: 80, requests: 80 }, // TODO: fix this
+    },
   });
 }
 
@@ -16,10 +18,12 @@ export function buildFailingAutoscalingChart(scope: Construct) {
 
   /** Autoscaling cannot be defined with replicas, should fail. **/
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    tag: 'latest',
-    replicas: 2,
-    autoScalingProps: { cpu: 80 },
+    deployment: {
+      image: 'pennlabs/website',
+      tag: 'latest',
+      replicas: 2,
+      autoScalingProps: { cpu: 80 }, // TODO: fix this
+    },
   });
 }
 
@@ -27,8 +31,10 @@ export function buildEmptyAutoscalingChart(scope: Construct) {
 
   /** Autoscaling test with empty autoScalingProps should throw **/
   new Application(scope, 'serve', {
-    image: 'pennlabs/website',
-    autoScalingProps: {},
+    deployment: {
+      image: 'pennlabs/website',
+      autoScalingProps: {},
+    },
   });
 }
 
