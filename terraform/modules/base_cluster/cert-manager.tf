@@ -12,10 +12,7 @@ resource "helm_release" "cert-manager" {
   namespace  = kubernetes_namespace.cert-manager.metadata[0].name
   // This is set to ensure that cert-manager is working before the CRs are applied
   atomic = true
-  set {
-    name  = "installCRDs"
-    value = true
-  }
+  values = var.cert_manager_values
 }
 
 resource "time_sleep" "cert-manager-cr" {
