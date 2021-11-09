@@ -3,7 +3,7 @@ cronjobs:
     schedule: "*/10 * * * *"
     secret: team-sync
     image: pennlabs/team-sync
-    tag: 68536ae854d0c70e8e4e40c889c2423b1da44461
+    tag: d6cdea59a93adb81d26053049c82ae9f5f5779ae
     failureLimit: 1
     extraEnv:
       - name: VAULT_ADDR
