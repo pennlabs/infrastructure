@@ -29,7 +29,7 @@ provider "postgresql" {
 }
 
 provider "github" {
-  organization = "pennlabs"
+  owner = "pennlabs"
 }
 
 terraform {

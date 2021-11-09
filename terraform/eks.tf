@@ -1,14 +1,16 @@
 // Production
 module "eks-production" {
   // https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
-  source           = "terraform-aws-modules/eks/aws"
-  version          = "13.2.1"
-  cluster_name     = local.k8s_cluster_name
-  cluster_version  = "1.18"
-  subnets          = module.vpc.private_subnets
-  vpc_id           = module.vpc.vpc_id
-  write_kubeconfig = false
-  enable_irsa      = true
+  source                                             = "terraform-aws-modules/eks/aws"
+  version                                            = "17.23.0"
+  cluster_name                                       = local.k8s_cluster_name
+  cluster_version                                    = "1.18"
+  subnets                                            = module.vpc.private_subnets
+  vpc_id                                             = module.vpc.vpc_id
+  write_kubeconfig                                   = false
+  enable_irsa                                        = true
+  cluster_endpoint_private_access                    = true
+  worker_create_cluster_primary_security_group_rules = true
   map_roles = [
     {
       rolearn  = aws_iam_role.kubectl.arn
@@ -27,6 +29,23 @@ module "eks-production" {
       public_ip               = true
     },
   ]
+  // fargate_profiles = {
+  //   default = {
+  //     name = "default"
+  //     selectors = [
+  //       {
+  //         namespace = "cert-manager"
+  //       },
+  //       {
+  //         namespace = "default"
+  //       },
+  //       {
+  //         namespace = "kube-system"
+  //       },
+  //     ]
+  //   }
+  // }
+
   tags = {
     created-by = "terraform"
   }
