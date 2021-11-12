@@ -1,5 +1,4 @@
 import { Construct } from 'constructs';
-import { Autoscaler, AutoscalingProps } from './autoscaler';
 import { Container, ContainerProps, SecretVolume } from './container';
 import { IntOrString, KubeDeployment as DeploymentApiObject, VolumeMount } from './imports/k8s';
 
@@ -17,12 +16,7 @@ export interface DeploymentProps extends ContainerProps {
    * @default []
    */
   readonly secretMounts?: VolumeMount[];
-
-  /**
-   * Properties for autoscaling.
-   * @default - see default autoscaler props
-   */
-  readonly autoScalingProps?: AutoscalingProps;
+  
   // TODO: allow multiple containers
 }
 
@@ -33,21 +27,16 @@ export class Deployment extends Construct {
     const label = { name: appname };
     const containers: Container[] = [new Container(props)];
     const secretVolumes: SecretVolume[] = props.secretMounts?.map(m => new SecretVolume(m)) || [];
-    const autoScalingOn: boolean = props.autoScalingProps !== undefined;
 
-    // See https://github.com/kubernetes/kubernetes/issues/25238#issuecomment-570257435 for info
-    if (autoScalingOn && props.replicas !== undefined) {
-      throw new Error('Cannot specify "replicaCount" when auto-scaling is enabled');
-    }
-
-    const deployment = new DeploymentApiObject(this, `deployment-${appname}`, {
+    // TODO is this needed? since we don't call it anywhere
+    const _deployment = new DeploymentApiObject(this, `deployment-${appname}`, {
       metadata: {
         name: appname,
         namespace: 'default',
         labels: label,
       },
       spec: {
-        replicas: autoScalingOn ? undefined : (props.replicas ?? 1),
+        replicas: props.replicas ?? 1,
         selector: {
           matchLabels: label,
         },
@@ -66,12 +55,5 @@ export class Deployment extends Construct {
         },
       },
     });
-
-    if (autoScalingOn) {
-      new Autoscaler(this, appname, {
-        target: deployment,
-        ...props.autoScalingProps,
-      });
-    }
   }
 }

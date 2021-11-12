@@ -14,9 +14,7 @@ export function buildFailingCertificateChart(scope: Construct) {
 
 export function buildUndefinedCertificateChartFails(scope: Construct) {
   /** Creating a certificate without defining ingress prop should fail  */
-  new Certificate(scope, 'test', [{
-    port: 80, // TODO: how to make this work
-  }]);
+  new Certificate(scope, 'test', []);
 }
 
 test('Certificate -- Failing', () => failingTest(buildFailingCertificateChart));

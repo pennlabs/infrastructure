@@ -32,7 +32,6 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
       - subPath (Required) - [sub-path](https://kubernetes.io/docs/concepts/storage/volumes/#using-subpath) to mount the secret in the volume (**Required**)
 - readinessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to start. (**Optional**, default undefined)
 - livenessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to start. (**Optional**, default undefined)
- - autoScalingProps ([AutoscalingProps](https://kittyhawk.pennlabs.org/interfaces/_autoscaler_.autoscalingprops.html)) - Options to configure a Horizontal Pod Autoscaler ([HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)) based on CPU, memory, or request usage. (**Optional**, default undefined)
 
 ### Properties for ReactApplication and DjangoApplication
 DjangoApplication and ReactApplication have special properties that override properties from Application.
