@@ -34,7 +34,7 @@ export function buildFailingReactChart(scope: Construct) {
   /** React Duplicated DOMAIN Env should fail **/
   new ReactApplication(scope, 'react', {
     deployment: {
-      image: 'pennlabs/penn-clubs-frontend', // TODO: fix this type error
+      image: 'pennlabs/penn-clubs-frontend',
       replicas: 2,
       env: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
     },
