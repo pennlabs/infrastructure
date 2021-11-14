@@ -542,50 +542,50 @@ export function toJson_CertificateSpecSubject(obj: CertificateSpecSubject | unde
 export enum CertificateSpecUsages {
   /** signing */
   SIGNING = 'signing',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** digital signature */
+  DIGITAL_SIGNATURE = 'digital signature',
+  /** content commitment */
+  CONTENT_COMMITMENT = 'content commitment',
+  /** key encipherment */
+  KEY_ENCIPHERMENT = 'key encipherment',
+  /** key agreement */
+  KEY_AGREEMENT = 'key agreement',
+  /** data encipherment */
+  DATA_ENCIPHERMENT = 'data encipherment',
+  /** cert sign */
+  CERT_SIGN = 'cert sign',
+  /** crl sign */
+  CRL_SIGN = 'crl sign',
+  /** encipher only */
+  ENCIPHER_ONLY = 'encipher only',
+  /** decipher only */
+  DECIPHER_ONLY = 'decipher only',
   /** any */
   ANY = 'any',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** server auth */
+  SERVER_AUTH = 'server auth',
+  /** client auth */
+  CLIENT_AUTH = 'client auth',
+  /** code signing */
+  CODE_SIGNING = 'code signing',
+  /** email protection */
+  EMAIL_PROTECTION = 'email protection',
   /** s/mime */
   S_MIME = 's/mime',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** ipsec end system */
+  IPSEC_END_SYSTEM = 'ipsec end system',
+  /** ipsec tunnel */
+  IPSEC_TUNNEL = 'ipsec tunnel',
+  /** ipsec user */
+  IPSEC_USER = 'ipsec user',
   /** timestamping */
   TIMESTAMPING = 'timestamping',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** ocsp signing */
+  OCSP_SIGNING = 'ocsp signing',
+  /** microsoft sgc */
+  MICROSOFT_SGC = 'microsoft sgc',
+  /** netscape sgc */
+  NETSCAPE_SGC = 'netscape sgc',
 }
 
 /**
@@ -977,50 +977,50 @@ export function toJson_CertificateRequestSpecIssuerRef(obj: CertificateRequestSp
 export enum CertificateRequestSpecUsages {
   /** signing */
   SIGNING = 'signing',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** digital signature */
+  DIGITAL_SIGNATURE = 'digital signature',
+  /** content commitment */
+  CONTENT_COMMITMENT = 'content commitment',
+  /** key encipherment */
+  KEY_ENCIPHERMENT = 'key encipherment',
+  /** key agreement */
+  KEY_AGREEMENT = 'key agreement',
+  /** data encipherment */
+  DATA_ENCIPHERMENT = 'data encipherment',
+  /** cert sign */
+  CERT_SIGN = 'cert sign',
+  /** crl sign */
+  CRL_SIGN = 'crl sign',
+  /** encipher only */
+  ENCIPHER_ONLY = 'encipher only',
+  /** decipher only */
+  DECIPHER_ONLY = 'decipher only',
   /** any */
   ANY = 'any',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** server auth */
+  SERVER_AUTH = 'server auth',
+  /** client auth */
+  CLIENT_AUTH = 'client auth',
+  /** code signing */
+  CODE_SIGNING = 'code signing',
+  /** email protection */
+  EMAIL_PROTECTION = 'email protection',
   /** s/mime */
   S_MIME = 's/mime',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** ipsec end system */
+  IPSEC_END_SYSTEM = 'ipsec end system',
+  /** ipsec tunnel */
+  IPSEC_TUNNEL = 'ipsec tunnel',
+  /** ipsec user */
+  IPSEC_USER = 'ipsec user',
   /** timestamping */
   TIMESTAMPING = 'timestamping',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
-  /** __stripped_by_cdk8s__ */
-  STRIPPED_BY_CDK8S = '__stripped_by_cdk8s__',
+  /** ocsp signing */
+  OCSP_SIGNING = 'ocsp signing',
+  /** microsoft sgc */
+  MICROSOFT_SGC = 'microsoft sgc',
+  /** netscape sgc */
+  NETSCAPE_SGC = 'netscape sgc',
 }
 
 

@@ -19,7 +19,7 @@
     },
     {
       "name": "cdk8s-cli",
-      "version": "^1.0.0-beta.10",
+      "version": "1.0.0-beta.50",
       "type": "build"
     },
     {

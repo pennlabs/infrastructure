@@ -34,7 +34,7 @@
     "@types/node": "^16.11.4",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
-    "cdk8s-cli": "^1.0.11",
+    "cdk8s-cli": "1.0.0-beta.50",
     "codecov": "^3.8.3",
     "cron-time-generator": "^1.2.2",
     "eslint": "^8.1.0",
