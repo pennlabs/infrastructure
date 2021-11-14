@@ -29,6 +29,7 @@ export class Deployment extends Construct {
     const secretVolumes: SecretVolume[] = props.secretMounts?.map(m => new SecretVolume(m)) || [];
 
     // TODO is this needed? since we don't call it anywhere
+    // eslint-disable-next-line no-unused-vars
     const _deployment = new DeploymentApiObject(this, `deployment-${appname}`, {
       metadata: {
         name: appname,
