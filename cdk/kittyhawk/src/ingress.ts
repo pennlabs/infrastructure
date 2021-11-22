@@ -49,23 +49,22 @@ export class Ingress extends Construct {
       return { hosts: [h.host], secretName: hostString };
     });
 
-    const rules: IngressRuleV1Beta1[] = props.rules.map(h => {
-      return {
-        host: h.host,
-        http: {
-          paths: h.paths.map(path => ({
-            path: path,
-            pathType: 'Prefix',
-            backend: {
-              serviceName: appname,
-              servicePort: {
-                value: fullConfig.port,
-              },
+    const rules: IngressRuleV1Beta1[] = props.rules.map(h => ({
+      host: h.host,
+      http: {
+        paths: h.paths.map(path => ({
+          path: path,
+          pathType: 'Prefix',
+          backend: {
+            serviceName: appname,
+            servicePort: {
+              value: fullConfig.port,
             },
-          })),
-        },
-      };
-    });
+          },
+        })),
+      },
+    }),
+    );
 
     new IngressApiObject(this, `ingress-${appname}`, {
       metadata: {
