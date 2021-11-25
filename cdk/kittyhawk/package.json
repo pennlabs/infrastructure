@@ -12,7 +12,7 @@
     "import": "npx projen import",
     "compile": "npx projen compile",
     "test:compile": "npx projen test:compile",
-    "test": "npx projen test",
+    "test": "export GIT_SHA='TESTSHA' && npx projen test",
     "build": "npx projen build",
     "bump": "npx projen bump",
     "release": "npx projen release",
