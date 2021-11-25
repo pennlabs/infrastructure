@@ -17,13 +17,13 @@ export function buildOHQChart(scope: Construct) {
   const djangoCommon = {
     deployment: {
       image: backendImage,
+      env: [
+        { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
+      ],
     },
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
     domains: [{ host: domain }],
-    extraEnv: [
-      { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
-    ],
   };
 
   new DjangoApplication(scope, 'django-asgi', {

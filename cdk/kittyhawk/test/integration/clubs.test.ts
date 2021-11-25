@@ -19,26 +19,27 @@ export function buildClubsChart(scope: Construct) {
   const clubsDjangoCommon = {
     deployment: {
       image: backendImage,
+      env: [
+        { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
+      ],
     },
     secret: clubsSecret,
     domains: [{ host: clubsDomain }],
     djangoSettingsModule: 'pennclubs.settings.production',
-    extraEnv: [
-      { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
-    ],
   };
 
   const fyhDjangoCommon = {
     deployment: {
       image: backendImage,
+      env: [
+        { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
+        { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
+      ],
     },
     secret: fyhSecret,
     domains: [{ host: fyhDomain }],
     djangoSettingsModule: 'pennclubs.settings.production',
-    extraEnv: [
-      { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
-      { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
-    ],
+    
   };
 
 
