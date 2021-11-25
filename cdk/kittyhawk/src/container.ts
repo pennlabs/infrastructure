@@ -168,7 +168,7 @@ export class Container implements ContainerInterface {
     // tag priority is provided tag, GIT_SHA env var, then 'latest'
     const GIT_SHA = process.env.GIT_SHA;
     if (!GIT_SHA) {
-      console.error("No GIT_SHA environment variable provided.");
+      console.error('No GIT_SHA environment variable provided.');
       process.exit(1);
     }
     const tag = props.tag || GIT_SHA;

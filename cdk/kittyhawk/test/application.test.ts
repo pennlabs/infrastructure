@@ -115,5 +115,5 @@ const testConfig = {
       ingressPaths: ['/'],
       portEnv: '80',
     },
-  }
-}
+  },
+};

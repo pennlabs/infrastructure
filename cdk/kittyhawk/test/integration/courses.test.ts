@@ -61,7 +61,7 @@ export function buildCoursesChart(scope: Construct) {
 
   new ReactApplication(scope, 'review', {
     deployment: {
-      image: 'pennlabs/pcr-frontend'
+      image: 'pennlabs/pcr-frontend',
     },
     domain: 'review.penncourses.org',
     isSubdomain: true,

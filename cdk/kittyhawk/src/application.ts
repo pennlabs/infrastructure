@@ -23,7 +23,7 @@ export interface RedisApplicationProps {
 export interface ReactApplicationProps {
   readonly deployment: DeploymentProps;
   readonly port?: number;
-  
+
   /**
    * Domain of the application.
    */
@@ -117,7 +117,7 @@ export class DjangoApplication extends Application {
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
     const djangoIngress: HostRules[] = props.domains?.map(h => {
-      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain ?? false};
+      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain ?? false };
     });
 
     // If everything passes, construct the Application.
@@ -163,7 +163,7 @@ export class RedisApplication extends Application {
       deployment: {
         image: redisProps.deployment?.image ?? 'redis',
         tag: redisProps.deployment?.tag ?? '6.0',
-        ...redisProps.deployment
+        ...redisProps.deployment,
       },
       port: redisProps.port || 6379,
     });

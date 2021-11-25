@@ -12,7 +12,7 @@ export function buildFailingIngressChart(scope: Construct) {
       tag: 'latest',
     },
     ingress: {
-      rules: [{ host: 'pennlabsorg', paths: ['/'] }]
+      rules: [{ host: 'pennlabsorg', paths: ['/'] }],
     },
   });
 }

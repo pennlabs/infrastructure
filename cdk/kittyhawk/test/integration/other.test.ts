@@ -49,7 +49,7 @@ export function buildPlatformChart(scope: Construct) {
       image: image,
       secret: secret,
       secretMounts: [{ name: 'platform', subPath: 'SHIBBOLETH_CERT', mountPath: '/etc/shibboleth/sp-cert.pem' },
-      { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
+        { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
     },
     port: 443,
     domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
@@ -95,15 +95,15 @@ export function buildLabsAPIServerChart(scope: Construct) {
   new Application(scope, 'flask', {
     ...common,
     ingress: {
-      rules: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }]
+      rules: [{ host: 'api.pennlabs.org', paths: ['/'], isSubdomain: true }],
     },
     deployment: {
       image: common.image,
       secretMounts: [{ name: 'labs-api-server', subPath: 'ios-key', mountPath: '/app/ios_key.p8' }],
-    }
+    },
   });
 
-  new RedisApplication(scope, 'redis', { deployment: {tag: '5' }});
+  new RedisApplication(scope, 'redis', { deployment: { tag: '5' }});
 
   new CronJob(scope, 'laundry', {
     ...common,

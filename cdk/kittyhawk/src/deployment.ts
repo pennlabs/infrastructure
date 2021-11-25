@@ -16,7 +16,7 @@ export interface DeploymentProps extends ContainerProps {
    * @default []
    */
   readonly secretMounts?: VolumeMount[];
-  
+
   // TODO: allow multiple containers
 }
 

@@ -6,9 +6,10 @@ export function buildWebsiteChart(scope: Construct) {
   new Application(scope, 'serve', {
     deployment: {
       image: 'pennlabs/website',
+      tag: 'latest',
     },
-    ingress: { 
-      rules: [{ host: 'pennlabs.org', paths: ['/'] }]
+    ingress: {
+      rules: [{ host: 'pennlabs.org', paths: ['/'] }],
     },
   });
 }

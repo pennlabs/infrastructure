@@ -39,7 +39,7 @@ export function buildClubsChart(scope: Construct) {
     secret: fyhSecret,
     domains: [{ host: fyhDomain }],
     djangoSettingsModule: 'pennclubs.settings.production',
-    
+
   };
 
 

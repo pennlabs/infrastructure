@@ -62,7 +62,7 @@ export function buildOHQChart(scope: Construct) {
     deployment: {
       image: djangoCommon.deployment.image,
       cmd: ['celery', '-A', 'officehoursqueue', 'worker', '-lINFO'],
-    }
+    },
   });
 
   new CronJob(scope, 'calculate-waits', {
