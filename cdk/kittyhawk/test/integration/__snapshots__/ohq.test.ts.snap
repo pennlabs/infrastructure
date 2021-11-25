@@ -45,7 +45,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -63,10 +62,6 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "REDIS_URL",
-                  "value": "redis://office-hours-queue-redis:6379",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "officehoursqueue.settings.production",
                 },
@@ -79,13 +74,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "office-hours-queue",
-                  },
-                },
-              ],
               "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -96,6 +84,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -202,7 +191,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -217,10 +205,6 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "REDIS_URL",
-                  "value": "redis://office-hours-queue-redis:6379",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "officehoursqueue.settings.production",
                 },
@@ -233,13 +217,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "office-hours-queue",
-                  },
-                },
-              ],
               "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -250,6 +227,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -370,7 +348,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -407,6 +384,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -513,7 +491,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -537,11 +514,12 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 6379,
+                  "containerPort": 80,
                 },
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -589,7 +567,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -611,10 +588,6 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "REDIS_URL",
-                  "value": "redis://office-hours-queue-redis:6379",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "officehoursqueue.settings.production",
                 },
@@ -627,13 +600,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "office-hours-queue",
-                  },
-                },
-              ],
               "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -644,8 +610,60 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "ohq.io",
+          "http": Object {
+            "paths": Array [],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "ohq.io",
+          ],
+          "secretName": "ohq-io-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "ohq-io",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "ohq.io",
+        "*.ohq.io",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "ohq-io-tls",
     },
   },
   Object {

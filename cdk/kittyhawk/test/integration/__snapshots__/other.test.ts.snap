@@ -45,7 +45,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -89,6 +88,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -200,7 +200,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -244,6 +243,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -355,7 +355,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -392,6 +391,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -503,7 +503,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -542,7 +541,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 443,
+                  "containerPort": 80,
                 },
               ],
               "volumeMounts": Array [
@@ -608,7 +607,7 @@ Array [
               Object {
                 "backend": Object {
                   "serviceName": "RELEASE_NAME-platform",
-                  "servicePort": 443,
+                  "servicePort": 80,
                 },
                 "path": "/",
               },

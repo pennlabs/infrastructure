@@ -45,7 +45,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -69,11 +68,12 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 6379,
+                  "containerPort": 80,
                 },
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -121,7 +121,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -174,8 +173,128 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1beta1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-celery",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "penncourseplan.com",
+          "http": Object {
+            "paths": Array [],
+          },
+        },
+        Object {
+          "host": "penncoursealert.com",
+          "http": Object {
+            "paths": Array [],
+          },
+        },
+        Object {
+          "host": "review.penncourses.org",
+          "http": Object {
+            "paths": Array [],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "penncourseplan.com",
+          ],
+          "secretName": "penncourseplan-com-tls",
+        },
+        Object {
+          "hosts": Array [
+            "penncoursealert.com",
+          ],
+          "secretName": "penncoursealert-com-tls",
+        },
+        Object {
+          "hosts": Array [
+            "review.penncourses.org",
+          ],
+          "secretName": "review-penncourses-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncourseplan-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncourseplan.com",
+        "*.penncourseplan.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncourseplan-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "penncoursealert-com",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "penncoursealert.com",
+        "*.penncoursealert.com",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "penncoursealert-com-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1alpha2",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "review-penncourses-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "review.penncourses.org",
+        "*.review.penncourses.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "review-penncourses-org-tls",
     },
   },
   Object {
@@ -221,7 +340,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -278,6 +396,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -552,7 +671,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -589,6 +707,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -695,7 +814,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -732,6 +850,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -838,7 +957,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -875,6 +993,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },

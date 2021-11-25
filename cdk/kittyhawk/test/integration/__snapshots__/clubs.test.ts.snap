@@ -45,7 +45,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -69,11 +68,12 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 6379,
+                  "containerPort": 80,
                 },
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -121,7 +121,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -139,10 +138,6 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "REDIS_HOST",
-                  "value": "penn-clubs-redis",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "pennclubs.settings.production",
                 },
@@ -155,13 +150,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "penn-clubs",
-                  },
-                },
-              ],
               "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -172,6 +160,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -278,7 +267,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -293,10 +281,6 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "REDIS_HOST",
-                  "value": "penn-clubs-redis",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "pennclubs.settings.production",
                 },
@@ -309,13 +293,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "penn-clubs",
-                  },
-                },
-              ],
               "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -326,6 +303,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -432,7 +410,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -469,6 +446,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -575,7 +553,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -599,11 +576,12 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 6379,
+                  "containerPort": 80,
                 },
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -651,7 +629,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -669,14 +646,6 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "REDIS_HOST",
-                  "value": "penn-clubs-hub-redis",
-                },
-                Object {
-                  "name": "NEXT_PUBLIC_SITE_NAME",
-                  "value": "fyh",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "pennclubs.settings.production",
                 },
@@ -689,13 +658,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "first-year-hub",
-                  },
-                },
-              ],
               "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -706,6 +668,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -812,7 +775,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -827,14 +789,6 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "REDIS_HOST",
-                  "value": "penn-clubs-hub-redis",
-                },
-                Object {
-                  "name": "NEXT_PUBLIC_SITE_NAME",
-                  "value": "fyh",
-                },
-                Object {
                   "name": "DJANGO_SETTINGS_MODULE",
                   "value": "pennclubs.settings.production",
                 },
@@ -847,13 +801,6 @@ Array [
                   "value": "TAG_FROM_CI",
                 },
               ],
-              "envFrom": Array [
-                Object {
-                  "secretRef": Object {
-                    "name": "first-year-hub",
-                  },
-                },
-              ],
               "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
               "imagePullPolicy": "IfNotPresent",
               "name": "worker",
@@ -864,6 +811,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },
@@ -970,7 +918,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -1011,6 +958,7 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
         },
       },
     },

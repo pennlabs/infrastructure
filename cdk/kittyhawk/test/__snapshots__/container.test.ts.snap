@@ -45,7 +45,6 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
-          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -92,6 +91,7 @@ Array [
               },
             },
           ],
+          "volumes": Array [],
         },
       },
     },
