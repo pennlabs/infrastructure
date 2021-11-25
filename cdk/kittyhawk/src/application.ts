@@ -117,7 +117,7 @@ export class DjangoApplication extends Application {
     insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
-    const djangoIngress = props.domains?.map(h => ({
+    const djangoIngress: HostRules[] = props.domains?.map(h => ({
       host: h.host,
       paths: props.ingressPaths || [],
       isSubdomain: h.isSubdomain ?? false,
