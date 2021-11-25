@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { KubeIngressV1Beta1 as IngressApiObject, IngressRuleV1Beta1 } from './imports/k8s';
-
+import { NonEmptyArray } from "./utils";
 
 export interface IngressProps {
   /**
@@ -15,7 +15,7 @@ export interface IngressProps {
      *
      * @default []
      */
-  readonly rules: HostRules[];
+  readonly rules: NonEmptyArray<HostRules>;
 }
 
 export interface HostRules {
@@ -44,28 +44,34 @@ export class Ingress extends Construct {
       ...props,
     };
 
+    // Still good to leave this in (see utils.ts)
+    /*
+    if (props.rules.length == 0) {
+      throw new Error('Creating Ingress with an empty list of host rules');
+    };
+    */
+
     const tls = props.rules.map(h => {
       const hostString: string = `${domainToCertName(h.host, h.isSubdomain ?? false)}-tls`;
       return { hosts: [h.host], secretName: hostString };
     });
 
-    const rules: IngressRuleV1Beta1[] = props.rules.map(h => {
-      return {
-        host: h.host,
-        http: {
-          paths: h.paths.map(path => ({
-            path: path,
-            pathType: 'Prefix',
-            backend: {
-              serviceName: appname,
-              servicePort: {
-                value: fullConfig.port,
-              },
+    const rules: IngressRuleV1Beta1[] = props.rules.map(h => ({
+      host: h.host,
+      http: {
+        paths: h.paths.map(path => ({
+          path: path,
+          pathType: 'Prefix',
+          backend: {
+            serviceName: appname,
+            servicePort: {
+              value: fullConfig.port,
             },
-          })),
-        },
-      };
-    });
+          },
+        })),
+      },
+    }),
+    );
 
     new IngressApiObject(this, `ingress-${appname}`, {
       metadata: {

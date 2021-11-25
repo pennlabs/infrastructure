@@ -3,6 +3,7 @@ import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
 import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service } from './service';
+import { NonEmptyArray } from './utils';
 
 /**
  * Warning: Before editing any interfaces, make sure that none of the interfaces will have
@@ -116,9 +117,11 @@ export class DjangoApplication extends Application {
     insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
-    const djangoIngress: HostRules[] = props.domains?.map(h => {
-      return { host: h.host, paths: props.ingressPaths || [], isSubdomain: h.isSubdomain ?? false };
-    });
+    const djangoIngress = props.domains?.map(h => ({
+      host: h.host,
+      paths: props.ingressPaths || [],
+      isSubdomain: h.isSubdomain ?? false,
+    }));
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -127,7 +130,7 @@ export class DjangoApplication extends Application {
         ...props.deployment,
         env: djangoExtraEnv,
       },
-      ingress: { rules: djangoIngress },
+      ingress: { rules: djangoIngress as NonEmptyArray<HostRules> },
     });
   }
 }
@@ -143,7 +146,7 @@ export class ReactApplication extends Application {
     insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
 
     // Configure the ingress using ingressPaths.
-    const reactIngress = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain ?? false }];
+    const reactIngress: NonEmptyArray<HostRules> = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain ?? false }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {
