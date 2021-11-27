@@ -57,7 +57,6 @@ export class CronJob extends Construct {
     new CronJobApiObject(this, `cronjob-${fullname}`, {
       metadata: {
         name: fullname,
-        namespace: 'default',
         labels: { name: fullname },
       },
       spec: {
