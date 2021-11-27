@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { domainToCertName, Ingress, removeSubdomain } from '../src';
+import { domainToCertName, removeSubdomain } from '../src';
 import { Application } from '../src/application';
 import { failingTest } from './utils';
 
@@ -17,17 +17,8 @@ export function buildFailingIngressChart(scope: Construct) {
   });
 }
 
-export function buildUndefinedIngressChartFails(scope: Construct) {
-  /** Creating an ingress without defining ingress prop should fail  */
-  new Ingress(scope, 'test', {
-    port: 80,
-    rules: [],
-  });
-}
-
 
 test('Ingress Regex -- Failing', () => failingTest(buildFailingIngressChart));
-test('Ingress Undefined -- Failing', () => failingTest(buildUndefinedIngressChartFails));
 
 // Tests for the helper functions in ingress.ts
 test('Remove subdomain -- true', () => {
