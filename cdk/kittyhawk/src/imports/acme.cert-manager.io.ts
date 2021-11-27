@@ -573,21 +573,36 @@ export interface ChallengeSpecSolverDns01Azuredns {
   readonly clientSecretSecretRef?: ChallengeSpecSolverDns01AzurednsClientSecretSecretRef;
 
   /**
+   * name of the Azure environment (default AzurePublicCloud)
+   *
    * @schema ChallengeSpecSolverDns01Azuredns#environment
    */
   readonly environment?: ChallengeSpecSolverDns01AzurednsEnvironment;
 
   /**
+   * name of the DNS zone that should be used
+   *
    * @schema ChallengeSpecSolverDns01Azuredns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
+   * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
+   *
+   * @schema ChallengeSpecSolverDns01Azuredns#managedIdentity
+   */
+  readonly managedIdentity?: ChallengeSpecSolverDns01AzurednsManagedIdentity;
+
+  /**
+   * resource group the DNS zone is located in
+   *
    * @schema ChallengeSpecSolverDns01Azuredns#resourceGroupName
    */
   readonly resourceGroupName: string;
 
   /**
+   * ID of the Azure subscription
+   *
    * @schema ChallengeSpecSolverDns01Azuredns#subscriptionID
    */
   readonly subscriptionId: string;
@@ -612,6 +627,7 @@ export function toJson_ChallengeSpecSolverDns01Azuredns(obj: ChallengeSpecSolver
     'clientSecretSecretRef': toJson_ChallengeSpecSolverDns01AzurednsClientSecretSecretRef(obj.clientSecretSecretRef),
     'environment': obj.environment,
     'hostedZoneName': obj.hostedZoneName,
+    'managedIdentity': toJson_ChallengeSpecSolverDns01AzurednsManagedIdentity(obj.managedIdentity),
     'resourceGroupName': obj.resourceGroupName,
     'subscriptionID': obj.subscriptionId,
     'tenantID': obj.tenantId,
@@ -1193,6 +1209,8 @@ export function toJson_ChallengeSpecSolverDns01AzurednsClientSecretSecretRef(obj
 /* eslint-enable max-len, quote-props */
 
 /**
+ * name of the Azure environment (default AzurePublicCloud)
+ *
  * @schema ChallengeSpecSolverDns01AzurednsEnvironment
  */
 export enum ChallengeSpecSolverDns01AzurednsEnvironment {
@@ -1205,6 +1223,43 @@ export enum ChallengeSpecSolverDns01AzurednsEnvironment {
   /** AzureUSGovernmentCloud */
   AZURE_US_GOVERNMENT_CLOUD = 'AzureUSGovernmentCloud',
 }
+
+/**
+ * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
+ *
+ * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity
+ */
+export interface ChallengeSpecSolverDns01AzurednsManagedIdentity {
+  /**
+   * client ID of the managed identity, can not be used at the same time as resourceID
+   *
+   * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity#clientID
+   */
+  readonly clientId?: string;
+
+  /**
+   * resource ID of the managed identity, can not be used at the same time as clientID
+   *
+   * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity#resourceID
+   */
+  readonly resourceId?: string;
+
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverDns01AzurednsManagedIdentity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ChallengeSpecSolverDns01AzurednsManagedIdentity(obj: ChallengeSpecSolverDns01AzurednsManagedIdentity | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'clientID': obj.clientId,
+    'resourceID': obj.resourceId,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
 
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
@@ -1964,7 +2019,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly labelSelector?: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2054,7 +2109,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly labelSelector?: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2181,7 +2236,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly labelSelector?: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -2258,7 +2313,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+ * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -2308,7 +2363,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly labelSelector?: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -2385,7 +2440,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+ * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -2639,7 +2694,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+ * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -2803,7 +2858,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
+ * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
