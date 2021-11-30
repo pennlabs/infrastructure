@@ -89,9 +89,10 @@ export class PyPIPublishStack extends Stack {
       steps: [
         {
           name: 'Verify tag',
+          shell: 'bash',
           run: dedent`GIT_TAG=\${GITHUB_REF/refs\\/tags\\//}
           LIBRARY_VERSION=$(poetry version -s)
-          if [[ "$GIT_TAG" != LIBRARY_VERSION ]]; then exit 1; fi`,
+          if [[ "$GIT_TAG" != "$LIBRARY_VERSION" ]]; then echo "Tag ($GIT_TAG) does not match poetry version ($LIBRARY_VERSION)"; exit 1; fi`,
         },
         {
           name: 'Build',
@@ -101,8 +102,8 @@ export class PyPIPublishStack extends Stack {
           name: 'Publish',
           run: 'poetry publish',
           env: {
-            POETRY_PYPI_TOKEN_PYPI: '${{ secrets.PYPI_PASSWORD }}'
-          }
+            POETRY_PYPI_TOKEN_PYPI: '${{ secrets.PYPI_PASSWORD }}',
+          },
         },
       ],
     });

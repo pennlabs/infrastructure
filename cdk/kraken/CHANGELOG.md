@@ -1,5 +1,11 @@
 # Changelog
 
+## X.Y.Z (UNRELEASED)
+
+* Modify PyPI python versions to be strings
+* Modify PyPI to correctly publish
+* Migrate to ts-dedent
+
 ## 0.6.4 (2021-10-04)
 
 * Modify PyPI publish to use poetry
