@@ -14,9 +14,9 @@ export interface PyPIPublishStackProps {
 
   /**
    * List of python versions to run tox with.
-   * @default 3.6, 3.7, 3.8, 3.9
+   * @default "3.7", "3.8", "3.9", "3.10"
    */
-  pythonMatrixVersions?: number[];
+  pythonMatrixVersions?: string[];
 }
 
 /**
@@ -34,7 +34,7 @@ export class PyPIPublishStack extends Stack {
     // Build config
     const fullConfig: Required<PyPIPublishStackProps> = {
       pythonVersion: '3.8',
-      pythonMatrixVersions: [3.6, 3.7, 3.8, 3.9],
+      pythonMatrixVersions: ['3.7', '3.8', '3.9', '3.10'],
       ...config,
     };
 
