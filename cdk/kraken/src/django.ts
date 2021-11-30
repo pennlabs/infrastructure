@@ -1,5 +1,5 @@
 import { CheckoutJob, Workflow, StepsProps, JobProps } from 'cdkactions';
-import * as dedent from 'dedent-js';
+import dedent from 'ts-dedent';
 import { buildId, buildName } from './utils';
 
 /**

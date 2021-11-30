@@ -1,6 +1,6 @@
-import * as dedent from 'dedent-js';
 import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
 import { Construct } from 'constructs';
+import dedent from 'ts-dedent';
 
 /**
  * Optional props to configure the PyPI publish stack.

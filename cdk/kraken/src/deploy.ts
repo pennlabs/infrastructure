@@ -1,5 +1,5 @@
 import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
-import * as dedent from 'dedent-js';
+import dedent from 'ts-dedent';
 
 /**
  * Optional props to configure the deploy job.

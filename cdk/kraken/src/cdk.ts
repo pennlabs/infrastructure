@@ -1,6 +1,6 @@
 import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
 import { Construct } from 'constructs';
-import * as dedent from 'dedent-js';
+import dedent from 'ts-dedent';
 
 /**
  * Optional props to configure the CDK publish stack.
