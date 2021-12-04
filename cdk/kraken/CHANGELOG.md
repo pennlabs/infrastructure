@@ -2,6 +2,8 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.7.0 (2021-12-04)
+
 * Modify PyPI python versions to be strings
 * Modify PyPI to correctly publish
 * Migrate to ts-dedent
