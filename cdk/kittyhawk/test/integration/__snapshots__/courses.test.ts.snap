@@ -1066,7 +1066,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-load-courses",
-      "namespace": "default",
     },
     "spec": Object {
       "failedJobsHistoryLimit": 1,
@@ -1097,11 +1096,6 @@ Array [
                   "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
                   "imagePullPolicy": "IfNotPresent",
                   "name": "worker",
-                  "ports": Array [
-                    Object {
-                      "containerPort": 80,
-                    },
-                  ],
                 },
               ],
               "restartPolicy": "Never",
@@ -1122,7 +1116,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-report-stats",
-      "namespace": "default",
     },
     "spec": Object {
       "failedJobsHistoryLimit": 1,
@@ -1155,11 +1148,6 @@ Array [
                   "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
                   "imagePullPolicy": "IfNotPresent",
                   "name": "worker",
-                  "ports": Array [
-                    Object {
-                      "containerPort": 80,
-                    },
-                  ],
                 },
               ],
               "restartPolicy": "Never",

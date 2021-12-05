@@ -63,6 +63,11 @@ export interface ContainerProps {
   readonly containerPort?: number;
 
   /**
+       * If set to true, no container ports will be specified.
+   */
+  readonly noContainerPorts?: boolean;
+
+  /**
       * Container pull policy.
       *
       * @default "IfNotPresent"
@@ -79,7 +84,6 @@ export interface ContainerProps {
       * Readiness Probe definitions for the container.
       */
   readonly readinessProbe?: probeProps;
-
 }
 
 export interface probeProps {
@@ -165,7 +169,6 @@ export class Container implements ContainerInterface {
   constructor(props: ContainerProps) {
 
     this.name = 'worker';
-    // tag priority is provided tag, GIT_SHA env var, then 'latest'
     const GIT_SHA = process.env.GIT_SHA;
     if (!GIT_SHA) {
       console.error('No GIT_SHA environment variable provided.');
@@ -173,7 +176,7 @@ export class Container implements ContainerInterface {
     }
     const tag = props.tag || GIT_SHA;
     this.image = `${props.image}:${tag}`;
-    this.ports = [{ containerPort: props.port ?? 80 }];
+    this.ports = props.noContainerPorts ? undefined : [{ containerPort: props.port ?? 80 }];
     this.imagePullPolicy = props.pullPolicy || 'IfNotPresent';
     this.command = props.cmd;
     this.volumeMounts = props.secretMounts;

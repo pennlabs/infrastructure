@@ -656,7 +656,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-clear-expired-tokens",
-      "namespace": "default",
     },
     "spec": Object {
       "failedJobsHistoryLimit": 1,
@@ -687,11 +686,6 @@ Array [
                   "image": "pennlabs/platform:TAG_FROM_CI",
                   "imagePullPolicy": "IfNotPresent",
                   "name": "worker",
-                  "ports": Array [
-                    Object {
-                      "containerPort": 80,
-                    },
-                  ],
                 },
               ],
               "restartPolicy": "Never",
