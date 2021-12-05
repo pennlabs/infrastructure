@@ -21,7 +21,7 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
   - paths - A list of paths to use for this host. (**Required**)
 - pullPolicy (string) - what type of [ImagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) to use. One of "IfNotPresent", "Always", "Never". (**Optional**, default "IfNotPresent")
 - cmd (Array\<string\>) - Command to override docker entrypoint. Provide a list of arguments for the command. (**Optional**, default undefined)
-- containerPort (number) - the target port on the pod for the service to forward traffic to. (**Optional**, defualts to ```port```  if provided, and 80 otherwise)
+- containerPort (number) - the target port on the pod for the service to forward traffic to. (**Optional**, defaults to ```port```  if provided, and 80 otherwise)
 - extraEnv (Array) - Array of extra environment variables to export. (**Optional**, default undefined).
   - Each environment variable should be in the form ```{ name: string, value: string }```, where ```name``` is the env var name, and ```value``` is the env var value.
 - secret (string) - Secret from Vault to use for your application (**Optional**, default undefined)

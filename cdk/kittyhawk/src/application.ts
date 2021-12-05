@@ -168,7 +168,7 @@ export class RedisApplication extends Application {
         tag: redisProps.deployment?.tag ?? '6.0',
         ...redisProps.deployment,
       },
-      port: redisProps.port || 6379,
+      port: redisProps.port ?? 6379,
     });
   }
 }
