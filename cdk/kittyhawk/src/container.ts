@@ -1,4 +1,4 @@
-import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, Probe as ProbeInterface, VolumeMount, SecretVolumeSource, HttpGetAction, ExecAction, IntOrString } from './imports/k8s';
+import { Volume as VolumeInterface, Container as ContainerInterface, ContainerPort, EnvFromSource, EnvVar, VolumeMount, SecretVolumeSource } from './imports/k8s';
 
 
 export interface ContainerProps {
@@ -74,16 +74,6 @@ export interface ContainerProps {
       *
       */
   readonly pullPolicy?: 'IfNotPresent' | 'Always' | 'Never';
-
-  /**
-      * Liveliness Probe definitions for the container.
-      */
-  readonly livenessProbe?: probeProps;
-
-  /**
-      * Readiness Probe definitions for the container.
-      */
-  readonly readinessProbe?: probeProps;
 }
 
 export interface probeProps {
@@ -156,16 +146,6 @@ export class Container implements ContainerInterface {
        */
   readonly volumeMounts?: VolumeMount[];
 
-  /**
-       * Periodic probe of container service readiness.
-       */
-  readonly readinessProbe?: Probe;
-
-  /**
-       * Periodic probe of container liveness.
-       */
-  readonly livenessProbe?: Probe;
-
   constructor(props: ContainerProps) {
 
     this.name = 'worker';
@@ -183,46 +163,9 @@ export class Container implements ContainerInterface {
     this.envFrom = props.secret ? [{ secretRef: { name: props.secret } }] : undefined;
     const env = props.env ?? [];
     this.env = [...env, { name: 'GIT_SHA', value: GIT_SHA }];
-    this.readinessProbe = props.readinessProbe && new Probe(props.readinessProbe);
-    this.livenessProbe = props.livenessProbe && new Probe(props.livenessProbe);
   }
 
 }
-
-export class Probe implements ProbeInterface {
-
-  /**
-       * One and only one of the following should be specified. Exec specifies the action to take.
-       */
-  readonly exec?: ExecAction;
-
-  /**
-       * HTTPGet specifies the http request to perform.
-       */
-  readonly httpGet?: HttpGetAction;
-
-  /**
-       * Number of seconds after the container has started before liveness probes are initiated.
-       */
-  readonly initialDelaySeconds?: number;
-
-  /**
-       * How often (in seconds) to perform the probe. Default to 10 seconds.
-       *
-       */
-  readonly periodSeconds?: number;
-
-  constructor(props: probeProps) {
-    this.initialDelaySeconds = props.delay ?? 1;
-    this.periodSeconds = props.period ?? 10;
-    if (props.command) {
-      this.exec = { command: props.command };
-    } else if (props.path) {
-      this.httpGet = { path: props.path, port: IntOrString.fromNumber(80) };
-    } else { throw new Error('Must provide either probe command or HTTP path'); }
-  }
-}
-
 
 export class SecretVolume implements VolumeInterface {
 

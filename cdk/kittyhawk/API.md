@@ -30,8 +30,6 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
       - name - name of secret (**Required**)
       - mountPath - Path within the container to mount the secret. (**Required**)
       - subPath (Required) - [sub-path](https://kubernetes.io/docs/concepts/storage/volumes/#using-subpath) to mount the secret in the volume (**Required**)
-- readinessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to start. (**Optional**, default undefined)
-- livenessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to start. (**Optional**, default undefined)
 
 ### Properties for ReactApplication and DjangoApplication
 DjangoApplication and ReactApplication have special properties that override properties from Application.
@@ -70,7 +68,7 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
 - successLimit (number) - The number of successful finished jobs to retain. (**Optional**, default 1)
 - failureLimit (number) - The number of failed jobs to retain. (**Optional**, default 1)
 
-The following properties from Application are also available: ```tag, cmd, containerPort, extraEnv, livelinessProbe, port, pullPolicy, readinessProbe, replicas, secret, secretMounts```
+The following properties from Application are also available: ```tag, cmd, containerPort, extraEnv, port, pullPolicy, replicas, secret, secretMounts```
 
 
 ## Escape Hatches
