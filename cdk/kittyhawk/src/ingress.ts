@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { KubeIngressV1Beta1 as IngressApiObject, IngressRuleV1Beta1 } from './imports/k8s';
-import { NonEmptyArray } from "./utils";
+import { NonEmptyArray } from './utils';
 
 export interface IngressProps {
   /**
