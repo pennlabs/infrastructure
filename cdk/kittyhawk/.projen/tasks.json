@@ -169,7 +169,7 @@
       "description": "Generate TypeScript API reference docs",
       "steps": [
         {
-          "exec": "typedoc --out docs"
+          "exec": "typedoc --entryPoints './src/index.ts' --out docs"
         }
       ]
     }
