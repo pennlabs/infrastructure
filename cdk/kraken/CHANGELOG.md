@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.7.1 (2021-12-16)
+
+* Modify PyPI to correctly publish (again)
+
 ## 0.7.0 (2021-12-04)
 
 * Modify PyPI python versions to be strings
