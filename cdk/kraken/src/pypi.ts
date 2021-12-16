@@ -88,6 +88,10 @@ export class PyPIPublishStack extends Stack {
       if: "startsWith(github.ref, 'refs/tags')",
       steps: [
         {
+          name: 'Install dependencies',
+          run: 'pip install poetry',
+        },
+        {
           name: 'Verify tag',
           shell: 'bash',
           run: dedent`GIT_TAG=\${GITHUB_REF/refs\\/tags\\//}
