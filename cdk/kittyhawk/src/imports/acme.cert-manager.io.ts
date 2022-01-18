@@ -13,7 +13,7 @@ export class Challenge extends ApiObject {
    * Returns the apiVersion and kind for "Challenge"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'acme.cert-manager.io/v1alpha2',
+    apiVersion: 'acme.cert-manager.io/v1',
     kind: 'Challenge',
   }
 
@@ -71,7 +71,7 @@ export interface ChallengeProps {
   /**
    * @schema Challenge#spec
    */
-  readonly spec?: ChallengeSpec;
+  readonly spec: ChallengeSpec;
 
 }
 
@@ -95,63 +95,63 @@ export function toJson_ChallengeProps(obj: ChallengeProps | undefined): Record<s
  */
 export interface ChallengeSpec {
   /**
-   * AuthzURL is the URL to the ACME Authorization resource that this challenge is a part of.
+   * The URL to the ACME Authorization resource that this challenge is a part of.
    *
-   * @schema ChallengeSpec#authzURL
+   * @schema ChallengeSpec#authorizationURL
    */
-  readonly authzUrl: string;
+  readonly authorizationUrl: string;
 
   /**
-   * DNSName is the identifier that this challenge is for, e.g. example.com. If the requested DNSName is a 'wildcard', this field MUST be set to the non-wildcard domain, e.g. for `*.example.com`, it must be `example.com`.
+   * dnsName is the identifier that this challenge is for, e.g. example.com. If the requested DNSName is a 'wildcard', this field MUST be set to the non-wildcard domain, e.g. for `*.example.com`, it must be `example.com`.
    *
    * @schema ChallengeSpec#dnsName
    */
   readonly dnsName: string;
 
   /**
-   * IssuerRef references a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
+   * References a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
    *
    * @schema ChallengeSpec#issuerRef
    */
   readonly issuerRef: ChallengeSpecIssuerRef;
 
   /**
-   * Key is the ACME challenge key for this challenge For HTTP01 challenges, this is the value that must be responded with to complete the HTTP01 challenge in the format: `<private key JWK thumbprint>.<key from acme server for challenge>`. For DNS01 challenges, this is the base64 encoded SHA256 sum of the `<private key JWK thumbprint>.<key from acme server for challenge>` text that must be set as the TXT record content.
+   * The ACME challenge key for this challenge For HTTP01 challenges, this is the value that must be responded with to complete the HTTP01 challenge in the format: `<private key JWK thumbprint>.<key from acme server for challenge>`. For DNS01 challenges, this is the base64 encoded SHA256 sum of the `<private key JWK thumbprint>.<key from acme server for challenge>` text that must be set as the TXT record content.
    *
    * @schema ChallengeSpec#key
    */
   readonly key: string;
 
   /**
-   * Solver contains the domain solving configuration that should be used to solve this challenge resource.
+   * Contains the domain solving configuration that should be used to solve this challenge resource.
    *
    * @schema ChallengeSpec#solver
    */
   readonly solver: ChallengeSpecSolver;
 
   /**
-   * Token is the ACME challenge token for this challenge. This is the raw value returned from the ACME server.
+   * The ACME challenge token for this challenge. This is the raw value returned from the ACME server.
    *
    * @schema ChallengeSpec#token
    */
   readonly token: string;
 
   /**
-   * Type is the type of ACME challenge this resource represents. One of "http-01" or "dns-01".
+   * The type of ACME challenge this resource represents. One of "HTTP-01" or "DNS-01".
    *
    * @schema ChallengeSpec#type
    */
   readonly type: ChallengeSpecType;
 
   /**
-   * URL is the URL of the ACME Challenge resource for this challenge. This can be used to lookup details about the status of this challenge.
+   * The URL of the ACME Challenge resource for this challenge. This can be used to lookup details about the status of this challenge.
    *
    * @schema ChallengeSpec#url
    */
   readonly url: string;
 
   /**
-   * Wildcard will be true if this challenge is for a wildcard identifier, for example '*.example.com'.
+   * wildcard will be true if this challenge is for a wildcard identifier, for example '*.example.com'.
    *
    * @schema ChallengeSpec#wildcard
    */
@@ -166,7 +166,7 @@ export interface ChallengeSpec {
 export function toJson_ChallengeSpec(obj: ChallengeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'authzURL': obj.authzUrl,
+    'authorizationURL': obj.authorizationUrl,
     'dnsName': obj.dnsName,
     'issuerRef': toJson_ChallengeSpecIssuerRef(obj.issuerRef),
     'key': obj.key,
@@ -182,7 +182,7 @@ export function toJson_ChallengeSpec(obj: ChallengeSpec | undefined): Record<str
 /* eslint-enable max-len, quote-props */
 
 /**
- * IssuerRef references a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
+ * References a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
  *
  * @schema ChallengeSpecIssuerRef
  */
@@ -227,7 +227,7 @@ export function toJson_ChallengeSpecIssuerRef(obj: ChallengeSpecIssuerRef | unde
 /* eslint-enable max-len, quote-props */
 
 /**
- * Solver contains the domain solving configuration that should be used to solve this challenge resource.
+ * Contains the domain solving configuration that should be used to solve this challenge resource.
  *
  * @schema ChallengeSpecSolver
  */
@@ -272,15 +272,15 @@ export function toJson_ChallengeSpecSolver(obj: ChallengeSpecSolver | undefined)
 /* eslint-enable max-len, quote-props */
 
 /**
- * Type is the type of ACME challenge this resource represents. One of "http-01" or "dns-01".
+ * The type of ACME challenge this resource represents. One of "HTTP-01" or "DNS-01".
  *
  * @schema ChallengeSpecType
  */
 export enum ChallengeSpecType {
-  /** http-01 */
-  HTTP_01 = 'http-01',
-  /** dns-01 */
-  DNS_01 = 'dns-01',
+  /** HTTP-01 */
+  HTTP_01 = 'HTTP-01',
+  /** DNS-01 */
+  DNS_01 = 'DNS-01',
 }
 
 /**
@@ -292,9 +292,9 @@ export interface ChallengeSpecSolverDns01 {
   /**
    * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
    *
-   * @schema ChallengeSpecSolverDns01#acmedns
+   * @schema ChallengeSpecSolverDns01#acmeDNS
    */
-  readonly acmedns?: ChallengeSpecSolverDns01Acmedns;
+  readonly acmeDns?: ChallengeSpecSolverDns01AcmeDns;
 
   /**
    * Use the Akamai DNS zone management API to manage DNS01 challenge records.
@@ -306,16 +306,16 @@ export interface ChallengeSpecSolverDns01 {
   /**
    * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
    *
-   * @schema ChallengeSpecSolverDns01#azuredns
+   * @schema ChallengeSpecSolverDns01#azureDNS
    */
-  readonly azuredns?: ChallengeSpecSolverDns01Azuredns;
+  readonly azureDns?: ChallengeSpecSolverDns01AzureDns;
 
   /**
    * Use the Google Cloud DNS API to manage DNS01 challenge records.
    *
-   * @schema ChallengeSpecSolverDns01#clouddns
+   * @schema ChallengeSpecSolverDns01#cloudDNS
    */
-  readonly clouddns?: ChallengeSpecSolverDns01Clouddns;
+  readonly cloudDns?: ChallengeSpecSolverDns01CloudDns;
 
   /**
    * Use the Cloudflare API to manage DNS01 challenge records.
@@ -368,10 +368,10 @@ export interface ChallengeSpecSolverDns01 {
 export function toJson_ChallengeSpecSolverDns01(obj: ChallengeSpecSolverDns01 | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'acmedns': toJson_ChallengeSpecSolverDns01Acmedns(obj.acmedns),
+    'acmeDNS': toJson_ChallengeSpecSolverDns01AcmeDns(obj.acmeDns),
     'akamai': toJson_ChallengeSpecSolverDns01Akamai(obj.akamai),
-    'azuredns': toJson_ChallengeSpecSolverDns01Azuredns(obj.azuredns),
-    'clouddns': toJson_ChallengeSpecSolverDns01Clouddns(obj.clouddns),
+    'azureDNS': toJson_ChallengeSpecSolverDns01AzureDns(obj.azureDns),
+    'cloudDNS': toJson_ChallengeSpecSolverDns01CloudDns(obj.cloudDns),
     'cloudflare': toJson_ChallengeSpecSolverDns01Cloudflare(obj.cloudflare),
     'cnameStrategy': obj.cnameStrategy,
     'digitalocean': toJson_ChallengeSpecSolverDns01Digitalocean(obj.digitalocean),
@@ -469,31 +469,31 @@ export function toJson_ChallengeSpecSolverSelector(obj: ChallengeSpecSolverSelec
 /**
  * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
  *
- * @schema ChallengeSpecSolverDns01Acmedns
+ * @schema ChallengeSpecSolverDns01AcmeDns
  */
-export interface ChallengeSpecSolverDns01Acmedns {
+export interface ChallengeSpecSolverDns01AcmeDns {
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema ChallengeSpecSolverDns01Acmedns#accountSecretRef
+   * @schema ChallengeSpecSolverDns01AcmeDns#accountSecretRef
    */
-  readonly accountSecretRef: ChallengeSpecSolverDns01AcmednsAccountSecretRef;
+  readonly accountSecretRef: ChallengeSpecSolverDns01AcmeDnsAccountSecretRef;
 
   /**
-   * @schema ChallengeSpecSolverDns01Acmedns#host
+   * @schema ChallengeSpecSolverDns01AcmeDns#host
    */
   readonly host: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01Acmedns' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01AcmeDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01Acmedns(obj: ChallengeSpecSolverDns01Acmedns | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01AcmeDns(obj: ChallengeSpecSolverDns01AcmeDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'accountSecretRef': toJson_ChallengeSpecSolverDns01AcmednsAccountSecretRef(obj.accountSecretRef),
+    'accountSecretRef': toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(obj.accountSecretRef),
     'host': obj.host,
   };
   // filter undefined values
@@ -555,79 +555,79 @@ export function toJson_ChallengeSpecSolverDns01Akamai(obj: ChallengeSpecSolverDn
 /**
  * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
  *
- * @schema ChallengeSpecSolverDns01Azuredns
+ * @schema ChallengeSpecSolverDns01AzureDns
  */
-export interface ChallengeSpecSolverDns01Azuredns {
+export interface ChallengeSpecSolverDns01AzureDns {
   /**
    * if both this and ClientSecret are left unset MSI will be used
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#clientID
+   * @schema ChallengeSpecSolverDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
    * if both this and ClientID are left unset MSI will be used
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#clientSecretSecretRef
+   * @schema ChallengeSpecSolverDns01AzureDns#clientSecretSecretRef
    */
-  readonly clientSecretSecretRef?: ChallengeSpecSolverDns01AzurednsClientSecretSecretRef;
+  readonly clientSecretSecretRef?: ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef;
 
   /**
    * name of the Azure environment (default AzurePublicCloud)
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#environment
+   * @schema ChallengeSpecSolverDns01AzureDns#environment
    */
-  readonly environment?: ChallengeSpecSolverDns01AzurednsEnvironment;
+  readonly environment?: ChallengeSpecSolverDns01AzureDnsEnvironment;
 
   /**
    * name of the DNS zone that should be used
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#hostedZoneName
+   * @schema ChallengeSpecSolverDns01AzureDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
    * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#managedIdentity
+   * @schema ChallengeSpecSolverDns01AzureDns#managedIdentity
    */
-  readonly managedIdentity?: ChallengeSpecSolverDns01AzurednsManagedIdentity;
+  readonly managedIdentity?: ChallengeSpecSolverDns01AzureDnsManagedIdentity;
 
   /**
    * resource group the DNS zone is located in
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#resourceGroupName
+   * @schema ChallengeSpecSolverDns01AzureDns#resourceGroupName
    */
   readonly resourceGroupName: string;
 
   /**
    * ID of the Azure subscription
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#subscriptionID
+   * @schema ChallengeSpecSolverDns01AzureDns#subscriptionID
    */
   readonly subscriptionId: string;
 
   /**
    * when specifying ClientID and ClientSecret then this field is also needed
    *
-   * @schema ChallengeSpecSolverDns01Azuredns#tenantID
+   * @schema ChallengeSpecSolverDns01AzureDns#tenantID
    */
   readonly tenantId?: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01Azuredns' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01AzureDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01Azuredns(obj: ChallengeSpecSolverDns01Azuredns | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01AzureDns(obj: ChallengeSpecSolverDns01AzureDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
-    'clientSecretSecretRef': toJson_ChallengeSpecSolverDns01AzurednsClientSecretSecretRef(obj.clientSecretSecretRef),
+    'clientSecretSecretRef': toJson_ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef(obj.clientSecretSecretRef),
     'environment': obj.environment,
     'hostedZoneName': obj.hostedZoneName,
-    'managedIdentity': toJson_ChallengeSpecSolverDns01AzurednsManagedIdentity(obj.managedIdentity),
+    'managedIdentity': toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(obj.managedIdentity),
     'resourceGroupName': obj.resourceGroupName,
     'subscriptionID': obj.subscriptionId,
     'tenantID': obj.tenantId,
@@ -640,40 +640,40 @@ export function toJson_ChallengeSpecSolverDns01Azuredns(obj: ChallengeSpecSolver
 /**
  * Use the Google Cloud DNS API to manage DNS01 challenge records.
  *
- * @schema ChallengeSpecSolverDns01Clouddns
+ * @schema ChallengeSpecSolverDns01CloudDns
  */
-export interface ChallengeSpecSolverDns01Clouddns {
+export interface ChallengeSpecSolverDns01CloudDns {
   /**
    * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
    *
-   * @schema ChallengeSpecSolverDns01Clouddns#hostedZoneName
+   * @schema ChallengeSpecSolverDns01CloudDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
-   * @schema ChallengeSpecSolverDns01Clouddns#project
+   * @schema ChallengeSpecSolverDns01CloudDns#project
    */
   readonly project: string;
 
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema ChallengeSpecSolverDns01Clouddns#serviceAccountSecretRef
+   * @schema ChallengeSpecSolverDns01CloudDns#serviceAccountSecretRef
    */
-  readonly serviceAccountSecretRef?: ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef;
+  readonly serviceAccountSecretRef?: ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01Clouddns' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01CloudDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01Clouddns(obj: ChallengeSpecSolverDns01Clouddns | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01CloudDns(obj: ChallengeSpecSolverDns01CloudDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'hostedZoneName': obj.hostedZoneName,
     'project': obj.project,
-    'serviceAccountSecretRef': toJson_ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
+    'serviceAccountSecretRef': toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -976,7 +976,7 @@ export interface ChallengeSpecSolverHttp01Ingress {
   readonly class?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#ingressTemplate
    */
@@ -1026,30 +1026,30 @@ export function toJson_ChallengeSpecSolverHttp01Ingress(obj: ChallengeSpecSolver
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema ChallengeSpecSolverDns01AcmednsAccountSecretRef
+ * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef
  */
-export interface ChallengeSpecSolverDns01AcmednsAccountSecretRef {
+export interface ChallengeSpecSolverDns01AcmeDnsAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ChallengeSpecSolverDns01AcmednsAccountSecretRef#key
+   * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ChallengeSpecSolverDns01AcmednsAccountSecretRef#name
+   * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01AcmednsAccountSecretRef' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01AcmeDnsAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01AcmednsAccountSecretRef(obj: ChallengeSpecSolverDns01AcmednsAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(obj: ChallengeSpecSolverDns01AcmeDnsAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -1174,30 +1174,30 @@ export function toJson_ChallengeSpecSolverDns01AkamaiClientTokenSecretRef(obj: C
 /**
  * if both this and ClientID are left unset MSI will be used
  *
- * @schema ChallengeSpecSolverDns01AzurednsClientSecretSecretRef
+ * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef
  */
-export interface ChallengeSpecSolverDns01AzurednsClientSecretSecretRef {
+export interface ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ChallengeSpecSolverDns01AzurednsClientSecretSecretRef#key
+   * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ChallengeSpecSolverDns01AzurednsClientSecretSecretRef#name
+   * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01AzurednsClientSecretSecretRef' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01AzurednsClientSecretSecretRef(obj: ChallengeSpecSolverDns01AzurednsClientSecretSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef(obj: ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -1211,9 +1211,9 @@ export function toJson_ChallengeSpecSolverDns01AzurednsClientSecretSecretRef(obj
 /**
  * name of the Azure environment (default AzurePublicCloud)
  *
- * @schema ChallengeSpecSolverDns01AzurednsEnvironment
+ * @schema ChallengeSpecSolverDns01AzureDnsEnvironment
  */
-export enum ChallengeSpecSolverDns01AzurednsEnvironment {
+export enum ChallengeSpecSolverDns01AzureDnsEnvironment {
   /** AzurePublicCloud */
   AZURE_PUBLIC_CLOUD = 'AzurePublicCloud',
   /** AzureChinaCloud */
@@ -1227,30 +1227,30 @@ export enum ChallengeSpecSolverDns01AzurednsEnvironment {
 /**
  * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
  *
- * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity
+ * @schema ChallengeSpecSolverDns01AzureDnsManagedIdentity
  */
-export interface ChallengeSpecSolverDns01AzurednsManagedIdentity {
+export interface ChallengeSpecSolverDns01AzureDnsManagedIdentity {
   /**
    * client ID of the managed identity, can not be used at the same time as resourceID
    *
-   * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity#clientID
+   * @schema ChallengeSpecSolverDns01AzureDnsManagedIdentity#clientID
    */
   readonly clientId?: string;
 
   /**
    * resource ID of the managed identity, can not be used at the same time as clientID
    *
-   * @schema ChallengeSpecSolverDns01AzurednsManagedIdentity#resourceID
+   * @schema ChallengeSpecSolverDns01AzureDnsManagedIdentity#resourceID
    */
   readonly resourceId?: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01AzurednsManagedIdentity' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01AzureDnsManagedIdentity' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01AzurednsManagedIdentity(obj: ChallengeSpecSolverDns01AzurednsManagedIdentity | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(obj: ChallengeSpecSolverDns01AzureDnsManagedIdentity | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
@@ -1264,30 +1264,30 @@ export function toJson_ChallengeSpecSolverDns01AzurednsManagedIdentity(obj: Chal
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef
+ * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef
  */
-export interface ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef {
+export interface ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef#key
+   * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef#name
+   * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef' to JSON representation.
+ * Converts an object of type 'ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef(obj: ChallengeSpecSolverDns01ClouddnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(obj: ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -1484,7 +1484,7 @@ export function toJson_ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef(o
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+ * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
  *
  * @schema ChallengeSpecSolverHttp01IngressIngressTemplate
  */
@@ -3175,7 +3175,7 @@ export class Order extends ApiObject {
    * Returns the apiVersion and kind for "Order"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'acme.cert-manager.io/v1alpha2',
+    apiVersion: 'acme.cert-manager.io/v1',
     kind: 'Order',
   }
 
@@ -3233,7 +3233,7 @@ export interface OrderProps {
   /**
    * @schema Order#spec
    */
-  readonly spec?: OrderSpec;
+  readonly spec: OrderSpec;
 
 }
 
@@ -3264,13 +3264,6 @@ export interface OrderSpec {
   readonly commonName?: string;
 
   /**
-   * Certificate signing request bytes in DER encoding. This will be used when finalizing the order. This field must be set on the order.
-   *
-   * @schema OrderSpec#csr
-   */
-  readonly csr: string;
-
-  /**
    * DNSNames is a list of DNS names that should be included as part of the Order validation process. This field must match the corresponding field on the DER encoded CSR.
    *
    * @schema OrderSpec#dnsNames
@@ -3298,6 +3291,13 @@ export interface OrderSpec {
    */
   readonly issuerRef: OrderSpecIssuerRef;
 
+  /**
+   * Certificate signing request bytes in DER encoding. This will be used when finalizing the order. This field must be set on the order.
+   *
+   * @schema OrderSpec#request
+   */
+  readonly request: string;
+
 }
 
 /**
@@ -3308,11 +3308,11 @@ export function toJson_OrderSpec(obj: OrderSpec | undefined): Record<string, any
   if (obj === undefined) { return undefined; }
   const result = {
     'commonName': obj.commonName,
-    'csr': obj.csr,
     'dnsNames': obj.dnsNames?.map(y => y),
     'duration': obj.duration,
     'ipAddresses': obj.ipAddresses?.map(y => y),
     'issuerRef': toJson_OrderSpecIssuerRef(obj.issuerRef),
+    'request': obj.request,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});

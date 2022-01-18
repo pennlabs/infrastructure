@@ -14,7 +14,7 @@ export class Certificate extends ApiObject {
    * Returns the apiVersion and kind for "Certificate"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'cert-manager.io/v1alpha2',
+    apiVersion: 'cert-manager.io/v1',
     kind: 'Certificate',
   }
 
@@ -25,7 +25,7 @@ export class Certificate extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(props: CertificateProps = {}): any {
+  public static manifest(props: CertificateProps): any {
     return {
       ...Certificate.GVK,
       ...toJson_CertificateProps(props),
@@ -38,7 +38,7 @@ export class Certificate extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(scope: Construct, id: string, props: CertificateProps = {}) {
+  public constructor(scope: Construct, id: string, props: CertificateProps) {
     super(scope, id, {
       ...Certificate.GVK,
       ...props,
@@ -75,7 +75,7 @@ export interface CertificateProps {
    *
    * @schema Certificate#spec
    */
-  readonly spec?: CertificateSpec;
+  readonly spec: CertificateSpec;
 
 }
 
@@ -122,11 +122,11 @@ export interface CertificateSpec {
   readonly duration?: string;
 
   /**
-   * EmailSANs is a list of email subjectAltNames to be set on the Certificate.
+   * EmailAddresses is a list of email subjectAltNames to be set on the Certificate.
    *
-   * @schema CertificateSpec#emailSANs
+   * @schema CertificateSpec#emailAddresses
    */
-  readonly emailSaNs?: string[];
+  readonly emailAddresses?: string[];
 
   /**
    * EncodeUsagesInRequest controls whether key usages should be present in the CertificateRequest
@@ -157,39 +157,11 @@ export interface CertificateSpec {
   readonly issuerRef: CertificateSpecIssuerRef;
 
   /**
-   * KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `rsa` or `ecdsa` If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for `ecdsa` key algorithm and key size of 2048 will be used for `rsa` key algorithm.
-   *
-   * @schema CertificateSpec#keyAlgorithm
-   */
-  readonly keyAlgorithm?: CertificateSpecKeyAlgorithm;
-
-  /**
-   * KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are `pkcs1` and `pkcs8` standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then `pkcs1` will be used by default.
-   *
-   * @schema CertificateSpec#keyEncoding
-   */
-  readonly keyEncoding?: CertificateSpecKeyEncoding;
-
-  /**
-   * KeySize is the key bit size of the corresponding private key for this certificate. If `keyAlgorithm` is set to `rsa`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `keyAlgorithm` is set to `ecdsa`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed.
-   *
-   * @schema CertificateSpec#keySize
-   */
-  readonly keySize?: number;
-
-  /**
    * Keystores configures additional keystore output formats stored in the `secretName` Secret resource.
    *
    * @schema CertificateSpec#keystores
    */
   readonly keystores?: CertificateSpecKeystores;
-
-  /**
-   * Organization is a list of organizations to be used on the Certificate.
-   *
-   * @schema CertificateSpec#organization
-   */
-  readonly organization?: string[];
 
   /**
    * Options to control private keys used for the Certificate.
@@ -234,11 +206,11 @@ export interface CertificateSpec {
   readonly subject?: CertificateSpecSubject;
 
   /**
-   * URISANs is a list of URI subjectAltNames to be set on the Certificate.
+   * URIs is a list of URI subjectAltNames to be set on the Certificate.
    *
-   * @schema CertificateSpec#uriSANs
+   * @schema CertificateSpec#uris
    */
-  readonly uriSaNs?: string[];
+  readonly uris?: string[];
 
   /**
    * Usages is the set of x509 usages that are requested for the certificate. Defaults to `digital signature` and `key encipherment` if not specified.
@@ -260,23 +232,19 @@ export function toJson_CertificateSpec(obj: CertificateSpec | undefined): Record
     'commonName': obj.commonName,
     'dnsNames': obj.dnsNames?.map(y => y),
     'duration': obj.duration,
-    'emailSANs': obj.emailSaNs?.map(y => y),
+    'emailAddresses': obj.emailAddresses?.map(y => y),
     'encodeUsagesInRequest': obj.encodeUsagesInRequest,
     'ipAddresses': obj.ipAddresses?.map(y => y),
     'isCA': obj.isCa,
     'issuerRef': toJson_CertificateSpecIssuerRef(obj.issuerRef),
-    'keyAlgorithm': obj.keyAlgorithm,
-    'keyEncoding': obj.keyEncoding,
-    'keySize': obj.keySize,
     'keystores': toJson_CertificateSpecKeystores(obj.keystores),
-    'organization': obj.organization?.map(y => y),
     'privateKey': toJson_CertificateSpecPrivateKey(obj.privateKey),
     'renewBefore': obj.renewBefore,
     'revisionHistoryLimit': obj.revisionHistoryLimit,
     'secretName': obj.secretName,
     'secretTemplate': toJson_CertificateSpecSecretTemplate(obj.secretTemplate),
     'subject': toJson_CertificateSpecSubject(obj.subject),
-    'uriSANs': obj.uriSaNs?.map(y => y),
+    'uris': obj.uris?.map(y => y),
     'usages': obj.usages?.map(y => y),
   };
   // filter undefined values
@@ -330,30 +298,6 @@ export function toJson_CertificateSpecIssuerRef(obj: CertificateSpecIssuerRef | 
 /* eslint-enable max-len, quote-props */
 
 /**
- * KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `rsa` or `ecdsa` If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for `ecdsa` key algorithm and key size of 2048 will be used for `rsa` key algorithm.
- *
- * @schema CertificateSpecKeyAlgorithm
- */
-export enum CertificateSpecKeyAlgorithm {
-  /** rsa */
-  RSA = 'rsa',
-  /** ecdsa */
-  ECDSA = 'ecdsa',
-}
-
-/**
- * KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are `pkcs1` and `pkcs8` standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then `pkcs1` will be used by default.
- *
- * @schema CertificateSpecKeyEncoding
- */
-export enum CertificateSpecKeyEncoding {
-  /** pkcs1 */
-  PKCS1 = 'pkcs1',
-  /** pkcs8 */
-  PKCS8 = 'pkcs8',
-}
-
-/**
  * Keystores configures additional keystore output formats stored in the `secretName` Secret resource.
  *
  * @schema CertificateSpecKeystores
@@ -397,12 +341,34 @@ export function toJson_CertificateSpecKeystores(obj: CertificateSpecKeystores | 
  */
 export interface CertificateSpecPrivateKey {
   /**
+   * Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `RSA`,`Ed25519` or `ECDSA` If `algorithm` is specified and `size` is not provided, key size of 256 will be used for `ECDSA` key algorithm and key size of 2048 will be used for `RSA` key algorithm. key size is ignored when using the `Ed25519` key algorithm.
+   *
+   * @schema CertificateSpecPrivateKey#algorithm
+   */
+  readonly algorithm?: CertificateSpecPrivateKeyAlgorithm;
+
+  /**
+   * The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified.
+   *
+   * @default PKCS1` if not specified.
+   * @schema CertificateSpecPrivateKey#encoding
+   */
+  readonly encoding?: CertificateSpecPrivateKeyEncoding;
+
+  /**
    * RotationPolicy controls how private keys should be regenerated when a re-issuance is being processed. If set to Never, a private key will only be generated if one does not already exist in the target `spec.secretName`. If one does exists but it does not have the correct algorithm or size, a warning will be raised to await user intervention. If set to Always, a private key matching the specified requirements will be generated whenever a re-issuance occurs. Default is 'Never' for backward compatibility.
    *
    * @default Never' for backward compatibility.
    * @schema CertificateSpecPrivateKey#rotationPolicy
    */
   readonly rotationPolicy?: string;
+
+  /**
+   * Size is the key bit size of the corresponding private key for this certificate. If `algorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `algorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. If `algorithm` is set to `Ed25519`, Size is ignored. No other values are allowed.
+   *
+   * @schema CertificateSpecPrivateKey#size
+   */
+  readonly size?: number;
 
 }
 
@@ -413,7 +379,10 @@ export interface CertificateSpecPrivateKey {
 export function toJson_CertificateSpecPrivateKey(obj: CertificateSpecPrivateKey | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
+    'algorithm': obj.algorithm,
+    'encoding': obj.encoding,
     'rotationPolicy': obj.rotationPolicy,
+    'size': obj.size,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -485,6 +454,13 @@ export interface CertificateSpecSubject {
   readonly organizationalUnits?: string[];
 
   /**
+   * Organizations to be used on the Certificate.
+   *
+   * @schema CertificateSpecSubject#organizations
+   */
+  readonly organizations?: string[];
+
+  /**
    * Postal codes to be used on the Certificate.
    *
    * @schema CertificateSpecSubject#postalCodes
@@ -524,6 +500,7 @@ export function toJson_CertificateSpecSubject(obj: CertificateSpecSubject | unde
     'countries': obj.countries?.map(y => y),
     'localities': obj.localities?.map(y => y),
     'organizationalUnits': obj.organizationalUnits?.map(y => y),
+    'organizations': obj.organizations?.map(y => y),
     'postalCodes': obj.postalCodes?.map(y => y),
     'provinces': obj.provinces?.map(y => y),
     'serialNumber': obj.serialNumber,
@@ -595,7 +572,7 @@ export enum CertificateSpecUsages {
  */
 export interface CertificateSpecKeystoresJks {
   /**
-   * Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance.
+   * Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.jks` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority
    *
    * @schema CertificateSpecKeystoresJks#create
    */
@@ -632,7 +609,7 @@ export function toJson_CertificateSpecKeystoresJks(obj: CertificateSpecKeystores
  */
 export interface CertificateSpecKeystoresPkcs12 {
   /**
-   * Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance.
+   * Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.p12` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority
    *
    * @schema CertificateSpecKeystoresPkcs12#create
    */
@@ -661,6 +638,33 @@ export function toJson_CertificateSpecKeystoresPkcs12(obj: CertificateSpecKeysto
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, quote-props */
+
+/**
+ * Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `RSA`,`Ed25519` or `ECDSA` If `algorithm` is specified and `size` is not provided, key size of 256 will be used for `ECDSA` key algorithm and key size of 2048 will be used for `RSA` key algorithm. key size is ignored when using the `Ed25519` key algorithm.
+ *
+ * @schema CertificateSpecPrivateKeyAlgorithm
+ */
+export enum CertificateSpecPrivateKeyAlgorithm {
+  /** RSA */
+  RSA = 'RSA',
+  /** ECDSA */
+  ECDSA = 'ECDSA',
+  /** Ed25519 */
+  ED25519 = 'Ed25519',
+}
+
+/**
+ * The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified.
+ *
+ * @default PKCS1` if not specified.
+ * @schema CertificateSpecPrivateKeyEncoding
+ */
+export enum CertificateSpecPrivateKeyEncoding {
+  /** PKCS1 */
+  PKCS1 = 'PKCS1',
+  /** PKCS8 */
+  PKCS8 = 'PKCS8',
+}
 
 /**
  * PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the JKS keystore.
@@ -749,7 +753,7 @@ export class CertificateRequest extends ApiObject {
    * Returns the apiVersion and kind for "CertificateRequest"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'cert-manager.io/v1alpha2',
+    apiVersion: 'cert-manager.io/v1',
     kind: 'CertificateRequest',
   }
 
@@ -760,7 +764,7 @@ export class CertificateRequest extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(props: CertificateRequestProps = {}): any {
+  public static manifest(props: CertificateRequestProps): any {
     return {
       ...CertificateRequest.GVK,
       ...toJson_CertificateRequestProps(props),
@@ -773,7 +777,7 @@ export class CertificateRequest extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(scope: Construct, id: string, props: CertificateRequestProps = {}) {
+  public constructor(scope: Construct, id: string, props: CertificateRequestProps) {
     super(scope, id, {
       ...CertificateRequest.GVK,
       ...props,
@@ -811,7 +815,7 @@ export interface CertificateRequestProps {
    *
    * @schema CertificateRequest#spec
    */
-  readonly spec?: CertificateRequestSpec;
+  readonly spec: CertificateRequestSpec;
 
 }
 
@@ -836,13 +840,6 @@ export function toJson_CertificateRequestProps(obj: CertificateRequestProps | un
  * @schema CertificateRequestSpec
  */
 export interface CertificateRequestSpec {
-  /**
-   * The PEM-encoded x509 certificate signing request to be submitted to the CA for signing.
-   *
-   * @schema CertificateRequestSpec#csr
-   */
-  readonly csr: string;
-
   /**
    * The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types.
    *
@@ -879,6 +876,13 @@ export interface CertificateRequestSpec {
   readonly issuerRef: CertificateRequestSpecIssuerRef;
 
   /**
+   * The PEM-encoded x509 certificate signing request to be submitted to the CA for signing.
+   *
+   * @schema CertificateRequestSpec#request
+   */
+  readonly request: string;
+
+  /**
    * UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
    *
    * @schema CertificateRequestSpec#uid
@@ -886,7 +890,7 @@ export interface CertificateRequestSpec {
   readonly uid?: string;
 
   /**
-   * Usages is the set of x509 usages that are requested for the certificate. Defaults to `digital signature` and `key encipherment` if not specified.
+   * Usages is the set of x509 usages that are requested for the certificate. If usages are set they SHOULD be encoded inside the CSR spec Defaults to `digital signature` and `key encipherment` if not specified.
    *
    * @default digital signature` and `key encipherment` if not specified.
    * @schema CertificateRequestSpec#usages
@@ -909,12 +913,12 @@ export interface CertificateRequestSpec {
 export function toJson_CertificateRequestSpec(obj: CertificateRequestSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'csr': obj.csr,
     'duration': obj.duration,
     'extra': ((obj.extra) === undefined) ? undefined : (Object.entries(obj.extra).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1]?.map(y => y) }), {})),
     'groups': obj.groups?.map(y => y),
     'isCA': obj.isCa,
     'issuerRef': toJson_CertificateRequestSpecIssuerRef(obj.issuerRef),
+    'request': obj.request,
     'uid': obj.uid,
     'usages': obj.usages?.map(y => y),
     'username': obj.username,
@@ -1034,7 +1038,7 @@ export class ClusterIssuer extends ApiObject {
    * Returns the apiVersion and kind for "ClusterIssuer"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'cert-manager.io/v1alpha2',
+    apiVersion: 'cert-manager.io/v1',
     kind: 'ClusterIssuer',
   }
 
@@ -1045,7 +1049,7 @@ export class ClusterIssuer extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(props: ClusterIssuerProps = {}): any {
+  public static manifest(props: ClusterIssuerProps): any {
     return {
       ...ClusterIssuer.GVK,
       ...toJson_ClusterIssuerProps(props),
@@ -1058,7 +1062,7 @@ export class ClusterIssuer extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(scope: Construct, id: string, props: ClusterIssuerProps = {}) {
+  public constructor(scope: Construct, id: string, props: ClusterIssuerProps) {
     super(scope, id, {
       ...ClusterIssuer.GVK,
       ...props,
@@ -1094,7 +1098,7 @@ export interface ClusterIssuerProps {
    *
    * @schema ClusterIssuer#spec
    */
-  readonly spec?: ClusterIssuerSpec;
+  readonly spec: ClusterIssuerSpec;
 
 }
 
@@ -1533,7 +1537,7 @@ export function toJson_ClusterIssuerSpecAcmePrivateKeySecretRef(obj: ClusterIssu
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures an issuer to solve challenges using the specified options. Only one of HTTP01 or DNS01 may be provided.
+ * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of. A selector may be provided to use different solving strategies for different DNS names. Only one of HTTP01 or DNS01 must be provided.
  *
  * @schema ClusterIssuerSpecAcmeSolvers
  */
@@ -1765,9 +1769,9 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
   /**
    * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01#acmedns
+   * @schema ClusterIssuerSpecAcmeSolversDns01#acmeDNS
    */
-  readonly acmedns?: ClusterIssuerSpecAcmeSolversDns01Acmedns;
+  readonly acmeDns?: ClusterIssuerSpecAcmeSolversDns01AcmeDns;
 
   /**
    * Use the Akamai DNS zone management API to manage DNS01 challenge records.
@@ -1779,16 +1783,16 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
   /**
    * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01#azuredns
+   * @schema ClusterIssuerSpecAcmeSolversDns01#azureDNS
    */
-  readonly azuredns?: ClusterIssuerSpecAcmeSolversDns01Azuredns;
+  readonly azureDns?: ClusterIssuerSpecAcmeSolversDns01AzureDns;
 
   /**
    * Use the Google Cloud DNS API to manage DNS01 challenge records.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01#clouddns
+   * @schema ClusterIssuerSpecAcmeSolversDns01#cloudDNS
    */
-  readonly clouddns?: ClusterIssuerSpecAcmeSolversDns01Clouddns;
+  readonly cloudDns?: ClusterIssuerSpecAcmeSolversDns01CloudDns;
 
   /**
    * Use the Cloudflare API to manage DNS01 challenge records.
@@ -1841,10 +1845,10 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
 export function toJson_ClusterIssuerSpecAcmeSolversDns01(obj: ClusterIssuerSpecAcmeSolversDns01 | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'acmedns': toJson_ClusterIssuerSpecAcmeSolversDns01Acmedns(obj.acmedns),
+    'acmeDNS': toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDns(obj.acmeDns),
     'akamai': toJson_ClusterIssuerSpecAcmeSolversDns01Akamai(obj.akamai),
-    'azuredns': toJson_ClusterIssuerSpecAcmeSolversDns01Azuredns(obj.azuredns),
-    'clouddns': toJson_ClusterIssuerSpecAcmeSolversDns01Clouddns(obj.clouddns),
+    'azureDNS': toJson_ClusterIssuerSpecAcmeSolversDns01AzureDns(obj.azureDns),
+    'cloudDNS': toJson_ClusterIssuerSpecAcmeSolversDns01CloudDns(obj.cloudDns),
     'cloudflare': toJson_ClusterIssuerSpecAcmeSolversDns01Cloudflare(obj.cloudflare),
     'cnameStrategy': obj.cnameStrategy,
     'digitalocean': toJson_ClusterIssuerSpecAcmeSolversDns01Digitalocean(obj.digitalocean),
@@ -2135,31 +2139,31 @@ export function toJson_ClusterIssuerSpecVenafiTppCredentialsRef(obj: ClusterIssu
 /**
  * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01Acmedns
+ * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDns
  */
-export interface ClusterIssuerSpecAcmeSolversDns01Acmedns {
+export interface ClusterIssuerSpecAcmeSolversDns01AcmeDns {
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Acmedns#accountSecretRef
+   * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDns#accountSecretRef
    */
-  readonly accountSecretRef: ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef;
+  readonly accountSecretRef: ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef;
 
   /**
-   * @schema ClusterIssuerSpecAcmeSolversDns01Acmedns#host
+   * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDns#host
    */
   readonly host: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Acmedns' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AcmeDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01Acmedns(obj: ClusterIssuerSpecAcmeSolversDns01Acmedns | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDns(obj: ClusterIssuerSpecAcmeSolversDns01AcmeDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'accountSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef(obj.accountSecretRef),
+    'accountSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(obj.accountSecretRef),
     'host': obj.host,
   };
   // filter undefined values
@@ -2221,79 +2225,79 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Akamai(obj: ClusterIssue
 /**
  * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns
+ * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns
  */
-export interface ClusterIssuerSpecAcmeSolversDns01Azuredns {
+export interface ClusterIssuerSpecAcmeSolversDns01AzureDns {
   /**
    * if both this and ClientSecret are left unset MSI will be used
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#clientID
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
    * if both this and ClientID are left unset MSI will be used
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#clientSecretSecretRef
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#clientSecretSecretRef
    */
-  readonly clientSecretSecretRef?: ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef;
+  readonly clientSecretSecretRef?: ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef;
 
   /**
    * name of the Azure environment (default AzurePublicCloud)
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#environment
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#environment
    */
-  readonly environment?: ClusterIssuerSpecAcmeSolversDns01AzurednsEnvironment;
+  readonly environment?: ClusterIssuerSpecAcmeSolversDns01AzureDnsEnvironment;
 
   /**
    * name of the DNS zone that should be used
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#hostedZoneName
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
    * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#managedIdentity
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#managedIdentity
    */
-  readonly managedIdentity?: ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity;
+  readonly managedIdentity?: ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity;
 
   /**
    * resource group the DNS zone is located in
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#resourceGroupName
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#resourceGroupName
    */
   readonly resourceGroupName: string;
 
   /**
    * ID of the Azure subscription
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#subscriptionID
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#subscriptionID
    */
   readonly subscriptionId: string;
 
   /**
    * when specifying ClientID and ClientSecret then this field is also needed
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Azuredns#tenantID
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#tenantID
    */
   readonly tenantId?: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Azuredns' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AzureDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01Azuredns(obj: ClusterIssuerSpecAcmeSolversDns01Azuredns | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01AzureDns(obj: ClusterIssuerSpecAcmeSolversDns01AzureDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
-    'clientSecretSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef(obj.clientSecretSecretRef),
+    'clientSecretSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef(obj.clientSecretSecretRef),
     'environment': obj.environment,
     'hostedZoneName': obj.hostedZoneName,
-    'managedIdentity': toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity(obj.managedIdentity),
+    'managedIdentity': toJson_ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(obj.managedIdentity),
     'resourceGroupName': obj.resourceGroupName,
     'subscriptionID': obj.subscriptionId,
     'tenantID': obj.tenantId,
@@ -2306,40 +2310,40 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Azuredns(obj: ClusterIss
 /**
  * Use the Google Cloud DNS API to manage DNS01 challenge records.
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01Clouddns
+ * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns
  */
-export interface ClusterIssuerSpecAcmeSolversDns01Clouddns {
+export interface ClusterIssuerSpecAcmeSolversDns01CloudDns {
   /**
    * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Clouddns#hostedZoneName
+   * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
-   * @schema ClusterIssuerSpecAcmeSolversDns01Clouddns#project
+   * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns#project
    */
   readonly project: string;
 
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01Clouddns#serviceAccountSecretRef
+   * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns#serviceAccountSecretRef
    */
-  readonly serviceAccountSecretRef?: ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef;
+  readonly serviceAccountSecretRef?: ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Clouddns' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01CloudDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01Clouddns(obj: ClusterIssuerSpecAcmeSolversDns01Clouddns | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudDns(obj: ClusterIssuerSpecAcmeSolversDns01CloudDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'hostedZoneName': obj.hostedZoneName,
     'project': obj.project,
-    'serviceAccountSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
+    'serviceAccountSecretRef': toJson_ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -2642,7 +2646,7 @@ export interface ClusterIssuerSpecAcmeSolversHttp01Ingress {
   readonly class?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#ingressTemplate
    */
@@ -2766,30 +2770,30 @@ export function toJson_ClusterIssuerSpecVaultAuthKubernetesSecretRef(obj: Cluste
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef
+ * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef
  */
-export interface ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef {
+export interface ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef#key
+   * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef#name
+   * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01AcmednsAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -2914,30 +2918,30 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretR
 /**
  * if both this and ClientID are left unset MSI will be used
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef
+ * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef
  */
-export interface ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef {
+export interface ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef#key
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef#name
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -2951,9 +2955,9 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsClientSecretSecr
 /**
  * name of the Azure environment (default AzurePublicCloud)
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsEnvironment
+ * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsEnvironment
  */
-export enum ClusterIssuerSpecAcmeSolversDns01AzurednsEnvironment {
+export enum ClusterIssuerSpecAcmeSolversDns01AzureDnsEnvironment {
   /** AzurePublicCloud */
   AZURE_PUBLIC_CLOUD = 'AzurePublicCloud',
   /** AzureChinaCloud */
@@ -2967,30 +2971,30 @@ export enum ClusterIssuerSpecAcmeSolversDns01AzurednsEnvironment {
 /**
  * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity
+ * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity
  */
-export interface ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity {
+export interface ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity {
   /**
    * client ID of the managed identity, can not be used at the same time as resourceID
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity#clientID
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#clientID
    */
   readonly clientId?: string;
 
   /**
    * resource ID of the managed identity, can not be used at the same time as clientID
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity#resourceID
+   * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#resourceID
    */
   readonly resourceId?: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity(obj: ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(obj: ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
@@ -3004,30 +3008,30 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AzurednsManagedIdentity(
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef
+ * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef
  */
-export interface ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef {
+export interface ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef#key
+   * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef#name
+   * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef' to JSON representation.
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef(obj: ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -3224,7 +3228,7 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySe
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+ * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate
  */
@@ -4915,7 +4919,7 @@ export class Issuer extends ApiObject {
    * Returns the apiVersion and kind for "Issuer"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'cert-manager.io/v1alpha2',
+    apiVersion: 'cert-manager.io/v1',
     kind: 'Issuer',
   }
 
@@ -4926,7 +4930,7 @@ export class Issuer extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(props: IssuerProps = {}): any {
+  public static manifest(props: IssuerProps): any {
     return {
       ...Issuer.GVK,
       ...toJson_IssuerProps(props),
@@ -4939,7 +4943,7 @@ export class Issuer extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(scope: Construct, id: string, props: IssuerProps = {}) {
+  public constructor(scope: Construct, id: string, props: IssuerProps) {
     super(scope, id, {
       ...Issuer.GVK,
       ...props,
@@ -4975,7 +4979,7 @@ export interface IssuerProps {
    *
    * @schema Issuer#spec
    */
-  readonly spec?: IssuerSpec;
+  readonly spec: IssuerSpec;
 
 }
 
@@ -5414,7 +5418,7 @@ export function toJson_IssuerSpecAcmePrivateKeySecretRef(obj: IssuerSpecAcmePriv
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures an issuer to solve challenges using the specified options. Only one of HTTP01 or DNS01 may be provided.
+ * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of. A selector may be provided to use different solving strategies for different DNS names. Only one of HTTP01 or DNS01 must be provided.
  *
  * @schema IssuerSpecAcmeSolvers
  */
@@ -5646,9 +5650,9 @@ export interface IssuerSpecAcmeSolversDns01 {
   /**
    * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
    *
-   * @schema IssuerSpecAcmeSolversDns01#acmedns
+   * @schema IssuerSpecAcmeSolversDns01#acmeDNS
    */
-  readonly acmedns?: IssuerSpecAcmeSolversDns01Acmedns;
+  readonly acmeDns?: IssuerSpecAcmeSolversDns01AcmeDns;
 
   /**
    * Use the Akamai DNS zone management API to manage DNS01 challenge records.
@@ -5660,16 +5664,16 @@ export interface IssuerSpecAcmeSolversDns01 {
   /**
    * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
    *
-   * @schema IssuerSpecAcmeSolversDns01#azuredns
+   * @schema IssuerSpecAcmeSolversDns01#azureDNS
    */
-  readonly azuredns?: IssuerSpecAcmeSolversDns01Azuredns;
+  readonly azureDns?: IssuerSpecAcmeSolversDns01AzureDns;
 
   /**
    * Use the Google Cloud DNS API to manage DNS01 challenge records.
    *
-   * @schema IssuerSpecAcmeSolversDns01#clouddns
+   * @schema IssuerSpecAcmeSolversDns01#cloudDNS
    */
-  readonly clouddns?: IssuerSpecAcmeSolversDns01Clouddns;
+  readonly cloudDns?: IssuerSpecAcmeSolversDns01CloudDns;
 
   /**
    * Use the Cloudflare API to manage DNS01 challenge records.
@@ -5722,10 +5726,10 @@ export interface IssuerSpecAcmeSolversDns01 {
 export function toJson_IssuerSpecAcmeSolversDns01(obj: IssuerSpecAcmeSolversDns01 | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'acmedns': toJson_IssuerSpecAcmeSolversDns01Acmedns(obj.acmedns),
+    'acmeDNS': toJson_IssuerSpecAcmeSolversDns01AcmeDns(obj.acmeDns),
     'akamai': toJson_IssuerSpecAcmeSolversDns01Akamai(obj.akamai),
-    'azuredns': toJson_IssuerSpecAcmeSolversDns01Azuredns(obj.azuredns),
-    'clouddns': toJson_IssuerSpecAcmeSolversDns01Clouddns(obj.clouddns),
+    'azureDNS': toJson_IssuerSpecAcmeSolversDns01AzureDns(obj.azureDns),
+    'cloudDNS': toJson_IssuerSpecAcmeSolversDns01CloudDns(obj.cloudDns),
     'cloudflare': toJson_IssuerSpecAcmeSolversDns01Cloudflare(obj.cloudflare),
     'cnameStrategy': obj.cnameStrategy,
     'digitalocean': toJson_IssuerSpecAcmeSolversDns01Digitalocean(obj.digitalocean),
@@ -6016,31 +6020,31 @@ export function toJson_IssuerSpecVenafiTppCredentialsRef(obj: IssuerSpecVenafiTp
 /**
  * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
  *
- * @schema IssuerSpecAcmeSolversDns01Acmedns
+ * @schema IssuerSpecAcmeSolversDns01AcmeDns
  */
-export interface IssuerSpecAcmeSolversDns01Acmedns {
+export interface IssuerSpecAcmeSolversDns01AcmeDns {
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema IssuerSpecAcmeSolversDns01Acmedns#accountSecretRef
+   * @schema IssuerSpecAcmeSolversDns01AcmeDns#accountSecretRef
    */
-  readonly accountSecretRef: IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef;
+  readonly accountSecretRef: IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef;
 
   /**
-   * @schema IssuerSpecAcmeSolversDns01Acmedns#host
+   * @schema IssuerSpecAcmeSolversDns01AcmeDns#host
    */
   readonly host: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01Acmedns' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01AcmeDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01Acmedns(obj: IssuerSpecAcmeSolversDns01Acmedns | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01AcmeDns(obj: IssuerSpecAcmeSolversDns01AcmeDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'accountSecretRef': toJson_IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef(obj.accountSecretRef),
+    'accountSecretRef': toJson_IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(obj.accountSecretRef),
     'host': obj.host,
   };
   // filter undefined values
@@ -6102,79 +6106,79 @@ export function toJson_IssuerSpecAcmeSolversDns01Akamai(obj: IssuerSpecAcmeSolve
 /**
  * Use the Microsoft Azure DNS API to manage DNS01 challenge records.
  *
- * @schema IssuerSpecAcmeSolversDns01Azuredns
+ * @schema IssuerSpecAcmeSolversDns01AzureDns
  */
-export interface IssuerSpecAcmeSolversDns01Azuredns {
+export interface IssuerSpecAcmeSolversDns01AzureDns {
   /**
    * if both this and ClientSecret are left unset MSI will be used
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#clientID
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
    * if both this and ClientID are left unset MSI will be used
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#clientSecretSecretRef
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#clientSecretSecretRef
    */
-  readonly clientSecretSecretRef?: IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef;
+  readonly clientSecretSecretRef?: IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef;
 
   /**
    * name of the Azure environment (default AzurePublicCloud)
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#environment
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#environment
    */
-  readonly environment?: IssuerSpecAcmeSolversDns01AzurednsEnvironment;
+  readonly environment?: IssuerSpecAcmeSolversDns01AzureDnsEnvironment;
 
   /**
    * name of the DNS zone that should be used
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#hostedZoneName
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
    * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#managedIdentity
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#managedIdentity
    */
-  readonly managedIdentity?: IssuerSpecAcmeSolversDns01AzurednsManagedIdentity;
+  readonly managedIdentity?: IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity;
 
   /**
    * resource group the DNS zone is located in
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#resourceGroupName
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#resourceGroupName
    */
   readonly resourceGroupName: string;
 
   /**
    * ID of the Azure subscription
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#subscriptionID
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#subscriptionID
    */
   readonly subscriptionId: string;
 
   /**
    * when specifying ClientID and ClientSecret then this field is also needed
    *
-   * @schema IssuerSpecAcmeSolversDns01Azuredns#tenantID
+   * @schema IssuerSpecAcmeSolversDns01AzureDns#tenantID
    */
   readonly tenantId?: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01Azuredns' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01AzureDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01Azuredns(obj: IssuerSpecAcmeSolversDns01Azuredns | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01AzureDns(obj: IssuerSpecAcmeSolversDns01AzureDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
-    'clientSecretSecretRef': toJson_IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef(obj.clientSecretSecretRef),
+    'clientSecretSecretRef': toJson_IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef(obj.clientSecretSecretRef),
     'environment': obj.environment,
     'hostedZoneName': obj.hostedZoneName,
-    'managedIdentity': toJson_IssuerSpecAcmeSolversDns01AzurednsManagedIdentity(obj.managedIdentity),
+    'managedIdentity': toJson_IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(obj.managedIdentity),
     'resourceGroupName': obj.resourceGroupName,
     'subscriptionID': obj.subscriptionId,
     'tenantID': obj.tenantId,
@@ -6187,40 +6191,40 @@ export function toJson_IssuerSpecAcmeSolversDns01Azuredns(obj: IssuerSpecAcmeSol
 /**
  * Use the Google Cloud DNS API to manage DNS01 challenge records.
  *
- * @schema IssuerSpecAcmeSolversDns01Clouddns
+ * @schema IssuerSpecAcmeSolversDns01CloudDns
  */
-export interface IssuerSpecAcmeSolversDns01Clouddns {
+export interface IssuerSpecAcmeSolversDns01CloudDns {
   /**
    * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
    *
-   * @schema IssuerSpecAcmeSolversDns01Clouddns#hostedZoneName
+   * @schema IssuerSpecAcmeSolversDns01CloudDns#hostedZoneName
    */
   readonly hostedZoneName?: string;
 
   /**
-   * @schema IssuerSpecAcmeSolversDns01Clouddns#project
+   * @schema IssuerSpecAcmeSolversDns01CloudDns#project
    */
   readonly project: string;
 
   /**
    * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
    *
-   * @schema IssuerSpecAcmeSolversDns01Clouddns#serviceAccountSecretRef
+   * @schema IssuerSpecAcmeSolversDns01CloudDns#serviceAccountSecretRef
    */
-  readonly serviceAccountSecretRef?: IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef;
+  readonly serviceAccountSecretRef?: IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01Clouddns' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01CloudDns' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01Clouddns(obj: IssuerSpecAcmeSolversDns01Clouddns | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01CloudDns(obj: IssuerSpecAcmeSolversDns01CloudDns | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'hostedZoneName': obj.hostedZoneName,
     'project': obj.project,
-    'serviceAccountSecretRef': toJson_IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
+    'serviceAccountSecretRef': toJson_IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef(obj.serviceAccountSecretRef),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -6523,7 +6527,7 @@ export interface IssuerSpecAcmeSolversHttp01Ingress {
   readonly class?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#ingressTemplate
    */
@@ -6647,30 +6651,30 @@ export function toJson_IssuerSpecVaultAuthKubernetesSecretRef(obj: IssuerSpecVau
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef
+ * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef
  */
-export interface IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef {
+export interface IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef#key
+   * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef#name
+   * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef(obj: IssuerSpecAcmeSolversDns01AcmednsAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(obj: IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -6795,30 +6799,30 @@ export function toJson_IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef(obj:
 /**
  * if both this and ClientID are left unset MSI will be used
  *
- * @schema IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef
+ * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef
  */
-export interface IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef {
+export interface IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef#key
+   * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef#name
+   * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef(obj: IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef(obj: IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -6832,9 +6836,9 @@ export function toJson_IssuerSpecAcmeSolversDns01AzurednsClientSecretSecretRef(o
 /**
  * name of the Azure environment (default AzurePublicCloud)
  *
- * @schema IssuerSpecAcmeSolversDns01AzurednsEnvironment
+ * @schema IssuerSpecAcmeSolversDns01AzureDnsEnvironment
  */
-export enum IssuerSpecAcmeSolversDns01AzurednsEnvironment {
+export enum IssuerSpecAcmeSolversDns01AzureDnsEnvironment {
   /** AzurePublicCloud */
   AZURE_PUBLIC_CLOUD = 'AzurePublicCloud',
   /** AzureChinaCloud */
@@ -6848,30 +6852,30 @@ export enum IssuerSpecAcmeSolversDns01AzurednsEnvironment {
 /**
  * managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID
  *
- * @schema IssuerSpecAcmeSolversDns01AzurednsManagedIdentity
+ * @schema IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity
  */
-export interface IssuerSpecAcmeSolversDns01AzurednsManagedIdentity {
+export interface IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity {
   /**
    * client ID of the managed identity, can not be used at the same time as resourceID
    *
-   * @schema IssuerSpecAcmeSolversDns01AzurednsManagedIdentity#clientID
+   * @schema IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#clientID
    */
   readonly clientId?: string;
 
   /**
    * resource ID of the managed identity, can not be used at the same time as clientID
    *
-   * @schema IssuerSpecAcmeSolversDns01AzurednsManagedIdentity#resourceID
+   * @schema IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#resourceID
    */
   readonly resourceId?: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01AzurednsManagedIdentity' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01AzurednsManagedIdentity(obj: IssuerSpecAcmeSolversDns01AzurednsManagedIdentity | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(obj: IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'clientID': obj.clientId,
@@ -6885,30 +6889,30 @@ export function toJson_IssuerSpecAcmeSolversDns01AzurednsManagedIdentity(obj: Is
 /**
  * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
  *
- * @schema IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef
+ * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef
  */
-export interface IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef {
+export interface IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef {
   /**
    * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
    *
-   * @schema IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef#key
+   * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
    * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
-   * @schema IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef#name
+   * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#name
    */
   readonly name: string;
 
 }
 
 /**
- * Converts an object of type 'IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef' to JSON representation.
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef(obj: IssuerSpecAcmeSolversDns01ClouddnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
+export function toJson_IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef(obj: IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'key': obj.key,
@@ -7105,7 +7109,7 @@ export function toJson_IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges
+ * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressIngressTemplate
  */
