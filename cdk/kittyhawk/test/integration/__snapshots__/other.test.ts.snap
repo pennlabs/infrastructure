@@ -33,7 +33,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -101,7 +100,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -131,7 +129,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -188,7 +186,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -256,7 +253,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -286,7 +282,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -343,7 +339,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-serve",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -404,7 +399,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-serve",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -434,7 +428,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -491,7 +485,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-platform",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -596,7 +589,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-platform",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -626,7 +618,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {

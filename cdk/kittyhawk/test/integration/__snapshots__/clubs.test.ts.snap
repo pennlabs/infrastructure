@@ -33,7 +33,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-redis",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -109,7 +108,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django-asgi",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 2,
@@ -173,7 +171,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django-asgi",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -203,7 +200,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -255,7 +252,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django-wsgi",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 3,
@@ -316,7 +312,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-django-wsgi",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -346,7 +341,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -398,7 +393,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 2,
@@ -459,7 +453,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -489,7 +482,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -541,7 +534,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-redis",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -617,7 +609,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-django-asgi",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 2,
@@ -681,7 +672,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-django-asgi",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -711,7 +701,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -763,7 +753,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-django-wsgi",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 3,
@@ -824,7 +813,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-django-wsgi",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -854,7 +842,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -906,7 +894,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-react",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 2,
@@ -971,7 +958,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-hub-react",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -1001,7 +987,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {

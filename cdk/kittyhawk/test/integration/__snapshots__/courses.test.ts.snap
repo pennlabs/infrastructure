@@ -33,7 +33,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-redis",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -109,7 +108,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-celery",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -186,7 +184,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-celery",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -232,7 +229,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -254,7 +251,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -276,7 +273,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -328,7 +325,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-backend",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 3,
@@ -409,7 +405,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-backend",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -563,7 +558,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -585,7 +580,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -607,7 +602,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -659,7 +654,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-plan",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -720,7 +714,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-plan",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -750,7 +743,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -802,7 +795,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-alert",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -863,7 +855,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-alert",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -893,7 +884,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
@@ -945,7 +936,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-review",
-      "namespace": "default",
     },
     "spec": Object {
       "replicas": 1,
@@ -1006,7 +996,6 @@ Array [
         "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-review",
-      "namespace": "default",
     },
     "spec": Object {
       "rules": Array [
@@ -1036,7 +1025,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "cert-manager.io/v1alpha2",
+    "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
