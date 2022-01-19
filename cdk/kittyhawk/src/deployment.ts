@@ -32,7 +32,6 @@ export class Deployment extends Construct {
     new DeploymentApiObject(this, `deployment-${appname}`, {
       metadata: {
         name: appname,
-        namespace: 'default',
         labels: label,
       },
       spec: {

@@ -76,7 +76,6 @@ export class Ingress extends Construct {
     new IngressApiObject(this, `ingress-${appname}`, {
       metadata: {
         name: appname,
-        namespace: 'default',
       },
       spec: {
         tls,
