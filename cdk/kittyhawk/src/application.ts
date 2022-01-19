@@ -3,7 +3,7 @@ import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
 import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service } from './service';
-import { NonEmptyArray } from './utils';
+import { NonEmptyArray, nonEmptyMap } from './utils';
 
 /**
  * Warning: Before editing any interfaces, make sure that none of the interfaces will have
@@ -85,7 +85,9 @@ export class Application extends Construct {
     if (props.ingress) {
       new Ingress(this, fullname, props.ingress);
 
-      new Certificate(this, fullname, props.ingress.rules);
+      nonEmptyMap(props.ingress.rules, rule => {
+        return new Certificate(this, fullname, rule);
+      })
     }
   }
 }

@@ -6,7 +6,7 @@ export function buildFailingCertificateChart(scope: Construct) {
 
   /** If domain is invalid certificate creation should throw an error. **/
   new Certificate(scope, 'serve',
-    [{ host: 'pennlabsorg', paths: ['/'] }],
+    { host: 'pennlabsorg', paths: ['/'] },
   );
 }
 
