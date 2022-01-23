@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "kubectl" {
 
     // Allow users to assume role
     principals {
-      identifiers = concat([for member in local.platform_members : aws_iam_user.platform[member].arn], [aws_iam_user.gh-actions.arn])
+      identifiers = concat([for member in local.sre_members : aws_iam_user.sre[member].arn], [aws_iam_user.gh-actions.arn])
       type        = "AWS"
     }
 

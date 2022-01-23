@@ -53,14 +53,14 @@ Defines a few locals that are used in various places:
 * `database_users` - a set of all databases to be created.
 * `products` - a set of all Penn Labs products in the cluster.
 * `iam_service_accounts` - a set of all IAM roles that should be created with the ability to assume those roles from a Service Account.
-* `platform_members` - a set of platform members to grant kubectl access to.
+* `sre_members` - a set of platform members to grant kubectl access to.
 * `k8s_cluster_name` - the name of the EKS cluster.
 * `k8s_cluster_size` - the size of our cluster.
 * `domains` - a set of all our product domains.
 * `traefik_lb_name` - Name of the load balancer created by traefik.
 * `vault_ami` - The AMI of the official vault AMI.
 
-## platform.tf
+## sre.tf
 
 Creates an IAM user for certain platform members that allows them to assume the `kubectl` role (and therefore gain kubectl access to the cluster).
 

@@ -21,9 +21,11 @@ locals {
       "db-backup",
     ])
   )
-  platform_members = toset([
+  sre_members = toset([
     "armaan",
-    "peyton"
+    "peyton",
+    "joy",
+    "jonathan",
   ])
   k8s_cluster_name = "production"
   k8s_cluster_size = 10
