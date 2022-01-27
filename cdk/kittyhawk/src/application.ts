@@ -87,7 +87,7 @@ export class Application extends Construct {
 
       nonEmptyMap(props.ingress.rules, rule => {
         return new Certificate(this, fullname, rule);
-      })
+      });
     }
   }
 }
