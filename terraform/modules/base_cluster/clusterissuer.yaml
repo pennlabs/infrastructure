@@ -11,5 +11,6 @@ spec:
     solvers:
       - selector: {}
         dns01:
+          cnameStrategy: Follow
           route53:
             region: us-east-1
