@@ -86,7 +86,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -102,10 +102,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-platform",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-platform",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -236,7 +241,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -252,10 +257,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-platform",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-platform",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -382,7 +392,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -398,10 +408,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-react",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-react",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -532,7 +547,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -548,10 +563,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-react",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-react",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },

@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { KubeIngressV1Beta1 as IngressApiObject, IngressRuleV1Beta1 } from './imports/k8s';
+import { KubeIngress as IngressApiObject, IngressRule } from './imports/k8s';
 import { NonEmptyArray } from './utils';
 
 export interface IngressProps {
@@ -56,16 +56,18 @@ export class Ingress extends Construct {
       return { hosts: [h.host], secretName: hostString };
     });
 
-    const rules: IngressRuleV1Beta1[] = props.rules.map(h => ({
+    const rules: IngressRule[] = props.rules.map(h => ({
       host: h.host,
       http: {
         paths: h.paths.map(path => ({
           path: path,
           pathType: 'Prefix',
           backend: {
-            serviceName: appname,
-            servicePort: {
-              value: fullConfig.port,
+            service: {
+              name: appname,
+              port: {
+                number: fullConfig.port,
+              },
             },
           },
         })),

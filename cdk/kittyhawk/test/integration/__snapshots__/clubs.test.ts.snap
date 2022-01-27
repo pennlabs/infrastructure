@@ -164,7 +164,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -180,10 +180,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-django-asgi",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-django-asgi",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api/ws",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -305,7 +310,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -321,10 +326,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-django-wsgi",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-django-wsgi",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -446,7 +456,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -462,10 +472,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-react",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-react",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -665,7 +680,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -681,10 +696,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-hub-django-asgi",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-hub-django-asgi",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api/ws",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -806,7 +826,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -822,10 +842,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-hub-django-wsgi",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-hub-django-wsgi",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -951,7 +976,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -967,10 +992,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-hub-react",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-hub-react",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -1009,7 +1039,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -1059,7 +1089,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -1109,7 +1139,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -1159,7 +1189,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -1209,7 +1239,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {

@@ -3,7 +3,7 @@
 exports[`Cron Job with limits 1`] = `
 Array [
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -58,7 +58,7 @@ Array [
 exports[`Cron Job with volume 1`] = `
 Array [
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {

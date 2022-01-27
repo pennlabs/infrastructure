@@ -177,7 +177,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -398,7 +398,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -414,38 +414,63 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/admin",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/accounts",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/assets",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/webhook",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -456,38 +481,63 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/admin",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/accounts",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/assets",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/webhook",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -498,38 +548,63 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/api",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/admin",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/accounts",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/assets",
+                "pathType": "Prefix",
               },
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-backend",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-backend",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/webhook",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -707,7 +782,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -723,10 +798,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-plan",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-plan",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -848,7 +928,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -864,10 +944,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-alert",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-alert",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -989,7 +1074,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "networking.k8s.io/v1beta1",
+    "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
@@ -1005,10 +1090,15 @@ Array [
             "paths": Array [
               Object {
                 "backend": Object {
-                  "serviceName": "RELEASE_NAME-review",
-                  "servicePort": 80,
+                  "service": Object {
+                    "name": "RELEASE_NAME-review",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
                 },
                 "path": "/",
+                "pathType": "Prefix",
               },
             ],
           },
@@ -1047,7 +1137,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
@@ -1097,7 +1187,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {

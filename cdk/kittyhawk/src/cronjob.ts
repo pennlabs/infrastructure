@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Container, ContainerProps, SecretVolume } from './container';
-import { KubeCronJobV1Beta1 as CronJobApiObject } from './imports/k8s';
+import { KubeCronJob as CronJobApiObject } from './imports/k8s';
 
 export interface CronJobProps extends ContainerProps {
 
