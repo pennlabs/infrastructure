@@ -57,7 +57,7 @@ export class Deployment extends Construct {
           metadata: { labels: label },
           spec: {
             // the next line checks if serviceAccount exists, and adds it to serviceAccountName
-            ...(props.serviceAccount?.name ? { serviceAccountName: props.serviceAccount.name } : {}),
+            ...(props.serviceAccount ? { serviceAccountName: props.serviceAccount.name } : {}),
             containers: containers,
             volumes: secretVolumes,
           },

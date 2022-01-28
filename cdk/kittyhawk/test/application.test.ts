@@ -18,6 +18,9 @@ function buildRedisChart(scope: Construct) {
 function buildFailingDjangoChart(scope: Construct) {
   new DjangoApplication(scope, 'platform', testConfig.django.failing);
 }
+function buildFailingDjangoChartNoDomains(scope: Construct) {
+  new DjangoApplication(scope, 'platform', testConfig.django.failingEmptyDomains);
+}
 function buildExampleDjangoChart(scope: Construct) {
   new DjangoApplication(scope, 'platform', testConfig.django.example);
 }
@@ -39,6 +42,7 @@ test('Tag Override', () => chartTest(buildTagOverrideChart));
 test('Redis Application', () => chartTest(buildRedisChart));
 test('Django Application -- Example', () => chartTest(buildExampleDjangoChart));
 test('Django Application -- Example Duplicate Env', () => chartTest(buildFailingDjangoChart));
+test('Django Application -- Failing No Domains', () => chartTest(buildFailingDjangoChartNoDomains));
 test('Django Application -- Default', () => chartTest(buildDefaultDjangoChart));
 test('React Application -- Example', () => chartTest(buildExampleReactChart));
 test('React Application -- Example Duplicate Env', () => chartTest(buildFailingReactChart));
@@ -64,6 +68,15 @@ const testConfig = {
         image: 'pennlabs/platform',
       },
       domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
+      djangoSettingsModule: 'Platform.settings.production',
+      ingressPaths: ['/'],
+      createServiceAccount: true,
+    },
+    failingEmptyDomains: {
+      deployment: {
+        image: 'pennlabs/platform',
+      },
+      domains: [],
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
     },

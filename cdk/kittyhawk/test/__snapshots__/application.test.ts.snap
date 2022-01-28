@@ -25,6 +25,30 @@ Array [
     },
   },
   Object {
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "kittyhawk-platform-undefined_releasens-c87ef625",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "annotations": Object {
+        "eks.amazonaws.com/role-arn": "TODO",
+      },
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME",
+      "namespace": "undefined_releasens",
+    },
+  },
+  Object {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": Object {
@@ -80,6 +104,7 @@ Array [
               ],
             },
           ],
+          "serviceAccountName": "RELEASE_NAME",
           "volumes": Array [],
         },
       },
@@ -456,6 +481,108 @@ Array [
         "name": "wildcard-letsencrypt-prod",
       },
       "secretName": "pennlabs-org-tls",
+    },
+  },
+]
+`;
+
+exports[`Django Application -- Failing No Domains 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-platform",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-platform",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-platform",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-platform",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "Platform.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/platform:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-platform",
+    },
+    "spec": Object {
+      "rules": Array [],
+      "tls": Array [],
     },
   },
 ]

@@ -25,6 +25,7 @@ export interface ApplicationProps {
 export interface RedisApplicationProps {
   readonly deployment?: Partial<DeploymentProps>;
   readonly port?: number;
+  readonly createServiceAccount?: boolean;
 }
 
 export interface ReactApplicationProps {
@@ -50,6 +51,12 @@ export interface ReactApplicationProps {
    * PORT environment variable for react. Default '80'.
    */
   readonly portEnv?: string;
+
+  /**
+   * Creates a service account and attach it to any deployment pods.
+   * Default serviceAccountName: release name
+   */
+  readonly createServiceAccount?: boolean;
 }
 
 export interface DjangoApplicationProps {
@@ -74,6 +81,12 @@ export interface DjangoApplicationProps {
    * DJANGO_SETTINGS_MODULE environment variable.
    */
   readonly djangoSettingsModule: string;
+
+  /**
+   * Creates a service account and attach it to any deployment pods.
+   * Default serviceAccountName: release name
+   */
+  readonly createServiceAccount?: boolean;
 }
 
 export class Application extends Construct {
@@ -84,7 +97,9 @@ export class Application extends Construct {
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
     const fullname = `${release_name}-${appname}`;
 
-    if (props.createServiceAccount) {
+    new Service(this, fullname, props.port);
+
+    if (props.createServiceAccount == true) {
       // Create a namespace
       new KubeNamespace(
         this,
@@ -95,18 +110,17 @@ export class Application extends Construct {
       );
     }
 
-    const serviceAccountConfig = props.createServiceAccount ?
-      new KubeServiceAccount(this, process.env.RELEASE_NAME || 'undefined_release', {
+    const serviceAccountConfig = props.createServiceAccount == true ?
+      new KubeServiceAccount(this, release_name, {
         metadata: {
-          name: process.env.RELEASE_NAME || 'undefined_release',
+          name: release_name,
           namespace: process.env.RELEASE_NAME_SPACE || 'undefined_releasens',
           annotations: {
             ['eks.amazonaws.com/role-arn']: 'TODO', // how do we want to go about this
           },
         },
-      }) : null;
+      }): undefined;
 
-    new Service(this, fullname, props.port);
 
     new Deployment(this, fullname, {
       ...props.deployment,
@@ -148,6 +162,7 @@ export class DjangoApplication extends Application {
         env: djangoExtraEnv,
       },
       ingress: { rules: djangoIngress as NonEmptyArray<HostRules> },
+      createServiceAccount: props.createServiceAccount,
     });
   }
 }
@@ -172,6 +187,7 @@ export class ReactApplication extends Application {
         env: reactExtraEnv,
       },
       ingress: { rules: reactIngress },
+      createServiceAccount: props.createServiceAccount,
     });
   }
 }
@@ -185,6 +201,7 @@ export class RedisApplication extends Application {
         ...redisProps.deployment,
       },
       port: redisProps.port ?? 6379,
+      createServiceAccount: redisProps.createServiceAccount,
     });
   }
 }

@@ -75,7 +75,7 @@ export class CronJob extends Construct {
           spec: {
             template: {
               spec: {
-                ...(props.serviceAccount?.name ? { serviceAccountName: props.serviceAccount.name } : {}),
+                ...(props.serviceAccount ? { serviceAccountName: props.serviceAccount.name } : {}),
                 restartPolicy: props.restartPolicy || 'Never',
                 containers: containers,
                 volumes: volumes,
