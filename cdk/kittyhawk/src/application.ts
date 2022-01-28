@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
 import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
+import { KubeNamespace, KubeServiceAccount } from './imports/k8s';
 import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service } from './service';
 import { NonEmptyArray, nonEmptyMap } from './utils';
@@ -14,6 +15,11 @@ export interface ApplicationProps {
   readonly ingress?: IngressProps;
   readonly deployment: DeploymentProps;
   readonly port?: number;
+  /**
+   * Creates a service account and attach it to any deployment pods.
+   * Default serviceAccountName: release name
+   */
+  readonly createServiceAccount?: boolean;
 }
 
 export interface RedisApplicationProps {
@@ -78,9 +84,34 @@ export class Application extends Construct {
     const release_name = process.env.RELEASE_NAME || 'undefined_release';
     const fullname = `${release_name}-${appname}`;
 
+    if (props.createServiceAccount) {
+      // Create a namespace
+      new KubeNamespace(
+        this,
+        process.env.RELEASE_NAME_SPACE || 'undefined_releasens',
+        {
+          // TODO
+        },
+      );
+    }
+
+    const serviceAccountConfig = props.createServiceAccount ?
+      new KubeServiceAccount(this, process.env.RELEASE_NAME || 'undefined_release', {
+        metadata: {
+          name: process.env.RELEASE_NAME || 'undefined_release',
+          namespace: process.env.RELEASE_NAME_SPACE || 'undefined_releasens',
+          annotations: {
+            ['eks.amazonaws.com/role-arn']: 'TODO', // how do we want to go about this
+          },
+        },
+      }) : null;
+
     new Service(this, fullname, props.port);
 
-    new Deployment(this, fullname, props.deployment);
+    new Deployment(this, fullname, {
+      ...props.deployment,
+      ...(serviceAccountConfig ? { serviceAccount: serviceAccountConfig } : {}),
+    });
 
     if (props.ingress) {
       new Ingress(this, fullname, props.ingress);

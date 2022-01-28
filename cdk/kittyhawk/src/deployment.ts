@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Container, ContainerProps, SecretVolume } from './container';
-import { IntOrString, KubeDeployment as DeploymentApiObject, VolumeMount } from './imports/k8s';
+import { IntOrString, KubeDeployment as DeploymentApiObject, KubeServiceAccount, VolumeMount } from './imports/k8s';
 
 export interface DeploymentProps extends ContainerProps {
   /**
@@ -17,6 +17,14 @@ export interface DeploymentProps extends ContainerProps {
    */
   readonly secretMounts?: VolumeMount[];
 
+
+  /**
+   * The service account to be used to attach to any deployment pods.
+   * Default serviceAccountName: release name
+   * TODO: SHOULD THIS BE AN ARRAY?!??
+   */
+  readonly serviceAccount?: KubeServiceAccount;
+
   // TODO: allow multiple containers
 }
 
@@ -28,12 +36,12 @@ export class Deployment extends Construct {
     const containers: Container[] = [new Container(props)];
     const secretVolumes: SecretVolume[] = props.secretMounts?.map(m => new SecretVolume(m)) || [];
 
-    // TODO is this needed? since we don't call it anywhere
     new DeploymentApiObject(this, `deployment-${appname}`, {
       metadata: {
         name: appname,
         labels: label,
       },
+      // wtmoo they don't allow adding service accounts
       spec: {
         replicas: props.replicas ?? 1,
         selector: {
@@ -48,6 +56,8 @@ export class Deployment extends Construct {
         template: {
           metadata: { labels: label },
           spec: {
+            // the next line checks if serviceAccount exists, and adds it to serviceAccountName
+            ...(props.serviceAccount?.name ? { serviceAccountName: props.serviceAccount.name } : {}),
             containers: containers,
             volumes: secretVolumes,
           },

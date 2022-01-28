@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Container, ContainerProps, SecretVolume } from './container';
-import { KubeCronJob as CronJobApiObject } from './imports/k8s';
+import { KubeCronJob as CronJobApiObject, KubeServiceAccount } from './imports/k8s';
 
 export interface CronJobProps extends ContainerProps {
 
@@ -41,6 +41,13 @@ export interface CronJobProps extends ContainerProps {
     */
   readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
 
+  // TODO: attach service accounts
+  /**
+   * The service account to be used to attach to any deployment pods.
+   * Default serviceAccountName: release name
+   * TODO: SHOULD THIS BE AN ARRAY?!??
+   */
+  readonly serviceAccount?: KubeServiceAccount;
 }
 
 
@@ -68,6 +75,7 @@ export class CronJob extends Construct {
           spec: {
             template: {
               spec: {
+                ...(props.serviceAccount?.name ? { serviceAccountName: props.serviceAccount.name } : {}),
                 restartPolicy: props.restartPolicy || 'Never',
                 containers: containers,
                 volumes: volumes,
