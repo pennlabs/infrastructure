@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
-import { Application, DjangoApplication, ReactApplication, RedisApplication, insertIfNotPresent } from '../src/application';
-import { chartTest, failingTest } from './utils';
+import { Application, DjangoApplication, ReactApplication, RedisApplication } from '../src/application';
+import { chartTest } from './utils';
 
 export function buildTagOverrideChart(scope: Construct) {
   /** Overrides the image tag set as env var **/
@@ -37,22 +37,14 @@ function buildDefaultValuesReactChart(scope: Construct) {
 test('Tag Override', () => chartTest(buildTagOverrideChart));
 
 test('Redis Application', () => chartTest(buildRedisChart));
-test('Django Application -- Failing', () => failingTest(buildFailingDjangoChart));
 test('Django Application -- Example', () => chartTest(buildExampleDjangoChart));
+test('Django Application -- Example Duplicate Env', () => chartTest(buildFailingDjangoChart));
 test('Django Application -- Default', () => chartTest(buildDefaultDjangoChart));
-test('React Application -- Failing', () => failingTest(buildFailingReactChart));
 test('React Application -- Example', () => chartTest(buildExampleReactChart));
+test('React Application -- Example Duplicate Env', () => chartTest(buildFailingReactChart));
 // TODO - add comparison to make sure the default values are correct
 // e.g. (portEnv is assumed to be 80 & replicas is also defaulted)
 test('React Application -- Default', () => chartTest(buildDefaultValuesReactChart));
-
-
-test('insertIfNotPresent throws if already present', () => {
-  let myEnvArray = [{ name: 'KEY1', value: 'VALUE1' }];
-  expect(() => insertIfNotPresent(myEnvArray, 'KEY1', 'VALUE2'))
-    .toThrow('KEY1 should not be redefined as an environment variable.');
-});
-
 
 const testConfig = {
   django: {
@@ -78,7 +70,7 @@ const testConfig = {
     failing: {
       deployment: {
         image: 'pennlabs/platform',
-        /** Django Duplicated DOMAIN Env should fail **/
+        /** Django Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
       },
       domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
@@ -108,7 +100,7 @@ const testConfig = {
       deployment: {
         image: 'pennlabs/penn-clubs-frontend',
         replicas: 2,
-        /** React Duplicated DOMAIN Env should fail **/
+        /** React Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
       },
       domain: 'pennclubs.com',

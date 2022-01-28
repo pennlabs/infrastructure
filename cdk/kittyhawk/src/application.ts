@@ -92,31 +92,15 @@ export class Application extends Construct {
   }
 }
 
-/**
- * Helper function that first checks to make sure that the environment variable array
- * doesn't already contain the env var, then inserts it into the array.
- * @param envArray array of environment variables to insert into
- * @param envKey name of the environment variable to insert
- * @param envValue value of the environment variable
- */
-export function insertIfNotPresent(envArray: { name: string; value: string }[], envKey: string, envValue: any) {
-  const envSettingsModule = envArray.filter(env => (env.name === envKey));
-  if (envSettingsModule.length > 0) {
-    throw new Error(`${envKey} should not be redefined as an environment variable.`);
-  }
-  envArray.push({ name: envKey, value: envValue });
-
-}
-
 export class DjangoApplication extends Application {
   constructor(scope: Construct, appname: string, props: DjangoApplicationProps) {
 
-    // Have to be careful here with references when mutating things
-    let djangoExtraEnv = Array.from(props.deployment?.env || []);
-
-    // Insert DJANGO_SETTINGS_MODULE and DOMAIN
-    insertIfNotPresent(djangoExtraEnv, 'DJANGO_SETTINGS_MODULE', props.djangoSettingsModule);
-    insertIfNotPresent(djangoExtraEnv, 'DOMAIN', props.domains.map(h => h.host).join());
+    // Now, we ensure there are no duplicate env variables, even if they redefine it
+    const djangoExtraEnv = [...new Set([
+      ...props.deployment?.env || [],
+      { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
+      { name: 'DOMAIN', value: props.domains.map(h => h.host).join() },
+    ])];
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.
     const djangoIngress: HostRules[] = props.domains?.map(h => ({
@@ -139,13 +123,12 @@ export class DjangoApplication extends Application {
 
 export class ReactApplication extends Application {
   constructor(scope: Construct, appname: string, props: ReactApplicationProps) {
-
-    // Have to be careful here with references when mutating things
-    let reactExtraEnv = Array.from(props.deployment.env || []);
-
-    // Insert DOMAIN and PORT as env vars.
-    insertIfNotPresent(reactExtraEnv, 'DOMAIN', props.domain);
-    insertIfNotPresent(reactExtraEnv, 'PORT', props.portEnv || '80');
+    // Now, we ensure there are no duplicate env variables, even if they redefine it
+    const reactExtraEnv = [...new Set([
+      ...props.deployment?.env || [],
+      { name: 'DOMAIN', value: props.domain },
+      { name: 'PORT', value: props.portEnv || '80' },
+    ])];
 
     // Configure the ingress using ingressPaths.
     const reactIngress: NonEmptyArray<HostRules> = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain ?? false }];
