@@ -12,3 +12,6 @@ server:
     accessModes:
       - ReadWriteOnce
     size: 8Gi
+
+imagePullSecrets:
+  - name: docker-pull-secret

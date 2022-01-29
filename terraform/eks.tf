@@ -24,6 +24,7 @@ module "eks-production" {
       asg_max_size            = local.k8s_cluster_size
       asg_desired_capacity    = local.k8s_cluster_size
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
+      bootstrap_extra_args    = "--use-max-pods false"
       public_ip               = true
     },
   ]
@@ -38,6 +39,18 @@ data "aws_eks_cluster" "production" {
 
 data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
+}
+
+// Weave to replace the default ENI
+// https://medium.com/@swazza85/dealing-with-pod-density-limitations-on-eks-worker-nodes-137a12c8b218
+resource "helm_release" "weave" {
+  name       = "weave"
+  repository = "https://helm.pennlabs.org"
+  chart      = "helm-wrapper"
+  version    = "0.1.0"
+  namespace  = "kube-system"
+
+  values = [file("helm/weave.yaml")]
 }
 
 // Spot Node Termination Handler
