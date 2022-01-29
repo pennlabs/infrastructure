@@ -7,3 +7,7 @@ serviceAccount:
 securityContext:
   enabled: true
   fsGroup: 1001
+
+global:
+  imagePullSecrets:
+    - name: docker-pull-secret

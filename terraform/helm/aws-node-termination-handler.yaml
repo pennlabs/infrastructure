@@ -11,3 +11,7 @@ enablePrometheusServer: true
 podAnnotations:
   prometheus.io/scrape: "true"
   prometheus.io/port: "9092"
+
+image:
+  pullSecrets:
+    - docker-pull-secret
