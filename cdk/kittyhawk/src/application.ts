@@ -1,9 +1,9 @@
 import { Construct } from 'constructs';
 import { Certificate } from './certificate';
 import { Deployment, DeploymentProps } from './deployment';
-import { KubeNamespace, KubeServiceAccount } from './imports/k8s';
 import { HostRules, Ingress, IngressProps } from './ingress';
 import { Service } from './service';
+import { ServiceAccount } from './serviceaccount';
 import { NonEmptyArray, nonEmptyMap } from './utils';
 
 /**
@@ -17,7 +17,7 @@ export interface ApplicationProps {
   readonly port?: number;
   /**
    * Creates a service account and attach it to any deployment pods.
-   * Default serviceAccountName: release name
+   * serviceAccountName: release name
    */
   readonly createServiceAccount?: boolean;
 }
@@ -54,7 +54,7 @@ export interface ReactApplicationProps {
 
   /**
    * Creates a service account and attach it to any deployment pods.
-   * Default serviceAccountName: release name
+   * serviceAccountName: release name
    */
   readonly createServiceAccount?: boolean;
 }
@@ -68,7 +68,7 @@ export interface DjangoApplicationProps {
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * See the certificate documentation for more details.
    */
-  readonly domains: { host: string; isSubdomain?: boolean }[];
+  readonly domains: NonEmptyArray<{ host: string; isSubdomain?: boolean }>;
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.
@@ -84,7 +84,7 @@ export interface DjangoApplicationProps {
 
   /**
    * Creates a service account and attach it to any deployment pods.
-   * Default serviceAccountName: release name
+   * serviceAccountName: release name
    */
   readonly createServiceAccount?: boolean;
 }
@@ -99,32 +99,15 @@ export class Application extends Construct {
 
     new Service(this, fullname, props.port);
 
-    if (props.createServiceAccount == true) {
-      // Create a namespace
-      new KubeNamespace(
-        this,
-        process.env.RELEASE_NAME_SPACE || 'undefined_releasens',
-        {
-          // TODO
-        },
-      );
+    if (props.createServiceAccount) {
+      new ServiceAccount(this, `${appname}-${release_name}`, {
+        serviceAccountName: release_name
+      })
     }
-
-    const serviceAccountConfig = props.createServiceAccount == true ?
-      new KubeServiceAccount(this, release_name, {
-        metadata: {
-          name: release_name,
-          namespace: process.env.RELEASE_NAME_SPACE || 'undefined_releasens',
-          annotations: {
-            ['eks.amazonaws.com/role-arn']: 'TODO', // how do we want to go about this
-          },
-        },
-      }): undefined;
-
 
     new Deployment(this, fullname, {
       ...props.deployment,
-      ...(serviceAccountConfig ? { serviceAccount: serviceAccountConfig } : {}),
+      ...(props.createServiceAccount ? { serviceAccountName: release_name } : {}),
     });
 
     if (props.ingress) {
@@ -144,7 +127,7 @@ export class DjangoApplication extends Application {
     const djangoExtraEnv = [...new Set([
       ...props.deployment?.env || [],
       { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
-      { name: 'DOMAIN', value: props.domains.map(h => h.host).join() },
+      { name: 'DOMAIN', value: nonEmptyMap(props.domains, (h => h.host)).join() },
     ])];
 
     // Configure the ingress using ingressPaths if ingressPaths is defined.

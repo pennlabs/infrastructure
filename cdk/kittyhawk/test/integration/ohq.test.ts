@@ -2,6 +2,7 @@ import { Construct } from 'constructs';
 import cronTime from 'cron-time-generator';
 import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
 import { CronJob } from '../../src/cronjob';
+import { NonEmptyArray } from '../../src/utils';
 import { chartTest } from '../utils';
 
 export function buildOHQChart(scope: Construct) {
@@ -23,7 +24,7 @@ export function buildOHQChart(scope: Construct) {
     },
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domains: [{ host: domain }],
+    domains: [{ host: domain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
   };
 
   new DjangoApplication(scope, 'django-asgi', {

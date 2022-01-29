@@ -1,5 +1,6 @@
 import { Construct } from 'constructs';
 import { Application, DjangoApplication, ReactApplication, RedisApplication } from '../src/application';
+import { NonEmptyArray } from '../src/utils';
 import { chartTest } from './utils';
 
 export function buildTagOverrideChart(scope: Construct) {
@@ -17,9 +18,6 @@ function buildRedisChart(scope: Construct) {
 }
 function buildFailingDjangoChart(scope: Construct) {
   new DjangoApplication(scope, 'platform', testConfig.django.failing);
-}
-function buildFailingDjangoChartNoDomains(scope: Construct) {
-  new DjangoApplication(scope, 'platform', testConfig.django.failingEmptyDomains);
 }
 function buildExampleDjangoChart(scope: Construct) {
   new DjangoApplication(scope, 'platform', testConfig.django.example);
@@ -42,7 +40,6 @@ test('Tag Override', () => chartTest(buildTagOverrideChart));
 test('Redis Application', () => chartTest(buildRedisChart));
 test('Django Application -- Example', () => chartTest(buildExampleDjangoChart));
 test('Django Application -- Example Duplicate Env', () => chartTest(buildFailingDjangoChart));
-test('Django Application -- Failing No Domains', () => chartTest(buildFailingDjangoChartNoDomains));
 test('Django Application -- Default', () => chartTest(buildDefaultDjangoChart));
 test('React Application -- Example', () => chartTest(buildExampleReactChart));
 test('React Application -- Example Duplicate Env', () => chartTest(buildFailingReactChart));
@@ -58,7 +55,7 @@ const testConfig = {
         replicas: 2,
         env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
       portEnv: '80',
@@ -67,18 +64,10 @@ const testConfig = {
       deployment: {
         image: 'pennlabs/platform',
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
       createServiceAccount: true,
-    },
-    failingEmptyDomains: {
-      deployment: {
-        image: 'pennlabs/platform',
-      },
-      domains: [],
-      djangoSettingsModule: 'Platform.settings.production',
-      ingressPaths: ['/'],
     },
     failing: {
       deployment: {
@@ -86,7 +75,7 @@ const testConfig = {
         /** Django Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
     },

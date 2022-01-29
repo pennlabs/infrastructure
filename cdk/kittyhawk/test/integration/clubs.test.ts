@@ -2,6 +2,7 @@ import { Construct } from 'constructs';
 import cronTime from 'cron-time-generator';
 import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
 import { CronJob } from '../../src/cronjob';
+import { NonEmptyArray } from '../../src/utils';
 import { chartTest } from '../utils';
 
 export function buildClubsChart(scope: Construct) {
@@ -24,7 +25,7 @@ export function buildClubsChart(scope: Construct) {
       ],
     },
     secret: clubsSecret,
-    domains: [{ host: clubsDomain }],
+    domains: [{ host: clubsDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
     djangoSettingsModule: 'pennclubs.settings.production',
   };
 
@@ -37,7 +38,7 @@ export function buildClubsChart(scope: Construct) {
       ],
     },
     secret: fyhSecret,
-    domains: [{ host: fyhDomain }],
+    domains: [{ host: fyhDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
     djangoSettingsModule: 'pennclubs.settings.production',
 
   };
