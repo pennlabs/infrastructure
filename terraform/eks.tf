@@ -24,7 +24,7 @@ module "eks-production" {
       asg_max_size            = local.k8s_cluster_size
       asg_desired_capacity    = local.k8s_cluster_size
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
-      bootstrap_extra_args = "--use-max-pods false"
+      bootstrap_extra_args    = "--use-max-pods false"
       public_ip               = true
     },
   ]
