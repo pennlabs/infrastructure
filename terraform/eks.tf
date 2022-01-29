@@ -41,17 +41,9 @@ data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
 }
 
-// Weave to replace the default ENI
-// https://medium.com/@swazza85/dealing-with-pod-density-limitations-on-eks-worker-nodes-137a12c8b218
-resource "helm_release" "weave" {
-  name       = "weave"
-  repository = "https://helm.pennlabs.org"
-  chart      = "helm-wrapper"
-  version    = "0.1.0"
-  namespace  = "kube-system"
-
-  values = [file("helm/weave.yaml")]
-}
+// Run the following command to enable more than 17 pods per node
+// kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+// Source: https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/
 
 // Spot Node Termination Handler
 resource "helm_release" "aws-node-termination-handler" {
