@@ -16,6 +16,13 @@ module "eks-production" {
       groups   = ["system:masters"]
     },
   ]
+  map_users = [
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
+      username = "platform"
+      groups   = ["system:masters"]
+    },
+  ]
   worker_groups_launch_template = [
     {
       name                    = "spot-1"
