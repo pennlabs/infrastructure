@@ -18,8 +18,8 @@ export interface IngressProps {
   readonly rules: NonEmptyArray<HostRules>;
 
   /**
-     * A key/value map of annotations to customize the Ingress (do path prefix routing, etc.). 
-     * 
+     * A key/value map of annotations to customize the Ingress (do path prefix routing, etc.).
+     *
      * @default {}
      */
   readonly annotations?: { [key: string]: string };
@@ -46,7 +46,7 @@ export class Ingress extends Construct {
   constructor(scope: Construct, appname: string, props: IngressProps) {
     super(scope, `ingress-${appname}`);
 
-    
+
     const fullConfig: Required<IngressProps> = {
       port: 80,
       annotations: props.annotations ?? {},
@@ -83,6 +83,7 @@ export class Ingress extends Construct {
     new IngressApiObject(this, `ingress-${appname}`, {
       metadata: {
         name: appname,
+        annotations: fullConfig.annotations,
       },
       spec: {
         tls,

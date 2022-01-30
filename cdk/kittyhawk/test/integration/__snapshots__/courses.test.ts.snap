@@ -401,6 +401,9 @@ Array [
     "apiVersion": "networking.k8s.io/v1",
     "kind": "Ingress",
     "metadata": Object {
+      "annotations": Object {
+        "ingress.kubernetes.io/content-security-policy": "frame-ancestors 'none'",
+      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
