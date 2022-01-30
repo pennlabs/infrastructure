@@ -33,7 +33,7 @@ export function buildChart(scope: Construct) {
     domains: [{ host: 'pennclubs.com' }],
     ingressPaths: ['/api/ws'],
     djangoSettingsModule: 'pennclubs.settings.production',
-    extraEnv: [
+    env: [
       { name: 'REDIS_HOST', value: 'penn-clubs-redis' }],
   })
 
