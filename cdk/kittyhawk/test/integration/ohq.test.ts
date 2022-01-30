@@ -24,7 +24,7 @@ export function buildOHQChart(scope: Construct) {
     },
     secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
-    domains: [{ host: domain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+    domains: [{ host: domain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
   };
 
   new DjangoApplication(scope, 'django-asgi', {

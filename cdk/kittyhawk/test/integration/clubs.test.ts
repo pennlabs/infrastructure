@@ -25,7 +25,7 @@ export function buildClubsChart(scope: Construct) {
       ],
     },
     secret: clubsSecret,
-    domains: [{ host: clubsDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+    domains: [{ host: clubsDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
     djangoSettingsModule: 'pennclubs.settings.production',
   };
 
@@ -38,7 +38,7 @@ export function buildClubsChart(scope: Construct) {
       ],
     },
     secret: fyhSecret,
-    domains: [{ host: fyhDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+    domains: [{ host: fyhDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
     djangoSettingsModule: 'pennclubs.settings.production',
 
   };

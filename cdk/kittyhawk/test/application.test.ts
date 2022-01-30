@@ -56,7 +56,7 @@ const testConfig = {
         replicas: 2,
         env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
       portEnv: '80',
@@ -65,7 +65,7 @@ const testConfig = {
       deployment: {
         image: 'pennlabs/platform',
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
       createServiceAccount: true,
@@ -76,7 +76,7 @@ const testConfig = {
         /** Django Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean; }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
       djangoSettingsModule: 'Platform.settings.production',
       ingressPaths: ['/'],
     },

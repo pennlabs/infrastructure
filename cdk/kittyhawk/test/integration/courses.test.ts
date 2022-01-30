@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
 import cronTime from 'cron-time-generator';
-import { CronJob, DjangoApplication, ReactApplication, RedisApplication } from '../../src';
+import { CronJob } from '../../src';
+import { DjangoApplication, RedisApplication, ReactApplication } from '../../src/application';
 import { chartTest } from '../utils';
 
 export function buildCoursesChart(scope: Construct) {
@@ -37,6 +38,9 @@ export function buildCoursesChart(scope: Construct) {
     },
     djangoSettingsModule: 'PennCourses.settings.production',
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
+    ingressProps: {
+      annotations: { ['ingress.kubernetes.io/content-security-policy']: "frame-ancestors 'none'" },
+    },
     domains: [{ host: 'penncourseplan.com' },
       { host: 'penncoursealert.com' },
       { host: 'review.penncourses.org', isSubdomain: true }],

@@ -1,8 +1,8 @@
 import { Construct } from 'constructs';
-import { Application } from '.';
 import { DeploymentProps } from '../deployment';
 import { HostRules, IngressProps } from '../ingress';
 import { NonEmptyArray } from '../utils';
+import { Application } from './base';
 
 export interface ReactApplicationProps {
   /**
@@ -48,7 +48,7 @@ export interface ReactApplicationProps {
 }
 
 
-export default class ReactApplication extends Application {
+export class ReactApplication extends Application {
   constructor(scope: Construct, appname: string, props: ReactApplicationProps) {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
     const reactExtraEnv = [...new Set([
@@ -67,10 +67,10 @@ export default class ReactApplication extends Application {
         ...props.deployment,
         env: reactExtraEnv,
       },
-      ingress: { 
+      ingress: {
         rules: reactIngress,
         ...props.ingressProps,
-       },
+      },
       createServiceAccount: props.createServiceAccount,
     });
   }

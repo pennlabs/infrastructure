@@ -1,8 +1,8 @@
 import { Construct } from 'constructs';
-import { Application } from '.';
 import { DeploymentProps } from '../deployment';
 import { HostRules, IngressProps } from '../ingress';
 import { NonEmptyArray, nonEmptyMap } from '../utils';
+import { Application } from './base';
 
 export interface DjangoApplicationProps {
   /**
@@ -32,7 +32,7 @@ export interface DjangoApplicationProps {
   /**
    * Optional ingressProps to override the default ingress props.
    */
-  readonly ingressProps?: IngressProps;
+  readonly ingressProps?: Partial<IngressProps>;
 
   /**
    * DJANGO_SETTINGS_MODULE environment variable.
@@ -47,7 +47,7 @@ export interface DjangoApplicationProps {
 }
 
 
-export default class DjangoApplication extends Application {
+export class DjangoApplication extends Application {
   constructor(scope: Construct, appname: string, props: DjangoApplicationProps) {
 
     // Now, we ensure there are no duplicate env variables, even if they redefine it
@@ -71,10 +71,10 @@ export default class DjangoApplication extends Application {
         ...props.deployment,
         env: djangoExtraEnv,
       },
-      ingress: { 
+      ingress: {
         rules: djangoIngress as NonEmptyArray<HostRules>,
         ...props.ingressProps,
-       },
+      },
       createServiceAccount: props.createServiceAccount,
     });
   }
