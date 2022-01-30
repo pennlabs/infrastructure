@@ -21,7 +21,6 @@ export interface DeploymentProps extends ContainerProps {
   /**
    * The service account to be used to attach to any deployment pods.
    * Default serviceAccountName: release name
-   * TODO: SHOULD THIS BE AN ARRAY?!??
    */
   readonly serviceAccount?: KubeServiceAccount;
 

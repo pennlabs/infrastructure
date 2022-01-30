@@ -45,6 +45,7 @@ test('React Application -- Example', () => chartTest(buildExampleReactChart));
 test('React Application -- Example Duplicate Env', () => chartTest(buildFailingReactChart));
 // TODO - add comparison to make sure the default values are correct
 // e.g. (portEnv is assumed to be 80 & replicas is also defaulted)
+// TODO - add instance with ingress annotations (ex: https://github.com/pennlabs/penn-courses/blob/a043e2262cf665ad5cfc353f635de7dc5a28e00b/k8s/values.yaml#L27-L28)
 test('React Application -- Default', () => chartTest(buildDefaultValuesReactChart));
 
 const testConfig = {

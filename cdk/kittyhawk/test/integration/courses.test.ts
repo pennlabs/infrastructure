@@ -1,7 +1,6 @@
 import { Construct } from 'constructs';
 import cronTime from 'cron-time-generator';
-import { CronJob } from '../../src';
-import { DjangoApplication, ReactApplication, RedisApplication } from '../../src/application';
+import { CronJob, DjangoApplication, ReactApplication, RedisApplication } from '../../src';
 import { chartTest } from '../utils';
 
 export function buildCoursesChart(scope: Construct) {
