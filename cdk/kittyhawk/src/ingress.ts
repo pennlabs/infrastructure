@@ -16,6 +16,13 @@ export interface IngressProps {
      * @default []
      */
   readonly rules: NonEmptyArray<HostRules>;
+
+  /**
+     * A key/value map of annotations to customize the Ingress (do path prefix routing, etc.). 
+     * 
+     * @default {}
+     */
+  readonly annotations?: { [key: string]: string };
 }
 
 export interface HostRules {
@@ -39,17 +46,12 @@ export class Ingress extends Construct {
   constructor(scope: Construct, appname: string, props: IngressProps) {
     super(scope, `ingress-${appname}`);
 
+    
     const fullConfig: Required<IngressProps> = {
       port: 80,
+      annotations: props.annotations ?? {},
       ...props,
     };
-
-    // Still good to leave this in (see utils.ts)
-    /*
-    if (props.rules.length == 0) {
-      throw new Error('Creating Ingress with an empty list of host rules');
-    };
-    */
 
     const tls = props.rules.map(h => {
       const hostString: string = `${domainToCertName(h.host, h.isSubdomain ?? false)}-tls`;
@@ -58,6 +60,9 @@ export class Ingress extends Construct {
 
     const rules: IngressRule[] = props.rules.map(h => ({
       host: h.host,
+      metadata: {
+        annotations: props.annotations,
+      },
       http: {
         paths: h.paths.map(path => ({
           path: path,
