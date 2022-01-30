@@ -732,5 +732,105 @@ Array [
       "successfulJobsHistoryLimit": 1,
     },
   },
+  Object {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-queue-daily-stat",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-queue-daily-stat",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "queue_daily_stat",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "office-hours-queue",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 8 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-queue-heatmap-stat",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-queue-heatmap-stat",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "queue_heatmap_stat",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "office-hours-queue",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/office-hours-queue-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 8 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
 ]
 `;

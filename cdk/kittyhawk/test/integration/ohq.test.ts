@@ -72,7 +72,20 @@ export function buildOHQChart(scope: Construct) {
     secret: secret,
     cmd: ['python', 'manage.py', 'calculatewaittimes'],
   });
+  
+  new CronJob(scope, 'queue-daily-stat', {
+    schedule: "0 8 * * *",
+    image: backendImage,
+    secret: secret,
+    cmd: ['python', 'manage.py', 'queue_daily_stat'],
+  });
 
+  new CronJob(scope, 'queue-heatmap-stat', {
+    schedule: "0 8 * * *",
+    image: backendImage,
+    secret: secret,
+    cmd: ['python', 'manage.py', 'queue_heatmap_stat'],
+  });
 }
 
 test('OHQ', () => chartTest(buildOHQChart));
