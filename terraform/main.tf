@@ -42,7 +42,7 @@ locals {
     "pennlabs.org",
     "pennmobile.org",
   ])
-  traefik_lb_name = "a3b77cc4561e649d4bcc2a89e1b63d7d"
+  traefik_lb_name = "acf3fd952315e4e6f90772849116da8d"
 }
 
 data "aws_caller_identity" "current" {}
