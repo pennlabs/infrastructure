@@ -71,6 +71,14 @@ export function buildCoursesChart(scope: Construct) {
     ingressPaths: ['/'],
   });
 
+  new ReactApplication(scope, 'landing', {
+    deployment: {
+      image: 'pennlabs/pcx-landing',
+    },
+    domain: 'penncourses.org',
+    ingressPaths: ['/'],
+  });
+
   new CronJob(scope, 'load-courses', {
     schedule: cronTime.everyDayAt(3),
     image: backendImage,
