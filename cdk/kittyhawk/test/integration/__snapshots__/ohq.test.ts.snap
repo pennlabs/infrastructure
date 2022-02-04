@@ -35,7 +35,7 @@ Array [
       "name": "RELEASE_NAME-django-asgi",
     },
     "spec": Object {
-      "replicas": 2,
+      "replicas": 4,
       "selector": Object {
         "matchLabels": Object {
           "name": "RELEASE_NAME-django-asgi",
@@ -184,7 +184,7 @@ Array [
       "name": "RELEASE_NAME-django-wsgi",
     },
     "spec": Object {
-      "replicas": 4,
+      "replicas": 8,
       "selector": Object {
         "matchLabels": Object {
           "name": "RELEASE_NAME-django-wsgi",

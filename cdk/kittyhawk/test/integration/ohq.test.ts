@@ -32,7 +32,7 @@ export function buildOHQChart(scope: Construct) {
     deployment: {
       image: djangoCommon.deployment.image,
       cmd: ['/usr/local/bin/asgi-run'],
-      replicas: 2,
+      replicas: 4,
     },
     ingressPaths: ['/api/ws'],
   });
@@ -41,7 +41,7 @@ export function buildOHQChart(scope: Construct) {
     ...djangoCommon,
     deployment: {
       image: djangoCommon.deployment.image,
-      replicas: 4,
+      replicas: 8,
     },
     ingressPaths: ['/api', '/admin', '/assets'],
   });
