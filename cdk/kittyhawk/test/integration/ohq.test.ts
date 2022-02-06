@@ -74,14 +74,15 @@ export function buildOHQChart(scope: Construct) {
   });
   
   new CronJob(scope, 'queue-daily-stat', {
-    schedule: "0 8 * * *",
+    schedule: cronTime.everyDayAt(8),
     image: backendImage,
     secret: secret,
     cmd: ['python', 'manage.py', 'queue_daily_stat'],
   });
 
   new CronJob(scope, 'queue-heatmap-stat', {
-    schedule: "0 8 * * *",
+    // TODO: use crontime
+    schedule: cronTime.everyDayAt(8),
     image: backendImage,
     secret: secret,
     cmd: ['python', 'manage.py', 'queue_heatmap_stat'],

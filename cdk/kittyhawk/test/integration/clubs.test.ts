@@ -60,7 +60,7 @@ export function buildClubsChart(scope: Construct) {
     ...clubsDjangoCommon,
     deployment: {
       image: clubsDjangoCommon.deployment.image,
-      replicas: 3,
+      replicas: 5,
     },
     ingressPaths: ['/api'],
   });
@@ -150,4 +150,5 @@ export function buildClubsChart(scope: Construct) {
   });
 }
 
+// TODO: hub-paideia-calendar-import
 test('Penn Clubs', () => chartTest(buildClubsChart));
