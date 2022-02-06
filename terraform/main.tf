@@ -28,7 +28,7 @@ locals {
     "jonathan",
   ])
   k8s_cluster_name = "production"
-  k8s_cluster_size = 10
+  k8s_cluster_size = 3
   vault_ami        = "ami-0eec2c28d4dd94628"
   domains = toset([
     "ohq.io",
@@ -42,7 +42,8 @@ locals {
     "pennlabs.org",
     "pennmobile.org",
   ])
-  traefik_lb_name = "a3b77cc4561e649d4bcc2a89e1b63d7d"
+  traefik_lb_name = "acf3fd952315e4e6f90772849116da8d"
+  vpc_cidr        = "10.0.0.0/16"
 }
 
 data "aws_caller_identity" "current" {}
