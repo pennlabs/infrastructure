@@ -25,11 +25,11 @@ module "eks-production" {
   ]
   node_groups = {
     spot = {
-      desired_capacity = 10
-      max_capacity     = 10
-      min_capacity     = 10
+      desired_capacity = local.k8s_cluster_size
+      max_capacity     = local.k8s_cluster_size
+      min_capacity     = local.k8s_cluster_size
 
-      instance_types = ["t3.medium"]
+      instance_types = ["r5d.large"]
       capacity_type  = "SPOT"
     }
   }
