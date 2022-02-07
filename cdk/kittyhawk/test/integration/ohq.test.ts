@@ -81,7 +81,6 @@ export function buildOHQChart(scope: Construct) {
   });
 
   new CronJob(scope, 'queue-heatmap-stat', {
-    // TODO: use crontime
     schedule: cronTime.everyDayAt(8),
     image: backendImage,
     secret: secret,
