@@ -24,9 +24,9 @@ module "eks-production" {
   # ]
   eks_managed_node_groups = {
     spot = {
-      desired_capacity = local.k8s_cluster_size
-      max_capacity     = local.k8s_cluster_size
-      min_capacity     = local.k8s_cluster_size
+      desired_size = local.k8s_cluster_size
+      max_size     = local.k8s_cluster_size
+      min_size     = local.k8s_cluster_size
 
       create_launch_template = false
       launch_template_name   = ""
@@ -48,7 +48,7 @@ data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
 }
 
-resource "null_resource" "patch" {
+resource "null_resource" "eks-bootstrap" {
   triggers = {
     kubeconfig = base64encode(local.kubeconfig)
   }
@@ -58,8 +58,10 @@ resource "null_resource" "patch" {
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
     }
-    # TODO: aws-auth configmap
+
+    # TODO: docker pull secrets
     command = <<EOF
+    kubectl patch configmap/aws-auth --patch \"${local.aws_auth_configmap_yaml}\" -n kube-system --kubeconfig <(echo $KUBECONFIG | base64 --decode);
     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode)
     EOF
   }

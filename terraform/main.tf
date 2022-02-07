@@ -42,7 +42,7 @@ locals {
     "pennlabs.org",
     "pennmobile.org",
   ])
-  traefik_lb_name = "acf3fd952315e4e6f90772849116da8d"
+  traefik_lb_name = "a1ee5ea4aab3543feaedfdb80587d360"
   vpc_cidr        = "10.0.0.0/16"
   kubeconfig = yamlencode({
     apiVersion      = "v1"
@@ -69,6 +69,19 @@ locals {
       }
     }]
   })
+  # TODO: this isn't working
+  aws_auth_configmap_yaml = <<-EOT
+  ${chomp(module.eks-production.aws_auth_configmap_yaml)}
+      - rolearn: ${aws_iam_role.kubectl.arn}
+        username: ${aws_iam_role.kubectl.name}
+        groups:
+          - system:masters
+    mapUsers: |
+      - userarn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform
+        username: platform
+        groups:
+          - system:masters
+      EOT
 }
 
 data "aws_caller_identity" "current" {}
