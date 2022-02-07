@@ -44,6 +44,31 @@ locals {
   ])
   traefik_lb_name = "acf3fd952315e4e6f90772849116da8d"
   vpc_cidr        = "10.0.0.0/16"
+  kubeconfig = yamlencode({
+    apiVersion      = "v1"
+    kind            = "Config"
+    current-context = "terraform"
+    clusters = [{
+      name = module.eks-production.cluster_id
+      cluster = {
+        certificate-authority-data = module.eks-production.cluster_certificate_authority_data
+        server                     = module.eks-production.cluster_endpoint
+      }
+    }]
+    contexts = [{
+      name = "terraform"
+      context = {
+        cluster = module.eks-production.cluster_id
+        user    = "terraform"
+      }
+    }]
+    users = [{
+      name = "terraform"
+      user = {
+        token = data.aws_eks_cluster_auth.production.token
+      }
+    }]
+  })
 }
 
 data "aws_caller_identity" "current" {}

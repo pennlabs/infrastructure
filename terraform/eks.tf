@@ -1,36 +1,38 @@
 // Production
 module "eks-production" {
   // https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
-  source           = "terraform-aws-modules/eks/aws"
-  version          = "17.23.0"
-  cluster_name     = local.k8s_cluster_name
-  cluster_version  = "1.21"
-  subnets          = module.vpc.private_subnets
-  vpc_id           = module.vpc.vpc_id
-  write_kubeconfig = false
-  enable_irsa      = true
-  map_roles = [
-    {
-      rolearn  = aws_iam_role.kubectl.arn
-      username = aws_iam_role.kubectl.name
-      groups   = ["system:masters"]
-    },
-  ]
-  map_users = [
-    {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
-      username = "platform"
-      groups   = ["system:masters"]
-    },
-  ]
-  node_groups = {
+  source          = "terraform-aws-modules/eks/aws"
+  version         = "18.4.0"
+  cluster_name    = local.k8s_cluster_name
+  cluster_version = "1.21"
+  subnet_ids      = module.vpc.private_subnets
+  vpc_id          = module.vpc.vpc_id
+
+  # map_roles = [
+  #   {
+  #     rolearn  = aws_iam_role.kubectl.arn
+  #     username = aws_iam_role.kubectl.name
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
+  # map_users = [
+  #   {
+  #     userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
+  #     username = "platform"
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
+  eks_managed_node_groups = {
     spot = {
       desired_capacity = local.k8s_cluster_size
       max_capacity     = local.k8s_cluster_size
       min_capacity     = local.k8s_cluster_size
 
-      instance_types = ["r5d.large"]
-      capacity_type  = "SPOT"
+      create_launch_template = false
+      launch_template_name   = ""
+      disk_size              = 50
+      instance_types         = ["r5d.large"]
+      capacity_type          = "SPOT"
     }
   }
   tags = {
@@ -46,9 +48,22 @@ data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
 }
 
-// Run the following command to enable more than 17 pods per node
-// kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
-// Source: https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/
+resource "null_resource" "patch" {
+  triggers = {
+    kubeconfig = base64encode(local.kubeconfig)
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+    # TODO: aws-auth configmap
+    command = <<EOF
+    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode)
+    EOF
+  }
+}
 
 // Spot Node Termination Handler
 resource "helm_release" "aws-node-termination-handler" {
