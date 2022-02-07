@@ -2,7 +2,6 @@
 // Production K8s cluster
 provider "helm" {
   kubernetes {
-    load_config_file       = false
     host                   = data.aws_eks_cluster.production.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.production.certificate_authority.0.data)
     token                  = data.aws_eks_cluster_auth.production.token
@@ -10,7 +9,6 @@ provider "helm" {
 }
 
 provider "kubernetes" {
-  load_config_file       = false
   host                   = data.aws_eks_cluster.production.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.production.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.production.token
@@ -44,35 +42,35 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.18"
+      version = "~> 3.74"
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.0"
+      version = "~> 3.1"
     }
     vault = {
       source  = "hashicorp/vault"
-      version = "~> 2.16"
+      version = "~> 3.2"
     }
     time = {
       source  = "hashicorp/time"
-      version = "~> 0.6"
+      version = "~> 0.7"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 1.3"
+      version = "~> 2.4"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 1.13"
+      version = "~> 2.7"
     }
     postgresql = {
       source  = "cyrilgdn/postgresql"
-      version = "~> 1.8"
+      version = "~> 1.15"
     }
     github = {
       source  = "integrations/github"
-      version = "~> 4.0"
+      version = "~> 4.20"
     }
   }
 }
