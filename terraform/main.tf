@@ -69,7 +69,6 @@ locals {
       }
     }]
   })
-  # TODO: this isn't working
   aws_auth_configmap_yaml = <<-EOT
   ${chomp(module.eks-production.aws_auth_configmap_yaml)}
       - rolearn: ${aws_iam_role.kubectl.arn}
