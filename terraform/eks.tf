@@ -7,21 +7,6 @@ module "eks-production" {
   cluster_version = "1.21"
   subnet_ids      = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
-
-  # map_roles = [
-  #   {
-  #     rolearn  = aws_iam_role.kubectl.arn
-  #     username = aws_iam_role.kubectl.name
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
-  # map_users = [
-  #   {
-  #     userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
-  #     username = "platform"
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
   eks_managed_node_groups = {
     spot = {
       desired_size = local.k8s_cluster_size
