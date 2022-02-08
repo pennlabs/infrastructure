@@ -9,7 +9,7 @@ export class Service extends Construct {
     const targetPort = port ?? 80;
 
 
-    new ServiceApiObject(this, `service-${appname}`, {
+    new ServiceApiObject(scope, `service-${appname}`, {
       metadata: {
         name: appname,
       },
