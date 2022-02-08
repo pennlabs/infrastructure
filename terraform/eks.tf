@@ -48,14 +48,17 @@ resource "null_resource" "eks-bootstrap" {
     command = <<EOF
     kubectl patch configmap/aws-auth --patch "${local.aws_auth_configmap_yaml}" -n kube-system --kubeconfig <(echo $KUBECONFIG | base64 --decode);
     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode);
-    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode)
+    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -n kube-system -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode)
     EOF
   }
 }
 
 resource "kubernetes_secret" "docker-pull-secret" {
+  for_each = toset(["default", "kube-system"])
   metadata {
-    name = "docker-pull-secret"
+    name      = "docker-pull-secret"
+    namespace = each.value
   }
 
   data = {
