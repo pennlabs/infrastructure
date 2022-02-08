@@ -258,7 +258,6 @@ resource "aws_lb_target_group_attachment" "vault" {
 // Vault configuration
 module "vault" {
   source              = "./modules/vault"
-  CF_API_KEY          = var.CF_API_KEY
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
