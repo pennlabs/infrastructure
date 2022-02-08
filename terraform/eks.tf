@@ -47,9 +47,28 @@ resource "null_resource" "eks-bootstrap" {
     # TODO: docker pull secrets
     command = <<EOF
     kubectl patch configmap/aws-auth --patch "${local.aws_auth_configmap_yaml}" -n kube-system --kubeconfig <(echo $KUBECONFIG | base64 --decode);
-    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode)
+    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode)
     EOF
   }
+}
+
+resource "kubernetes_secret" "docker-pull-secret" {
+  metadata {
+    name = "docker-pull-secret"
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          auth = base64encode("pennlabs:${var.DOCKERHUB_TOKEN}")
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
 }
 
 // Spot Node Termination Handler

@@ -22,3 +22,8 @@ variable "GF_SLACK_URL" {
   type        = string
   description = "Slack notification URL used for Grafana notifications"
 }
+
+variable "DOCKERHUB_TOKEN" {
+  type        = string
+  description = "Read-only API token for Docker Hub"
+}
