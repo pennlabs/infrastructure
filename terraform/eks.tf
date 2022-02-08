@@ -35,13 +35,13 @@ data "aws_eks_cluster_auth" "production" {
 
 resource "null_resource" "eks-bootstrap" {
   triggers = {
-    kubeconfig = base64encode(local.kubeconfig)
+    kubeconfig = module.eks-production.cluster_endpoint
   }
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
     environment = {
-      KUBECONFIG = self.triggers.kubeconfig
+      KUBECONFIG = base64encode(local.kubeconfig)
     }
 
     # TODO: docker pull secrets
