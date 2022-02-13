@@ -8,6 +8,7 @@ locals {
   products = toset([
     "common-funding-application",
     "hub-at-penn",
+    "ocwp",
     "office-hours-queue",
     "penn-clubs",
     "penn-courses",
