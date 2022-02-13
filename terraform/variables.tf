@@ -1,8 +1,3 @@
-variable "CF_API_KEY" {
-  type        = string
-  description = "Global API Key for Penn Labs Cloudflare account"
-}
-
 variable "GH_PERSONAL_TOKEN" {
   type        = string
   description = "GitHub Personal Access token for the Penn Labs Admin account"
@@ -21,4 +16,9 @@ variable "GF_GH_CLIENT_SECRET" {
 variable "GF_SLACK_URL" {
   type        = string
   description = "Slack notification URL used for Grafana notifications"
+}
+
+variable "DOCKERHUB_TOKEN" {
+  type        = string
+  description = "Read-only API token for Docker Hub"
 }
