@@ -16,18 +16,23 @@ module "eks-production" {
       groups   = ["system:masters"]
     },
   ]
-  worker_groups_launch_template = [
+  map_users = [
     {
-      name                    = "spot-1"
-      override_instance_types = ["t3.medium"]
-      spot_instance_pools     = 1
-      asg_max_size            = local.k8s_cluster_size
-      asg_desired_capacity    = local.k8s_cluster_size
-      kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
-      bootstrap_extra_args    = "--use-max-pods false"
-      public_ip               = true
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
+      username = "platform"
+      groups   = ["system:masters"]
     },
   ]
+  node_groups = {
+    spot = {
+      desired_capacity = local.k8s_cluster_size
+      max_capacity     = local.k8s_cluster_size
+      min_capacity     = local.k8s_cluster_size
+
+      instance_types = ["r5d.large"]
+      capacity_type  = "SPOT"
+    }
+  }
   tags = {
     created-by = "terraform"
   }
