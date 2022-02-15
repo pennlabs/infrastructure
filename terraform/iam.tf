@@ -9,7 +9,7 @@ module "iam-products" {
 module "iam-secret-sync" {
   source            = "./modules/iam"
   role              = "secret-sync"
-  namespaces        = ["default", "cert-manager", "staging"]
+  namespaces        = ["default", "monitoring"]
   oidc_issuer_url   = module.eks-production.cluster_oidc_issuer_url
   oidc_provider_arn = module.eks-production.oidc_provider_arn
 }
