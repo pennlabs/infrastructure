@@ -1,36 +1,23 @@
 // Production
 module "eks-production" {
   // https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
-  source           = "terraform-aws-modules/eks/aws"
-  version          = "17.23.0"
-  cluster_name     = local.k8s_cluster_name
-  cluster_version  = "1.21"
-  subnets          = module.vpc.private_subnets
-  vpc_id           = module.vpc.vpc_id
-  write_kubeconfig = false
-  enable_irsa      = true
-  map_roles = [
-    {
-      rolearn  = aws_iam_role.kubectl.arn
-      username = aws_iam_role.kubectl.name
-      groups   = ["system:masters"]
-    },
-  ]
-  map_users = [
-    {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform"
-      username = "platform"
-      groups   = ["system:masters"]
-    },
-  ]
-  node_groups = {
+  source          = "terraform-aws-modules/eks/aws"
+  version         = "18.4.0"
+  cluster_name    = local.k8s_cluster_name
+  cluster_version = "1.21"
+  subnet_ids      = module.vpc.private_subnets
+  vpc_id          = module.vpc.vpc_id
+  eks_managed_node_groups = {
     spot = {
-      desired_capacity = local.k8s_cluster_size
-      max_capacity     = local.k8s_cluster_size
-      min_capacity     = local.k8s_cluster_size
+      desired_size = local.k8s_cluster_size
+      max_size     = local.k8s_cluster_size
+      min_size     = local.k8s_cluster_size
 
-      instance_types = ["r5d.large"]
-      capacity_type  = "SPOT"
+      create_launch_template = false
+      launch_template_name   = ""
+      disk_size              = 50
+      instance_types         = ["r5d.large"]
+      capacity_type          = "SPOT"
     }
   }
   tags = {
@@ -46,9 +33,45 @@ data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
 }
 
-// Run the following command to enable more than 17 pods per node
-// kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
-// Source: https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/
+resource "null_resource" "eks-bootstrap" {
+  triggers = {
+    kubeconfig = module.eks-production.cluster_endpoint
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    environment = {
+      KUBECONFIG = base64encode(local.kubeconfig)
+    }
+
+    command = <<EOF
+    kubectl patch configmap/aws-auth --patch "${local.aws_auth_configmap_yaml}" -n kube-system --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -n kube-system -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode)
+    EOF
+  }
+}
+
+resource "kubernetes_secret" "docker-pull-secret" {
+  for_each = toset(["default", "kube-system"])
+  metadata {
+    name      = "docker-pull-secret"
+    namespace = each.value
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          auth = base64encode("pennlabs:${var.DOCKERHUB_TOKEN}")
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+}
 
 // Spot Node Termination Handler
 resource "helm_release" "aws-node-termination-handler" {
