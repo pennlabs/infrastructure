@@ -3,5 +3,12 @@ datadog:
   ## If set, this parameter takes precedence over "apiKey".
   apiKeyExistingSecret: datadog
 
+  ## Enable logs agent and provide custom configs
   logs:
+    # datadog.logs.enabled -- Enables this to activate Datadog Agent log collection
+    ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
     enabled: true
+
+    # datadog.logs.containerCollectAll -- Enable this to allow log collection for all containers
+    ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
+    containerCollectAll: true
