@@ -148,7 +148,13 @@ export function buildClubsChart(scope: Construct) {
     secret: fyhSecret,
     cmd: ['python', 'manage.py', 'import_calendar_events'],
   });
+
+  new CronJob(scope, 'hub-paideia-calendar-import', {
+    schedule: cronTime.everyDayAt(12),
+    image: backendImage,
+    secret: fyhSecret,
+    cmd: ["python", "manage.py", "import_paideia_events"],
+  });
 }
 
-// TODO: hub-paideia-calendar-import
 test('Penn Clubs', () => chartTest(buildClubsChart));

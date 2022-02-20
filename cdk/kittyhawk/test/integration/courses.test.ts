@@ -39,7 +39,7 @@ export function buildCoursesChart(scope: Construct) {
     djangoSettingsModule: 'PennCourses.settings.production',
     ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
     ingressProps: {
-      annotations: { ['ingress.kubernetes.io/content-security-policy']: "frame-ancestors 'none'" },
+      annotations: { ['ingress.kubernetes.io/content-security-policy']: "frame-ancestors 'none';" },
     },
     domains: [{ host: 'penncourseplan.com' },
       { host: 'penncoursealert.com' },
