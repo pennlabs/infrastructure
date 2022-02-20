@@ -21,8 +21,8 @@ export function buildOHQChart(scope: Construct) {
       env: [
         { name: 'REDIS_URL', value: 'redis://office-hours-queue-redis:6379' },
       ],
+      secret: secret,
     },
-    secret: secret,
     djangoSettingsModule: 'officehoursqueue.settings.production',
     domains: [{ host: domain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
   };

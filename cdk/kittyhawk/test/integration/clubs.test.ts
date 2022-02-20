@@ -23,8 +23,8 @@ export function buildClubsChart(scope: Construct) {
       env: [
         { name: 'REDIS_HOST', value: 'penn-clubs-redis' },
       ],
+      secret: clubsSecret,
     },
-    secret: clubsSecret,
     domains: [{ host: clubsDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
     djangoSettingsModule: 'pennclubs.settings.production',
   };
@@ -36,8 +36,8 @@ export function buildClubsChart(scope: Construct) {
         { name: 'REDIS_HOST', value: 'penn-clubs-hub-redis' },
         { name: 'NEXT_PUBLIC_SITE_NAME', value: 'fyh' },
       ],
+      secret: fyhSecret,
     },
-    secret: fyhSecret,
     domains: [{ host: fyhDomain }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
     djangoSettingsModule: 'pennclubs.settings.production',
 

@@ -402,7 +402,7 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "annotations": Object {
-        "ingress.kubernetes.io/content-security-policy": "frame-ancestors 'none'",
+        "ingress.kubernetes.io/content-security-policy": "frame-ancestors 'none';",
       },
       "labels": Object {
         "release": "RELEASE_NAME",

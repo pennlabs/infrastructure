@@ -259,7 +259,7 @@ Array [
       "name": "RELEASE_NAME-django-wsgi",
     },
     "spec": Object {
-      "replicas": 3,
+      "replicas": 5,
       "selector": Object {
         "matchLabels": Object {
           "name": "RELEASE_NAME-django-wsgi",
@@ -1260,6 +1260,56 @@ Array [
                     "python",
                     "manage.py",
                     "import_calendar_events",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "first-year-hub",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-clubs-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "0 12 * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-hub-paideia-calendar-import",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-hub-paideia-calendar-import",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "import_paideia_events",
                   ],
                   "env": Array [
                     Object {

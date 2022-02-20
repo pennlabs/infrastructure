@@ -1,0 +1,528 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Penn Mobile 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-django",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-django",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+    },
+    "spec": Object {
+      "replicas": 2,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-django",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-django",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "command": Array [
+                "/usr/local/bin/asgi-run",
+              ],
+              "env": Array [
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennmobile.settings.production",
+                },
+                Object {
+                  "name": "DOMAIN",
+                  "value": "studentlife.pennlabs.org,pennmobile.org,portal.pennmobile.org",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "envFrom": Array [
+                Object {
+                  "secretRef": Object {
+                    "name": "penn-mobile",
+                  },
+                },
+              ],
+              "image": "pennlabs/penn-mobile-backend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-django",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "studentlife.pennlabs.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/api",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/assets",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+        Object {
+          "host": "pennmobile.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/api",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/assets",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+        Object {
+          "host": "portal.pennmobile.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/api",
+                "pathType": "Prefix",
+              },
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-django",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/assets",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "studentlife.pennlabs.org",
+          ],
+          "secretName": "studentlife-pennlabs-org-tls",
+        },
+        Object {
+          "hosts": Array [
+            "pennmobile.org",
+          ],
+          "secretName": "pennmobile-org-tls",
+        },
+        Object {
+          "hosts": Array [
+            "portal.pennmobile.org",
+          ],
+          "secretName": "portal-pennmobile-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "studentlife-pennlabs-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "studentlife.pennlabs.org",
+        "*.studentlife.pennlabs.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "studentlife-pennlabs-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "pennmobile-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennmobile.org",
+        "*.pennmobile.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennmobile-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "portal-pennmobile-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "portal.pennmobile.org",
+        "*.portal.pennmobile.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "portal-pennmobile-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "name": "RELEASE_NAME-react",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-react",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "name": "RELEASE_NAME-react",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "name": "RELEASE_NAME-react",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "DOMAIN",
+                  "value": "portal.pennmobile.org",
+                },
+                Object {
+                  "name": "PORT",
+                  "value": "80",
+                },
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/penn-mobile-frontend:TAG_FROM_CI",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-react",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "portal.pennmobile.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-react",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "portal.pennmobile.org",
+          ],
+          "secretName": "portal-pennmobile-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1",
+    "kind": "Certificate",
+    "metadata": Object {
+      "labels": Object {
+        "release": "RELEASE_NAME",
+      },
+      "name": "portal-pennmobile-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "portal.pennmobile.org",
+        "*.portal.pennmobile.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "portal-pennmobile-org-tls",
+    },
+  },
+  Object {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "name": "RELEASE_NAME-get-laundry-snapshots",
+        "release": "RELEASE_NAME",
+      },
+      "name": "RELEASE_NAME-get-laundry-snapshots",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "get_snapshot",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "DJANGO_SETTINGS_MODULE",
+                      "value": "pennmobile.settings.production",
+                    },
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-mobile",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-mobile-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                },
+              ],
+              "restartPolicy": "Never",
+            },
+          },
+        },
+      },
+      "schedule": "15 * * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;
