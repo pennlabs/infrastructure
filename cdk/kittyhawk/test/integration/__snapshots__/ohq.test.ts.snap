@@ -44,6 +44,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -61,12 +62,12 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "officehoursqueue.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "ohq.io",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -193,6 +194,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -207,12 +209,12 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "officehoursqueue.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "ohq.io",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -363,6 +365,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -509,6 +512,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -584,6 +588,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -605,12 +610,12 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "officehoursqueue.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "ohq.io",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "officehoursqueue.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",

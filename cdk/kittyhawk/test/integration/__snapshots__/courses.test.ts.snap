@@ -44,6 +44,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -119,6 +120,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -142,12 +144,12 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "PennCourses.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "penncourseplan.com,penncoursealert.com,review.penncourses.org",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "PennCourses.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -336,6 +338,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -363,12 +366,12 @@ Array [
                   "value": "80",
                 },
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "PennCourses.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "penncourseplan.com,penncoursealert.com,review.penncourses.org",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "PennCourses.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -743,6 +746,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -889,6 +893,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -1035,6 +1040,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -1181,6 +1187,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },

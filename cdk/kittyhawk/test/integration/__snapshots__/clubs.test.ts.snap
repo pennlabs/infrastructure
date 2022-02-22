@@ -44,6 +44,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -119,6 +120,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -136,12 +138,12 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "pennclubs.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -268,6 +270,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -282,12 +285,12 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "pennclubs.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "pennclubs.com",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -414,6 +417,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -560,6 +564,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -635,6 +640,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -652,12 +658,12 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "pennclubs.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "hub.provost.upenn.edu",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -784,6 +790,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
@@ -798,12 +805,12 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "DJANGO_SETTINGS_MODULE",
-                  "value": "pennclubs.settings.production",
-                },
-                Object {
                   "name": "DOMAIN",
                   "value": "hub.provost.upenn.edu",
+                },
+                Object {
+                  "name": "DJANGO_SETTINGS_MODULE",
+                  "value": "pennclubs.settings.production",
                 },
                 Object {
                   "name": "GIT_SHA",
@@ -930,6 +937,7 @@ Array [
       "strategy": Object {
         "rollingUpdate": Object {
           "maxSurge": 3,
+          "maxUnavailable": 0,
         },
         "type": "RollingUpdate",
       },
