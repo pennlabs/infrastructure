@@ -50,6 +50,7 @@ export class Deployment extends Construct {
           type: 'RollingUpdate',
           rollingUpdate: {
             maxSurge: IntOrString.fromNumber(3),
+            maxUnavailable: IntOrString.fromNumber(0),
           },
         },
         template: {
