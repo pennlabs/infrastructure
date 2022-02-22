@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { DeploymentProps } from '../deployment';
-import { HostRules, IngressProps } from '../ingress';
+import { IngressProps } from '../ingress';
 import { NonEmptyArray, nonEmptyMap } from '../utils';
 import { Application } from './base';
 
@@ -19,8 +19,10 @@ export interface DjangoApplicationProps {
    * Array of domain(s). Host is the domain the application runs on,
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * See the certificate documentation for more details.
+   * 
+   * Domain is optional if the application is not publicly accessible (e.g. celery)
    */
-  readonly domains: NonEmptyArray<{ host: string; isSubdomain?: boolean }>;
+  readonly domains?: NonEmptyArray<{ host: string; isSubdomain?: boolean }>;
 
   /**
    * Just the list of paths passed to the ingress since we already know the host. Optional.
@@ -53,16 +55,9 @@ export class DjangoApplication extends Application {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
     const djangoExtraEnv = [...new Set([
       ...props.deployment?.env || [],
+      ...props.domains ? [{ name: 'DOMAIN', value: nonEmptyMap(props.domains, (h => h.host)).join()}] : [],
       { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
-      { name: 'DOMAIN', value: nonEmptyMap(props.domains, (h => h.host)).join() },
     ])];
-
-    // Configure the ingress using ingressPaths if ingressPaths is defined.
-    const djangoIngress: HostRules[] = props.domains?.map(h => ({
-      host: h.host,
-      paths: props.ingressPaths || [],
-      isSubdomain: h.isSubdomain ?? false,
-    }));
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -71,10 +66,15 @@ export class DjangoApplication extends Application {
         ...props.deployment,
         env: djangoExtraEnv,
       },
-      ingress: {
-        rules: djangoIngress as NonEmptyArray<HostRules>,
+      // Configure the ingress using ingressPaths if domains is defined.    
+      ingress: props.domains ? {
+        rules: nonEmptyMap(props.domains, (h => ({
+          host: h.host,
+          paths: props.ingressPaths || [],
+          isSubdomain: h.isSubdomain ?? false,
+        }))),
         ...props.ingressProps,
-      },
+      } : undefined,
       createServiceAccount: props.createServiceAccount,
     });
   }
