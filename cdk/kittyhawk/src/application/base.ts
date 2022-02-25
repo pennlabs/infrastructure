@@ -12,9 +12,21 @@ import { nonEmptyMap } from '../utils';
  * could cause problems.
  */
 export interface ApplicationProps {
+  /**
+   * Ingress configuration
+   */
   readonly ingress?: IngressProps;
+
+  /**
+   * Deployment configuration
+   */
   readonly deployment: DeploymentProps;
+
+  /**
+   * Port to expose the application on.
+   */
   readonly port?: number;
+  
   /**
    * Creates a service account and attach it to any deployment pods.
    * serviceAccountName: release name
@@ -40,6 +52,7 @@ export class Application extends Construct {
 
     new Deployment(this, fullname, {
       ...props.deployment,
+      port: props.port, // TODO: why is there a port here?
       ...(props.createServiceAccount ? { serviceAccountName: release_name } : {}),
     });
 
