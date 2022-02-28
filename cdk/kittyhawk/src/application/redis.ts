@@ -5,11 +5,13 @@ import { Application } from './base';
 export interface RedisApplicationProps {
   /**
    * Deployment configuration
+   * @default {image: 'redis', tag: '6.0', port: 6379}
    */
   readonly deployment?: Partial<DeploymentProps>;
 
   /**
    * Port to expose the application on.
+   * @default 6379
    */
   readonly port?: number;
 

@@ -40,7 +40,6 @@ export class Deployment extends Construct {
         name: appname,
         labels: label,
       },
-      // wtmoo they don't allow adding service accounts
       spec: {
         replicas: props.replicas ?? 1,
         selector: {
@@ -56,7 +55,7 @@ export class Deployment extends Construct {
         template: {
           metadata: { labels: label },
           spec: {
-            // the next line checks if serviceAccount exists, and adds it to serviceAccountName
+            // The next line checks if serviceAccount exists, and adds it to serviceAccountName
             ...(props.serviceAccount ? { serviceAccountName: props.serviceAccount.name } : {}),
             containers: containers,
             volumes: secretVolumes,
