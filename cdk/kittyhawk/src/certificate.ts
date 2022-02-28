@@ -15,9 +15,6 @@ export class Certificate extends Construct {
     new CertApiObject(this, `certificate-${appname}-${hostString}`, {
       metadata: {
         name: hostString,
-        annotations: {
-          ['helm.sh/resource-policy']: "keep",
-        }
       },
       spec: {
         secretName: `${hostString}-tls`,
