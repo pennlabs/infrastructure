@@ -35,7 +35,7 @@ Array [
       "name": "RELEASE_NAME-django",
     },
     "spec": Object {
-      "replicas": 2,
+      "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
           "name": "RELEASE_NAME-django",
@@ -57,13 +57,10 @@ Array [
         "spec": Object {
           "containers": Array [
             Object {
-              "command": Array [
-                "/usr/local/bin/asgi-run",
-              ],
               "env": Array [
                 Object {
                   "name": "DOMAINS",
-                  "value": "studentlife.pennlabs.org,pennmobile.org,portal.pennmobile.org",
+                  "value": "studentlife.pennlabs.org,portal.pennmobile.org,pennmobile.org",
                 },
                 Object {
                   "name": "DJANGO_SETTINGS_MODULE",
@@ -123,6 +120,13 @@ Array [
                 "path": "/",
                 "pathType": "Prefix",
               },
+            ],
+          },
+        },
+        Object {
+          "host": "portal.pennmobile.org",
+          "http": Object {
+            "paths": Array [
               Object {
                 "backend": Object {
                   "service": Object {
@@ -163,61 +167,6 @@ Array [
                     },
                   },
                 },
-                "path": "/",
-                "pathType": "Prefix",
-              },
-              Object {
-                "backend": Object {
-                  "service": Object {
-                    "name": "RELEASE_NAME-django",
-                    "port": Object {
-                      "number": 80,
-                    },
-                  },
-                },
-                "path": "/api",
-                "pathType": "Prefix",
-              },
-              Object {
-                "backend": Object {
-                  "service": Object {
-                    "name": "RELEASE_NAME-django",
-                    "port": Object {
-                      "number": 80,
-                    },
-                  },
-                },
-                "path": "/assets",
-                "pathType": "Prefix",
-              },
-            ],
-          },
-        },
-        Object {
-          "host": "portal.pennmobile.org",
-          "http": Object {
-            "paths": Array [
-              Object {
-                "backend": Object {
-                  "service": Object {
-                    "name": "RELEASE_NAME-django",
-                    "port": Object {
-                      "number": 80,
-                    },
-                  },
-                },
-                "path": "/",
-                "pathType": "Prefix",
-              },
-              Object {
-                "backend": Object {
-                  "service": Object {
-                    "name": "RELEASE_NAME-django",
-                    "port": Object {
-                      "number": 80,
-                    },
-                  },
-                },
                 "path": "/api",
                 "pathType": "Prefix",
               },
@@ -242,19 +191,19 @@ Array [
           "hosts": Array [
             "studentlife.pennlabs.org",
           ],
-          "secretName": "studentlife-pennlabs-org-tls",
+          "secretName": "pennlabs-org-tls",
+        },
+        Object {
+          "hosts": Array [
+            "portal.pennmobile.org",
+          ],
+          "secretName": "pennmobile-org-tls",
         },
         Object {
           "hosts": Array [
             "pennmobile.org",
           ],
           "secretName": "pennmobile-org-tls",
-        },
-        Object {
-          "hosts": Array [
-            "portal.pennmobile.org",
-          ],
-          "secretName": "portal-pennmobile-org-tls",
         },
       ],
     },
@@ -266,19 +215,19 @@ Array [
       "labels": Object {
         "release": "RELEASE_NAME",
       },
-      "name": "studentlife-pennlabs-org",
+      "name": "pennlabs-org",
     },
     "spec": Object {
       "dnsNames": Array [
-        "studentlife.pennlabs.org",
-        "*.studentlife.pennlabs.org",
+        "pennlabs.org",
+        "*.pennlabs.org",
       ],
       "issuerRef": Object {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
       },
-      "secretName": "studentlife-pennlabs-org-tls",
+      "secretName": "pennlabs-org-tls",
     },
   },
   Object {
@@ -301,28 +250,6 @@ Array [
         "name": "wildcard-letsencrypt-prod",
       },
       "secretName": "pennmobile-org-tls",
-    },
-  },
-  Object {
-    "apiVersion": "cert-manager.io/v1",
-    "kind": "Certificate",
-    "metadata": Object {
-      "labels": Object {
-        "release": "RELEASE_NAME",
-      },
-      "name": "portal-pennmobile-org",
-    },
-    "spec": Object {
-      "dnsNames": Array [
-        "portal.pennmobile.org",
-        "*.portal.pennmobile.org",
-      ],
-      "issuerRef": Object {
-        "group": "cert-manager.io",
-        "kind": "ClusterIssuer",
-        "name": "wildcard-letsencrypt-prod",
-      },
-      "secretName": "portal-pennmobile-org-tls",
     },
   },
   Object {
@@ -445,7 +372,7 @@ Array [
           "hosts": Array [
             "portal.pennmobile.org",
           ],
-          "secretName": "portal-pennmobile-org-tls",
+          "secretName": "pennmobile-org-tls",
         },
       ],
     },
@@ -457,19 +384,19 @@ Array [
       "labels": Object {
         "release": "RELEASE_NAME",
       },
-      "name": "portal-pennmobile-org",
+      "name": "pennmobile-org",
     },
     "spec": Object {
       "dnsNames": Array [
-        "portal.pennmobile.org",
-        "*.portal.pennmobile.org",
+        "pennmobile.org",
+        "*.pennmobile.org",
       ],
       "issuerRef": Object {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
       },
-      "secretName": "portal-pennmobile-org-tls",
+      "secretName": "pennmobile-org-tls",
     },
   },
   Object {

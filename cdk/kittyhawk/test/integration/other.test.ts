@@ -13,8 +13,7 @@ export function buildWebsiteChart(scope: Construct) {
     deployment: {
       image: 'pennlabs/website',
     },
-    domain: 'pennlabs.org',
-    ingressPaths: ['/'],
+    domain: { host: 'pennlabs.org', paths: ['/'] },
   });
 }
 
@@ -29,8 +28,7 @@ export function buildBasicsChart(scope: Construct) {
       secret: 'penn-basics',
     },
     portEnv: '80',
-    domain: 'pennbasics.com',
-    ingressPaths: ['/'],
+    domain: { host: 'pennbasics.com', paths: ['/'] },
   });
 }
 
@@ -52,9 +50,8 @@ export function buildPlatformChart(scope: Construct) {
         { name: 'platform', subPath: 'SHIBBOLETH_KEY', mountPath: '/etc/shibboleth/sp-key.pem' }],
     },
     port: 443,
-    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }],
+    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }],
     djangoSettingsModule: 'Platform.settings.production',
-    ingressPaths: ['/'],
   });
 
   new CronJob(scope, 'clear-expired-tokens', {
@@ -76,8 +73,7 @@ export function buildCFAChart(scope: Construct) {
       image: 'pennlabs/common-funding-application',
       secret: 'common-funding-application',
     },
-    domains: [{ host: 'penncfa.com' }],
-    ingressPaths: ['/'],
+    domains: [{ host: 'penncfa.com', paths: ['/'] }],
     djangoSettingsModule: 'penncfa.settings.production',
   });
 }

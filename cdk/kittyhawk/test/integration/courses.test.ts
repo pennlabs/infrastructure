@@ -11,87 +11,77 @@ export function buildCoursesChart(scope: Construct) {
   */
 
   const backendImage = 'pennlabs/penn-courses-backend';
-  const secret = 'penn-courses';
+    const secret = 'penn-courses';
 
+    new RedisApplication(scope, 'redis', { deployment: { tag: '4.0' } });
 
-  new RedisApplication(scope, 'redis', { deployment: { tag: '4.0' } });
+    new DjangoApplication(scope, 'celery', {
+      deployment: {
+        image: backendImage,
+        secret: secret,
+        cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
+      },
+      djangoSettingsModule: 'PennCourses.settings.production',
+    });
 
-  new DjangoApplication(scope, 'celery', {
-    deployment: {
+    new DjangoApplication(scope, 'backend', {
+      deployment: {
+        image: backendImage,
+        secret: secret,
+        cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
+        replicas: 3,
+        env: [{ name: 'PORT', value: '80' }],
+      },
+      djangoSettingsModule: 'PennCourses.settings.production',
+      ingressProps: {
+        annotations: { ['ingress.kubernetes.io/content-security-policy']: "frame-ancestors 'none';" },
+      },
+      domains: [{ host: 'penncourseplan.com', paths: ["/api", "/admin", "/accounts", "/assets"] },
+        { host: 'penncoursealert.com', paths: ["/api", "/admin", "/accounts", "/assets", "/webhook"] },
+        { host: 'penncoursereview.com', paths: ["/api", "/admin", "/accounts", "/assets"]}],
+    });
+
+    new ReactApplication(scope, 'landing', {
+      deployment: {
+        image: 'pennlabs/pcx-landing',
+      },
+      domain: { host: 'penncourses.org', paths: ['/'] },
+    });
+
+    new ReactApplication(scope, 'plan', {
+      deployment: {
+        image: 'pennlabs/pcp-frontend',
+      },
+      domain: { host: 'penncourseplan.org', paths: ['/'] },
+    });
+
+    new ReactApplication(scope, 'alert', {
+      deployment: {
+        image: 'pennlabs/pca-frontend',
+      },
+      domain: { host: 'penncoursealert.org', paths: ['/'] },
+    });
+
+    new ReactApplication(scope, 'review', {
+      deployment: {
+        image: 'pennlabs/pcr-frontend',
+      },
+      domain: { host: 'penncoursereview.org', paths: ['/'] },
+    });
+
+    new CronJob(scope, 'load-courses', {
+      schedule: cronTime.everyDayAt(3),
       image: backendImage,
       secret: secret,
-      cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
-    },
-    djangoSettingsModule: 'PennCourses.settings.production',
-    domains: [{ host: 'penncourseplan.com' },
-      { host: 'penncoursealert.com' },
-      { host: 'review.penncourses.org' }],
-  });
+      cmd: ['python', 'manage.py', 'registrarimport'],
+    });
 
-  new DjangoApplication(scope, 'backend', {
-    deployment: {
+    new CronJob(scope, 'report-stats', {
+      schedule: cronTime.everyDayAt(20),
       image: backendImage,
       secret: secret,
-      cmd: ['celery', 'worker', '-A', 'PennCourses', '-Q', 'alerts,celery', '-linfo'],
-      replicas: 3,
-      env: [{ name: 'PORT', value: '80' }],
-    },
-    djangoSettingsModule: 'PennCourses.settings.production',
-    ingressPaths: ['/api', '/admin', '/accounts', '/assets', '/webhook'],
-    ingressProps: {
-      annotations: { ['ingress.kubernetes.io/content-security-policy']: "frame-ancestors 'none';" },
-    },
-    domains: [{ host: 'penncourseplan.com' },
-      { host: 'penncoursealert.com' },
-      { host: 'review.penncourses.org', isSubdomain: true }],
-  });
-
-  new ReactApplication(scope, 'plan', {
-    deployment: {
-      image: 'pennlabs/pcp-frontend',
-    },
-    domain: 'penncourseplan.com',
-    ingressPaths: ['/'],
-  });
-
-  new ReactApplication(scope, 'alert', {
-    deployment: {
-      image: 'pennlabs/pca-frontend',
-    },
-    domain: 'penncoursealert.com',
-    ingressPaths: ['/'],
-  });
-
-  new ReactApplication(scope, 'review', {
-    deployment: {
-      image: 'pennlabs/pcr-frontend',
-    },
-    domain: 'review.penncourses.org',
-    isSubdomain: true,
-    ingressPaths: ['/'],
-  });
-
-  new ReactApplication(scope, 'landing', {
-    deployment: {
-      image: 'pennlabs/pcx-landing',
-    },
-    domain: 'penncourses.org',
-    ingressPaths: ['/'],
-  });
-
-  new CronJob(scope, 'load-courses', {
-    schedule: cronTime.everyDayAt(3),
-    image: backendImage,
-    secret: secret,
-    cmd: ['python', 'manage.py', 'registrarimport'],
-  });
-
-  new CronJob(scope, 'report-stats', {
-    schedule: cronTime.everyDayAt(20),
-    image: backendImage,
-    secret: secret,
-    cmd: ['python', 'manage.py', 'alertstats', '1', '--slack'],
-  });
+      cmd: ['python', 'manage.py', 'alertstats', '1', '--slack'],
+    });
 }
 
 test('Penn Courses', () => chartTest(buildCoursesChart));

@@ -1,4 +1,5 @@
 import { Construct } from 'constructs';
+import { HostRules } from '../src';
 import { Application, DjangoApplication, ReactApplication, RedisApplication } from '../src/application';
 import { NonEmptyArray } from '../src/utils';
 import { chartTest } from './utils';
@@ -56,18 +57,16 @@ const testConfig = {
         replicas: 2,
         env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
       djangoSettingsModule: 'Platform.settings.production',
-      ingressPaths: ['/'],
       portEnv: '80',
     },
     default: {
       deployment: {
         image: 'pennlabs/platform',
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
       djangoSettingsModule: 'Platform.settings.production',
-      ingressPaths: ['/'],
       createServiceAccount: true,
     },
     failing: {
@@ -76,9 +75,8 @@ const testConfig = {
         /** Django Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true }] as NonEmptyArray<{ host: string; isSubdomain?: boolean }>,
+      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
       djangoSettingsModule: 'Platform.settings.production',
-      ingressPaths: ['/'],
     },
   },
   react: {
@@ -86,7 +84,7 @@ const testConfig = {
       deployment: {
         image: 'pennlabs/penn-clubs-frontend',
       },
-      domain: 'pennclubs.com',
+      domain: { host: 'pennclubs.com', paths: ['/'] },
       ingressPaths: ['/'],
     },
     example: {
@@ -95,8 +93,7 @@ const testConfig = {
         replicas: 2,
         env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
       },
-      domain: 'pennclubs.com',
-      ingressPaths: ['/'],
+      domain: { host: 'pennclubs.com', paths: ['/'] },
       portEnv: '80',
     },
     failing: {
@@ -106,8 +103,7 @@ const testConfig = {
         /** React Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
       },
-      domain: 'pennclubs.com',
-      ingressPaths: ['/'],
+      domain: { host: 'pennclubs.com', paths: ['/'] },
       portEnv: '80',
     },
   },
