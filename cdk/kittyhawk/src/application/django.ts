@@ -17,8 +17,10 @@ export interface DjangoApplicationProps {
   readonly port?: number;
 
   /**
-   * Array of domain(s). Host is the domain the application runs on,
+   * Array of domain(s). 
+   * Host is the domain the application runs on,
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
+   * paths is the list of paths to expose the application on.
    * See the certificate documentation for more details.
    * 
    * Domain is optional if the application is not publicly accessible (e.g. celery)
@@ -64,7 +66,7 @@ export class DjangoApplication extends Application {
       ingress: props.domains ? {
         rules: nonEmptyMap(props.domains, (h => ({
           host: h.host,
-          paths: h.paths || [],
+          paths: h.paths,
           isSubdomain: h.isSubdomain ?? false,
         }))),
         ...props.ingressProps,

@@ -1,7 +1,6 @@
 import { Construct } from 'constructs';
 import { DeploymentProps } from '../deployment';
 import { HostRules, IngressProps } from '../ingress';
-import { NonEmptyArray } from '../utils';
 import { Application } from './base';
 
 export interface ReactApplicationProps {
@@ -16,19 +15,13 @@ export interface ReactApplicationProps {
   readonly port?: number;
 
   /**
-   * Domain of the application.
+   * Host is the domain the application runs on,
+   * isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
+   * paths is the list of paths to expose the application on.
+   * See the certificate documentation for more details.
+   * 
    */
-  readonly domain: string;
-
-  /**
-   * If the host is a subdomain.
-   */
-  readonly isSubdomain?: boolean;
-
-  /**
-   * Just the list of paths passed to the ingress since we already know the host.
-   */
-  readonly paths: string[];
+  readonly domain: HostRules;
 
   /**
    * Optional ingressProps to override the default ingress props.
@@ -53,12 +46,9 @@ export class ReactApplication extends Application {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
     const reactExtraEnv = [...new Set([
       ...props.deployment?.env || [],
-      { name: 'DOMAIN', value: props.domain },
+      { name: 'DOMAIN', value: props.domain.host },
       { name: 'PORT', value: props.portEnv || '80' },
     ])];
-
-    // Configure the ingress using paths.
-    const reactIngress: NonEmptyArray<HostRules> = [{ host: props.domain, paths: props.paths, isSubdomain: props.isSubdomain ?? false }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -68,7 +58,7 @@ export class ReactApplication extends Application {
         env: reactExtraEnv,
       },
       ingress: {
-        rules: reactIngress,
+        rules: [props.domain],
         ...props.ingressProps,
       },
       createServiceAccount: props.createServiceAccount,
