@@ -55,7 +55,7 @@ export class DjangoApplication extends Application {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
     const djangoExtraEnv = [...new Set([
       ...props.deployment?.env || [],
-      ...props.domains ? [{ name: 'DOMAIN', value: nonEmptyMap(props.domains, (h => h.host)).join()}] : [],
+      ...props.domains ? [{ name: 'DOMAINS', value: nonEmptyMap(props.domains, (h => h.host)).join()}] : [],
       { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
     ])];
 
