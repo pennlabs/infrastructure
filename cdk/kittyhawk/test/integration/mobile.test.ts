@@ -41,7 +41,7 @@ export function buildMobileChart(scope: Construct) {
   });
 
   new CronJob(scope, 'get-laundry-snapshots', {
-    schedule: cronTime.everyHourAt(15),
+    schedule: cronTime.every(15).minutes(),
     image: backendImage,
     secret,
     cmd: ["python", "manage.py", "get_snapshot"],
