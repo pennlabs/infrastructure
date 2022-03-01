@@ -1,4 +1,5 @@
 import { Construct } from 'constructs';
+import { HostRules } from '..';
 import { DeploymentProps } from '../deployment';
 import { IngressProps } from '../ingress';
 import { NonEmptyArray, nonEmptyMap } from '../utils';
@@ -22,14 +23,7 @@ export interface DjangoApplicationProps {
    * 
    * Domain is optional if the application is not publicly accessible (e.g. celery)
    */
-  readonly domains?: NonEmptyArray<{ host: string; isSubdomain?: boolean }>;
-
-  /**
-   * Just the list of paths passed to the ingress since we already know the host. Optional.
-   *
-   * @default undefined
-   */
-  readonly ingressPaths?: string[];
+  readonly domains?: NonEmptyArray<HostRules>;
 
   /**
    * Optional ingressProps to override the default ingress props.
@@ -66,11 +60,11 @@ export class DjangoApplication extends Application {
         ...props.deployment,
         env: djangoExtraEnv,
       },
-      // Configure the ingress using ingressPaths if domains is defined.    
+      // Configure the ingress using paths if domains is defined.    
       ingress: props.domains ? {
         rules: nonEmptyMap(props.domains, (h => ({
           host: h.host,
-          paths: props.ingressPaths || [],
+          paths: h.paths || [],
           isSubdomain: h.isSubdomain ?? false,
         }))),
         ...props.ingressProps,

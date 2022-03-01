@@ -28,7 +28,7 @@ export interface ReactApplicationProps {
   /**
    * Just the list of paths passed to the ingress since we already know the host.
    */
-  readonly ingressPaths: string[];
+  readonly paths: string[];
 
   /**
    * Optional ingressProps to override the default ingress props.
@@ -57,8 +57,8 @@ export class ReactApplication extends Application {
       { name: 'PORT', value: props.portEnv || '80' },
     ])];
 
-    // Configure the ingress using ingressPaths.
-    const reactIngress: NonEmptyArray<HostRules> = [{ host: props.domain, paths: props.ingressPaths, isSubdomain: props.isSubdomain ?? false }];
+    // Configure the ingress using paths.
+    const reactIngress: NonEmptyArray<HostRules> = [{ host: props.domain, paths: props.paths, isSubdomain: props.isSubdomain ?? false }];
 
     // If everything passes, construct the Application.
     super(scope, appname, {
