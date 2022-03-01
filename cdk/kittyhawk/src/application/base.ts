@@ -1,10 +1,10 @@
 import { Construct } from 'constructs';
+import { removeSubdomain } from '..';
 import { Certificate } from '../certificate';
 import { Deployment, DeploymentProps } from '../deployment';
 import { Ingress, IngressProps } from '../ingress';
 import { Service } from '../service';
 import { ServiceAccount } from '../serviceaccount';
-import { nonEmptyMap } from '../utils';
 
 /**
  * Warning: Before editing any interfaces, make sure that none of the interfaces will have
@@ -59,9 +59,15 @@ export class Application extends Construct {
     if (props.ingress) {
       new Ingress(this, fullname, props.ingress);
 
-      nonEmptyMap(props.ingress.rules, rule => {
-        return new Certificate(this, fullname, rule);
-      });
+      const alreadyCreatedCertificates = new Set<string>();
+
+      props.ingress.rules.forEach(rules => {
+        const finalDomain: string = removeSubdomain(rules.host, rules.isSubdomain ?? false);
+        if (!alreadyCreatedCertificates.has(finalDomain)) {
+          new Certificate(this, fullname, rules);
+          alreadyCreatedCertificates.add(finalDomain);
+        }
+      })
     }
   }
 }
