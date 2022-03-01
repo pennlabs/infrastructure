@@ -68,7 +68,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 80,
+                  "containerPort": 6379,
                 },
               ],
             },
@@ -138,7 +138,7 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "pennclubs.com",
                 },
                 Object {
@@ -210,9 +210,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -288,7 +285,7 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "pennclubs.com",
                 },
                 Object {
@@ -360,9 +357,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -510,9 +504,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -597,7 +588,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 80,
+                  "containerPort": 6379,
                 },
               ],
             },
@@ -667,7 +658,7 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "hub.provost.upenn.edu",
                 },
                 Object {
@@ -739,9 +730,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -817,7 +805,7 @@ Array [
             Object {
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "hub.provost.upenn.edu",
                 },
                 Object {
@@ -889,9 +877,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -1043,9 +1028,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },

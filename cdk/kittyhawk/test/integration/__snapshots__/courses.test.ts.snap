@@ -68,7 +68,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 80,
+                  "containerPort": 6379,
                 },
               ],
             },
@@ -144,7 +144,7 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "penncourseplan.com,penncoursealert.com,review.penncourses.org",
                 },
                 Object {
@@ -234,9 +234,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -259,9 +256,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -284,9 +278,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -375,7 +366,7 @@ Array [
                   "value": "80",
                 },
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "penncourseplan.com,penncoursealert.com,review.penncourses.org",
                 },
                 Object {
@@ -651,9 +642,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -676,9 +664,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -701,9 +686,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -851,9 +833,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -1001,9 +980,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -1151,9 +1127,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -1301,9 +1274,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },

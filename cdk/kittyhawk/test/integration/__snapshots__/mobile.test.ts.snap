@@ -62,7 +62,7 @@ Array [
               ],
               "env": Array [
                 Object {
-                  "name": "DOMAIN",
+                  "name": "DOMAINS",
                   "value": "studentlife.pennlabs.org,pennmobile.org,portal.pennmobile.org",
                 },
                 Object {
@@ -263,9 +263,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -288,9 +285,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -313,9 +307,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -463,9 +454,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "annotations": Object {
-        "helm.sh/resource-policy": "keep",
-      },
       "labels": Object {
         "release": "RELEASE_NAME",
       },
@@ -534,7 +522,7 @@ Array [
           },
         },
       },
-      "schedule": "15 * * * *",
+      "schedule": "*/15 * * * *",
       "successfulJobsHistoryLimit": 1,
     },
   },
