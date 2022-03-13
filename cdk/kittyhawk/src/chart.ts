@@ -6,8 +6,9 @@ export class PennLabsChart extends Chart {
     super(scope, name, {
       namespace: props?.namespace,
       labels: {
-        "release": (process.env.RELEASE_NAME || 'undefined_release'),
-        "app.kubernetes.io/version": (process.env.GIT_SHA || process.exit(1)),
+        'app.kubernetes.io/part-of': (process.env.RELEASE_NAME || 'undefined_release'),
+        'app.kubernetes.io/version': (process.env.GIT_SHA || process.exit(1)),
+        'app.kubernetes.io/managed-by': 'kittyhawk',
         ...props?.labels,
       },
     });

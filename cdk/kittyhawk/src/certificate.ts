@@ -16,9 +16,6 @@ export class Certificate extends Construct {
     const certificate = new CertApiObject(this, `certificate-${appname}-${hostString}`, {
       metadata: {
         name: hostString,
-        labels: {
-          release: "certificate",
-        }
       },
       spec: {
         secretName: `${hostString}-tls`,
@@ -30,7 +27,8 @@ export class Certificate extends Construct {
         },
       },
     });
-    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/release"));
+    // ~1 is an escaped version of a forward slash "/"
+    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of"));
     certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version"));
   }
 }
