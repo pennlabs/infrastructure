@@ -1,3 +1,4 @@
+import { JsonPatch } from 'cdk8s';
 import { Construct } from 'constructs';
 import { Certificate as CertApiObject } from './imports/cert-manager.io';
 import { domainToCertName, removeSubdomain, HostRules } from './ingress';
@@ -12,9 +13,12 @@ export class Certificate extends Construct {
 
     super(scope, `certificate-${appname}-${hostString}`);
 
-    new CertApiObject(this, `certificate-${appname}-${hostString}`, {
+    const certificate = new CertApiObject(this, `certificate-${appname}-${hostString}`, {
       metadata: {
         name: hostString,
+        labels: {
+          release: "certificate",
+        }
       },
       spec: {
         secretName: `${hostString}-tls`,
@@ -26,5 +30,7 @@ export class Certificate extends Construct {
         },
       },
     });
+    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/release"));
+    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/app.kubernetes.io/version"));
   }
 }

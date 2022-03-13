@@ -57,12 +57,12 @@ export class DeployJob extends CheckoutJob {
         # get repo name (by removing owner/organization)
         RELEASE_NAME=\${REPOSITORY#*/}
 
-        # this specifies what tag of icarus to pull down
-        DEPLOY_TAG=$(yq r k8s/values.yaml deploy_version)
-        if [ "$DEPLOY_TAG" = "null" ]; then
-            echo "Could not find deploy tag"
-            exit 1
-        fi
+        # Generate kittyhawk yaml files
+        GIT_SHA=\${{ github.sha }}
+        yarn compile && yarn synth
+
+        # Delete all old resources that is associated with the repo
+        kubectl apply -f k8s/dist/$RELEASE_NAME.k8s.yaml --prune -l repo=$RELEASE_NAME
 
         helm repo add pennlabs https://helm.pennlabs.org/
         for i in {1..10}; do
@@ -71,7 +71,7 @@ export class DeployJob extends CheckoutJob {
           # 2. If this succeeds, exit with a success status code
           # 3. If it fails, mark the command as succeeded so that '-e' doesn't kick us out
           # 4. Wait 10s and try again
-          helm upgrade --install --atomic --set=image_tag=$IMAGE_TAG -f k8s/values.yaml --version "\${DEPLOY_TAG}" $RELEASE_NAME pennlabs/icarus && exit 0 || true
+          helm upgrade --install --atomic --set=image_tag=$IMAGE_TAG -f k8s/dist/$RELEASE_NAME.k8s.yaml --version "\${DEPLOY_TAG}" $RELEASE_NAME pennlabs/icarus && exit 0 || true
           sleep 10s
           echo "Retrying deploy for $i times"
         done
