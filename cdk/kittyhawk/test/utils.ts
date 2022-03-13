@@ -1,6 +1,6 @@
 import { Testing } from 'cdk8s';
 import { Construct } from 'constructs';
-import { Chart } from '../src';
+import { PennLabsChart } from '../src';
 
 /**
  * Helper function to run each chart test
@@ -12,7 +12,8 @@ export const chartTest = (build: (scope: Construct) => void) => {
   process.env.GIT_SHA = 'TAG_FROM_CI';
 
   const app = Testing.app();
-  const chart = new Chart(app, 'kittyhawk', build);
+  const chart = new PennLabsChart(app, 'kittyhawk');
+  build(chart);
   const results = Testing.synth(chart);
   expect(results).toMatchSnapshot();
 };
@@ -26,5 +27,5 @@ export const failingTest = (build: (scope: Construct) => void) => {
   process.env.GIT_SHA = 'TAG_FROM_CI';
 
   const app = Testing.app();
-  expect(() => {new Chart(app, 'kittyhawk', build);}).toThrowError();
+  expect(() => { const chart = new PennLabsChart(app, 'kittyhawk'); build(chart); }).toThrowError();
 };

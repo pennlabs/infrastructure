@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Application, synth } from '../src';
+import { Application } from '../src';
 
 export function buildWebsiteChart(scope: Construct) {
 
@@ -14,5 +14,4 @@ export function buildWebsiteChart(scope: Construct) {
   });
 }
 
-test('Synth Function', () =>
-  expect(function () { synth(buildWebsiteChart); }).not.toThrow());
+// TODO: either write tests to check labels are added here or delete this file

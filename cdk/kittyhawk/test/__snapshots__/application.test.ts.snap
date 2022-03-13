@@ -7,7 +7,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -32,7 +34,9 @@ Array [
         "eks.amazonaws.com/role-arn": "arn:aws:iam::TEST_AWS_ACCOUNT_ID:role/RELEASE_NAME",
       },
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME",
     },
@@ -42,8 +46,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-platform",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -104,7 +110,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -145,7 +153,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennlabs-org",
     },
@@ -172,7 +180,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -194,8 +204,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-platform",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -260,7 +272,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -301,7 +315,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennlabs-org",
     },
@@ -328,7 +342,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -350,8 +366,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-platform",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -416,7 +434,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -457,7 +477,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennlabs-org",
     },
@@ -484,7 +504,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -506,8 +528,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-react",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -568,7 +592,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -609,7 +635,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennclubs-com",
     },
@@ -636,7 +662,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -658,8 +686,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-react",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -724,7 +754,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -765,7 +797,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennclubs-com",
     },
@@ -792,7 +824,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -814,8 +848,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-react",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -880,7 +916,9 @@ Array [
     "kind": "Ingress",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -921,7 +959,7 @@ Array [
     "kind": "Certificate",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
       },
       "name": "pennclubs-com",
     },
@@ -948,7 +986,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-redis",
     },
@@ -970,8 +1010,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-redis",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-redis",
     },
@@ -1029,7 +1071,9 @@ Array [
     "kind": "Service",
     "metadata": Object {
       "labels": Object {
-        "release": "RELEASE_NAME",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
       },
       "name": "RELEASE_NAME-serve",
     },
@@ -1051,8 +1095,10 @@ Array [
     "kind": "Deployment",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-serve",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-serve",
     },
