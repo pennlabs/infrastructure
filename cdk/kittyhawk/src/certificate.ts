@@ -28,7 +28,7 @@ export class Certificate extends Construct {
       },
     });
     // ~1 is an escaped version of a forward slash "/"
-    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of"));
-    certificate.addJsonPatch(JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version"));
+    certificate.addJsonPatch(JsonPatch.remove('/metadata/labels/app.kubernetes.io~1part-of'));
+    certificate.addJsonPatch(JsonPatch.remove('/metadata/labels/app.kubernetes.io~1version'));
   }
 }

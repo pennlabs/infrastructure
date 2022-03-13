@@ -19,7 +19,7 @@ export interface ReactApplicationProps {
    * isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * paths is the list of paths to expose the application on.
    * See the certificate documentation for more details.
-   * 
+   *
    */
   readonly domain: HostRules;
 

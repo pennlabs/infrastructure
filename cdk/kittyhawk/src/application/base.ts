@@ -26,7 +26,7 @@ export interface ApplicationProps {
    * Port to expose the application on.
    */
   readonly port?: number;
-  
+
   /**
    * Creates a service account and attach it to any deployment pods.
    * serviceAccountName: release name
@@ -67,7 +67,7 @@ export class Application extends Construct {
           new Certificate(this, fullname, rules);
           alreadyCreatedCertificates.add(finalDomain);
         }
-      })
+      });
     }
   }
 }

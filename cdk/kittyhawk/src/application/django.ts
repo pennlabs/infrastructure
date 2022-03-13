@@ -17,12 +17,12 @@ export interface DjangoApplicationProps {
   readonly port?: number;
 
   /**
-   * Array of domain(s). 
+   * Array of domain(s).
    * Host is the domain the application runs on,
    * and isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * paths is the list of paths to expose the application on.
    * See the certificate documentation for more details.
-   * 
+   *
    * Domain is optional if the application is not publicly accessible (e.g. celery)
    */
   readonly domains?: NonEmptyArray<HostRules>;
@@ -51,7 +51,7 @@ export class DjangoApplication extends Application {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
     const djangoExtraEnv = [...new Set([
       ...props.deployment?.env || [],
-      ...props.domains ? [{ name: 'DOMAINS', value: nonEmptyMap(props.domains, (h => h.host)).join()}] : [],
+      ...props.domains ? [{ name: 'DOMAINS', value: nonEmptyMap(props.domains, (h => h.host)).join() }] : [],
       { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
     ])];
 
@@ -62,7 +62,7 @@ export class DjangoApplication extends Application {
         ...props.deployment,
         env: djangoExtraEnv,
       },
-      // Configure the ingress using paths if domains is defined.    
+      // Configure the ingress using paths if domains is defined.
       ingress: props.domains ? {
         rules: nonEmptyMap(props.domains, (h => ({
           host: h.host,
