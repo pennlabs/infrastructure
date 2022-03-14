@@ -14,72 +14,120 @@ export function buildTagOverrideChart(scope: Construct) {
   });
 }
 
-function buildRedisChart(scope: Construct) {
-  new RedisApplication(scope, 'redis', {});
+function buildRedisChartDefault(scope: Construct) {
+  new RedisApplication(scope, 'redis', testConfig.redis.default);
 }
-function buildFailingDjangoChart(scope: Construct) {
-  new DjangoApplication(scope, 'platform', testConfig.django.failing);
+function buildRedisChartExample(scope: Construct) {
+  new RedisApplication(scope, 'redis', testConfig.redis.example);
 }
-function buildExampleDjangoChart(scope: Construct) {
-  new DjangoApplication(scope, 'platform', testConfig.django.example);
-}
-function buildDefaultDjangoChart(scope: Construct) {
+
+function buildDjangoChartDefault(scope: Construct) {
   new DjangoApplication(scope, 'platform', testConfig.django.default);
 }
-function buildExampleReactChart(scope: Construct) {
+function buildDjangoChartExample(scope: Construct) {
+  new DjangoApplication(scope, 'platform', testConfig.django.example);
+}
+function buildDjangoIngressUndefinedDomainsChart(scope: Construct) {
+  new DjangoApplication(scope, 'platform', testConfig.django.undefinedDomains);
+}
+function buildDjangoChartDuplicateEnv(scope: Construct) {
+  new DjangoApplication(scope, 'platform', testConfig.django.duplicateEnv);
+}
+function buildReactChartDefault(scope: Construct) {
+  new ReactApplication(scope, 'react', testConfig.react.default);
+}
+function buildReactChartExample(scope: Construct) {
   new ReactApplication(scope, 'react', testConfig.react.example);
 }
-function buildFailingReactChart(scope: Construct) {
-  new ReactApplication(scope, 'react', testConfig.react.failing);
-}
-function buildDefaultValuesReactChart(scope: Construct) {
-  new ReactApplication(scope, 'react', testConfig.react.default);
+function buildReactChartDuplicateEnv(scope: Construct) {
+  new ReactApplication(scope, 'react', testConfig.react.duplicateEnv);
 }
 
 test('Tag Override', () => chartTest(buildTagOverrideChart));
 
-test('Redis Application', () => chartTest(buildRedisChart));
-test('Django Application -- Example', () => chartTest(buildExampleDjangoChart));
-test('Django Application -- Example Duplicate Env', () => chartTest(buildFailingDjangoChart));
-test('Django Application -- Default', () => chartTest(buildDefaultDjangoChart));
-test('React Application -- Example', () => chartTest(buildExampleReactChart));
-test('React Application -- Example Duplicate Env', () => chartTest(buildFailingReactChart));
-// TODO - add comparison to make sure the default values are correct
-// e.g. (portEnv is assumed to be 80 & replicas is also defaulted)
-// TODO - add instance with ingress annotations (ex: https://github.com/pennlabs/penn-courses/blob/a043e2262cf665ad5cfc353f635de7dc5a28e00b/k8s/values.yaml#L27-L28)
-test('React Application -- Default', () => chartTest(buildDefaultValuesReactChart));
+test('Redis Application -- Default', () => chartTest(buildRedisChartDefault));
+test('Redis Application -- Example', () => chartTest(buildRedisChartExample));
 
-const testConfig = {
-  django: {
-    example: {
-      deployment: {
-        image: 'pennlabs/platform',
-        replicas: 2,
-        env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
-      },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
-      djangoSettingsModule: 'Platform.settings.production',
-      portEnv: '80',
+test('Django Application -- Default', () => chartTest(buildDjangoChartDefault));
+test('Django Application -- Example', () => chartTest(buildDjangoChartExample));
+test('Django Application -- Duplicate Env', () => chartTest(buildDjangoChartDuplicateEnv));
+test('Django Application -- Undefined Domains Chart', () => chartTest(buildDjangoIngressUndefinedDomainsChart));
+
+test('React Application -- Default', () => chartTest(buildReactChartDefault));
+test('React Application -- Example', () => chartTest(buildReactChartExample));
+test('React Application -- Duplicate Env', () => chartTest(buildReactChartDuplicateEnv));
+
+/**
+ * Test Configuration for RedisApplication
+ * 
+ * default - assumes the default values for the configuration
+ * example - uses the customized values for the configuration
+ */
+const redisTestConfig = { 
+  default: {},
+  example: {
+    deployment: {
+      image: 'custom-redis-image',
+      tag: '5.0',
     },
-    default: {
+    port: 6380,
+    createServiceAccount: true,
+  }
+}
+
+/** 
+ * Test Configuration for DjangoApplication
+ * 
+ * default - assumes mostly default values for the configuration
+ * example - sample parameters
+ * undefinedDomains - domains is undefined, no ingress required (example: celery on courses backend)
+ * duplicateEnv - env is defined twice, should not throw an error
+ * */ 
+const djangoTestConfig = {
+  default: {
       deployment: {
         image: 'pennlabs/platform',
       },
-      domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
+      domains: [{ host: 'platform.pennlabs.org', paths: ['/'] }] as NonEmptyArray<HostRules>,
       djangoSettingsModule: 'Platform.settings.production',
       createServiceAccount: true,
     },
-    failing: {
+  example: {
+    deployment: {
+      image: 'pennlabs/platform',
+      replicas: 2,
+      env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
+    },
+    domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
+    djangoSettingsModule: 'Platform.settings.production',
+    portEnv: '8080',
+  },
+  duplicateEnv: {
       deployment: {
         image: 'pennlabs/platform',
-        /** Django Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
       },
       domains: [{ host: 'platform.pennlabs.org', isSubdomain: true, paths: ['/'] }] as NonEmptyArray<HostRules>,
       djangoSettingsModule: 'Platform.settings.production',
-    },
   },
-  react: {
+  undefinedDomains: {
+      deployment: {
+        image: 'pennlabs/platform',
+        env: [{ name: 'DOMAIN', value: 'platform.pennlabs.org' }],
+      },
+      domains: undefined,
+      djangoSettingsModule: 'Platform.settings.production',
+  },
+}
+
+/**
+ * Test Configuration for ReactApplication
+ * 
+ * default - assumes mostly default values for the configuration
+ * example - sample parameters
+ * duplicateEnv - env is defined twice, should not throw an error
+ */
+const reactTestConfig = {
     default: {
       deployment: {
         image: 'pennlabs/penn-clubs-frontend',
@@ -94,17 +142,21 @@ const testConfig = {
         env: [{ name: 'SOME_ENV', value: 'environment variables are cool' }],
       },
       domain: { host: 'pennclubs.com', paths: ['/'] },
-      portEnv: '80',
+      portEnv: '8080',
     },
-    failing: {
+    duplicateEnv: {
       deployment: {
         image: 'pennlabs/penn-clubs-frontend',
         replicas: 2,
-        /** React Duplicated DOMAIN Env should NO longer fail :D **/
         env: [{ name: 'DOMAIN', value: 'pennclubs.com' }],
       },
       domain: { host: 'pennclubs.com', paths: ['/'] },
       portEnv: '80',
     },
-  },
+}
+
+const testConfig = {
+  redis: redisTestConfig,
+  django: djangoTestConfig,
+  react: reactTestConfig,
 };
