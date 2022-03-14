@@ -7,15 +7,15 @@ With Kittyhawk, you can define an application's deployment configuration in Type
 
 The easiest way to get started with a Kittyhawk project is by following the following steps or by copying one of our existing products. At the end of this README, you can also see a simple example typescript file using Kittyhawk.
 
-## 1. Set-up CDK8s Typescript Project
-Create a `k8s` folder in your project. Within that folder, create a `cdk` folder. 
+## 1. Set up CDK8s Typescript Project
+Create a `k8s` folder within your project. Within that folder, create a `cdk` folder. 
 
-Within the `cdk` folder, initialize a `cdk8s` typescript project. You can do that by following the official cdk8s instructions [here](https://cdk8s.io/docs/latest/getting-started/#new-project). 
+Inside the `cdk` folder, initialize a `cdk8s` typescript project. You can do that by following the official cdk8s instructions [here](https://cdk8s.io/docs/latest/getting-started/#new-project). 
 
 ## 2. Add Kittyhawk
 Import the kittyhawk library from `yarn` or `npm` and start writing your deployment configuration in Typescript.
 
-On the very top level, set up your `main.ts` file in the following format using the `PennLabsChart`. 
+At the very top level, add to your `main.ts` file in the following format using the `PennLabsChart`. 
 
 ```
 export class MyChart extends PennLabsChart {
@@ -25,28 +25,43 @@ export class MyChart extends PennLabsChart {
 }
 ```
 
-Within your chart, you can add various applications, cronjobs, and other configurations, including the following custom constructs:
+Within your chart, you can add various applications, cronjobs, and other configurations supported by kittyhawk, including the following custom constructs:
 - `ReactApplication`
 - `DjangoApplication`
 - `CronJob`
 - `Redis`
 
+For more advanced custom constructs, please refer to our [documentation](TODO) (TODO: add link).
+
+### Cron-time-generator
+In many of our Penn Labs products, we use cronjobs to simplify our product tasks (e.g. loading courses, calculating office hours wait time).  
+
+`cron-time-generator` ([npm link](https://www.npmjs.com/package/cron-time-generator)) is a package that allows for intuitive generation of cron job time expressions. 
+
+It is not required to use this, but it is a developer dependency for kittyhawk and better practice: instead of specifying the time of a cronjob that runs every 5 minutes as `*/5 * * * *`, you can say `cronTime.every(5).minutes()`. 
+
+For specifics of using `cron-time-generator`, refer to the documentation on npm or our code example at the bottom of this doc.
+
 ## 3. Incorporate Kittyhawk into CI
-### How yaml generation works
-Kittyhawk can generate the yaml file for you. In order to do so, you must `cd` into the `k8s/cdk` directory. Then, you can generate the yaml by running `yarn compile && yarn synth`. The generated yaml file would appear in the `dist` folder (`RELEASE_NAME.k8s.yaml`). 
+After the typescript constructs have been added and configured, the deployment yaml can be generated. 
+### How yaml generation works (command line)
+> **Note**: You should *NOT* be generating yaml manually and adding the generated yaml to the repository. Instead, it's important to add the yaml generation to the github actions or the CI you have already built. 
+
+The following instructions are for *local testing purposes only* and if you want to understand what goes on under the hood.
+
+To generate a yaml file, you must first change (`cd`) into the `k8s/cdk` directory. Then, you can generate the yaml by running `yarn compile && yarn synth`. The generated yaml file would appear in the `dist` folder (`RELEASE_NAME.k8s.yaml`). 
 
 > For yaml generation to work properly, it's required to specify the following environment variables:
-> - RELEASE_NAME: the name of the application being deploy (set to name of repository)
-> - GIT_SHA: the sha of the latest commit
+> - `RELEASE_NAME`: the name of the application being deploy (set to name of repository)
+> - `GIT_SHA`: the sha of the latest commit
 
-However, you should not be generating yaml manually and adding the generated yaml to the repository. Instead, it's important to add it to the github actions or the CI you have already built.
 ### Adding Kittyhawk to the CI
-The deploy job in Kraken would handle the yaml file generation.
+The deploy job (`DeployJob`) in [Kraken](https://github.com/pennlabs/infrastructure/tree/master/cdk/kraken) would handle the yaml file generation process. For more information, see the kraken
 
 ## Example
-The [kittyhawk-demo repository](https://github.com/joyliu-q/kittyhawk-demos) contains examples of current Penn labs product co application deployed with Kittyhawk, along with their generated yaml. Finally, the `test/integration/` directory contains many examples of current Penn Labs product configurations written with Kittyhawk.
+The [kittyhawk-demo repository](https://github.com/joyliu-q/kittyhawk-demos) contains examples of current Penn labs product application deployed with Kittyhawk, along with their generated yaml.
 
-A sample `main.ts` file is structured like the following, covering the common use cases for Penn Labs products:
+A sample `main.ts` file is included below, covering the more common use cases for Penn Labs products:
 
 ```
 import { Construct } from 'constructs';
