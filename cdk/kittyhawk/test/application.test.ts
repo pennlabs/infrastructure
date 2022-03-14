@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { HostRules } from '../src';
 import { Application, DjangoApplication, ReactApplication, RedisApplication } from '../src/application';
 import { NonEmptyArray } from '../src/utils';
-import { chartTest } from './utils';
+import { chartTest, failingTestNoAWSAccountId, failingTestNoGitSha } from './utils';
 
 export function buildTagOverrideChart(scope: Construct) {
   /** Overrides the image tag set as env var **/
@@ -13,6 +13,17 @@ export function buildTagOverrideChart(scope: Construct) {
     },
   });
 }
+export function buildSimpleChart(scope: Construct) {
+  /** Overrides the image tag set as env var **/
+  new Application(scope, 'serve', {
+    deployment: {
+      image: 'pennlabs/website',
+    },
+  });
+}
+
+test('Application -- No Git Sha', () => failingTestNoGitSha(buildSimpleChart));
+test('Application -- No ServiceAccount But CreateServiceAccount', () => failingTestNoAWSAccountId(buildRedisChartExample));
 
 function buildRedisChartDefault(scope: Construct) {
   new RedisApplication(scope, 'redis', testConfig.redis.default);
