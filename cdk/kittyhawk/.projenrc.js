@@ -25,6 +25,9 @@ const project = new TypeScriptProject({
       coveragePathIgnorePatterns: ['src/imports'],
     },
   },
+  jestOptions: {
+    ignorePatterns: ['src/imports'],
+  },
   eslintOptions: {
     ignorePatterns: ['src/imports/*'],
     prettier: true,

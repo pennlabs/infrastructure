@@ -82,10 +82,10 @@
     ],
     "coverageDirectory": "coverage",
     "coveragePathIgnorePatterns": [
-      "/node_modules/"
+      "src/imports"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "src/imports"
     ],
     "watchPathIgnorePatterns": [
       "/node_modules/"
