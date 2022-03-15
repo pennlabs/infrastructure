@@ -36,7 +36,7 @@ export const failingTest = (build: (scope: Construct) => void) => {
  * Helper function to replace process.exit with a function that throws an error for testing
  */
 const mockExit = jest.spyOn(process, 'exit').mockImplementation((code) => { throw new Error('process.exit: ' + code); });
-const mockConsoleError = jest.spyOn(console, 'error').mockImplementation((error) => { throw new Error('console.error: ' + error); });
+const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => { /* do nothing */ });
 
 export const failingTestNoGitSha = (_: (scope: Construct) => void) => {
   process.env.RELEASE_NAME = 'RELEASE_NAME';
@@ -47,6 +47,7 @@ export const failingTestNoGitSha = (_: (scope: Construct) => void) => {
     const app = Testing.app();
     new PennLabsChart(app, 'kittyhawk');
   }).toThrowError("process.exit: 1");
+  expect(mockConsoleError).toHaveBeenCalledTimes(1);
   expect(mockExit).toHaveBeenCalledWith(1);
   mockExit.mockClear();
 }
@@ -60,7 +61,8 @@ export const failingTestNoAWSAccountId = (build: (scope: Construct) => void) => 
     const app = Testing.app();
     const chart = new PennLabsChart(app, 'kittyhawk');
     build(chart);
-  }).toThrowError("console.error: No AWS_ACCOUNT_ID environment variable provided.");
+  }).toThrowError("process.exit: 1");
   expect(mockConsoleError).toHaveBeenCalledTimes(1);
+  expect(mockExit).toHaveBeenCalledWith(1);
   mockConsoleError.mockClear();
 }

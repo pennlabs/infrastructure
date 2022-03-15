@@ -147,7 +147,6 @@ export class Container implements ContainerInterface {
   readonly volumeMounts?: VolumeMount[];
 
   constructor(props: ContainerProps) {
-
     this.name = 'worker';
     const GIT_SHA = process.env.GIT_SHA;
     if (!GIT_SHA) {
