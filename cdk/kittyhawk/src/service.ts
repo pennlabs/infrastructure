@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { defaultChildName } from "./utils";
 import { KubeService as ServiceApiObject, IntOrString } from "./imports/k8s";
 
 export class Service extends Construct {
@@ -7,7 +8,7 @@ export class Service extends Construct {
 
     const targetPort = port ?? 80;
 
-    new ServiceApiObject(this, `service-${appname}`, {
+    new ServiceApiObject(this, defaultChildName, {
       metadata: {
         name: appname,
       },

@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { KubeIngress as IngressApiObject, IngressRule } from "./imports/k8s";
-import { NonEmptyArray } from "./utils";
+import { NonEmptyArray, defaultChildName } from "./utils";
 
 export interface IngressProps {
   /**
@@ -79,7 +79,7 @@ export class Ingress extends Construct {
       },
     }));
 
-    new IngressApiObject(this, `ingress-${appname}`, {
+    new IngressApiObject(this, defaultChildName, {
       metadata: {
         name: appname,
         annotations: fullConfig.annotations,

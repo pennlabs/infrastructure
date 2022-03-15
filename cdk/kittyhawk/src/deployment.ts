@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { defaultChildName } from "./utils";
 import { Container, ContainerProps, SecretVolume } from "./container";
 import {
   IntOrString,
@@ -38,7 +39,7 @@ export class Deployment extends Construct {
     const secretVolumes: SecretVolume[] =
       props.secretMounts?.map((m) => new SecretVolume(m)) || [];
 
-    new DeploymentApiObject(this, `deployment-${appname}`, {
+    new DeploymentApiObject(this, defaultChildName, {
       metadata: {
         name: appname,
         labels: label,

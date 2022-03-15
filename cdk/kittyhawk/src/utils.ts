@@ -6,3 +6,5 @@ export function nonEmptyMap<T, U>(
 ): NonEmptyArray<U> {
   return arr.map(callbackfn) as any as NonEmptyArray<U>;
 }
+
+export const defaultChildName = "Default";

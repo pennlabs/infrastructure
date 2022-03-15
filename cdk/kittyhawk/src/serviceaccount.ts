@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { defaultChildName } from "./utils";
 import { KubeServiceAccount } from "./imports/k8s";
 
 export interface ServiceAccountProps {
@@ -15,7 +16,7 @@ export class ServiceAccount extends Construct {
       process.exit(1);
     }
 
-    new KubeServiceAccount(this, props.serviceAccountName, {
+    new KubeServiceAccount(this, defaultChildName, {
       metadata: {
         name: props.serviceAccountName,
         annotations: {

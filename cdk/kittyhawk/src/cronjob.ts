@@ -1,4 +1,5 @@
 import { Construct } from "constructs";
+import { defaultChildName } from "./utils";
 import { Container, ContainerProps, SecretVolume } from "./container";
 import { KubeCronJob as CronJobApiObject } from "./imports/k8s";
 
@@ -65,7 +66,7 @@ export class CronJob extends Construct {
       }),
     ];
 
-    new CronJobApiObject(this, `cronjob-${fullname}`, {
+    new CronJobApiObject(this, defaultChildName, {
       metadata: {
         name: fullname,
         labels: { name: fullname },

@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { removeSubdomain } from "..";
+import { defaultChildName, removeSubdomain } from "..";
 import { Certificate } from "../certificate";
 import { Deployment, DeploymentProps } from "../deployment";
 import { Ingress, IngressProps } from "../ingress";
@@ -42,10 +42,10 @@ export class Application extends Construct {
     const release_name = process.env.RELEASE_NAME || "undefined_release";
     const fullname = `${release_name}-${appname}`;
 
-    new Service(this, fullname, props.port);
+    new Service(this, defaultChildName, props.port);
 
     if (props.createServiceAccount) {
-      new ServiceAccount(this, `${appname}-${release_name}`, {
+      new ServiceAccount(this, defaultChildName, {
         serviceAccountName: release_name,
       });
     }
@@ -59,7 +59,7 @@ export class Application extends Construct {
     });
 
     if (props.ingress) {
-      new Ingress(this, fullname, props.ingress);
+      new Ingress(this, defaultChildName, props.ingress);
 
       const alreadyCreatedCertificates = new Set<string>();
 
@@ -69,7 +69,7 @@ export class Application extends Construct {
           rules.isSubdomain ?? false
         );
         if (!alreadyCreatedCertificates.has(finalDomain)) {
-          new Certificate(this, fullname, rules);
+          new Certificate(this, defaultChildName, rules);
           alreadyCreatedCertificates.add(finalDomain);
         }
       });

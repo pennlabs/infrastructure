@@ -11,7 +11,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -21,7 +21,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-platform",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -114,7 +114,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -125,7 +125,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-platform",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -184,7 +184,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -194,7 +194,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-platform",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -276,7 +276,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -287,7 +287,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-platform",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -346,7 +346,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -356,7 +356,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-platform",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -438,7 +438,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -449,7 +449,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-platform",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -508,7 +508,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -518,7 +518,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-platform",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -601,7 +601,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -611,7 +611,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-react",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -689,7 +689,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -700,7 +700,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-react",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -759,7 +759,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -769,7 +769,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-react",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -851,7 +851,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -862,7 +862,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-react",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -921,7 +921,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -931,7 +931,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-react",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1013,7 +1013,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "Default",
     },
     "spec": Object {
       "rules": Array [
@@ -1024,7 +1024,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-react",
+                    "name": "Default",
                     "port": Object {
                       "number": 80,
                     },
@@ -1083,7 +1083,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-redis",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -1093,7 +1093,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-redis",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1168,7 +1168,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-redis",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -1178,7 +1178,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-redis",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1268,7 +1268,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-serve",
+      "name": "Default",
     },
     "spec": Object {
       "ports": Array [
@@ -1278,7 +1278,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "RELEASE_NAME-serve",
+        "name": "Default",
       },
       "type": "ClusterIP",
     },
