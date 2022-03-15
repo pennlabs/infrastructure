@@ -1,6 +1,5 @@
-import { Construct } from 'constructs';
-import { KubeService as ServiceApiObject, IntOrString } from './imports/k8s';
-
+import { Construct } from "constructs";
+import { KubeService as ServiceApiObject, IntOrString } from "./imports/k8s";
 
 export class Service extends Construct {
   constructor(scope: Construct, appname: string, port?: number) {
@@ -13,11 +12,12 @@ export class Service extends Construct {
         name: appname,
       },
       spec: {
-        type: 'ClusterIP', // TODO: make configurable - https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-        ports: [{ port: targetPort, targetPort: IntOrString.fromNumber(targetPort) }],
+        type: "ClusterIP", // TODO: make configurable - https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+        ports: [
+          { port: targetPort, targetPort: IntOrString.fromNumber(targetPort) },
+        ],
         selector: { name: appname },
       },
     });
-
   }
 }

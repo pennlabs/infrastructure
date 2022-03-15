@@ -44,6 +44,7 @@
     "jest": "^27.3.1",
     "jest-junit": "^13.0.0",
     "json-schema": "^0.3.0",
+    "prettier": "^2.5.1",
     "projen": "^0.31.9",
     "standard-version": "^9.3.2",
     "ts-jest": "^27.0.7",

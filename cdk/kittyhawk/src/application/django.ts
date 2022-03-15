@@ -1,9 +1,9 @@
-import { Construct } from 'constructs';
-import { HostRules } from '..';
-import { DeploymentProps } from '../deployment';
-import { IngressProps } from '../ingress';
-import { NonEmptyArray, nonEmptyMap } from '../utils';
-import { Application } from './base';
+import { Construct } from "constructs";
+import { HostRules } from "..";
+import { DeploymentProps } from "../deployment";
+import { IngressProps } from "../ingress";
+import { NonEmptyArray, nonEmptyMap } from "../utils";
+import { Application } from "./base";
 
 export interface DjangoApplicationProps {
   /**
@@ -44,16 +44,27 @@ export interface DjangoApplicationProps {
   readonly createServiceAccount?: boolean;
 }
 
-
 export class DjangoApplication extends Application {
-  constructor(scope: Construct, appname: string, props: DjangoApplicationProps) {
-
+  constructor(
+    scope: Construct,
+    appname: string,
+    props: DjangoApplicationProps
+  ) {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
-    const djangoExtraEnv = [...new Set([
-      ...props.deployment?.env || [],
-      ...props.domains ? [{ name: 'DOMAINS', value: nonEmptyMap(props.domains, (h => h.host)).join() }] : [],
-      { name: 'DJANGO_SETTINGS_MODULE', value: props.djangoSettingsModule },
-    ])];
+    const djangoExtraEnv = [
+      ...new Set([
+        ...(props.deployment?.env || []),
+        ...(props.domains
+          ? [
+              {
+                name: "DOMAINS",
+                value: nonEmptyMap(props.domains, (h) => h.host).join(),
+              },
+            ]
+          : []),
+        { name: "DJANGO_SETTINGS_MODULE", value: props.djangoSettingsModule },
+      ]),
+    ];
 
     // If everything passes, construct the Application.
     super(scope, appname, {
@@ -63,14 +74,16 @@ export class DjangoApplication extends Application {
         env: djangoExtraEnv,
       },
       // Configure the ingress using paths if domains is defined.
-      ingress: props.domains ? {
-        rules: nonEmptyMap(props.domains, (h => ({
-          host: h.host,
-          paths: h.paths,
-          isSubdomain: h.isSubdomain ?? false,
-        }))),
-        ...props.ingressProps,
-      } : undefined,
+      ingress: props.domains
+        ? {
+            rules: nonEmptyMap(props.domains, (h) => ({
+              host: h.host,
+              paths: h.paths,
+              isSubdomain: h.isSubdomain ?? false,
+            })),
+            ...props.ingressProps,
+          }
+        : undefined,
       createServiceAccount: props.createServiceAccount,
     });
   }

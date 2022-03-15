@@ -1,27 +1,27 @@
-import { Construct } from 'constructs';
-import { KubeIngress as IngressApiObject, IngressRule } from './imports/k8s';
-import { NonEmptyArray } from './utils';
+import { Construct } from "constructs";
+import { KubeIngress as IngressApiObject, IngressRule } from "./imports/k8s";
+import { NonEmptyArray } from "./utils";
 
 export interface IngressProps {
   /**
-     * External port.
-     *
-     * @default 80
-     */
+   * External port.
+   *
+   * @default 80
+   */
   readonly port?: number;
 
   /**
-     * A list of host rules used to configure the Ingress.
-     *
-     * @default []
-     */
+   * A list of host rules used to configure the Ingress.
+   *
+   * @default []
+   */
   readonly rules: NonEmptyArray<HostRules>;
 
   /**
-     * A key/value map of annotations to customize the Ingress (do path prefix routing, etc.).
-     *
-     * @default {}
-     */
+   * A key/value map of annotations to customize the Ingress (do path prefix routing, etc.).
+   *
+   * @default {}
+   */
   readonly annotations?: { [key: string]: string };
 }
 
@@ -46,27 +46,29 @@ export class Ingress extends Construct {
   constructor(scope: Construct, appname: string, props: IngressProps) {
     super(scope, `ingress-${appname}`);
 
-
     const fullConfig: Required<IngressProps> = {
       port: 80,
       annotations: props.annotations ?? {},
       ...props,
     };
 
-    const tls = props.rules.map(h => {
-      const hostString: string = `${domainToCertName(h.host, h.isSubdomain ?? false)}-tls`;
+    const tls = props.rules.map((h) => {
+      const hostString: string = `${domainToCertName(
+        h.host,
+        h.isSubdomain ?? false
+      )}-tls`;
       return { hosts: [h.host], secretName: hostString };
     });
 
-    const rules: IngressRule[] = props.rules.map(h => ({
+    const rules: IngressRule[] = props.rules.map((h) => ({
       host: h.host,
       metadata: {
         annotations: props.annotations,
       },
       http: {
-        paths: h.paths.map(path => ({
+        paths: h.paths.map((path) => ({
           path: path,
-          pathType: 'Prefix',
+          pathType: "Prefix",
           backend: {
             service: {
               name: appname,
@@ -77,8 +79,7 @@ export class Ingress extends Construct {
           },
         })),
       },
-    }),
-    );
+    }));
 
     new IngressApiObject(this, `ingress-${appname}`, {
       metadata: {
@@ -101,10 +102,10 @@ export class Ingress extends Construct {
 export function removeSubdomain(d: string, isSubdomain = false) {
   if (isSubdomain) {
     // Must have at least 3 parts to the domain (e.g. xxx.abc.com)
-    if (d.split('.').length < 3) {
+    if (d.split(".").length < 3) {
       throw new Error(`No subdomain found in ${d}.`);
     }
-    return d.split('.').slice(1).join('.');
+    return d.split(".").slice(1).join(".");
   } else {
     return d;
   }
@@ -117,8 +118,8 @@ export function removeSubdomain(d: string, isSubdomain = false) {
  */
 export function domainToCertName(d: string, isSubdomain = false) {
   // Remove everything before the 1st '.' if it is a subdomain.
-  if (d.split('.').length < 2) {
+  if (d.split(".").length < 2) {
     throw new Error(`Ingress creation failed: domain ${d} is invalid.`);
   }
-  return removeSubdomain(d, isSubdomain).split('.').join('-');
+  return removeSubdomain(d, isSubdomain).split(".").join("-");
 }

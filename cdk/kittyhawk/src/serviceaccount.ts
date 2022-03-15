@@ -1,5 +1,5 @@
-import { Construct } from 'constructs';
-import { KubeServiceAccount } from './imports/k8s';
+import { Construct } from "constructs";
+import { KubeServiceAccount } from "./imports/k8s";
 
 export interface ServiceAccountProps {
   readonly serviceAccountName: string;
@@ -11,7 +11,7 @@ export class ServiceAccount extends Construct {
 
     const awsAccountId = process.env.AWS_ACCOUNT_ID;
     if (!awsAccountId) {
-      console.error('No AWS_ACCOUNT_ID environment variable provided.');
+      console.error("No AWS_ACCOUNT_ID environment variable provided.");
       process.exit(1);
     }
 
@@ -19,7 +19,7 @@ export class ServiceAccount extends Construct {
       metadata: {
         name: props.serviceAccountName,
         annotations: {
-          ['eks.amazonaws.com/role-arn']: `arn:aws:iam::${awsAccountId}:role/${props.serviceAccountName}`,
+          ["eks.amazonaws.com/role-arn"]: `arn:aws:iam::${awsAccountId}:role/${props.serviceAccountName}`,
         },
       },
     });

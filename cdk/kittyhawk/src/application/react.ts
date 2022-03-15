@@ -1,7 +1,7 @@
-import { Construct } from 'constructs';
-import { DeploymentProps } from '../deployment';
-import { HostRules, IngressProps } from '../ingress';
-import { Application } from './base';
+import { Construct } from "constructs";
+import { DeploymentProps } from "../deployment";
+import { HostRules, IngressProps } from "../ingress";
+import { Application } from "./base";
 
 export interface ReactApplicationProps {
   /**
@@ -40,15 +40,16 @@ export interface ReactApplicationProps {
   readonly createServiceAccount?: boolean;
 }
 
-
 export class ReactApplication extends Application {
   constructor(scope: Construct, appname: string, props: ReactApplicationProps) {
     // Now, we ensure there are no duplicate env variables, even if they redefine it
-    const reactExtraEnv = [...new Set([
-      ...props.deployment?.env || [],
-      { name: 'DOMAIN', value: props.domain.host },
-      { name: 'PORT', value: props.portEnv || '80' },
-    ])];
+    const reactExtraEnv = [
+      ...new Set([
+        ...(props.deployment?.env || []),
+        { name: "DOMAIN", value: props.domain.host },
+        { name: "PORT", value: props.portEnv || "80" },
+      ]),
+    ];
 
     // If everything passes, construct the Application.
     super(scope, appname, {

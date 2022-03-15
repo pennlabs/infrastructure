@@ -1,10 +1,10 @@
-import { Construct } from 'constructs';
-import { removeSubdomain } from '..';
-import { Certificate } from '../certificate';
-import { Deployment, DeploymentProps } from '../deployment';
-import { Ingress, IngressProps } from '../ingress';
-import { Service } from '../service';
-import { ServiceAccount } from '../serviceaccount';
+import { Construct } from "constructs";
+import { removeSubdomain } from "..";
+import { Certificate } from "../certificate";
+import { Deployment, DeploymentProps } from "../deployment";
+import { Ingress, IngressProps } from "../ingress";
+import { Service } from "../service";
+import { ServiceAccount } from "../serviceaccount";
 
 /**
  * Warning: Before editing any interfaces, make sure that none of the interfaces will have
@@ -39,7 +39,7 @@ export class Application extends Construct {
     super(scope, appname);
 
     // We want to prepend the project name to the name of each component
-    const release_name = process.env.RELEASE_NAME || 'undefined_release';
+    const release_name = process.env.RELEASE_NAME || "undefined_release";
     const fullname = `${release_name}-${appname}`;
 
     new Service(this, fullname, props.port);
@@ -53,7 +53,9 @@ export class Application extends Construct {
     new Deployment(this, fullname, {
       ...props.deployment,
       port: props.port, // TODO: why is there a port here?
-      ...(props.createServiceAccount ? { serviceAccountName: release_name } : {}),
+      ...(props.createServiceAccount
+        ? { serviceAccountName: release_name }
+        : {}),
     });
 
     if (props.ingress) {
@@ -61,8 +63,11 @@ export class Application extends Construct {
 
       const alreadyCreatedCertificates = new Set<string>();
 
-      props.ingress.rules.forEach(rules => {
-        const finalDomain: string = removeSubdomain(rules.host, rules.isSubdomain ?? false);
+      props.ingress.rules.forEach((rules) => {
+        const finalDomain: string = removeSubdomain(
+          rules.host,
+          rules.isSubdomain ?? false
+        );
         if (!alreadyCreatedCertificates.has(finalDomain)) {
           new Certificate(this, fullname, rules);
           alreadyCreatedCertificates.add(finalDomain);

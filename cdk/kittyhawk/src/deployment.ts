@@ -1,6 +1,11 @@
-import { Construct } from 'constructs';
-import { Container, ContainerProps, SecretVolume } from './container';
-import { IntOrString, KubeDeployment as DeploymentApiObject, KubeServiceAccount, VolumeMount } from './imports/k8s';
+import { Construct } from "constructs";
+import { Container, ContainerProps, SecretVolume } from "./container";
+import {
+  IntOrString,
+  KubeDeployment as DeploymentApiObject,
+  KubeServiceAccount,
+  VolumeMount,
+} from "./imports/k8s";
 
 export interface DeploymentProps extends ContainerProps {
   /**
@@ -17,7 +22,6 @@ export interface DeploymentProps extends ContainerProps {
    */
   readonly secretMounts?: VolumeMount[];
 
-
   /**
    * The service account to be used to attach to any deployment pods.
    * Default serviceAccountName: release name
@@ -33,7 +37,8 @@ export class Deployment extends Construct {
 
     const label = { name: appname };
     const containers: Container[] = [new Container(props)];
-    const secretVolumes: SecretVolume[] = props.secretMounts?.map(m => new SecretVolume(m)) || [];
+    const secretVolumes: SecretVolume[] =
+      props.secretMounts?.map((m) => new SecretVolume(m)) || [];
 
     new DeploymentApiObject(this, `deployment-${appname}`, {
       metadata: {
@@ -46,7 +51,7 @@ export class Deployment extends Construct {
           matchLabels: label,
         },
         strategy: {
-          type: 'RollingUpdate',
+          type: "RollingUpdate",
           rollingUpdate: {
             maxSurge: IntOrString.fromNumber(3),
             maxUnavailable: IntOrString.fromNumber(0),
@@ -56,7 +61,9 @@ export class Deployment extends Construct {
           metadata: { labels: label },
           spec: {
             // The next line checks if serviceAccount exists, and adds it to serviceAccountName
-            ...(props.serviceAccount ? { serviceAccountName: props.serviceAccount.name } : {}),
+            ...(props.serviceAccount
+              ? { serviceAccountName: props.serviceAccount.name }
+              : {}),
             containers: containers,
             volumes: secretVolumes,
           },

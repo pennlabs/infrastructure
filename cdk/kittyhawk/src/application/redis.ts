@@ -1,6 +1,6 @@
-import { Construct } from 'constructs';
-import { DeploymentProps } from '../deployment';
-import { Application } from './base';
+import { Construct } from "constructs";
+import { DeploymentProps } from "../deployment";
+import { Application } from "./base";
 
 export interface RedisApplicationProps {
   /**
@@ -23,11 +23,15 @@ export interface RedisApplicationProps {
 }
 
 export class RedisApplication extends Application {
-  constructor(scope: Construct, appname: string, redisProps: RedisApplicationProps) {
+  constructor(
+    scope: Construct,
+    appname: string,
+    redisProps: RedisApplicationProps
+  ) {
     super(scope, appname, {
       deployment: {
-        image: redisProps.deployment?.image ?? 'redis',
-        tag: redisProps.deployment?.tag ?? '6.0',
+        image: redisProps.deployment?.image ?? "redis",
+        tag: redisProps.deployment?.tag ?? "6.0",
         ...redisProps.deployment,
       },
       port: redisProps.port ?? 6379,
