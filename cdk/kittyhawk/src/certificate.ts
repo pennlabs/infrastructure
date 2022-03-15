@@ -33,13 +33,19 @@ export class Certificate extends Construct {
         },
       },
     });
+
     // Remove labels added by PennLabsChart
     // ~1 is an escaped version of a forward slash "/"
-    certificate.addJsonPatch(
-      JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of")
-    );
-    certificate.addJsonPatch(
-      JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version")
-    );
+    if (certificate.metadata.getLabel("app.kubernetes.io/part-of")) {
+      certificate.addJsonPatch(
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of")
+      );
+    }
+    if (certificate.metadata.getLabel("app.kubernetes.io/version")) {
+      certificate.addJsonPatch(
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version")
+      );
+    }
+
   }
 }
