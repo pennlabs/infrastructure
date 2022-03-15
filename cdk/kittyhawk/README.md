@@ -8,12 +8,10 @@ With Kittyhawk, you can define an application's deployment configuration in Type
 The easiest way to get started with a Kittyhawk project is by following the following steps or by copying one of our existing products. At the end of this README, you can also see a simple example typescript file using Kittyhawk.
 
 ## 1. Set up CDK8s Typescript Project
-Create a `k8s` folder within your project. Within that folder, create a `cdk` folder. 
-
-Inside the `cdk` folder, initialize a `cdk8s` typescript project. You can do that by following the official cdk8s instructions [here](https://cdk8s.io/docs/latest/getting-started/#new-project). 
+Create a `k8s` folder within your project. Inside the `k8s` folder, initialize a `cdk8s` typescript project. You can do that by following the official cdk8s instructions [here](https://cdk8s.io/docs/latest/getting-started/#new-project). 
 
 ## 2. Add Kittyhawk
-Import the kittyhawk library from `yarn` or `npm` and start writing your deployment configuration in Typescript.
+Import the kittyhawk library (`yarn add @pennlabs/kittyhawk`) and start writing your deployment configuration in Typescript.
 
 At the very top level, add to your `main.ts` file in the following format using the `PennLabsChart`. 
 
@@ -31,7 +29,7 @@ Within your chart, you can add various applications, cronjobs, and other configu
 - `CronJob`
 - `Redis`
 
-For more advanced custom constructs, please refer to our [documentation](TODO) (TODO: add link).
+For more advanced custom constructs, please refer to our [documentation](https://kittyhawk.pennlabs.org/)
 
 ### Cron-time-generator
 In many of our Penn Labs products, we use cronjobs to simplify our product tasks (e.g. loading courses, calculating office hours wait time).  
