@@ -1,4 +1,4 @@
-const { TypeScriptProject } = require('projen');
+const { TypeScriptProject } = require('projen/lib/typescript');
 const common = require('../projen-common');
 
 const project = new TypeScriptProject({
@@ -25,6 +25,10 @@ const project = new TypeScriptProject({
       coveragePathIgnorePatterns: ['src/imports'],
     },
   },
+  prettier: true,
+  prettierOptions: {
+    ignoreFile: true,
+  },
   jestOptions: {
     ignorePatterns: ['src/imports'],
   },
@@ -37,5 +41,6 @@ const project = new TypeScriptProject({
   },
 });
 
+project.prettier?.ignoreFile?.addPatterns("src/imports");
 project.setScript('test', "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test");
 project.synth();

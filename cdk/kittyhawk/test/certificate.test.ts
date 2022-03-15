@@ -29,4 +29,5 @@ export const nonPennLabsChartTest = (build: (scope: Construct) => void) => {
 
 test("Certificate -- Failing", () => failingTest(buildFailingCertificateChart));
 test("Certificate -- Success", () => chartTest(buildCertificateChart));
-test("Certificate (Non Penn Labs Chart) -- Success", () => nonPennLabsChartTest(buildCertificateChart));
+test("Certificate (Non Penn Labs Chart) -- Success", () =>
+  nonPennLabsChartTest(buildCertificateChart));

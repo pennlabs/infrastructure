@@ -7,19 +7,23 @@
     "directory": "cdk/kittyhawk"
   },
   "scripts": {
-    "import": "npx projen import",
-    "compile": "npx projen compile",
-    "test": "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test",
     "build": "npx projen build",
-    "test:watch": "npx projen test:watch",
-    "test:update": "npx projen test:update",
+    "compile": "npx projen compile",
     "default": "npx projen default",
-    "watch": "npx projen watch",
-    "package": "npx projen package",
-    "eslint": "npx projen eslint",
     "docgen": "npx projen docgen",
+    "eject": "npx projen eject",
+    "eslint": "npx projen eslint",
+    "import": "npx projen import",
+    "package": "npx projen package",
+    "post-compile": "npx projen post-compile",
+    "post-upgrade": "npx projen post-upgrade",
+    "pre-compile": "npx projen pre-compile",
+    "test": "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test",
+    "test:update": "npx projen test:update",
+    "test:watch": "npx projen test:watch",
     "upgrade": "npx projen upgrade",
     "upgrade-projen": "npx projen upgrade-projen",
+    "watch": "npx projen watch",
     "projen": "npx projen"
   },
   "author": {
@@ -29,23 +33,23 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^14.17.0",
-    "@typescript-eslint/eslint-plugin": "^5.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
+    "@types/node": "^12",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
     "cdk8s-cli": "1.0.0-beta.50",
     "codecov": "^3.8.3",
-    "eslint": "^8.1.0",
+    "eslint": "^8",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.3.1",
-    "jest-junit": "^12",
+    "jest-junit": "^13",
     "json-schema": "^0.3.0",
-    "npm-check-updates": "^11",
+    "npm-check-updates": "^12",
     "prettier": "^2.5.1",
-    "projen": "^0.31.9",
+    "projen": "^0.52.72",
     "ts-jest": "^27.0.7",
     "typedoc": "^0.21.4",
     "typescript": "^4.4.4"
@@ -55,7 +59,6 @@
     "constructs": "^3.3.161",
     "cron-time-generator": "^1.3.0"
   },
-  "bundledDependencies": [],
   "keywords": [
     "cdk",
     "cdk8s",
@@ -69,8 +72,8 @@
   "version": "0.0.0",
   "jest": {
     "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)+(spec|test).ts?(x)"
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/(test|src)/**/?(*.)+(spec|test).ts?(x)"
     ],
     "clearMocks": true,
     "collectCoverage": true,
@@ -78,6 +81,7 @@
       "json",
       "lcov",
       "clover",
+      "cobertura",
       "text"
     ],
     "coverageDirectory": "coverage",

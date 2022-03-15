@@ -2,6 +2,8 @@
 !/.gitattributes
 !/.projen/tasks.json
 !/.projen/deps.json
+!/.projen/files.json
+!/.github/workflows/pull-request-lint.yml
 !/.github/workflows/stale.yml
 !/package.json
 !/LICENSE
@@ -34,6 +36,8 @@ jspm_packages/
 /test-reports/
 junit.xml
 /coverage/
+!/.prettierignore
+!/.prettierrc.json
 !/test/
 !/tsconfig.json
 !/tsconfig.dev.json

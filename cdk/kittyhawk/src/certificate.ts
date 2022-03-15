@@ -46,6 +46,5 @@ export class Certificate extends Construct {
         JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version")
       );
     }
-
   }
 }
