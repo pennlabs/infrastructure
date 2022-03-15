@@ -12,8 +12,6 @@ export interface IngressProps {
 
   /**
    * A list of host rules used to configure the Ingress.
-   *
-   * @default []
    */
   readonly rules: NonEmptyArray<HostRules>;
 

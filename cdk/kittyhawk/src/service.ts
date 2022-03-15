@@ -12,7 +12,7 @@ export class Service extends Construct {
         name: appname,
       },
       spec: {
-        type: "ClusterIP", // TODO: make configurable - https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+        type: "ClusterIP",
         ports: [
           { port: targetPort, targetPort: IntOrString.fromNumber(targetPort) },
         ],

@@ -27,8 +27,6 @@ export interface DeploymentProps extends ContainerProps {
    * Default serviceAccountName: release name
    */
   readonly serviceAccount?: KubeServiceAccount;
-
-  // TODO: allow multiple containers
 }
 
 export class Deployment extends Construct {

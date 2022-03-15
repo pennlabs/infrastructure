@@ -52,7 +52,7 @@ export class Application extends Construct {
 
     new Deployment(this, fullname, {
       ...props.deployment,
-      port: props.port, // TODO: why is there a port here?
+      port: props.port,
       ...(props.createServiceAccount
         ? { serviceAccountName: release_name }
         : {}),
