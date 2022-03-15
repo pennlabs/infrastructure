@@ -17,7 +17,7 @@ export class Service extends Construct {
         ports: [
           { port: targetPort, targetPort: IntOrString.fromNumber(targetPort) },
         ],
-        selector: { name: appname },
+        selector: { "app.kubernetes.io/name": appname },
       },
     });
   }

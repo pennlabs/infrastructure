@@ -34,7 +34,7 @@ export class Deployment extends Construct {
   constructor(scope: Construct, appname: string, props: DeploymentProps) {
     super(scope, `deployment-${appname}`);
 
-    const label = { name: appname };
+    const label = { "app.kubernetes.io/name": appname };
     const containers: Container[] = [new Container(props)];
     const secretVolumes: SecretVolume[] =
       props.secretMounts?.map((m) => new SecretVolume(m)) || [];

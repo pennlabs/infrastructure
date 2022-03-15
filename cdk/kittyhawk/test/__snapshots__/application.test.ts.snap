@@ -21,7 +21,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -47,9 +47,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-platform",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -57,7 +57,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-platform",
+          "app.kubernetes.io/name": "RELEASE_NAME-platform",
         },
       },
       "strategy": Object {
@@ -70,7 +70,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-platform",
+            "app.kubernetes.io/name": "RELEASE_NAME-platform",
           },
         },
         "spec": Object {
@@ -194,7 +194,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -205,9 +205,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-platform",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -215,7 +215,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-platform",
+          "app.kubernetes.io/name": "RELEASE_NAME-platform",
         },
       },
       "strategy": Object {
@@ -228,7 +228,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-platform",
+            "app.kubernetes.io/name": "RELEASE_NAME-platform",
           },
         },
         "spec": Object {
@@ -356,7 +356,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -367,9 +367,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-platform",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -377,7 +377,7 @@ Array [
       "replicas": 2,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-platform",
+          "app.kubernetes.io/name": "RELEASE_NAME-platform",
         },
       },
       "strategy": Object {
@@ -390,7 +390,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-platform",
+            "app.kubernetes.io/name": "RELEASE_NAME-platform",
           },
         },
         "spec": Object {
@@ -518,7 +518,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -529,9 +529,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-platform",
       },
       "name": "RELEASE_NAME-platform",
     },
@@ -539,7 +539,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-platform",
+          "app.kubernetes.io/name": "RELEASE_NAME-platform",
         },
       },
       "strategy": Object {
@@ -552,7 +552,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-platform",
+            "app.kubernetes.io/name": "RELEASE_NAME-platform",
           },
         },
         "spec": Object {
@@ -611,7 +611,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -622,9 +622,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-react",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -632,7 +632,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-react",
+          "app.kubernetes.io/name": "RELEASE_NAME-react",
         },
       },
       "strategy": Object {
@@ -645,7 +645,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-react",
+            "app.kubernetes.io/name": "RELEASE_NAME-react",
           },
         },
         "spec": Object {
@@ -769,7 +769,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -780,9 +780,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-react",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -790,7 +790,7 @@ Array [
       "replicas": 2,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-react",
+          "app.kubernetes.io/name": "RELEASE_NAME-react",
         },
       },
       "strategy": Object {
@@ -803,7 +803,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-react",
+            "app.kubernetes.io/name": "RELEASE_NAME-react",
           },
         },
         "spec": Object {
@@ -931,7 +931,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -942,9 +942,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-react",
       },
       "name": "RELEASE_NAME-react",
     },
@@ -952,7 +952,7 @@ Array [
       "replicas": 2,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-react",
+          "app.kubernetes.io/name": "RELEASE_NAME-react",
         },
       },
       "strategy": Object {
@@ -965,7 +965,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-react",
+            "app.kubernetes.io/name": "RELEASE_NAME-react",
           },
         },
         "spec": Object {
@@ -1093,7 +1093,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1104,9 +1104,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-redis",
       },
       "name": "RELEASE_NAME-redis",
     },
@@ -1114,7 +1114,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-redis",
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
         },
       },
       "strategy": Object {
@@ -1127,7 +1127,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-redis",
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
           },
         },
         "spec": Object {
@@ -1178,7 +1178,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1204,9 +1204,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-redis",
       },
       "name": "RELEASE_NAME-redis",
     },
@@ -1214,7 +1214,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-redis",
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
         },
       },
       "strategy": Object {
@@ -1227,7 +1227,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-redis",
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
           },
         },
         "spec": Object {
@@ -1278,7 +1278,7 @@ Array [
         },
       ],
       "selector": Object {
-        "name": "Default",
+        "app.kubernetes.io/name": "Default",
       },
       "type": "ClusterIP",
     },
@@ -1289,9 +1289,9 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-serve",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
-        "name": "RELEASE_NAME-serve",
       },
       "name": "RELEASE_NAME-serve",
     },
@@ -1299,7 +1299,7 @@ Array [
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "name": "RELEASE_NAME-serve",
+          "app.kubernetes.io/name": "RELEASE_NAME-serve",
         },
       },
       "strategy": Object {
@@ -1312,7 +1312,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "name": "RELEASE_NAME-serve",
+            "app.kubernetes.io/name": "RELEASE_NAME-serve",
           },
         },
         "spec": Object {
