@@ -6,7 +6,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^10.17.0",
+      "version": "^14.17.0",
       "type": "build"
     },
     {
@@ -27,11 +27,11 @@
       "type": "build"
     },
     {
-      "name": "cron-time-generator",
+      "name": "eslint",
       "type": "build"
     },
     {
-      "name": "eslint",
+      "name": "eslint-config-prettier",
       "type": "build"
     },
     {
@@ -44,6 +44,10 @@
     },
     {
       "name": "eslint-plugin-import",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-prettier",
       "type": "build"
     },
     {
@@ -60,13 +64,16 @@
       "type": "build"
     },
     {
-      "name": "projen",
-      "version": "^0.17.0",
+      "name": "npm-check-updates",
+      "version": "^11",
       "type": "build"
     },
     {
-      "name": "standard-version",
-      "version": "^9",
+      "name": "prettier",
+      "type": "build"
+    },
+    {
+      "name": "projen",
       "type": "build"
     },
     {
@@ -75,6 +82,7 @@
     },
     {
       "name": "typedoc",
+      "version": "^0.21.4",
       "type": "build"
     },
     {
@@ -88,6 +96,10 @@
     },
     {
       "name": "constructs",
+      "type": "runtime"
+    },
+    {
+      "name": "cron-time-generator",
       "type": "runtime"
     }
   ],

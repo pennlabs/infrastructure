@@ -38,7 +38,7 @@ In many of our Penn Labs products, we use cronjobs to simplify our product tasks
 
 `cron-time-generator` ([npm link](https://www.npmjs.com/package/cron-time-generator)) is a package that allows for intuitive generation of cron job time expressions. 
 
-It is not required to use this, but it is a developer dependency for kittyhawk and better practice: instead of specifying the time of a cronjob that runs every 5 minutes as `*/5 * * * *`, you can say `cronTime.every(5).minutes()`. 
+It is not required to use this, but it is a dependency for kittyhawk and better practice: instead of specifying the time of a cronjob that runs every 5 minutes as `*/5 * * * *`, you can say `cronTime.every(5).minutes()`. 
 
 For specifics of using `cron-time-generator`, refer to the documentation on npm or our code example at the bottom of this doc.
 
@@ -56,11 +56,9 @@ To generate a yaml file, you must first change (`cd`) into the `k8s/cdk` directo
 > - `GIT_SHA`: the sha of the latest commit
 
 ### Adding Kittyhawk to the CI
-The deploy job (`DeployJob`) in [Kraken](https://github.com/pennlabs/infrastructure/tree/master/cdk/kraken) would handle the yaml file generation process. For more information, see the kraken
+The deploy job (`DeployJob`) in [Kraken](https://github.com/pennlabs/infrastructure/tree/master/cdk/kraken) would handle the yaml file generation process. For more information, see the [kraken documentation](https://kraken.pennlabs.org/).
 
 ## Example
-The [kittyhawk-demo repository](https://github.com/joyliu-q/kittyhawk-demos) contains examples of current Penn labs product application deployed with Kittyhawk, along with their generated yaml.
-
 A sample `main.ts` file is included below, covering the more common use cases for Penn Labs products:
 
 ```

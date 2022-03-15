@@ -7,22 +7,20 @@
     "directory": "cdk/kittyhawk"
   },
   "scripts": {
-    "projen": "npx projen",
-    "start": "npx projen start",
     "import": "npx projen import",
     "compile": "npx projen compile",
-    "test:compile": "npx projen test:compile",
     "test": "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test",
     "build": "npx projen build",
-    "bump": "npx projen bump",
-    "release": "npx projen release",
     "test:watch": "npx projen test:watch",
     "test:update": "npx projen test:update",
-    "projen:upgrade": "npx projen projen:upgrade",
+    "default": "npx projen default",
     "watch": "npx projen watch",
     "package": "npx projen package",
     "eslint": "npx projen eslint",
-    "docgen": "npx projen docgen"
+    "docgen": "npx projen docgen",
+    "upgrade": "npx projen upgrade",
+    "upgrade-projen": "npx projen upgrade-projen",
+    "projen": "npx projen"
   },
   "author": {
     "name": "Penn Labs",
@@ -31,29 +29,31 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.4",
+    "@types/node": "^14.17.0",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "cdk8s-cli": "1.0.0-beta.50",
     "codecov": "^3.8.3",
-    "cron-time-generator": "^1.2.2",
     "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.3.1",
-    "jest-junit": "^13.0.0",
+    "jest-junit": "^12",
     "json-schema": "^0.3.0",
+    "npm-check-updates": "^11",
     "prettier": "^2.5.1",
     "projen": "^0.31.9",
-    "standard-version": "^9.3.2",
     "ts-jest": "^27.0.7",
-    "typedoc": "^0.22.6",
+    "typedoc": "^0.21.4",
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "cdk8s": "^1.1.11",
-    "constructs": "^3.3.161"
+    "cdk8s": "^1.0.0-beta.10",
+    "constructs": "^3.3.161",
+    "cron-time-generator": "^1.3.0"
   },
   "bundledDependencies": [],
   "keywords": [
@@ -65,12 +65,9 @@
   ],
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "1.0.7",
   "homepage": "https://kittyhawk.pennlabs.org",
+  "version": "0.0.0",
   "jest": {
-    "coveragePathIgnorePatterns": [
-      "src/imports"
-    ],
     "testMatch": [
       "**/__tests__/**/*.ts?(x)",
       "**/?(*.)+(spec|test).ts?(x)"
@@ -84,6 +81,9 @@
       "text"
     ],
     "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
@@ -102,7 +102,7 @@
     "preset": "ts-jest",
     "globals": {
       "ts-jest": {
-        "tsconfig": "tsconfig.jest.json"
+        "tsconfig": "tsconfig.dev.json"
       }
     }
   },

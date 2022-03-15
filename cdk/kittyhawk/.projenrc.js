@@ -15,8 +15,8 @@ const project = new TypeScriptProject({
       esModuleInterop: true,
     },
   },
-  jestOptions: {
-    typescriptConfig: {
+  typescriptConfig: {
+    tsconfigDev: {
       compilerOptions: {
         esModuleInterop: true,
       },
@@ -27,10 +27,12 @@ const project = new TypeScriptProject({
   },
   eslintOptions: {
     ignorePatterns: ['src/imports/*'],
+    prettier: true,
   },
   scripts: {
     import: 'yarn run cdk8s import --output src/imports',
   },
 });
 
+project.setScript('test', "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test");
 project.synth();

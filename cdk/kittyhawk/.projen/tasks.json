@@ -10,34 +10,19 @@
     },
     "compile": {
       "name": "compile",
-      "category": "00.build",
       "description": "Only compile",
       "steps": [
         {
-          "exec": "tsc"
-        }
-      ]
-    },
-    "test:compile": {
-      "name": "test:compile",
-      "category": "10.test",
-      "description": "compiles the test code",
-      "steps": [
-        {
-          "exec": "tsc --noEmit --project tsconfig.jest.json"
+          "exec": "tsc --build"
         }
       ]
     },
     "test": {
       "name": "test",
-      "category": "10.test",
       "description": "Run tests",
       "steps": [
         {
           "exec": "rm -fr lib/"
-        },
-        {
-          "spawn": "test:compile"
         },
         {
           "exec": "jest --passWithNoTests --all"
@@ -49,9 +34,11 @@
     },
     "build": {
       "name": "build",
-      "category": "00.build",
       "description": "Full release build (test+compile)",
       "steps": [
+        {
+          "exec": "npx projen"
+        },
         {
           "spawn": "test"
         },
@@ -66,34 +53,8 @@
         }
       ]
     },
-    "bump": {
-      "name": "bump",
-      "category": "20.release",
-      "description": "Commits a bump to the package version based on conventional commits",
-      "steps": [
-        {
-          "exec": "standard-version"
-        }
-      ],
-      "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
-    },
-    "release": {
-      "name": "release",
-      "category": "20.release",
-      "description": "Bumps version & push to master",
-      "steps": [
-        {
-          "spawn": "bump"
-        },
-        {
-          "exec": "git push --follow-tags origin master"
-        }
-      ],
-      "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
-    },
     "test:watch": {
       "name": "test:watch",
-      "category": "10.test",
       "description": "Run jest in watch mode",
       "steps": [
         {
@@ -103,7 +64,6 @@
     },
     "test:update": {
       "name": "test:update",
-      "category": "10.test",
       "description": "Update jest snapshots",
       "steps": [
         {
@@ -111,37 +71,27 @@
         }
       ]
     },
-    "projen:upgrade": {
-      "name": "projen:upgrade",
-      "category": "30.maintain",
-      "description": "upgrades projen to the latest version",
+    "default": {
+      "name": "default",
       "steps": [
         {
-          "exec": "yarn upgrade -L projen"
-        },
-        {
-          "exec": "CI=\"\" yarn projen"
+          "exec": "node .projenrc.js"
         }
       ]
     },
     "watch": {
       "name": "watch",
-      "category": "00.build",
       "description": "Watch & compile in the background",
       "steps": [
         {
-          "exec": "tsc -w"
+          "exec": "tsc --build -w"
         }
       ]
     },
     "package": {
       "name": "package",
-      "category": "20.release",
       "description": "Create an npm tarball",
       "steps": [
-        {
-          "exec": "rm -fr dist"
-        },
         {
           "exec": "mkdir -p dist/js"
         },
@@ -155,7 +105,6 @@
     },
     "eslint": {
       "name": "eslint",
-      "category": "10.test",
       "description": "Runs eslint against the codebase",
       "steps": [
         {
@@ -165,11 +114,76 @@
     },
     "docgen": {
       "name": "docgen",
-      "category": "20.release",
       "description": "Generate TypeScript API reference docs",
       "steps": [
         {
-          "exec": "typedoc --entryPoints './src/index.ts' --out docs"
+          "exec": "typedoc src --disableSources --out docs"
+        }
+      ]
+    },
+    "upgrade": {
+      "name": "upgrade",
+      "description": "upgrade dependencies",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli codecov eslint eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier jest jest-junit json-schema npm-check-updates prettier ts-jest typedoc typescript cdk8s constructs cron-time-generator"
+        },
+        {
+          "exec": "npx projen"
+        }
+      ]
+    },
+    "upgrade-projen": {
+      "name": "upgrade-projen",
+      "description": "upgrade projen",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade projen"
+        },
+        {
+          "exec": "npx projen"
         }
       ]
     }
