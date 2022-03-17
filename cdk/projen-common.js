@@ -7,6 +7,11 @@ exports.options = {
     buildWorkflow: false,
     pullRequestTemplate: false,
     releaseWorkflow: false,
+    stale: false,
+    githubOptions: {
+        pullRequestLint: false,
+    },
+    depsUpgrade: false,
     dependabot: false,
     mergify: false,
     compat: false,
