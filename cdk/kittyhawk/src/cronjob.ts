@@ -69,7 +69,7 @@ export class CronJob extends Construct {
     new CronJobApiObject(this, defaultChildName, {
       metadata: {
         name: fullname,
-        labels: { name: fullname },
+        labels: { "app.kubernetes.io/name": fullname },
       },
       spec: {
         schedule: props.schedule,
