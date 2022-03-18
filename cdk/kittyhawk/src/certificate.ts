@@ -22,6 +22,7 @@ export class Certificate extends Construct {
     const certificate = new CertApiObject(this, defaultChildName, {
       metadata: {
         name: hostString,
+        labels: { "app.kubernetes.io/name": hostString },
       },
       spec: {
         secretName: `${hostString}-tls`,

@@ -83,6 +83,7 @@ export class Ingress extends Construct {
       metadata: {
         name: appname,
         annotations: fullConfig.annotations,
+        labels: { "app.kubernetes.io/name": appname },
       },
       spec: {
         tls,

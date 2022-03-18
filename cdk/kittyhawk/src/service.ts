@@ -11,6 +11,7 @@ export class Service extends Construct {
     new ServiceApiObject(this, defaultChildName, {
       metadata: {
         name: appname,
+        labels: { "app.kubernetes.io/name": appname },
       },
       spec: {
         type: "ClusterIP",
