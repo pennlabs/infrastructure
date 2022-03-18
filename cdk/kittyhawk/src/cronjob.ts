@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
-import { defaultChildName } from "./utils";
 import { Container, ContainerProps, SecretVolume } from "./container";
 import { KubeCronJob as CronJobApiObject } from "./imports/k8s";
+import { defaultChildName } from "./utils";
 
 export interface CronJobProps extends ContainerProps {
   /**

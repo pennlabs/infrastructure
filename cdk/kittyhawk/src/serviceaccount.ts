@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
-import { defaultChildName } from "./utils";
 import { KubeServiceAccount } from "./imports/k8s";
+import { defaultChildName } from "./utils";
 
 export interface ServiceAccountProps {
   readonly serviceAccountName: string;

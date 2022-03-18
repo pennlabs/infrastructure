@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
-import { defaultChildName } from "./utils";
 import { KubeService as ServiceApiObject, IntOrString } from "./imports/k8s";
+import { defaultChildName } from "./utils";
 
 export class Service extends Construct {
   constructor(scope: Construct, appname: string, port?: number) {

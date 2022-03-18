@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import { defaultChildName } from "./utils";
 import { Container, ContainerProps, SecretVolume } from "./container";
 import {
   IntOrString,
@@ -7,6 +6,7 @@ import {
   KubeServiceAccount,
   VolumeMount,
 } from "./imports/k8s";
+import { defaultChildName } from "./utils";
 
 export interface DeploymentProps extends ContainerProps {
   /**

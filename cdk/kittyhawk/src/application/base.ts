@@ -6,11 +6,6 @@ import { Ingress, IngressProps } from "../ingress";
 import { Service } from "../service";
 import { ServiceAccount } from "../serviceaccount";
 
-/**
- * Warning: Before editing any interfaces, make sure that none of the interfaces will have
- * property names that conflict with each other. Typescript may not throw an error and it
- * could cause problems.
- */
 export interface ApplicationProps {
   /**
    * Ingress configuration

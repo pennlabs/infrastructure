@@ -1,8 +1,8 @@
 import { JsonPatch } from "cdk8s";
 import { Construct } from "constructs";
-import { defaultChildName } from "./utils";
 import { Certificate as CertApiObject } from "./imports/cert-manager.io";
 import { domainToCertName, removeSubdomain, HostRules } from "./ingress";
+import { defaultChildName } from "./utils";
 
 const CERT_ISSUER_NAME = "wildcard-letsencrypt-prod";
 
