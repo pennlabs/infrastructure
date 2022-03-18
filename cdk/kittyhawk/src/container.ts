@@ -165,7 +165,10 @@ export class Container implements ContainerInterface {
       : [{ containerPort: props.port ?? 80 }];
     this.imagePullPolicy = props.pullPolicy || "IfNotPresent";
     this.command = props.cmd;
-    this.volumeMounts = props.secretMounts;
+    this.volumeMounts = props.secretMounts?.map((vm) => ({
+      ...vm,
+      name: secretVolumeName(vm),
+    }));
     this.envFrom = props.secret
       ? [{ secretRef: { name: props.secret } }]
       : undefined;
@@ -173,6 +176,11 @@ export class Container implements ContainerInterface {
     this.env = [...env, { name: "GIT_SHA", value: GIT_SHA }];
   }
 }
+
+const secretVolumeName = (vm: VolumeMount) => {
+  const mountString = (a: string) => a.toLowerCase().split("_").join("-");
+  return `${mountString(vm.name)}-${vm.subPath && mountString(vm.subPath)}`;
+};
 
 export class SecretVolume implements VolumeInterface {
   /**
@@ -187,7 +195,6 @@ export class SecretVolume implements VolumeInterface {
   readonly secret?: SecretVolumeSource;
 
   constructor(props: VolumeMount) {
-    let mountString = (a: string) => a.toLowerCase().split("_").join("-");
     const items = props.subPath
       ? [
           {
@@ -196,9 +203,7 @@ export class SecretVolume implements VolumeInterface {
           },
         ]
       : [];
-    this.name = `${mountString(props.name)}-${
-      props.subPath && mountString(props.subPath)
-    }`;
+    this.name = secretVolumeName(props);
     this.secret = {
       secretName: props.name,
       items: items,
