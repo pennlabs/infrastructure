@@ -179,9 +179,10 @@ export class Container implements ContainerInterface {
 
 const secretVolumeName = (vm: VolumeMount) => {
   const mountString = (a: string) => a.toLowerCase().split("_").join("-");
-  return `${mountString(vm.name)}-${vm.subPath && mountString(vm.subPath)}`;
+  return `${mountString(vm.name)}${
+    vm.subPath && `-${mountString(vm.subPath)}`
+  }`;
 };
-
 export class SecretVolume implements VolumeInterface {
   /**
    * Name of the volume
