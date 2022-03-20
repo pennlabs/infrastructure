@@ -1,6 +1,7 @@
 import { App, CheckoutJob, Stack, Workflow } from "cdkactions";
 import { CDKPublishStack } from "@pennlabs/kraken"
 import { Construct } from "constructs";
+import { DockerPublishStack, ShibbolethDockerStack } from "./docker";
 
 class TerraformLintStack extends Stack {
   constructor(scope: Construct, name: string) {
@@ -30,7 +31,16 @@ class TerraformLintStack extends Stack {
 }
 
 const app = new App();
+
+// CDK stacks
 new CDKPublishStack(app, 'kraken');
 new CDKPublishStack(app, 'kittyhawk');
+
+// Docker stacks
+const dockerImages = ['datadog-agent', 'django-base', 'pg-s3-backup', 'team-sync'];
+dockerImages.map(name => new DockerPublishStack(app, name));
+new ShibbolethDockerStack(app);
+
+// Misc stacks
 new TerraformLintStack(app, 'terraform');
 app.synth();

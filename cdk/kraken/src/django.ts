@@ -1,5 +1,5 @@
 import { CheckoutJob, Workflow, StepsProps, JobProps } from 'cdkactions';
-import * as dedent from 'dedent-js';
+import dedent from 'ts-dedent';
 import { buildId, buildName } from './utils';
 
 /**
@@ -15,7 +15,7 @@ export interface DjangoCheckJobProps {
 
   /**
    * Python version to test the project with.
-   * @default "3.8"
+   * @default "3.8-buster"
    */
   pythonVersion?: string;
 
@@ -59,7 +59,7 @@ export class DjangoCheckJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DjangoCheckJobProps> = {
       id: '',
-      pythonVersion: '3.8',
+      pythonVersion: '3.8-buster',
       path: '.',
       black: true,
       flake8: true,

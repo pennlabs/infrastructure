@@ -3,10 +3,13 @@ cronjobs:
     schedule: "*/10 * * * *"
     secret: team-sync
     image: pennlabs/team-sync
-    tag: 98bd93b34e2269d3d9d534f05fb8d170077eeb32
+    tag: d6cdea59a93adb81d26053049c82ae9f5f5779ae
+    failureLimit: 1
     extraEnv:
       - name: VAULT_ADDR
         value: https://vault.pennlabs.org
+      - name: PLATFORM_URL
+        value: https://platform.pennlabs.org
 
 rbac:
   createSA: true

@@ -4,6 +4,27 @@ resource "aws_acm_certificate" "vault" {
   validation_method = "DNS"
 }
 
+resource "aws_route53_record" "vault-tls-validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.vault.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = module.domains["pennlabs.org"].zone_id
+}
+
+resource "aws_acm_certificate_validation" "vault" {
+  certificate_arn         = aws_acm_certificate.vault.arn
+  validation_record_fqdns = [for record in aws_route53_record.vault-tls-validation : record.fqdn]
+}
+
 // KMS
 resource "aws_kms_key" "vault" {
   description = "Key to unseal vault"
@@ -217,7 +238,7 @@ resource "aws_lb_listener" "vault" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.vault.arn
+  certificate_arn   = aws_acm_certificate_validation.vault.certificate_arn
 
   default_action {
     type             = "forward"
@@ -237,8 +258,6 @@ resource "aws_lb_target_group_attachment" "vault" {
 // Vault configuration
 module "vault" {
   source              = "./modules/vault"
-  CF_API_KEY          = var.CF_API_KEY
-  GH_PERSONAL_TOKEN   = var.GH_PERSONAL_TOKEN
   GF_GH_CLIENT_ID     = var.GF_GH_CLIENT_ID
   GF_GH_CLIENT_SECRET = var.GF_GH_CLIENT_SECRET
   GF_SLACK_URL        = var.GF_SLACK_URL
@@ -263,4 +282,13 @@ module "db-secret-flush" {
   for_each = setsubtract(local.database_users, ["vault"])
   path     = "secrets/production/default/${each.key}"
   entry    = { DATABASE_URL = "postgres://${each.key}:${postgresql_role.role[each.key].password}@${aws_db_instance.production.endpoint}/${each.key}" }
+}
+
+module "team-sync-flush" {
+  source = "./modules/vault_flush"
+  path   = "${module.vault.secrets-path}/production/default/team-sync"
+
+  entry = {
+    GITHUB_TOKEN = var.GH_PERSONAL_TOKEN
+  }
 }

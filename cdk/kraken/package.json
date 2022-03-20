@@ -52,7 +52,7 @@
   "dependencies": {
     "cdkactions": "^0.2.0",
     "constructs": "^3.2.80",
-    "dedent-js": "^1.0.1"
+    "ts-dedent": "^2.2.0"
   },
   "bundledDependencies": [],
   "keywords": [
@@ -64,7 +64,7 @@
   ],
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "0.6.0",
+  "version": "0.7.1",
   "jest": {
     "clearMocks": true,
     "collectCoverage": true,
