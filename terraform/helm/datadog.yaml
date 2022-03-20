@@ -12,3 +12,9 @@ datadog:
     # datadog.logs.containerCollectAll -- Enable this to allow log collection for all containers
     ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
     containerCollectAll: true
+
+agents:
+  image:
+   repository: docker.io/pennlabs/datadog-agent
+   tag: v0
+   doNotCheckTag: true
