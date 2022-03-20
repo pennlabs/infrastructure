@@ -25,6 +25,6 @@ datadog:
 
 agents:
   image:
-   repository: docker.io/pennlabs/datadog-agent
-   tag: v0
+   repository: pennlabs/datadog-agent
+   tag: 7479c2dd283d4ecc808fc65107048658dde778a2
    doNotCheckTag: true
