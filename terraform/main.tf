@@ -43,7 +43,7 @@ locals {
     "pennlabs.org",
     "pennmobile.org",
   ])
-  traefik_lb_name = "a1ee5ea4aab3543feaedfdb80587d360"
+  traefik_lb_name = "ad78195a74a22499999ab7b88601d3a6"
   vpc_cidr        = "10.0.0.0/16"
   kubeconfig = yamlencode({
     apiVersion      = "v1"
