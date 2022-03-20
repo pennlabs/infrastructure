@@ -37,7 +37,7 @@ new CDKPublishStack(app, 'kraken');
 new CDKPublishStack(app, 'kittyhawk');
 
 // Docker stacks
-const dockerImages = ['django-base', 'pg-s3-backup', 'team-sync'];
+const dockerImages = ['datadog-agent', 'django-base', 'pg-s3-backup', 'team-sync'];
 dockerImages.map(name => new DockerPublishStack(app, name));
 new ShibbolethDockerStack(app);
 
