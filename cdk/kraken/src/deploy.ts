@@ -36,7 +36,6 @@ export class DeployJob extends CheckoutJob {
       ...config,
     };
 
-    // Create job
     super(scope, 'deploy', {
       runsOn: 'ubuntu-latest',
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
@@ -57,6 +56,7 @@ export class DeployJob extends CheckoutJob {
           env: {
             GIT_SHA: fullConfig.deployTag,
             REPOSITORY: '${{ github.repository }}',
+            AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
           },
         },
         {
@@ -66,19 +66,9 @@ export class DeployJob extends CheckoutJob {
           # get repo name from synth step
           RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
 
-          for i in {1..10}; do
-            # This is bash soup, but it'll do.
-            # 1. Attempt to install with kittyhawk
-            # 2. If this succeeds, exit with a success status code
-            # 3. If it fails, mark the command as succeeded so that '-e' doesn't kick us out
-            # 4. Wait 10s and try again
-            kubectl apply -f k8s/dist/kittyhawk.k8s.yaml --prune -l release=$RELEASE_NAME && exit 0 || true
-            sleep 10s
-            echo "Retrying deploy for $i times"
-          done
-
-          # If we get here, all kubectl applies failed so our command should fail
-          exit 1`,
+          # Deploy
+          # TODO: figure out labels/deploy command
+          kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
           env: {
             AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
             AWS_ACCESS_KEY_ID: '${{ secrets.GH_AWS_ACCESS_KEY_ID }}',
