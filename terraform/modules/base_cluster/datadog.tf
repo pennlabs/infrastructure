@@ -1,6 +1,6 @@
 resource "helm_release" "datadog" {
   name       = "datadog"
-  repository = "https://charts.helm.sh/stable"
+  repository = "https://helm.datadoghq.com"
   chart      = "datadog"
   namespace  = "monitoring"
 
