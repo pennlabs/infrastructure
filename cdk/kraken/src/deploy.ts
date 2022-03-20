@@ -26,7 +26,7 @@ export class DeployJob extends CheckoutJob {
    *
    * @param scope cdkactions Workflow instance
    * @param config Optional configuration for the deploy job.
-   * @param overrides Optinoal overrides for the job.
+   * @param overrides Optional overrides for the job.
    */
   public constructor(scope: Workflow, config?: DeployJobProps, overrides?: Partial<JobProps>) {
     // Build config
