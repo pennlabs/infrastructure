@@ -17,11 +17,9 @@ datadog:
     cert_manager.yaml: |-
       ad_identifiers:
         - cert-manager
-        - cert-manager-cainjector
-        - cert-manager-webhook
       init_config:
       instances:
-        - kube_state_url: http://%%host%%:9402/metrics
+        - prometheus_url: http://%%host%%:9402/metrics
 
 agents:
   image:
