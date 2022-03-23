@@ -3,15 +3,16 @@
 exports[`Cron Job with limits 1`] = `
 Array [
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-calculate-waits",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-calculate-waits",
-      "namespace": "default",
     },
     "spec": Object {
       "failedJobsHistoryLimit": 3,
@@ -42,11 +43,6 @@ Array [
                   "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
                   "imagePullPolicy": "IfNotPresent",
                   "name": "worker",
-                  "ports": Array [
-                    Object {
-                      "containerPort": 80,
-                    },
-                  ],
                 },
               ],
               "restartPolicy": "Never",
@@ -64,15 +60,16 @@ Array [
 exports[`Cron Job with volume 1`] = `
 Array [
   Object {
-    "apiVersion": "batch/v1beta1",
+    "apiVersion": "batch/v1",
     "kind": "CronJob",
     "metadata": Object {
       "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
         "name": "RELEASE_NAME-calculate-waits",
-        "release": "RELEASE_NAME",
       },
       "name": "RELEASE_NAME-calculate-waits",
-      "namespace": "default",
     },
     "spec": Object {
       "failedJobsHistoryLimit": 1,
@@ -103,11 +100,6 @@ Array [
                   "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
                   "imagePullPolicy": "IfNotPresent",
                   "name": "worker",
-                  "ports": Array [
-                    Object {
-                      "containerPort": 80,
-                    },
-                  ],
                   "volumeMounts": Array [
                     Object {
                       "mountPath": "/app/ios_key.p8",
