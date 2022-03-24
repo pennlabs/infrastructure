@@ -1,5 +1,8 @@
+const { ReleaseTrigger } = require('projen/lib/release');
 const { TypeScriptProject } = require('projen/lib/typescript');
 const common = require('../projen-common');
+
+process.env.RELEASE = true;
 
 const project = new TypeScriptProject({
   name: '@pennlabs/kittyhawk',
@@ -15,6 +18,9 @@ const project = new TypeScriptProject({
       esModuleInterop: true,
     },
   },
+  release: true,
+  releaseTrigger: ReleaseTrigger.manual({}),
+  npmRegistryUrl: "https://npm.pkg.github.com",
   typescriptConfig: {
     tsconfigDev: {
       compilerOptions: {
