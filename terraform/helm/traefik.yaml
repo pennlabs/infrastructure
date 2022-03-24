@@ -18,7 +18,7 @@ ssl:
     enabled: false
 
 dashboard:
-  enabled: false
+  enabled: true
 
 accessLogs:
   enabled: true
@@ -28,6 +28,8 @@ rbac:
   enabled: true
 
 metrics:
+  datadog:
+    enabled: true
   prometheus:
     enabled: true
     buckets: [0.1, 0.3, 1.2, 5]
