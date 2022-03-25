@@ -8,10 +8,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "ports": Array [
@@ -21,7 +22,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
       },
       "type": "ClusterIP",
     },
@@ -111,10 +112,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "rules": Array [
@@ -125,7 +127,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-platform",
                     "port": Object {
                       "number": 80,
                     },
@@ -152,8 +154,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "platform-pennlabs-org",
       },
       "name": "platform-pennlabs-org",
     },
@@ -181,10 +188,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "ports": Array [
@@ -194,7 +202,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
       },
       "type": "ClusterIP",
     },
@@ -273,10 +281,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "rules": Array [
@@ -287,7 +296,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-platform",
                     "port": Object {
                       "number": 80,
                     },
@@ -314,8 +323,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennlabs-org",
       },
       "name": "pennlabs-org",
     },
@@ -343,10 +357,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "ports": Array [
@@ -356,7 +371,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
       },
       "type": "ClusterIP",
     },
@@ -435,10 +450,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "rules": Array [
@@ -449,7 +465,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-platform",
                     "port": Object {
                       "number": 80,
                     },
@@ -476,8 +492,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennlabs-org",
       },
       "name": "pennlabs-org",
     },
@@ -505,10 +526,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-platform",
     },
     "spec": Object {
       "ports": Array [
@@ -518,7 +540,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-platform",
       },
       "type": "ClusterIP",
     },
@@ -598,10 +620,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "ports": Array [
@@ -611,7 +634,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
       },
       "type": "ClusterIP",
     },
@@ -686,10 +709,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "rules": Array [
@@ -700,7 +724,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-react",
                     "port": Object {
                       "number": 80,
                     },
@@ -727,8 +751,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennclubs-com",
       },
       "name": "pennclubs-com",
     },
@@ -756,10 +785,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "ports": Array [
@@ -769,7 +799,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
       },
       "type": "ClusterIP",
     },
@@ -848,10 +878,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "rules": Array [
@@ -862,7 +893,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-react",
                     "port": Object {
                       "number": 80,
                     },
@@ -889,8 +920,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennclubs-com",
       },
       "name": "pennclubs-com",
     },
@@ -918,10 +954,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "ports": Array [
@@ -931,7 +968,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
       },
       "type": "ClusterIP",
     },
@@ -1010,10 +1047,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-react",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-react",
     },
     "spec": Object {
       "rules": Array [
@@ -1024,7 +1062,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "Default",
+                    "name": "RELEASE_NAME-react",
                     "port": Object {
                       "number": 80,
                     },
@@ -1051,8 +1089,13 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
       "labels": Object {
+        "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennclubs-com",
       },
       "name": "pennclubs-com",
     },
@@ -1080,10 +1123,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-redis",
     },
     "spec": Object {
       "ports": Array [
@@ -1093,7 +1137,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
       },
       "type": "ClusterIP",
     },
@@ -1165,10 +1209,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-redis",
     },
     "spec": Object {
       "ports": Array [
@@ -1178,7 +1223,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
       },
       "type": "ClusterIP",
     },
@@ -1265,10 +1310,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-serve",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "Default",
+      "name": "RELEASE_NAME-serve",
     },
     "spec": Object {
       "ports": Array [
@@ -1278,7 +1324,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "Default",
+        "app.kubernetes.io/name": "RELEASE_NAME-serve",
       },
       "type": "ClusterIP",
     },
