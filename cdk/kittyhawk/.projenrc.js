@@ -42,5 +42,10 @@ const project = new TypeScriptProject({
 });
 
 project.prettier?.ignoreFile?.addPatterns("src/imports");
+project.testTask.steps.forEach(step => {
+  if (step.exec) {
+    step.exec = step.exec.replace(' --updateSnapshot', '');
+  }
+});
 project.setScript('test', "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test");
 project.synth();
