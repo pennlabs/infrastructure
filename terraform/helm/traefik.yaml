@@ -18,7 +18,7 @@ ssl:
     enabled: false
 
 dashboard:
-  enabled: true
+  enabled: false
 
 accessLogs:
   enabled: true
@@ -28,8 +28,6 @@ rbac:
   enabled: true
 
 metrics:
-  datadog:
-    enabled: true
   prometheus:
     enabled: true
     buckets: [0.1, 0.3, 1.2, 5]
@@ -37,6 +35,21 @@ metrics:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9100"
+
+deployment:
+  podAnnotations:
+    ad.datadoghq.com/traefik.check_names: |
+      ["openmetrics"]
+    ad.datadoghq.com/traefik.init_configs: |
+      [{}]
+    ad.datadoghq.com/traefik.instances: | 
+      [
+        {
+          "openmetrics_endpoint": "http://%%host%%:9100/metrics",
+          "namespace": "traefik",
+          "metrics": [".*"]
+        }
+      ]       
 
 imagePullSecrets:
   - docker-pull-secret
