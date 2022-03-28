@@ -21,8 +21,8 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
   - paths - A list of paths to use for this host. (**Required**)
 - pullPolicy (string) - what type of [ImagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) to use. One of "IfNotPresent", "Always", "Never". (**Optional**, default "IfNotPresent")
 - cmd (Array\<string\>) - Command to override docker entrypoint. Provide a list of arguments for the command. (**Optional**, default undefined)
-- containerPort (number) - the target port on the pod for the service to forward traffic to. (**Optional**, defualts to ```port```  if provided, and 80 otherwise)
-- extraEnv (Array) - Array of extra environment variables to export. (**Optional**, default undefined).
+- containerPort (number) - the target port on the pod for the service to forward traffic to. (**Optional**, defaults to ```port```  if provided, and 80 otherwise)
+- env (Array) - Array of extra environment variables to export. (**Optional**, default undefined).
   - Each environment variable should be in the form ```{ name: string, value: string }```, where ```name``` is the env var name, and ```value``` is the env var value.
 - secret (string) - Secret from Vault to use for your application (**Optional**, default undefined)
 - secretMounts (Array) - Array of secret volume mounts for the deployment container. (**Optional**, default undefined)
@@ -30,15 +30,12 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
       - name - name of secret (**Required**)
       - mountPath - Path within the container to mount the secret. (**Required**)
       - subPath (Required) - [sub-path](https://kubernetes.io/docs/concepts/storage/volumes/#using-subpath) to mount the secret in the volume (**Required**)
-- readinessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) to start. (**Optional**, default undefined)
-- livenessProbe ([probeProps](https://kittyhawk.pennlabs.org/interfaces/_container_.probeprops.html)) - A [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to start. (**Optional**, default undefined)
- - autoScalingProps ([AutoscalingProps](https://kittyhawk.pennlabs.org/interfaces/_autoscaler_.autoscalingprops.html)) - Options to configure a Horizontal Pod Autoscaler ([HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)) based on CPU, memory, or request usage. (**Optional**, default undefined)
 
 ### Properties for ReactApplication and DjangoApplication
 DjangoApplication and ReactApplication have special properties that override properties from Application.
 
 For DjangoApplication:
-- domain (string) - Domain for the application. (**Required**)
+- domains (Array\<String, Boolean\>) - Domains for the application, and whether each domain should be treated as a subdomain. (**Required**)
 - ingressPaths (Array\<String\>) - List of paths that should be available on the domain. (**Required**)
 - djangoSettingsModule (string) - DJANGO_SETTINGS_MODULE environment variable. (**Required**)
 
@@ -46,6 +43,7 @@ For ReactApplication:
 - domain (string) - Domain for the application. (**Required**)
 - ingressPaths (Array\<String\>) - List of paths that should be available on the domain. (**Required**)
 - portEnv (string) - PORT environment variable. (**Optional**, default '80')
+- isSubdomain (boolean optional) - If the domain should be treated as a subdomain for certificate purposes. Defaults to false if unspecified.
 
 Use these properties instead of defining an ingress, and the ingress will be auto-configured. Additionally, do not set a DOMAIN environment variable in extraEnv, since it will automatically be set. 
 
@@ -70,7 +68,7 @@ You can find the full reference [here](https://kittyhawk.pennlabs.org/interfaces
 - successLimit (number) - The number of successful finished jobs to retain. (**Optional**, default 1)
 - failureLimit (number) - The number of failed jobs to retain. (**Optional**, default 1)
 
-The following properties from Application are also available: ```tag, cmd, containerPort, extraEnv, livelinessProbe, port, pullPolicy, readinessProbe, replicas, secret, secretMounts```
+The following properties from Application are also available: ```tag, cmd, containerPort, extraEnv, port, pullPolicy, replicas, secret, secretMounts```
 
 
 ## Escape Hatches

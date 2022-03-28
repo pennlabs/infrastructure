@@ -1,7 +1,12 @@
-import { Construct } from 'constructs';
-import { Autoscaler, AutoscalingProps } from './autoscaler';
-import { Container, ContainerProps, Volume } from './container';
-import { KubeDeployment as DeploymentApiObject } from './imports/k8s';
+import { Construct } from "constructs";
+import { Container, ContainerProps, SecretVolume } from "./container";
+import {
+  IntOrString,
+  KubeDeployment as DeploymentApiObject,
+  KubeServiceAccount,
+  VolumeMount,
+} from "./imports/k8s";
+import { defaultChildName } from "./utils";
 
 export interface DeploymentProps extends ContainerProps {
   /**
@@ -16,63 +21,53 @@ export interface DeploymentProps extends ContainerProps {
    *
    * @default []
    */
-  readonly secretMounts?: { name: string; mountPath: string; subPath: string }[];
+  readonly secretMounts?: VolumeMount[];
 
   /**
-   * Properties for autoscaling.
-   * @default - see default autoscaler props
+   * The service account to be used to attach to any deployment pods.
+   * Default serviceAccountName: release name
    */
-  readonly autoScalingProps?: AutoscalingProps;
-
+  readonly serviceAccount?: KubeServiceAccount;
 }
 
 export class Deployment extends Construct {
   constructor(scope: Construct, appname: string, props: DeploymentProps) {
     super(scope, `deployment-${appname}`);
 
-    const label = { name: appname };
+    const label = { "app.kubernetes.io/name": appname };
     const containers: Container[] = [new Container(props)];
-    const volumes: Volume[] | undefined = props.secretMounts?.map(m => new Volume(m));
-    const autoScalingOn : boolean = props.autoScalingProps !== undefined;
+    const secretVolumes: SecretVolume[] =
+      props.secretMounts?.map((m) => new SecretVolume(m)) || [];
 
-    // See https://github.com/kubernetes/kubernetes/issues/25238#issuecomment-570257435 for info
-    if (autoScalingOn && props.replicas !== undefined) {
-      throw new Error('Cannot specify "replicaCount" when auto-scaling is enabled');
-    }
-
-    const deployment = new DeploymentApiObject(this, `deployment-${appname}`, {
+    new DeploymentApiObject(this, defaultChildName, {
       metadata: {
         name: appname,
-        namespace: 'default',
         labels: label,
       },
       spec: {
-        replicas: autoScalingOn ? undefined : (props.replicas ?? 1),
+        replicas: props.replicas ?? 1,
         selector: {
           matchLabels: label,
         },
         strategy: {
-          type: 'RollingUpdate',
+          type: "RollingUpdate",
           rollingUpdate: {
-            maxSurge: 3,
-            maxUnavailable: 0,
+            maxSurge: IntOrString.fromNumber(3),
+            maxUnavailable: IntOrString.fromNumber(0),
           },
         },
         template: {
           metadata: { labels: label },
           spec: {
+            // The next line checks if serviceAccount exists, and adds it to serviceAccountName
+            ...(props.serviceAccount
+              ? { serviceAccountName: props.serviceAccount.name }
+              : {}),
             containers: containers,
-            volumes: volumes,
+            volumes: secretVolumes,
           },
         },
       },
     });
-
-    if (autoScalingOn) {
-      new Autoscaler(this, appname, {
-        target: deployment,
-        ...props.autoScalingProps,
-      });
-    }
   }
 }
