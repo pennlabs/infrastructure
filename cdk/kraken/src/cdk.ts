@@ -81,7 +81,7 @@ export class CDKPublishStack extends Stack {
         yarn package
         mv dist/js/*.tgz dist/js/kraken.tgz
         yarn publish --non-interactive --access public dist/js/kraken.tgz`,
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && "$(npm info @pennlabs/kittyhawk version)" == "$(node -p "require('./package.json').version")"`,
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
         },
