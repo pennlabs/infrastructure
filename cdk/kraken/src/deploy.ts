@@ -44,7 +44,7 @@ export class DeployJob extends CheckoutJob {
           id: 'synth',
           name: 'Synth cdk8s manifests',
           run: dedent`cd k8s
-          yarn install
+          yarn install --frozen-lockfile
 
           # get repo name (by removing owner/organization)
           RELEASE_NAME=\${REPOSITORY#*/}
@@ -67,7 +67,7 @@ export class DeployJob extends CheckoutJob {
           RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
 
           # Deploy
-          # TODO: figure out labels/deploy command
+          kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
           kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
           env: {
             AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
