@@ -17,8 +17,8 @@ At the very top level, add to your `main.ts` file in the following format using 
 
 ```
 export class MyChart extends PennLabsChart {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct) {
+    super(scope);
   }
 }
 ```
@@ -66,8 +66,8 @@ import { PennLabsChart, ReactApplication, DjangoApplication, RedisApplication, C
 const cronTime = require('cron-time-generator');
 
 export class ExampleChart extends PennLabsChart {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct) {
+    super(scope);
 
     const backendImage = 'pennlabs/example-backend';
     const frontendImage = 'pennlabs/examplefrontend';
