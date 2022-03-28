@@ -2,8 +2,6 @@ const { ReleaseTrigger } = require('projen/lib/release');
 const { TypeScriptProject } = require('projen/lib/typescript');
 const common = require('../projen-common');
 
-process.env.RELEASE = true;
-
 const project = new TypeScriptProject({
   name: '@pennlabs/kittyhawk',
   description: 'Tool to generate Kubernetes YAML files using Typescript. Built for Penn Labs.',
@@ -20,7 +18,6 @@ const project = new TypeScriptProject({
   },
   release: true,
   releaseTrigger: ReleaseTrigger.manual({}),
-  npmRegistryUrl: "https://npm.pkg.github.com",
   typescriptConfig: {
     tsconfigDev: {
       compilerOptions: {
@@ -46,6 +43,7 @@ const project = new TypeScriptProject({
     import: 'yarn run cdk8s import --output src/imports',
   },
 });
+
 
 project.prettier?.ignoreFile?.addPatterns("src/imports");
 project.setScript('test', "export GIT_SHA='TESTSHA' AWS_ACCOUNT_ID='TEST_AWS_ACCOUNT_ID' && npx projen test");
