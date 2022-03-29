@@ -2,6 +2,8 @@
 
 ## X.Y.Z (UNRELEASED)
 
+* Modify CDK stack to only publish when a new version is pushed
+
 ## 0.7.1 (2021-12-16)
 
 * Modify PyPI to correctly publish (again)

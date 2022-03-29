@@ -31,14 +31,22 @@ jobs:
           ROOT=$(pwd)
           cd cdk/example
           yarn run codecov -p $ROOT -F example
+      - name: Check if version is already published to npm
+        run: |-
+          cd cdk/example
+          PACKAGE=$(node -p \\"require('./package.json').name\\")
+          VERSION=$(node -p \\"require('./package.json').version\\")
+          NEW_VERSION=$(yarn info $PACKAGE versions --json | jq -e \\".data | any(. == \\\\\\"$VERSION\\\\\\") | not\\")
+          echo \\"::set-output NEW_VERSION=$NEW_VERSION\\"
       - name: Publish to npm
+        id: version_check
         run: |-
           cd cdk/example
           yarn compile
           yarn package
-          mv dist/js/*.tgz dist/js/kraken.tgz
-          yarn publish --non-interactive --access public dist/js/kraken.tgz
-        if: github.ref == 'refs/heads/master'
+          mv dist/js/*.tgz dist/js/example.tgz
+          yarn publish --non-interactive --access public dist/js/example.tgz
+        if: github.ref == 'refs/heads/master' && steps.version_check.outputs.NEW_VERSION
         env:
           NPM_AUTH_TOKEN: \${{ secrets.NPM_AUTH_TOKEN }}
       - name: Build docs
