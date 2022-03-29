@@ -75,13 +75,22 @@ export class CDKPublishStack extends Stack {
         yarn run codecov -p $ROOT -F ${id}`,
       },
       {
+        name: 'Check if version is already published to npm',
+        run: dedent`cd ${path}
+        PACKAGE=\$(node -p "require('./package.json').name")
+        VERSION=\$(node -p "require('./package.json').version")
+        NEW_VERSION=\$(yarn info $PACKAGE versions --json | jq -e ".data | any(. == \\"$VERSION\\") | not")
+        echo "::set-output NEW_VERSION=$NEW_VERSION"`,
+      },
+      {
         name: 'Publish to npm',
+        id: 'version_check',
         run: dedent`cd ${path}
         yarn compile
         yarn package
-        mv dist/js/*.tgz dist/js/kraken.tgz
-        yarn publish --non-interactive --access public dist/js/kraken.tgz`,
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+        mv dist/js/*.tgz dist/js/${id}.tgz
+        yarn publish --non-interactive --access public dist/js/${id}.tgz`,
+        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION`,
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
         },

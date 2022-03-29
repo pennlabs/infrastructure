@@ -3,6 +3,7 @@
 ## X.Y.Z (UNRELEASED)
 
 * Migrate to kittyhawk for deployments
+* Modify CDK stack to only publish when a new version is pushed
 
 ## 0.7.1 (2021-12-16)
 
