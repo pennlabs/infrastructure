@@ -36,7 +36,6 @@ jobs:
           cd cdk/example
           PACKAGE=$(node -p \\"require('./package.json').name\\")
           VERSION=$(node -p \\"require('./package.json').version\\")
-          // TODO: check escaping here
           NEW_VERSION=$(yarn info $PACKAGE versions --json | jq -e \\".data | any(. == \\\\\\"$VERSION\\\\\\") | not\\")
           echo \\"::set-output NEW_VERSION=$NEW_VERSION\\"
       - name: Publish to npm
