@@ -47,7 +47,8 @@ deployment:
         {
           "openmetrics_endpoint": "http://%%host%%:9100/metrics",
           "namespace": "traefik",
-          "metrics": [".*"]
+          "metrics": [".*"],
+          "max_returned_metrics": 3000
         }
       ]       
 
