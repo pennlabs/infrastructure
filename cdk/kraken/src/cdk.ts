@@ -75,6 +75,12 @@ export class CDKPublishStack extends Stack {
         yarn run codecov -p $ROOT -F ${id}`,
       },
       {
+        name: 'Install jq',
+        run: dedent`
+        curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+        chmod +x /usr/bin/jq`,
+      },
+      {
         name: 'Check if version is already published to npm',
         run: dedent`cd ${path}
         PACKAGE=\$(node -p "require('./package.json').name")
