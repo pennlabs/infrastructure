@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.1 (2022-04-01)
+
+* Fix deploy job environment variable handling
+
 ## 0.8.0 (2022-03-29)
 
 * Migrate to kittyhawk for deployments
