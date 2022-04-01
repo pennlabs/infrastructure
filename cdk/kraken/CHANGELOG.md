@@ -2,6 +2,11 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.0 (2022-03-29)
+
+* Migrate to kittyhawk for deployments
+* Modify CDK stack to only publish when a new version is pushed
+
 ## 0.7.1 (2021-12-16)
 
 * Modify PyPI to correctly publish (again)

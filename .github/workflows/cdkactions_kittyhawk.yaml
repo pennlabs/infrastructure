@@ -28,14 +28,22 @@ jobs:
           ROOT=$(pwd)
           cd cdk/kittyhawk
           yarn run codecov -p $ROOT -F kittyhawk
+      - name: Check if version is already published to npm
+        run: |-
+          cd cdk/kittyhawk
+          PACKAGE=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          NEW_VERSION=$(yarn info $PACKAGE versions --json | jq -e ".data | any(. == \"$VERSION\") | not")
+          echo "::set-output NEW_VERSION=$NEW_VERSION"
       - name: Publish to npm
+        id: version_check
         run: |-
           cd cdk/kittyhawk
           yarn compile
           yarn package
-          mv dist/js/*.tgz dist/js/kraken.tgz
-          yarn publish --non-interactive --access public dist/js/kraken.tgz
-        if: github.ref == 'refs/heads/master'
+          mv dist/js/*.tgz dist/js/kittyhawk.tgz
+          yarn publish --non-interactive --access public dist/js/kittyhawk.tgz
+        if: github.ref == 'refs/heads/master' && steps.version_check.outputs.NEW_VERSION
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Build docs
