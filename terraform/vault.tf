@@ -270,7 +270,7 @@ resource "vault_generic_secret" "db-backup" {
   path = "${module.vault.secrets-path}/production/default/db-backup"
 
   data_json = jsonencode({
-    "DATABASE_URL" = "postgres://postgres:${postgresql_role.readonly_role["backups"].password}@${aws_db_instance.production.endpoint}"
+    "DATABASE_URL" = "postgres://${postgresql_role.readonly_role["backups"].name}:${postgresql_role.readonly_role["backups"].password}@${aws_db_instance.production.endpoint}"
     "S3_BUCKET"    = "sql.pennlabs.org"
   })
 }
