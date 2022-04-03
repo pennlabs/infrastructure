@@ -33,14 +33,14 @@ jobs:
           curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
           chmod +x /usr/bin/jq
       - name: Check if version is already published to npm
+        id: version_check
         run: |-
           cd cdk/kittyhawk
           PACKAGE=$(node -p "require('./package.json').name")
           VERSION=$(node -p "require('./package.json').version")
-          NEW_VERSION=$(yarn info $PACKAGE versions --json | jq -e ".data | any(. == \"$VERSION\") | not")
+          NEW_VERSION=$(yarn info $PACKAGE versions --json | jq ".data | any(. == \"$VERSION\") | not")
           echo "::set-output name=NEW_VERSION::$NEW_VERSION"
       - name: Publish to npm
-        id: version_check
         run: |-
           cd cdk/kittyhawk
           yarn compile

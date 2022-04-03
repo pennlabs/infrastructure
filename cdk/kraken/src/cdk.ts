@@ -82,6 +82,7 @@ export class CDKPublishStack extends Stack {
       },
       {
         name: 'Check if version is already published to npm',
+        id: 'version_check',
         run: dedent`cd ${path}
         PACKAGE=\$(node -p "require('./package.json').name")
         VERSION=\$(node -p "require('./package.json').version")
@@ -90,7 +91,6 @@ export class CDKPublishStack extends Stack {
       },
       {
         name: 'Publish to npm',
-        id: 'version_check',
         run: dedent`cd ${path}
         yarn compile
         yarn package

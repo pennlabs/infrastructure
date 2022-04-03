@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.4 (2022-04-03)
+
+* CDK publish: fix version_check id location
+
 ## 0.8.3 (2022-04-03)
 
 * CDK publish: force jq exit code to be 0
