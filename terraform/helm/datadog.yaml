@@ -1,0 +1,19 @@
+datadog:
+  apiKeyExistingSecret: datadog
+  logs:
+    enabled: true
+    containerCollectAll: true
+
+  confd:
+    cert_manager.yaml: |-
+      ad_identifiers:
+        - cert-manager
+      init_config:
+      instances:
+        - prometheus_url: http://%%host%%:9402/metrics
+
+agents:
+  image:
+   repository: pennlabs/datadog-agent
+   tag: 7479c2dd283d4ecc808fc65107048658dde778a2
+   doNotCheckTag: true
