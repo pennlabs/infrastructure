@@ -87,6 +87,15 @@ resource "postgresql_grant" "readonly_tables" {
   privileges  = ["SELECT"]
 }
 
+resource "postgresql_grant" "readonly_sequence" {
+  for_each    = { for config in local.readonly_config : "${config.db}-${config.user}" => config } //local.database_users
+  role        = each.value.user
+  database    = postgresql_database.db[each.value.db].name
+  object_type = "sequence"
+  schema      = "public"
+  privileges  = ["SELECT"]
+}
+
 resource "postgresql_default_privileges" "privileges" {
   for_each    = local.database_users
   database    = postgresql_database.db[each.key].name
