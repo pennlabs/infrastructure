@@ -53,7 +53,7 @@ resource "aws_db_instance" "production" {
 }
 
 resource "random_password" "postgres-password" {
-  for_each = local.database_users
+  for_each = setunion(local.database_users, local.readonly_users)
   length   = 64
   special  = false
 }
@@ -69,6 +69,22 @@ resource "postgresql_role" "role" {
   name     = each.key
   login    = true
   password = random_password.postgres-password[each.key].result
+}
+
+resource "postgresql_role" "readonly_role" {
+  for_each = local.readonly_users
+  name     = each.key
+  password = random_password.postgres-password[each.key].result
+  login    = true
+}
+
+resource "postgresql_grant" "readonly_tables" {
+  for_each    = { for config in local.readonly_config : "${config.db}-${config.user}" => config } //local.database_users
+  role        = each.value.user
+  database    = postgresql_database.db[each.value.db].name
+  object_type = "table"
+  schema      = "public"
+  privileges  = ["SELECT"]
 }
 
 resource "postgresql_default_privileges" "privileges" {
