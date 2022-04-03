@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.3.1",
     "jest-junit": "^13",
-    "json-schema": "^0.3.0",
+    "json-schema": "^0.4.0",
     "prettier": "^2.5.1",
     "projen": "^0.52.72",
     "ts-jest": "^27.0.7",
