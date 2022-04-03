@@ -85,7 +85,7 @@ export class CDKPublishStack extends Stack {
         run: dedent`cd ${path}
         PACKAGE=\$(node -p "require('./package.json').name")
         VERSION=\$(node -p "require('./package.json').version")
-        NEW_VERSION=\$(yarn info $PACKAGE versions --json | jq -e ".data | any(. == \\"$VERSION\\") | not")
+        NEW_VERSION=\$(yarn info $PACKAGE versions --json | jq ".data | any(. == \\"$VERSION\\") | not")
         echo "::set-output name=NEW_VERSION::$NEW_VERSION"`,
       },
       {

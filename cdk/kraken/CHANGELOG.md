@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.3 (2022-04-03)
+
+* CDK publish: force jq exit code to be 0
+
 ## 0.8.2 (2022-04-03)
 
 * Fix CDK publish npm version check output
