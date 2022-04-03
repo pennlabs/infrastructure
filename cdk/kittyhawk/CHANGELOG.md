@@ -1,4 +1,9 @@
 # Changelog
+## 1.1.2 (2022-04-03)
+* Dependency updates
+    * Move cdk8s-cli from `devDependencies` to `dependencies`
+    * Modify dependencies to use latest
+
 ## 1.1.1 (2022-03-28)
 * Fix incorrect update snapshot bug during `yarn test`
 * Make `name` of `PennLabsChart` optional with default value "pennlabs"
