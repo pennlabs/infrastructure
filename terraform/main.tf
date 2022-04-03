@@ -5,6 +5,18 @@ locals {
       "vault",
     ])
   )
+  readonly_users = toset([
+    "bizdev",
+    "backups",
+  ])
+  readonly_config = flatten([
+    for database in local.database_users : [
+      for user in local.readonly_users : {
+        db = database, 
+        user = user
+      }
+    ]
+  ])
   products = toset([
     "common-funding-application",
     "hub-at-penn",
