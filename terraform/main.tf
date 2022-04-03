@@ -5,6 +5,7 @@ locals {
       "vault",
     ])
   )
+  // Make sure there are no duplicates between readonly_users and database_users
   readonly_users = toset([
     "bizdev",
     "backups",
