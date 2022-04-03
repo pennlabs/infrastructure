@@ -50,9 +50,9 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "cdk8s": "^1.0.0-beta.10",
-    "cdk8s-cli": "1.0.0-beta.50",
-    "constructs": "^3.3.161",
+    "cdk8s": "^2.2.57",
+    "cdk8s-cli": "^1.0.141",
+    "constructs": "^10.0.104",
     "cron-time-generator": "^1.3.0"
   },
   "keywords": [
