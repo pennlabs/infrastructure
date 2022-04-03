@@ -33,7 +33,6 @@
     "@types/node": "^12",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "cdk8s-cli": "1.0.0-beta.50",
     "codecov": "^3.8.3",
     "eslint": "^8",
     "eslint-config-prettier": "^8.5.0",
@@ -52,6 +51,7 @@
   },
   "dependencies": {
     "cdk8s": "^1.0.0-beta.10",
+    "cdk8s-cli": "1.0.0-beta.50",
     "constructs": "^3.3.161",
     "cron-time-generator": "^1.3.0"
   },
@@ -65,7 +65,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "homepage": "https://kittyhawk.pennlabs.org",
-  "version": "1.1.1",
+  "version": "0.0.0",
   "jest": {
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
