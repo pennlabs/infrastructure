@@ -4,8 +4,8 @@ const common = require('../projen-common');
 const project = new TypeScriptProject({
   name: '@pennlabs/kittyhawk',
   description: 'Tool to generate Kubernetes YAML files using Typescript. Built for Penn Labs.',
-  deps: ['cdk8s@^1.0.0-beta.10', 'constructs', 'cron-time-generator'],
-  devDeps: ['codecov', 'cdk8s-cli@1.0.0-beta.50'],
+  deps: ['cdk8s@^1.0.0-beta.10', 'constructs', 'cron-time-generator', 'cdk8s-cli@1.0.0-beta.50'],
+  devDeps: ['codecov'],
   keywords: ['cdk', 'yaml', 'kubernetes', 'constructs', 'cdk8s'],
   homepage: 'https://kittyhawk.pennlabs.org',
   repositoryDirectory: 'cdk/kittyhawk',
