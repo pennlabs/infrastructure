@@ -71,11 +71,11 @@ resource "postgresql_role" "role" {
   password = random_password.postgres-password[each.key].result
 }
 
-resource "postgresql_role" "readonly_role" {                                                                                                                                                      
+resource "postgresql_role" "readonly_role" {
   for_each = local.readonly_users
-  name     = each.key                                                                                                                                                            
+  name     = each.key
   password = random_password.postgres-password[each.key].result
-  login    = true                                                                                                                                                     
+  login    = true
 }
 
 resource "postgresql_grant" "readonly_tables" {

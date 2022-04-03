@@ -12,7 +12,7 @@ locals {
   readonly_config = flatten([
     for database in local.database_users : [
       for user in local.readonly_users : {
-        db = database, 
+        db   = database,
         user = user
       }
     ]
