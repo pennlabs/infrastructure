@@ -2,7 +2,11 @@
 
 ## X.Y.Z (UNRELEASED)
 
-## 0.8.2 (2022-04-01)
+## 0.8.2 (2022-04-03)
+
+* Fix CDK publish npm version check output
+
+## 0.8.1 (2022-04-01)
 
 * Fix deploy job environment variable handling
 * Fix CDK publish stack by installing jq
