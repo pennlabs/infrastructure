@@ -82,7 +82,8 @@ resource "postgresql_grant" "readonly_tables" {
   for_each    = { for config in local.readonly_config : "${config.db}-${config.user}" => config } //local.database_users
   role        = each.value.user
   database    = postgresql_database.db[each.value.db].name
-  object_type = "database"
+  object_type = "table"
+  schema      = "public"
   privileges  = ["SELECT"]
 }
 
