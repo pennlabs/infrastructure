@@ -28,6 +28,10 @@ jobs:
           ROOT=$(pwd)
           cd cdk/kittyhawk
           yarn run codecov -p $ROOT -F kittyhawk
+      - name: Install jq
+        run: |-
+          curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+          chmod +x /usr/bin/jq
       - name: Check if version is already published to npm
         run: |-
           cd cdk/kittyhawk

@@ -47,10 +47,10 @@ export class DeployJob extends CheckoutJob {
           yarn install --frozen-lockfile
 
           # get repo name (by removing owner/organization)
-          RELEASE_NAME=\${REPOSITORY#*/}
+          export RELEASE_NAME=\${REPOSITORY#*/}
 
           # Export RELEASE_NAME as an output
-          echo "::set-output RELEASE_NAME=$RELEASE_NAME"
+          echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
 
           yarn build`,
           env: {
