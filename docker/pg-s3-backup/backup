@@ -6,7 +6,7 @@ set -euo pipefail
 STAMP=`date +"%Y%m%d - %A %d %B %Y @ %H:%M"`
 
 # List all databases and remove default databases
-DATABASES=`psql $DATABASE_URL -q -t -c 'SELECT datname from pg_database' | grep -v "\(postgres\|rdsadmin\|template0\|template1\)"`
+DATABASES=`psql $DATABASE_URL/postgres -q -t -c 'SELECT datname from pg_database' | grep -v "\(postgres\|rdsadmin\|template0\|template1\)"`
 
 echo "Starting backup"
 
