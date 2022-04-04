@@ -41,6 +41,20 @@ export class DeployJob extends CheckoutJob {
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [
         {
+          name: 'Checkout kube-manifests',
+          uses: 'actions/checkout@v2',
+          with: {
+            repository: 'pennlabs/kube-manifests',
+            token: '${{ secrets.BOT_GITHUB_PAT }}',
+            path: 'kube-manifests',
+          }
+        },
+        {
+          name: 'Configure git',
+          run: dedent`git config --global user.name github-actions
+          git config --global user.email github-actions[bot]@users.noreply.github.com"`
+        },
+        {
           id: 'synth',
           name: 'Synth cdk8s manifests',
           run: dedent`cd k8s
@@ -60,21 +74,14 @@ export class DeployJob extends CheckoutJob {
           },
         },
         {
-          name: 'Deploy',
-          run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
-
-          # get repo name from synth step
-          RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
-
-          # Deploy
-          kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
-          kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
-          env: {
-            AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
-            AWS_ACCESS_KEY_ID: '${{ secrets.GH_AWS_ACCESS_KEY_ID }}',
-            AWS_SECRET_ACCESS_KEY: '${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}',
-          },
-        },
+          name: 'Push to kube-manifests repository',
+          run: dedent`cd kube-manifests
+          mkdir -p \${{ github.repository }}
+          cp -r ../k8s/dist/ \${{ github.repository }}
+          git add \${{ github.repository }}
+          git commit -m "chore(k8s): deploy $RELEASE_NAME"
+          git push`
+        }        
       ],
       ...overrides,
     });
