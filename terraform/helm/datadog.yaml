@@ -12,7 +12,6 @@ datadog:
       instances:
         - prometheus_url: http://%%host%%:9402/metrics
     postgres.yaml: |-
-      # check_names: ["postgres"]
       init_config:
       instances:
         - host: "%%env_POSTGRES_HOST%%"
@@ -22,9 +21,9 @@ datadog:
 
 agents:
   image:
-   repository: pennlabs/datadog-agent
-   tag: 7479c2dd283d4ecc808fc65107048658dde778a2
-   doNotCheckTag: true
+    repository: pennlabs/datadog-agent
+    tag: 7479c2dd283d4ecc808fc65107048658dde778a2
+    doNotCheckTag: true
   containers:
     agent:
       envFrom:
