@@ -11,9 +11,22 @@ datadog:
       init_config:
       instances:
         - prometheus_url: http://%%host%%:9402/metrics
+    postgres.yaml: |-
+      # check_names: ["postgres"]
+      init_config:
+      instances:
+        - host: "%%env_POSTGRES_HOST%%"
+          port: 5432
+          username: datadog
+          password: "%%env_POSTGRES_PASSWORD%%"
 
 agents:
   image:
    repository: pennlabs/datadog-agent
    tag: 7479c2dd283d4ecc808fc65107048658dde778a2
    doNotCheckTag: true
+  containers:
+    agent:
+      envFrom:
+        - secretRef:
+            name: datadog

@@ -47,7 +47,7 @@ jobs:
           yarn package
           mv dist/js/*.tgz dist/js/kittyhawk.tgz
           yarn publish --non-interactive --access public dist/js/kittyhawk.tgz
-        if: github.ref == 'refs/heads/master' && steps.version_check.outputs.NEW_VERSION
+        if: github.ref == 'refs/heads/master' && steps.version_check.outputs.NEW_VERSION == 'true'
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Build docs
