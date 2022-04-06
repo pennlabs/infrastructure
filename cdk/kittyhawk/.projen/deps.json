@@ -20,11 +20,6 @@
       "type": "build"
     },
     {
-      "name": "cdk8s-cli",
-      "version": "1.0.0-beta.50",
-      "type": "build"
-    },
-    {
       "name": "codecov",
       "type": "build"
     },
@@ -94,7 +89,10 @@
     },
     {
       "name": "cdk8s",
-      "version": "^1.0.0-beta.10",
+      "type": "runtime"
+    },
+    {
+      "name": "cdk8s-cli",
       "type": "runtime"
     },
     {

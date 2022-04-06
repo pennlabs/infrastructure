@@ -39,6 +39,7 @@ module "production-cluster" {
   cert_manager_values = [templatefile("helm/cert-manager.yaml", {
     roleARN = module.iam-cert-manager.role-arn
   })]
+  datadog_values = [file("helm/datadog.yaml")]
 }
 
 

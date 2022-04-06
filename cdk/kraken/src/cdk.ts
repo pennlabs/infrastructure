@@ -75,13 +75,28 @@ export class CDKPublishStack extends Stack {
         yarn run codecov -p $ROOT -F ${id}`,
       },
       {
+        name: 'Install jq',
+        run: dedent`
+        curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+        chmod +x /usr/bin/jq`,
+      },
+      {
+        name: 'Check if version is already published to npm',
+        id: 'version_check',
+        run: dedent`cd ${path}
+        PACKAGE=\$(node -p "require('./package.json').name")
+        VERSION=\$(node -p "require('./package.json').version")
+        NEW_VERSION=\$(yarn info $PACKAGE versions --json | jq ".data | any(. == \\"$VERSION\\") | not")
+        echo "::set-output name=NEW_VERSION::$NEW_VERSION"`,
+      },
+      {
         name: 'Publish to npm',
         run: dedent`cd ${path}
         yarn compile
         yarn package
-        mv dist/js/*.tgz dist/js/kraken.tgz
-        yarn publish --non-interactive --access public dist/js/kraken.tgz`,
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+        mv dist/js/*.tgz dist/js/${id}.tgz
+        yarn publish --non-interactive --access public dist/js/${id}.tgz`,
+        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION == 'true'`,
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
         },
