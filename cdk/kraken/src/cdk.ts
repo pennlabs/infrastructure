@@ -96,7 +96,7 @@ export class CDKPublishStack extends Stack {
         yarn package
         mv dist/js/*.tgz dist/js/${id}.tgz
         yarn publish --non-interactive --access public dist/js/${id}.tgz`,
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION`,
+        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION == 'true'`,
         env: {
           NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
         },

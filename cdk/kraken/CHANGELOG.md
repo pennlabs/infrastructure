@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.5 (2022-04-05)
+
+* CDK publish: fix conditional publish check
+
 ## 0.8.4 (2022-04-03)
 
 * CDK publish: fix version_check id location
