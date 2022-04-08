@@ -1,8 +1,7 @@
-import { JobProps, Workflow } from 'cdkactions';
-import { DjangoCheckJob, DjangoCheckJobProps } from './django';
-import { DockerPublishJob, DockerPublishJobProps } from './docker';
-import { buildId } from './utils';
-
+import { JobProps, Workflow } from "cdkactions";
+import { DjangoCheckJob, DjangoCheckJobProps } from "./django";
+import { DockerPublishJob, DockerPublishJobProps } from "./docker";
+import { buildId } from "./utils";
 
 /**
  * Props to configure the DjangoProject.
@@ -75,8 +74,8 @@ export class DjangoProject {
   public constructor(workflow: Workflow, config: DjangoProjectProps) {
     // Build config
     const fullConfig: Required<DjangoProjectProps> = {
-      id: '',
-      path: '.',
+      id: "",
+      path: ".",
       checkProps: {},
       checkOverrides: {},
       publishProps: {},
@@ -85,26 +84,30 @@ export class DjangoProject {
     };
 
     // Add jobs
-    const djangoCheckJob = new DjangoCheckJob(workflow,
+    const djangoCheckJob = new DjangoCheckJob(
+      workflow,
       {
         id: fullConfig.id,
         projectName: fullConfig.projectName,
         path: fullConfig.path,
         ...config.checkProps,
       },
-      fullConfig.checkOverrides,
+      fullConfig.checkOverrides
     );
 
-    const publishJob = new DockerPublishJob(workflow, buildId('backend', fullConfig.id),
+    const publishJob = new DockerPublishJob(
+      workflow,
+      buildId("backend", fullConfig.id),
       {
         imageName: fullConfig.imageName,
         path: fullConfig.path,
         ...fullConfig.publishProps,
       },
       {
-        needs: djangoCheckJob.id
-        , ...fullConfig.publishOverrides,
-      });
+        needs: djangoCheckJob.id,
+        ...fullConfig.publishOverrides,
+      }
+    );
 
     // Set public fields
     this.publishJobId = publishJob.id;
