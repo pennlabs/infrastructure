@@ -16,8 +16,6 @@ const project = new TypeScriptProject({
       esModuleInterop: true,
     },
   },
-  release: true,
-  releaseTrigger: ReleaseTrigger.manual({}),
   typescriptConfig: {
     tsconfigDev: {
       compilerOptions: {
@@ -44,7 +42,7 @@ const project = new TypeScriptProject({
   },
 });
 
-
+project.manifest.version = '1.1.2';
 project.prettier?.ignoreFile?.addPatterns("src/imports");
 project.testTask.steps.forEach(step => {
   if (step.exec) {
