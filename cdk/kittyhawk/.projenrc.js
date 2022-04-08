@@ -10,39 +10,13 @@ const project = new TypeScriptProject({
   homepage: 'https://kittyhawk.pennlabs.org',
   repositoryDirectory: 'cdk/kittyhawk',
   ...common.options,
-  tsconfig: {
-    compilerOptions: {
-      esModuleInterop: true,
-    },
-  },
-  typescriptConfig: {
-    tsconfigDev: {
-      compilerOptions: {
-        esModuleInterop: true,
-      },
-    },
-    jestConfig: {
-      coveragePathIgnorePatterns: ['src/imports'],
-    },
-  },
-  prettier: true,
-  prettierOptions: {
-    ignoreFile: true,
-  },
-  jestOptions: {
-    ignorePatterns: ['src/imports'],
-  },
-  eslintOptions: {
-    ignorePatterns: ['src/imports/*'],
-    prettier: true,
-  },
   scripts: {
     import: 'yarn run cdk8s import --output src/imports',
   },
 });
 
 project.manifest.version = '1.1.2';
-project.prettier?.ignoreFile?.addPatterns("src/imports");
+project.prettier?.ignoreFile?.addPatterns('src/imports');
 project.testTask.steps.forEach(step => {
   if (step.exec) {
     step.exec = step.exec.replace(' --updateSnapshot', '');
