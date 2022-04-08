@@ -1,3 +1,11 @@
+
+## [1.2.0](https://github.com/pennlabs/infrastructure/compare/v1.1.0...v1.2.0) (2022-04-08)
+
+
+### Features
+
+* **datadog:** grafana feature parity ([#113](https://github.com/pennlabs/infrastructure/issues/113)) ([8f463ba](https://github.com/pennlabs/infrastructure/commit/8f463bab978553641735f54722adbd0cc5ff747e))
+
 # Changelog
 ## 1.1.2 (2022-04-03)
 * Dependency updates
