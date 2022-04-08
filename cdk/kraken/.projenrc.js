@@ -12,6 +12,7 @@ const project = new TypeScriptProject({
   ...common.options,
 });
 
+project.manifest.version = '0.8.6';
 project.prettier?.ignoreFile?.addPatterns('src/imports');
 project.testTask.steps.forEach(step => {
   if (step.exec) {
