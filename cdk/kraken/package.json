@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "cdkactions": "^0.2.3",
-    "constructs": "^10.0.106",
+    "constructs": "^3.2.80",
     "ts-dedent": "^2.2.0"
   },
   "keywords": [
