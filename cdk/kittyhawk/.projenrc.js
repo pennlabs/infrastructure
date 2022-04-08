@@ -15,7 +15,7 @@ const project = new TypeScriptProject({
   },
 });
 
-project.manifest.version = '1.1.2';
+project.addFields({['version']: '1.1.3'});
 project.prettier?.ignoreFile?.addPatterns('src/imports');
 project.testTask.steps.forEach(step => {
   if (step.exec) {
