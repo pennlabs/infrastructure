@@ -1,5 +1,4 @@
-import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
-
+import { CheckoutJob, Workflow, JobProps } from "cdkactions";
 
 /**
  * Props to configure the post integration test docker image publish job.
@@ -45,44 +44,52 @@ export class PostIntegrationPublishJob extends CheckoutJob {
    * @param config Configuration for the post integration tests publish job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config: PostIntegrationPublishJobProps, overrides?: Partial<JobProps>) {
+  public constructor(
+    scope: Workflow,
+    config: PostIntegrationPublishJobProps,
+    overrides?: Partial<JobProps>
+  ) {
     // Build config
     const fullConfig: Required<PostIntegrationPublishJobProps> = {
-      defaultBranch: 'master',
-      dockerUsername: '${{ secrets.DOCKER_USERNAME }}',
-      dockerPassword: '${{ secrets.DOCKER_PASSWORD }}',
+      defaultBranch: "master",
+      dockerUsername: "${{ secrets.DOCKER_USERNAME }}",
+      dockerPassword: "${{ secrets.DOCKER_PASSWORD }}",
       ...config,
     };
 
     // Create job
-    super(scope, 'post-integration-publish', {
-      name: 'Publish Images',
-      runsOn: 'ubuntu-latest',
+    super(scope, "post-integration-publish", {
+      name: "Publish Images",
+      runsOn: "ubuntu-latest",
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [
         {
-          uses: 'actions/download-artifact@v2',
+          uses: "actions/download-artifact@v2",
         },
         {
-          uses: 'geekyeggo/delete-artifact@v1',
+          uses: "geekyeggo/delete-artifact@v1",
           with: {
-            name: fullConfig.dockerBuildIds.join('\n'),
+            name: fullConfig.dockerBuildIds.join("\n"),
           },
         },
         {
-          name: 'Load docker images',
-          run: fullConfig.dockerBuildIds.map(id => `docker load --input ${id}/image.tar`).join('\n'),
+          name: "Load docker images",
+          run: fullConfig.dockerBuildIds
+            .map((id) => `docker load --input ${id}/image.tar`)
+            .join("\n"),
         },
         {
-          uses: 'docker/login-action@v1',
+          uses: "docker/login-action@v1",
           with: {
             username: fullConfig.dockerUsername,
             password: fullConfig.dockerPassword,
           },
         },
         {
-          name: 'Push docker images',
-          run: fullConfig.dockerImages.map(image => `docker push -a ${image}`).join('\n'),
+          name: "Push docker images",
+          run: fullConfig.dockerImages
+            .map((image) => `docker push -a ${image}`)
+            .join("\n"),
         },
       ],
       ...overrides,

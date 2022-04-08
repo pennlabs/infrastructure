@@ -1,6 +1,6 @@
-import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
-import { Construct } from 'constructs';
-import dedent from 'ts-dedent';
+import { CheckoutJob, Workflow, Stack, WorkflowProps } from "cdkactions";
+import { Construct } from "constructs";
+import dedent from "ts-dedent";
 
 /**
  * Optional props to configure the CDK publish stack.
@@ -30,11 +30,16 @@ export class CDKPublishStack extends Stack {
    * @param config Optional configuration for the cdk publish stack.
    * @param overrides Optional overrides for the stack.
    */
-  public constructor(scope: Construct, id: string, config?: CDKPublishStackProps, overrides?: Partial<WorkflowProps>) {
+  public constructor(
+    scope: Construct,
+    id: string,
+    config?: CDKPublishStackProps,
+    overrides?: Partial<WorkflowProps>
+  ) {
     // Build config
     const fullConfig: Required<CDKPublishStackProps> = {
-      defaultBranch: 'master',
-      nodeVersion: '14',
+      defaultBranch: "master",
+      nodeVersion: "14",
       ...config,
     };
     const path = `cdk/${id}`;
@@ -48,78 +53,80 @@ export class CDKPublishStack extends Stack {
       },
       ...overrides,
     });
-    new CheckoutJob(workflow, 'publish', {
-      runsOn: 'ubuntu-latest',
-      steps: [{
-        name: 'Cache',
-        uses: 'actions/cache@v2',
-        with: {
-          path: '**/node_modules',
-          key: `v0-\${{ hashFiles('${path}/yarn.lock') }}`,
+    new CheckoutJob(workflow, "publish", {
+      runsOn: "ubuntu-latest",
+      steps: [
+        {
+          name: "Cache",
+          uses: "actions/cache@v2",
+          with: {
+            path: "**/node_modules",
+            key: `v0-\${{ hashFiles('${path}/yarn.lock') }}`,
+          },
         },
-      },
-      {
-        name: 'Install Dependencies',
-        run: dedent`cd ${path}
+        {
+          name: "Install Dependencies",
+          run: dedent`cd ${path}
         yarn install --frozen-lockfile`,
-      },
-      {
-        name: 'Test',
-        run: dedent`cd ${path}
+        },
+        {
+          name: "Test",
+          run: dedent`cd ${path}
         yarn test`,
-      },
-      {
-        name: 'Upload Code Coverage',
-        run: dedent`ROOT=$(pwd)
+        },
+        {
+          name: "Upload Code Coverage",
+          run: dedent`ROOT=$(pwd)
         cd ${path}
         yarn run codecov -p $ROOT -F ${id}`,
-      },
-      {
-        name: 'Install jq',
-        run: dedent`
+        },
+        {
+          name: "Install jq",
+          run: dedent`
         curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
         chmod +x /usr/bin/jq`,
-      },
-      {
-        name: 'Check if version is already published to npm',
-        id: 'version_check',
-        run: dedent`cd ${path}
+        },
+        {
+          name: "Check if version is already published to npm",
+          id: "version_check",
+          run: dedent`cd ${path}
         PACKAGE=\$(node -p "require('./package.json').name")
         VERSION=\$(node -p "require('./package.json').version")
         NEW_VERSION=\$(yarn info $PACKAGE versions --json | jq ".data | any(. == \\"$VERSION\\") | not")
         echo "::set-output name=NEW_VERSION::$NEW_VERSION"`,
-      },
-      {
-        name: 'Publish to npm',
-        run: dedent`cd ${path}
+        },
+        {
+          name: "Publish to npm",
+          run: dedent`cd ${path}
         yarn compile
         yarn package
         mv dist/js/*.tgz dist/js/${id}.tgz
         yarn publish --non-interactive --access public dist/js/${id}.tgz`,
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION == 'true'`,
-        env: {
-          NPM_AUTH_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}',
+          if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}' && steps.version_check.outputs.NEW_VERSION == 'true'`,
+          env: {
+            NPM_AUTH_TOKEN: "${{ secrets.NPM_AUTH_TOKEN }}",
+          },
         },
-      },
-      {
-        name: 'Build docs',
-        run: dedent`cd ${path}
+        {
+          name: "Build docs",
+          run: dedent`cd ${path}
         yarn docgen`,
-      },
-      {
-        name: 'Publish docs',
-        if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
-        uses: 'peaceiris/actions-gh-pages@v3',
-        with: {
-          personal_token: '${{ secrets.BOT_GITHUB_PAT }}',
-          external_repository: `pennlabs/${id}-docs`,
-          cname: `${id}.pennlabs.org`,
-          publish_branch: 'master',
-          publish_dir: `${path}/docs`,
-          user_name: 'github-actions',
-          user_email: 'github-actions[bot]@users.noreply.github.com',
         },
-      }],
+        {
+          name: "Publish docs",
+          if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+          uses: "peaceiris/actions-gh-pages@v3",
+          with: {
+            personal_token: "${{ secrets.BOT_GITHUB_PAT }}",
+            external_repository: `pennlabs/${id}-docs`,
+            cname: `${id}.pennlabs.org`,
+            publish_branch: "master",
+            publish_dir: `${path}/docs`,
+            user_name: "github-actions",
+            user_email: "github-actions[bot]@users.noreply.github.com",
+          },
+        },
+      ],
       container: {
         image: `node:${fullConfig.nodeVersion}`,
       },

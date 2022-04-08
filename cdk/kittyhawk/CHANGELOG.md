@@ -1,4 +1,9 @@
 # Changelog
+
+## 1.1.3 (2022-04-08)
+
+* Upgrade dependencies and fix projen version configuration
+
 ## 1.1.2 (2022-04-03)
 * Dependency updates
     * Move cdk8s-cli from `devDependencies` to `dependencies`

@@ -1,8 +1,7 @@
-import { JobProps, Workflow } from 'cdkactions';
-import { DockerPublishJob, DockerPublishJobProps } from './docker';
-import { ReactCheckJob, ReactCheckJobProps } from './react';
-import { buildId } from './utils';
-
+import { JobProps, Workflow } from "cdkactions";
+import { DockerPublishJob, DockerPublishJobProps } from "./docker";
+import { ReactCheckJob, ReactCheckJobProps } from "./react";
+import { buildId } from "./utils";
 
 /**
  * Props to configure the ReactProject.
@@ -70,8 +69,8 @@ export class ReactProject {
   public constructor(workflow: Workflow, config: ReactProjectProps) {
     // Build config
     const fullConfig: Required<ReactProjectProps> = {
-      id: '',
-      path: '.',
+      id: "",
+      path: ".",
       checkProps: {},
       checkOverrides: {},
       publishProps: {},
@@ -80,25 +79,29 @@ export class ReactProject {
     };
 
     // Add jobs
-    const reactCheckJob = new ReactCheckJob(workflow,
+    const reactCheckJob = new ReactCheckJob(
+      workflow,
       {
         id: fullConfig.id,
         path: fullConfig.path,
         ...config.checkProps,
       },
-      fullConfig.checkOverrides,
+      fullConfig.checkOverrides
     );
 
-    const publishJob = new DockerPublishJob(workflow, buildId('frontend', fullConfig.id),
+    const publishJob = new DockerPublishJob(
+      workflow,
+      buildId("frontend", fullConfig.id),
       {
         imageName: fullConfig.imageName,
         path: fullConfig.path,
         ...fullConfig.publishProps,
       },
       {
-        needs: reactCheckJob.id
-        , ...fullConfig.publishOverrides,
-      });
+        needs: reactCheckJob.id,
+        ...fullConfig.publishOverrides,
+      }
+    );
 
     // Set public fields
     this.publishJobId = publishJob.id;
