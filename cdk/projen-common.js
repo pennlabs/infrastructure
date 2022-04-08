@@ -24,4 +24,30 @@ exports.options = {
     licensed: true,
     gitignore: ['/docs'],
     defaultReleaseBranch: 'master',
+    tsconfig: {
+        compilerOptions: {
+          esModuleInterop: true,
+        },
+      },
+      typescriptConfig: {
+        tsconfigDev: {
+          compilerOptions: {
+            esModuleInterop: true,
+          },
+        },
+        jestConfig: {
+          coveragePathIgnorePatterns: ['src/imports'],
+        },
+      },
+      prettier: true,
+      prettierOptions: {
+        ignoreFile: true,
+      },
+      jestOptions: {
+        ignorePatterns: ['src/imports'],
+      },
+      eslintOptions: {
+        ignorePatterns: ['src/imports/*'],
+        prettier: true,
+      },
 }
