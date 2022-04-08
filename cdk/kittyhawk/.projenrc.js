@@ -1,4 +1,3 @@
-const { ReleaseTrigger } = require('projen/lib/release');
 const { TypeScriptProject } = require('projen/lib/typescript');
 const common = require('../projen-common');
 
