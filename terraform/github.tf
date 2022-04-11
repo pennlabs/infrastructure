@@ -22,22 +22,22 @@ data "github_repositories" "private_repos" {
 }
 
 resource "github_actions_secret" "private_repos_aws_account_id" {
-  for_each = toset(data.github_repositories.private_repos.names)
-  repository = each.key
-  secret_name = "AWS_ACCOUNT_ID"
+  for_each        = toset(data.github_repositories.private_repos.names)
+  repository      = each.key
+  secret_name     = "AWS_ACCOUNT_ID"
   plaintext_value = data.aws_caller_identity.current.account_id
 }
 
 resource "github_actions_secret" "private_repos_aws_access_key" {
-  for_each = toset(data.github_repositories.private_repos.names)
-  repository = each.key
-  secret_name = "GH_AWS_ACCESS_KEY_ID" 
+  for_each        = toset(data.github_repositories.private_repos.names)
+  repository      = each.key
+  secret_name     = "GH_AWS_ACCESS_KEY_ID"
   plaintext_value = aws_iam_access_key.gh-actions.id
 }
 
 resource "github_actions_secret" "private_repos_aws_secret_key" {
-  for_each = toset(data.github_repositories.private_repos.names)
-  repository = each.key
-  secret_name = "GH_AWS_SECRET_ACCESS_KEY" 
+  for_each        = toset(data.github_repositories.private_repos.names)
+  repository      = each.key
+  secret_name     = "GH_AWS_SECRET_ACCESS_KEY"
   plaintext_value = aws_iam_access_key.gh-actions.secret
 }
