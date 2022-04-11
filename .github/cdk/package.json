@@ -15,7 +15,7 @@
   "dependencies": {
     "@pennlabs/kraken": "^0.8.5",
     "cdkactions": "^0.2.0",
-    "constructs": "^3.3.259"
+    "constructs": "^10.0.111"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",

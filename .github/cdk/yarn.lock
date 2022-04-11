@@ -74,7 +74,12 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-constructs@^3.2.109, constructs@^3.2.80, constructs@^3.3.259:
+constructs@^10.0.111:
+  version "10.0.111"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.111.tgz#9b45e51b2f450c71d900b0a6012c7b30e2018874"
+  integrity sha512-q1rqmz6ECUBjuWMPjjJsZSnieZfQr+oRSJHyF4dFlYjKHJKF86RgIM5T0ZEX4VEfmkoXwfILYM39aUWgIlpwDg==
+
+constructs@^3.2.109, constructs@^3.2.80:
   version "3.3.259"
   resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.259.tgz#949b0dd39570c36c5797d9f2edc83f773e568eb5"
   integrity sha512-hI++shPkBPk8yPD/Af48B6nPmnZIXsKx2dnqDiqadoU0i7Z75/G/TqtLVF96h8XC4A6JkzQ89+CxJLpRTqwy8w==
