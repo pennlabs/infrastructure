@@ -1,5 +1,77 @@
 {
   "tasks": {
+    "build": {
+      "name": "build",
+      "description": "Full release build",
+      "steps": [
+        {
+          "spawn": "default"
+        },
+        {
+          "spawn": "pre-compile"
+        },
+        {
+          "spawn": "compile"
+        },
+        {
+          "spawn": "post-compile"
+        },
+        {
+          "spawn": "test"
+        },
+        {
+          "spawn": "package"
+        }
+      ]
+    },
+    "compile": {
+      "name": "compile",
+      "description": "Only compile",
+      "steps": [
+        {
+          "exec": "tsc --build"
+        }
+      ]
+    },
+    "default": {
+      "name": "default",
+      "description": "Synthesize project files",
+      "steps": [
+        {
+          "exec": "node .projenrc.js"
+        }
+      ]
+    },
+    "docgen": {
+      "name": "docgen",
+      "description": "Generate TypeScript API reference docs",
+      "steps": [
+        {
+          "exec": "typedoc src --disableSources --out docs"
+        }
+      ]
+    },
+    "eject": {
+      "name": "eject",
+      "description": "Remove projen from the project",
+      "env": {
+        "PROJEN_EJECTING": "true"
+      },
+      "steps": [
+        {
+          "spawn": "default"
+        }
+      ]
+    },
+    "eslint": {
+      "name": "eslint",
+      "description": "Runs eslint against the codebase",
+      "steps": [
+        {
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools .projenrc.js"
+        }
+      ]
+    },
     "import": {
       "name": "import",
       "steps": [
@@ -8,37 +80,35 @@
         }
       ]
     },
-    "compile": {
-      "name": "compile",
-      "category": "00.build",
-      "description": "Only compile",
+    "package": {
+      "name": "package",
+      "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "tsc"
+          "exec": "mkdir -p dist/js"
+        },
+        {
+          "exec": "mv $(npm pack) dist/js/"
         }
       ]
     },
-    "test:compile": {
-      "name": "test:compile",
-      "category": "10.test",
-      "description": "compiles the test code",
+    "post-compile": {
+      "name": "post-compile",
+      "description": "Runs after successful compilation",
       "steps": [
         {
-          "exec": "tsc --noEmit --project tsconfig.jest.json"
+          "spawn": "docgen"
         }
       ]
+    },
+    "pre-compile": {
+      "name": "pre-compile",
+      "description": "Prepare the project for compilation"
     },
     "test": {
       "name": "test",
-      "category": "10.test",
       "description": "Run tests",
       "steps": [
-        {
-          "exec": "rm -fr lib/"
-        },
-        {
-          "spawn": "test:compile"
-        },
         {
           "exec": "jest --passWithNoTests --all"
         },
@@ -47,63 +117,8 @@
         }
       ]
     },
-    "build": {
-      "name": "build",
-      "category": "00.build",
-      "description": "Full release build (test+compile)",
-      "steps": [
-        {
-          "spawn": "test"
-        },
-        {
-          "spawn": "compile"
-        },
-        {
-          "spawn": "package"
-        },
-        {
-          "spawn": "docgen"
-        }
-      ]
-    },
-    "bump": {
-      "name": "bump",
-      "category": "20.release",
-      "description": "Commits a bump to the package version based on conventional commits",
-      "steps": [
-        {
-          "exec": "standard-version"
-        }
-      ],
-      "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
-    },
-    "release": {
-      "name": "release",
-      "category": "20.release",
-      "description": "Bumps version & push to master",
-      "steps": [
-        {
-          "spawn": "bump"
-        },
-        {
-          "exec": "git push --follow-tags origin master"
-        }
-      ],
-      "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
-    },
-    "test:watch": {
-      "name": "test:watch",
-      "category": "10.test",
-      "description": "Run jest in watch mode",
-      "steps": [
-        {
-          "exec": "jest --watch"
-        }
-      ]
-    },
     "test:update": {
       "name": "test:update",
-      "category": "10.test",
       "description": "Update jest snapshots",
       "steps": [
         {
@@ -111,65 +126,21 @@
         }
       ]
     },
-    "projen:upgrade": {
-      "name": "projen:upgrade",
-      "category": "30.maintain",
-      "description": "upgrades projen to the latest version",
+    "test:watch": {
+      "name": "test:watch",
+      "description": "Run jest in watch mode",
       "steps": [
         {
-          "exec": "yarn upgrade -L projen"
-        },
-        {
-          "exec": "CI=\"\" yarn projen"
+          "exec": "jest --watch"
         }
       ]
     },
     "watch": {
       "name": "watch",
-      "category": "00.build",
       "description": "Watch & compile in the background",
       "steps": [
         {
-          "exec": "tsc -w"
-        }
-      ]
-    },
-    "package": {
-      "name": "package",
-      "category": "20.release",
-      "description": "Create an npm tarball",
-      "steps": [
-        {
-          "exec": "rm -fr dist"
-        },
-        {
-          "exec": "mkdir -p dist/js"
-        },
-        {
-          "exec": "yarn pack"
-        },
-        {
-          "exec": "mv *.tgz dist/js/"
-        }
-      ]
-    },
-    "eslint": {
-      "name": "eslint",
-      "category": "10.test",
-      "description": "Runs eslint against the codebase",
-      "steps": [
-        {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools .projenrc.js"
-        }
-      ]
-    },
-    "docgen": {
-      "name": "docgen",
-      "category": "20.release",
-      "description": "Generate TypeScript API reference docs",
-      "steps": [
-        {
-          "exec": "typedoc --out docs"
+          "exec": "tsc --build -w"
         }
       ]
     }

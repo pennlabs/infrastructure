@@ -1,32 +1,25 @@
 // Production
 module "eks-production" {
   // https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
-  source           = "terraform-aws-modules/eks/aws"
-  version          = "13.2.1"
-  cluster_name     = local.k8s_cluster_name
-  cluster_version  = "1.18"
-  subnets          = module.vpc.private_subnets
-  vpc_id           = module.vpc.vpc_id
-  write_kubeconfig = false
-  enable_irsa      = true
-  map_roles = [
-    {
-      rolearn  = aws_iam_role.kubectl.arn
-      username = aws_iam_role.kubectl.name
-      groups   = ["system:masters"]
-    },
-  ]
-  worker_groups_launch_template = [
-    {
-      name                    = "spot-1"
-      override_instance_types = ["t3.medium"]
-      spot_instance_pools     = 1
-      asg_max_size            = local.k8s_cluster_size
-      asg_desired_capacity    = local.k8s_cluster_size
-      kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
-      public_ip               = true
-    },
-  ]
+  source          = "terraform-aws-modules/eks/aws"
+  version         = "18.4.0"
+  cluster_name    = local.k8s_cluster_name
+  cluster_version = "1.21"
+  subnet_ids      = module.vpc.private_subnets
+  vpc_id          = module.vpc.vpc_id
+  eks_managed_node_groups = {
+    spot = {
+      desired_size = local.k8s_cluster_size
+      max_size     = local.k8s_cluster_size
+      min_size     = local.k8s_cluster_size
+
+      create_launch_template = false
+      launch_template_name   = ""
+      disk_size              = 50
+      instance_types         = ["r5d.large"]
+      capacity_type          = "SPOT"
+    }
+  }
   tags = {
     created-by = "terraform"
   }
@@ -38,6 +31,46 @@ data "aws_eks_cluster" "production" {
 
 data "aws_eks_cluster_auth" "production" {
   name = module.eks-production.cluster_id
+}
+
+resource "null_resource" "eks-bootstrap" {
+  triggers = {
+    kubeconfig = module.eks-production.cluster_endpoint
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    environment = {
+      KUBECONFIG = base64encode(local.kubeconfig)
+    }
+
+    command = <<EOF
+    kubectl patch configmap/aws-auth --patch "${local.aws_auth_configmap_yaml}" -n kube-system --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode);
+    kubectl patch serviceaccount default -n kube-system -p '{"imagePullSecrets": [{"name": "docker-pull-secret"}]}' --kubeconfig <(echo $KUBECONFIG | base64 --decode)
+    EOF
+  }
+}
+
+resource "kubernetes_secret" "docker-pull-secret" {
+  for_each = toset(["default", "kube-system"])
+  metadata {
+    name      = "docker-pull-secret"
+    namespace = each.value
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          auth = base64encode("pennlabs:${var.DOCKERHUB_TOKEN}")
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
 }
 
 // Spot Node Termination Handler
@@ -65,7 +98,7 @@ data "aws_iam_policy_document" "kubectl" {
 
     // Allow users to assume role
     principals {
-      identifiers = concat([for member in local.platform_members : aws_iam_user.platform[member].arn], [aws_iam_user.gh-actions.arn])
+      identifiers = concat([for member in local.sre_members : aws_iam_user.sre[member].arn], [aws_iam_user.gh-actions.arn])
       type        = "AWS"
     }
 

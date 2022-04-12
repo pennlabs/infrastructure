@@ -5,9 +5,23 @@ locals {
       "vault",
     ])
   )
+  // Make sure there are no duplicates between readonly_users and database_users
+  readonly_users = toset([
+    "bizdev",
+    "backups",
+  ])
+  readonly_config = flatten([
+    for database in local.database_users : [
+      for user in local.readonly_users : {
+        db   = database,
+        user = user
+      }
+    ]
+  ])
   products = toset([
     "common-funding-application",
     "hub-at-penn",
+    "ocwp",
     "office-hours-queue",
     "penn-clubs",
     "penn-courses",
@@ -21,12 +35,14 @@ locals {
       "db-backup",
     ])
   )
-  platform_members = toset([
+  sre_members = toset([
     "armaan",
-    "peyton"
+    "peyton",
+    "joy",
+    "jonathan",
   ])
   k8s_cluster_name = "production"
-  k8s_cluster_size = 10
+  k8s_cluster_size = 3
   vault_ami        = "ami-0eec2c28d4dd94628"
   domains = toset([
     "ohq.io",
@@ -40,7 +56,45 @@ locals {
     "pennlabs.org",
     "pennmobile.org",
   ])
-  traefik_lb_name = "a3b77cc4561e649d4bcc2a89e1b63d7d"
+  traefik_lb_name = "ad78195a74a22499999ab7b88601d3a6"
+  vpc_cidr        = "10.0.0.0/16"
+  kubeconfig = yamlencode({
+    apiVersion      = "v1"
+    kind            = "Config"
+    current-context = "terraform"
+    clusters = [{
+      name = module.eks-production.cluster_id
+      cluster = {
+        certificate-authority-data = module.eks-production.cluster_certificate_authority_data
+        server                     = module.eks-production.cluster_endpoint
+      }
+    }]
+    contexts = [{
+      name = "terraform"
+      context = {
+        cluster = module.eks-production.cluster_id
+        user    = "terraform"
+      }
+    }]
+    users = [{
+      name = "terraform"
+      user = {
+        token = data.aws_eks_cluster_auth.production.token
+      }
+    }]
+  })
+  aws_auth_configmap_yaml = <<-EOT
+  ${chomp(module.eks-production.aws_auth_configmap_yaml)}
+      - rolearn: ${aws_iam_role.kubectl.arn}
+        username: ${aws_iam_role.kubectl.name}
+        groups:
+          - system:masters
+    mapUsers: |
+      - userarn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/platform
+        username: platform
+        groups:
+          - system:masters
+      EOT
 }
 
 data "aws_caller_identity" "current" {}

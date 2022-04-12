@@ -1,6 +1,6 @@
-import * as dedent from 'dedent-js';
-import { CheckoutJob, Workflow, Stack, WorkflowProps } from 'cdkactions';
-import { Construct } from 'constructs';
+import { CheckoutJob, Workflow, Stack, WorkflowProps } from "cdkactions";
+import { Construct } from "constructs";
+import dedent from "ts-dedent";
 
 /**
  * Optional props to configure the PyPI publish stack.
@@ -14,9 +14,9 @@ export interface PyPIPublishStackProps {
 
   /**
    * List of python versions to run tox with.
-   * @default 3.6, 3.7, 3.8, 3.9
+   * @default "3.7", "3.8", "3.9", "3.10"
    */
-  pythonMatrixVersions?: number[];
+  pythonMatrixVersions?: string[];
 }
 
 /**
@@ -30,57 +30,61 @@ export class PyPIPublishStack extends Stack {
    * @param config Optional configuration for the stack.
    * @param overrides Optional overrides for the workflow.
    */
-  public constructor(scope: Construct, config?: PyPIPublishStackProps, overrides?: Partial<WorkflowProps>) {
+  public constructor(
+    scope: Construct,
+    config?: PyPIPublishStackProps,
+    overrides?: Partial<WorkflowProps>
+  ) {
     // Build config
     const fullConfig: Required<PyPIPublishStackProps> = {
-      pythonVersion: '3.8',
-      pythonMatrixVersions: [3.6, 3.7, 3.8, 3.9],
+      pythonVersion: "3.8",
+      pythonMatrixVersions: ["3.7", "3.8", "3.9", "3.10"],
       ...config,
     };
 
-    super(scope, 'pypi');
-    const workflow = new Workflow(this, 'build-and-publish', {
-      name: 'Build and Publish',
+    super(scope, "pypi");
+    const workflow = new Workflow(this, "build-and-publish", {
+      name: "Build and Publish",
       on: {
         push: {
-          branches: ['**'],
-          tags: ['[0-9]+.[0-9]+.[0-9]+'],
+          branches: ["**"],
+          tags: ["[0-9]+.[0-9]+.[0-9]+"],
         },
       },
       ...overrides,
     });
-    const testJob = new CheckoutJob(workflow, 'test', {
-      runsOn: 'ubuntu-latest',
+    const testJob = new CheckoutJob(workflow, "test", {
+      runsOn: "ubuntu-latest",
       strategy: {
         matrix: {
-          'python-version': fullConfig.pythonMatrixVersions,
+          "python-version": fullConfig.pythonMatrixVersions,
         },
       },
       steps: [
         {
-          name: 'Set up Python ${{ matrix.python-version }}',
-          uses: 'actions/setup-python@v2',
+          name: "Set up Python ${{ matrix.python-version }}",
+          uses: "actions/setup-python@v2",
           with: {
-            'python-version': '${{ matrix.python-version }}',
+            "python-version": "${{ matrix.python-version }}",
           },
         },
         {
-          name: 'Install dependencies',
-          run: 'pip install poetry tox tox-gh-actions codecov',
+          name: "Install dependencies",
+          run: "pip install poetry tox tox-gh-actions codecov",
         },
         {
-          name: 'Test',
-          run: 'tox',
+          name: "Test",
+          run: "tox",
         },
         {
-          name: 'Upload Code Coverage',
-          run: 'codecov',
+          name: "Upload Code Coverage",
+          run: "codecov",
         },
       ],
     });
 
-    new CheckoutJob(workflow, 'publish', {
-      runsOn: 'ubuntu-latest',
+    new CheckoutJob(workflow, "publish", {
+      runsOn: "ubuntu-latest",
       container: {
         image: `python:${fullConfig.pythonVersion}`,
       },
@@ -88,21 +92,26 @@ export class PyPIPublishStack extends Stack {
       if: "startsWith(github.ref, 'refs/tags')",
       steps: [
         {
-          name: 'Verify tag',
+          name: "Install dependencies",
+          run: "pip install poetry",
+        },
+        {
+          name: "Verify tag",
+          shell: "bash",
           run: dedent`GIT_TAG=\${GITHUB_REF/refs\\/tags\\//}
           LIBRARY_VERSION=$(poetry version -s)
-          if [[ "$GIT_TAG" != LIBRARY_VERSION ]]; then exit 1; fi`,
+          if [[ "$GIT_TAG" != "$LIBRARY_VERSION" ]]; then echo "Tag ($GIT_TAG) does not match poetry version ($LIBRARY_VERSION)"; exit 1; fi`,
         },
         {
-          name: 'Build',
-          run: 'poetry build',
+          name: "Build",
+          run: "poetry build",
         },
         {
-          name: 'Publish',
-          run: 'poetry publish',
+          name: "Publish",
+          run: "poetry publish",
           env: {
-            POETRY_PYPI_TOKEN_PYPI: '${{ secrets.PYPI_PASSWORD }}'
-          }
+            POETRY_PYPI_TOKEN_PYPI: "${{ secrets.PYPI_PASSWORD }}",
+          },
         },
       ],
     });

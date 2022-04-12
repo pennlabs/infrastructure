@@ -36,6 +36,10 @@ module "production-cluster" {
     role_arn = module.iam-secret-sync.role-arn
   })]
   prometheus_values = [file("helm/prometheus.yaml")]
+  cert_manager_values = [templatefile("helm/cert-manager.yaml", {
+    roleARN = module.iam-cert-manager.role-arn
+  })]
+  datadog_values = [file("helm/datadog.yaml")]
 }
 
 

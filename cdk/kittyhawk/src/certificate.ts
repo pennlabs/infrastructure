@@ -1,35 +1,55 @@
-import { Construct } from 'constructs';
-import { Certificate as CertApiObject } from './imports/cert-manager.io';
-import { IngressProps } from './ingress';
+import { JsonPatch } from "cdk8s";
+import { Construct } from "constructs";
+import { Certificate as CertApiObject } from "./imports/cert-manager.io";
+import { domainToCertName, removeSubdomain, HostRules } from "./ingress";
+import { defaultChildName } from "./utils";
+
+const CERT_ISSUER_NAME = "wildcard-letsencrypt-prod";
 
 export class Certificate extends Construct {
-  constructor(scope: Construct, appname: string, props: IngressProps) {
-    super(scope, `certificate-${appname}`);
+  constructor(scope: Construct, appname: string, rules: HostRules) {
+    const hostString: string = domainToCertName(
+      rules.host,
+      rules.isSubdomain ?? false
+    );
+    const finalDomain: string = removeSubdomain(
+      rules.host,
+      rules.isSubdomain ?? false
+    );
 
-    // Only generate certificates if an ingress is defined
-    if (props.ingress) {
-      // We want to generate a certificate for each host
-      for (const h of props.ingress) {
-        // Regex to compute the apex domain
-        const apex_domain = h.host.match(/[\w-]+\.[\w]+$/g);
-        if (apex_domain != null) {
-          let host_string = apex_domain[0].split('.').join('-');
-          new CertApiObject(this, `certificate-${appname}-${host_string}`, {
-            metadata: {
-              name: host_string,
-            },
-            spec: {
-              secretName: host_string.concat('-tls'),
-              dnsNames: [`${apex_domain[0]}`, `*.${apex_domain[0]}`],
-              issuerRef: {
-                name: 'wildcard-letsencrypt-prod',
-                kind: 'ClusterIssuer',
-                group: 'cert-manager.io',
-              },
-            },
-          });
-        } else {throw `Certificate construction failed: apex domain regex failed on ${h}`;}
-      }
+    super(scope, `certificate-${appname}-${hostString}`);
+
+    const certificate = new CertApiObject(this, defaultChildName, {
+      metadata: {
+        name: hostString,
+        labels: {
+          "app.kubernetes.io/name": hostString,
+          "app.kubernetes.io/component": "certificate",
+        },
+        finalizers: ["kubernetes"],
+      },
+      spec: {
+        secretName: `${hostString}-tls`,
+        dnsNames: [`${finalDomain}`, `*.${finalDomain}`],
+        issuerRef: {
+          name: CERT_ISSUER_NAME,
+          kind: "ClusterIssuer",
+          group: "cert-manager.io",
+        },
+      },
+    });
+
+    // Remove labels added by PennLabsChart
+    // ~1 is an escaped version of a forward slash "/"
+    if (certificate.metadata.getLabel("app.kubernetes.io/part-of")) {
+      certificate.addJsonPatch(
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of")
+      );
+    }
+    if (certificate.metadata.getLabel("app.kubernetes.io/version")) {
+      certificate.addJsonPatch(
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version")
+      );
     }
   }
 }

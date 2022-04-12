@@ -1,5 +1,5 @@
-import { Workflow, Stack, WorkflowProps, Job } from 'cdkactions';
-import { Construct } from 'constructs';
+import { Workflow, Stack, WorkflowProps, Job } from "cdkactions";
+import { Construct } from "constructs";
 
 /**
  * Auto-approve PRs opened by dependabot. Used to fulfil requirements
@@ -12,21 +12,21 @@ export class AutoApproveStack extends Stack {
    * @param overrides Optional overrides for the stack.
    */
   public constructor(scope: Construct, overrides?: Partial<WorkflowProps>) {
-    super(scope, 'autoapprove');
-    const workflow = new Workflow(this, 'autoapprove', {
-      name: 'Auto Approve dependabot PRs',
-      on: 'pullRequest',
+    super(scope, "autoapprove");
+    const workflow = new Workflow(this, "autoapprove", {
+      name: "Auto Approve dependabot PRs",
+      on: "pullRequest",
       ...overrides,
     });
 
-    new Job(workflow, 'approve', {
-      runsOn: 'ubuntu-latest',
+    new Job(workflow, "approve", {
+      runsOn: "ubuntu-latest",
       steps: [
         {
-          uses: 'hmarr/auto-approve-action@v2.0.0',
+          uses: "hmarr/auto-approve-action@v2.0.0",
           if: "github.actor == 'dependabot[bot]'",
           with: {
-            'github-token': '${{ secrets.BOT_GITHUB_PAT }}',
+            "github-token": "${{ secrets.BOT_GITHUB_PAT }}",
           },
         },
       ],

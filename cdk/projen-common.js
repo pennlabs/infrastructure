@@ -7,6 +7,11 @@ exports.options = {
     buildWorkflow: false,
     pullRequestTemplate: false,
     releaseWorkflow: false,
+    stale: false,
+    githubOptions: {
+        pullRequestLint: false,
+    },
+    depsUpgrade: false,
     dependabot: false,
     mergify: false,
     compat: false,
@@ -18,4 +23,31 @@ exports.options = {
     license: 'MIT',
     licensed: true,
     gitignore: ['/docs'],
+    defaultReleaseBranch: 'master',
+    tsconfig: {
+        compilerOptions: {
+          esModuleInterop: true,
+        },
+      },
+      typescriptConfig: {
+        tsconfigDev: {
+          compilerOptions: {
+            esModuleInterop: true,
+          },
+        },
+        jestConfig: {
+          coveragePathIgnorePatterns: ['src/imports'],
+        },
+      },
+      prettier: true,
+      prettierOptions: {
+        ignoreFile: true,
+      },
+      jestOptions: {
+        ignorePatterns: ['src/imports'],
+      },
+      eslintOptions: {
+        ignorePatterns: ['src/imports/*'],
+        prettier: true,
+      },
 }

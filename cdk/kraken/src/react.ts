@@ -1,6 +1,6 @@
-import { Workflow, JobProps, CheckoutJob } from 'cdkactions';
-import * as dedent from 'dedent-js';
-import { buildId, buildName } from './utils';
+import { Workflow, JobProps, CheckoutJob } from "cdkactions";
+import dedent from "ts-dedent";
+import { buildId, buildName } from "./utils";
 
 /**
  * Optional props to configure the React check job.
@@ -36,49 +36,54 @@ export class ReactCheckJob extends CheckoutJob {
    * @param config Optional configuration for the React check job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config?: ReactCheckJobProps, overrides?: Partial<JobProps>) {
+  public constructor(
+    scope: Workflow,
+    config?: ReactCheckJobProps,
+    overrides?: Partial<JobProps>
+  ) {
     // Build config
     const fullConfig: Required<ReactCheckJobProps> = {
-      id: '',
-      nodeVersion: '14',
-      path: '.',
+      id: "",
+      nodeVersion: "14",
+      path: ".",
       ...config,
     };
 
-
     // Create Job
-    super(scope, buildId('react-check', fullConfig.id), {
-      name: buildName('React Check', fullConfig.id),
-      runsOn: 'ubuntu-latest',
-      steps: [{
-        name: 'Cache',
-        uses: 'actions/cache@v2',
-        with: {
-          path: '**/node_modules',
-          key: `v0-\${{ hashFiles('${fullConfig.path}/yarn.lock') }}`,
+    super(scope, buildId("react-check", fullConfig.id), {
+      name: buildName("React Check", fullConfig.id),
+      runsOn: "ubuntu-latest",
+      steps: [
+        {
+          name: "Cache",
+          uses: "actions/cache@v2",
+          with: {
+            path: "**/node_modules",
+            key: `v0-\${{ hashFiles('${fullConfig.path}/yarn.lock') }}`,
+          },
         },
-      },
-      {
-        name: 'Install Dependencies',
-        run: dedent`cd ${fullConfig.path}
+        {
+          name: "Install Dependencies",
+          run: dedent`cd ${fullConfig.path}
         yarn install --frozen-lockfile`,
-      },
-      {
-        name: 'Lint',
-        run: dedent`cd ${fullConfig.path}
+        },
+        {
+          name: "Lint",
+          run: dedent`cd ${fullConfig.path}
         yarn lint`,
-      },
-      {
-        name: 'Test',
-        run: dedent`cd ${fullConfig.path}
+        },
+        {
+          name: "Test",
+          run: dedent`cd ${fullConfig.path}
         yarn test`,
-      },
-      {
-        name: 'Upload Code Coverage',
-        run: dedent`ROOT=$(pwd)
+        },
+        {
+          name: "Upload Code Coverage",
+          run: dedent`ROOT=$(pwd)
         cd ${fullConfig.path}
         yarn run codecov -p $ROOT -F frontend`,
-      }],
+        },
+      ],
       container: {
         image: `node:${fullConfig.nodeVersion}`,
       },

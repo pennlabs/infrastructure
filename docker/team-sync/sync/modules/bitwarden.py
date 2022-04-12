@@ -39,6 +39,8 @@ def sync(teams, users):
         ["bw", "unlock", BITWARDEN_PASSWORD, "--raw"], capture_output=True
     )
     os.environ["BW_SESSION"] = res.stdout.decode("utf-8")
+    # Add newline to logs
+    print()
 
     # Log into admin interface, invite users, and check for 2FA
     session = requests.Session()
@@ -53,6 +55,14 @@ def sync(teams, users):
         buildURL("/api/accounts/prelogin"), json={"email": BITWARDEN_EMAIL}
     )
     body = res.json()
+
+    # Sleep to ensure next TOTP code is different from previous one
+    time.sleep(30)
+
+    password = hashedPassword(
+        BITWARDEN_PASSWORD, BITWARDEN_EMAIL, body["KdfIterations"]
+    )
+    totp_code = totp.now()
     res = session.post(
         buildURL("/identity/connect/token"),
         data={
@@ -60,13 +70,11 @@ def sync(teams, users):
             "client_id": "web",
             "grant_type": "password",
             "username": BITWARDEN_EMAIL,
-            "password": hashedPassword(
-                BITWARDEN_PASSWORD, BITWARDEN_EMAIL, body["KdfIterations"]
-            ),
+            "password": password,
             "deviceType": "8",
             "deviceIdentifier": "1ab51ab5-1ab5-1ab5-1ab5-1ab51ab51ab5",
             "deviceName": "firefox",
-            "twoFactorToken": totp.now(),
+            "twoFactorToken": totp_code,
             "twoFactorProvider": "0",
             "twoFactorRemember": "0",
         },

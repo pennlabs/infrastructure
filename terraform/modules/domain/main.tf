@@ -2,14 +2,6 @@ resource "aws_route53_zone" "domain" {
   name = var.domain
 }
 
-resource "aws_route53_record" "acme-challenge" {
-  zone_id = aws_route53_zone.domain.zone_id
-  name    = "_acme-challenge"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["_acme-challenge.upenn.club."]
-}
-
 resource "aws_route53_record" "apex-domain" {
   zone_id = aws_route53_zone.domain.zone_id
   name    = ""

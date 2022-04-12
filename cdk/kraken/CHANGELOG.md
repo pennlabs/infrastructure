@@ -1,5 +1,47 @@
 # Changelog
 
+## X.Y.Z (UNRELEASED)
+
+## 0.8.6 (2022-04-08)
+
+* Upgrade dependencies and fix projen version configuration
+
+## 0.8.5 (2022-04-05)
+
+* CDK publish: fix conditional publish check
+
+## 0.8.4 (2022-04-03)
+
+* CDK publish: fix version_check id location
+
+## 0.8.3 (2022-04-03)
+
+* CDK publish: force jq exit code to be 0
+
+## 0.8.2 (2022-04-03)
+
+* Fix CDK publish npm version check output
+
+## 0.8.1 (2022-04-01)
+
+* Fix deploy job environment variable handling
+* Fix CDK publish stack by installing jq
+
+## 0.8.0 (2022-03-29)
+
+* Migrate to kittyhawk for deployments
+* Modify CDK stack to only publish when a new version is pushed
+
+## 0.7.1 (2021-12-16)
+
+* Modify PyPI to correctly publish (again)
+
+## 0.7.0 (2021-12-04)
+
+* Modify PyPI python versions to be strings
+* Modify PyPI to correctly publish
+* Migrate to ts-dedent
+
 ## 0.6.4 (2021-10-04)
 
 * Modify PyPI publish to use poetry

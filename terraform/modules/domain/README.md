@@ -2,7 +2,6 @@
 
 A terraform module to configure basic DNS records for a Penn Labs domain that:
 
-* Allow for LE through our cloudflare proxy domain
 * Point the apex domain to traefik
 * CNAME all subdomains to the apex domain
 * Create SPF, DKIM, and CNAME records to send mail through mailgun

@@ -83,3 +83,7 @@ grafana.ini:
     allowed_organizations: pennlabs
 
 envFromSecret: "grafana"
+
+image:
+  pullSecrets:
+    - docker-pull-secret

@@ -1,9 +1,9 @@
-FROM python:3-slim
+FROM python:3.10.1-slim-bullseye
 
 LABEL maintainer="Penn Labs"
 
 # Install build dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y default-libmysqlclient-dev gcc libpq-dev \
+RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy mime definitions

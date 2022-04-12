@@ -1,27 +1,25 @@
-import { Workflow } from 'cdkactions';
-import { ReactProject } from '../src';
+import { Workflow } from "cdkactions";
+import { ReactProject } from "../src";
 
-test('default', () => {
-  const workflow = new Workflow(undefined as any, 'workflow', {
-    name: 'Workflow',
-    on: 'push',
+test("default", () => {
+  const workflow = new Workflow(undefined as any, "workflow", {
+    name: "Workflow",
+    on: "push",
   });
-  new ReactProject(workflow,
-    {
-      imageName: 'example',
-    });
+  new ReactProject(workflow, {
+    imageName: "example",
+  });
   expect(workflow.toGHAction()).toMatchSnapshot();
 });
 
-test('custom id', () => {
-  const workflow = new Workflow(undefined as any, 'workflow', {
-    name: 'Workflow',
-    on: 'push',
+test("custom id", () => {
+  const workflow = new Workflow(undefined as any, "workflow", {
+    name: "Workflow",
+    on: "push",
   });
-  new ReactProject(workflow,
-    {
-      imageName: 'example',
-      id: 'custom',
-    });
+  new ReactProject(workflow, {
+    imageName: "example",
+    id: "custom",
+  });
   expect(workflow.toGHAction()).toMatchSnapshot();
 });

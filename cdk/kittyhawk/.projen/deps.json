@@ -6,22 +6,17 @@
     },
     {
       "name": "@types/node",
-      "version": "^10.17.0",
+      "version": "^12",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^4.3.0",
+      "version": "^5",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^4.3.0",
-      "type": "build"
-    },
-    {
-      "name": "cdk8s-cli",
-      "version": "^1.0.0-beta.5",
+      "version": "^5",
       "type": "build"
     },
     {
@@ -29,11 +24,7 @@
       "type": "build"
     },
     {
-      "name": "cron-time-generator",
-      "type": "build"
-    },
-    {
-      "name": "eslint",
+      "name": "eslint-config-prettier",
       "type": "build"
     },
     {
@@ -49,12 +40,21 @@
       "type": "build"
     },
     {
+      "name": "eslint-plugin-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint",
+      "version": "^8",
+      "type": "build"
+    },
+    {
       "name": "jest",
       "type": "build"
     },
     {
       "name": "jest-junit",
-      "version": "^12",
+      "version": "^13",
       "type": "build"
     },
     {
@@ -62,13 +62,11 @@
       "type": "build"
     },
     {
-      "name": "projen",
-      "version": "^0.14.4",
+      "name": "prettier",
       "type": "build"
     },
     {
-      "name": "standard-version",
-      "version": "^9.0.0",
+      "name": "projen",
       "type": "build"
     },
     {
@@ -77,20 +75,27 @@
     },
     {
       "name": "typedoc",
+      "version": "^0.21.4",
       "type": "build"
     },
     {
       "name": "typescript",
-      "version": "^3.9.5",
       "type": "build"
     },
     {
       "name": "cdk8s",
-      "version": "^1.0.0-beta.5",
+      "type": "runtime"
+    },
+    {
+      "name": "cdk8s-cli",
       "type": "runtime"
     },
     {
       "name": "constructs",
+      "type": "runtime"
+    },
+    {
+      "name": "cron-time-generator",
       "type": "runtime"
     }
   ],
