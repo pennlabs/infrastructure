@@ -54,7 +54,10 @@ export class Application extends Construct {
     });
 
     if (props.ingress) {
-      new Ingress(this, fullname, props.ingress);
+      new Ingress(this, fullname, {
+        port: props.ingress.port ?? props.port,
+        ...props.ingress,
+      });
 
       const alreadyCreatedCertificates = new Set<string>();
 
