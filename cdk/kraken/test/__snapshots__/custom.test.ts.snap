@@ -19,7 +19,9 @@ Object {
         Object {
           "env": Object {
             "AWS_ACCOUNT_ID": "\${{ secrets.AWS_ACCOUNT_ID }}",
+            "GIT_REF": "\${{ github.ref }}",
             "GIT_SHA": "\${{ github.sha }}",
+            "PR_NUMBER": "\${{ github.event.pull_request.number }}",
             "REPOSITORY": "\${{ github.repository }}",
           },
           "id": "synth",
@@ -29,6 +31,13 @@ yarn install --frozen-lockfile
 
 # get repo name (by removing owner/organization)
 export RELEASE_NAME=\${REPOSITORY#*/}
+
+# check for feature-branch deployment set-up
+if [[ $GIT_REF != 'refs/heads/master' ]]; 
+then
+  export IS_FEATURE_BRANCH=true;
+  export RELEASE_NAME=$RELEASE_NAME-pr-$PR_NUMBER;
+fi;
 
 # Export RELEASE_NAME as an output
 echo \\"::set-output name=RELEASE_NAME::$RELEASE_NAME\\"
