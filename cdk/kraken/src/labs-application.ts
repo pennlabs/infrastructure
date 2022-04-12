@@ -207,5 +207,16 @@ export class LabsApplicationStack extends Stack {
       ...fullConfig.deployOverrides,
       needs: deployNeeds,
     });
+
+    // Feature Branch Deploy
+    const featureBranchWorkflow = new Workflow(this, "feature-branch-deploy", {
+      name: "Feature Branch Deploy",
+      on: "pullRequest",
+      ...overrides,
+    });
+
+    new DeployJob(featureBranchWorkflow, fullConfig.deployProps, {
+      ...fullConfig.deployOverrides,
+    });
   }
 }

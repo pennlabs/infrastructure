@@ -42,7 +42,9 @@ export class DeployJob extends CheckoutJob {
 
     super(scope, "deploy", {
       runsOn: "ubuntu-latest",
-      if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+      if:
+        `github.ref == 'refs/heads/${fullConfig.defaultBranch}'` ||
+        `github.event_name == 'pull_request'`,
       steps: [
         {
           id: "synth",
@@ -53,11 +55,20 @@ export class DeployJob extends CheckoutJob {
           # get repo name (by removing owner/organization)
           export RELEASE_NAME=\${REPOSITORY#*/}
 
+          # check for feature-branch deployment set-up
+          if [[ $GIT_REF != 'refs/heads/${fullConfig.defaultBranch}' ]]; 
+          then
+            export IS_FEATURE_BRANCH=true;
+            export RELEASE_NAME=$RELEASE_NAME-pr-$PR_NUMBER;
+          fi;
+
           # Export RELEASE_NAME as an output
           echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
 
           yarn build`,
           env: {
+            PR_NUMBER: "${{ github.event.pull_request.number }}",
+            GIT_REF: "${{ github.ref }}",
             GIT_SHA: fullConfig.deployTag,
             REPOSITORY: "${{ github.repository }}",
             AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
