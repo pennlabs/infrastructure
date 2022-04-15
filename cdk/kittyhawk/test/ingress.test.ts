@@ -39,7 +39,8 @@ export function buildCustomApplicationPortIngressChart(scope: Construct) {
       image: "pennlabs/website",
       tag: "latest",
     },
-    port: 433,
+    ingress: { rules: [{ host: "pennlabs.org", paths: ["/"] }] },
+    port: 443,
   });
 }
 
@@ -50,7 +51,7 @@ export function buildCustomIngressPortIngressChart(scope: Construct) {
       tag: "latest",
     },
     ingress: {
-      port: 433,
+      port: 443,
       rules: [{ host: "pennlabs.org", paths: ["/"] }],
     },
   });
@@ -64,7 +65,7 @@ export function buildCustomPortInBothOverrideIngressChart(scope: Construct) {
     },
     port: 8080,
     ingress: {
-      port: 433,
+      port: 443,
       rules: [{ host: "pennlabs.org", paths: ["/"] }],
     },
   });

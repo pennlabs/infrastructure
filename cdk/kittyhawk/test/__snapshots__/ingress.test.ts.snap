@@ -17,8 +17,8 @@ Array [
     "spec": Object {
       "ports": Array [
         Object {
-          "port": 433,
-          "targetPort": 433,
+          "port": 443,
+          "targetPort": 443,
         },
       ],
       "selector": Object {
@@ -73,7 +73,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 433,
+                  "containerPort": 443,
                 },
               ],
             },
@@ -81,6 +81,77 @@ Array [
           "volumes": Array [],
         },
       },
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-serve",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-serve",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "host": "pennlabs.org",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "RELEASE_NAME-serve",
+                    "port": Object {
+                      "number": 443,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "pennlabs.org",
+          ],
+          "secretName": "pennlabs-org-tls",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "cert-manager.io/v1",
+    "kind": "Certificate",
+    "metadata": Object {
+      "finalizers": Array [
+        "kubernetes",
+      ],
+      "labels": Object {
+        "app.kubernetes.io/component": "certificate",
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "pennlabs-org",
+      },
+      "name": "pennlabs-org",
+    },
+    "spec": Object {
+      "dnsNames": Array [
+        "pennlabs.org",
+        "*.pennlabs.org",
+      ],
+      "issuerRef": Object {
+        "group": "cert-manager.io",
+        "kind": "ClusterIssuer",
+        "name": "wildcard-letsencrypt-prod",
+      },
+      "secretName": "pennlabs-org-tls",
     },
   },
 ]
@@ -192,7 +263,7 @@ Array [
                   "service": Object {
                     "name": "RELEASE_NAME-serve",
                     "port": Object {
-                      "number": 433,
+                      "number": 443,
                     },
                   },
                 },
@@ -349,7 +420,7 @@ Array [
                   "service": Object {
                     "name": "RELEASE_NAME-serve",
                     "port": Object {
-                      "number": 433,
+                      "number": 443,
                     },
                   },
                 },
