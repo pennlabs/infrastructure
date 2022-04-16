@@ -82,6 +82,10 @@ export class DeployJob extends CheckoutJob {
           run: dedent`cd kube-manifests
           mkdir -p \${{ github.repository }}
           cp -r ../k8s/dist/ \${{ github.repository }}
+
+          # get repo name from synth step
+          RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
+
           git add \${{ github.repository }}
           git commit -m "chore(k8s): deploy $RELEASE_NAME"
           git push`
