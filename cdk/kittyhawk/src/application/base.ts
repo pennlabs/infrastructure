@@ -6,11 +6,13 @@ import { Ingress, IngressProps } from "../ingress";
 import { Service } from "../service";
 import { ServiceAccount } from "../serviceaccount";
 
+interface PortExclusiveIngressProps extends Omit<IngressProps, "port"> {}
+
 export interface ApplicationProps {
   /**
    * Ingress configuration
    */
-  readonly ingress?: IngressProps;
+  readonly ingress?: PortExclusiveIngressProps;
 
   /**
    * Deployment configuration
@@ -54,15 +56,8 @@ export class Application extends Construct {
     });
 
     if (props.ingress) {
-      // check if custom port is defined for ingress but not for application
-      if (props.ingress.port && !props.port) {
-        throw new Error(
-          "Custom ingress port defined but not for application. Please define a port for the application."
-        );
-      }
-
       new Ingress(this, fullname, {
-        port: props.ingress.port ?? props.port,
+        port: props.port,
         ...props.ingress,
       });
 

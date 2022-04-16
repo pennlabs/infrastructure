@@ -6,22 +6,15 @@ import { chartTest, failingTest } from "./utils";
 /*
 Ingress Port Behavior 
 
-1. NEITHER: Default Behavior
-If `port` IS NOT specified in neither `Application` nor `ingressProps`, 
-continue with default behavior in `Application` and other children objects 
-created. For `Ingress`, the default port is assumed.
+For the application, the ingress port should never be explicitly defined. This is because the
+application port must be uniform with the ingress port provided. 
+
+1. Default Behavior
+If `port` IS NOT specified in `Application`, continue with default behavior in `Application` 
+and other children objects created. For `Ingress`, the default port is assumed.
 
 2. In Application, Not Ingress: Inherits Application port
-If `port` IS NOT specified in `Application` and `port` IS specified in `ingressProps`, 
-the ingress port value is used for the `Ingress`
-
-3. In Ingress, Not Application: Throw Error
-- If `port` IS specified in `Application` and `port` IS NOT specified in `ingressProps`, 
-throw an erorr for defining a custom ingress port but a different port being assumed by the application.
-
-4. BOTH: Ingress Port Overrides Application
-- If `port` IS specified in both `Application` and `ingressProps`, the ingress port value
- overrides the application port specified for the `Ingress`.
+If `port` is specified in `Application`, the port value is used for the `Ingress` and `Application`.
 */
 
 export function buildDefaultIngressChart(scope: Construct) {
@@ -33,7 +26,7 @@ export function buildDefaultIngressChart(scope: Construct) {
   });
 }
 
-export function buildCustomApplicationPortIngressChart(scope: Construct) {
+export function buildCustomPortIngressChart(scope: Construct) {
   new Application(scope, "serve", {
     deployment: {
       image: "pennlabs/website",
@@ -44,43 +37,10 @@ export function buildCustomApplicationPortIngressChart(scope: Construct) {
   });
 }
 
-export function buildFailingCustomIngressPortIngressChart(scope: Construct) {
-  new Application(scope, "serve", {
-    deployment: {
-      image: "pennlabs/website",
-      tag: "latest",
-    },
-    ingress: {
-      port: 443,
-      rules: [{ host: "pennlabs.org", paths: ["/"] }],
-    },
-  });
-}
-
-export function buildCustomPortInBothOverrideIngressChart(scope: Construct) {
-  new Application(scope, "serve", {
-    deployment: {
-      image: "pennlabs/website",
-      tag: "latest",
-    },
-    port: 8080,
-    ingress: {
-      port: 443,
-      rules: [{ host: "pennlabs.org", paths: ["/"] }],
-    },
-  });
-}
-
 test("Ingress -- Default (1)", () => chartTest(buildDefaultIngressChart));
 
-test("Ingress -- Custom Application Port (2)", () =>
-  chartTest(buildCustomApplicationPortIngressChart));
-
-test("Ingress -- Custom Ingress Port (3, fails)", () =>
-  failingTest(buildFailingCustomIngressPortIngressChart));
-
-test("Ingress -- Custom Ports for Both (4)", () =>
-  chartTest(buildCustomPortInBothOverrideIngressChart));
+test("Ingress -- Custom Port (2)", () =>
+  chartTest(buildCustomPortIngressChart));
 
 // Failing Ingress Behavior
 export function buildFailingIngressChart(scope: Construct) {
