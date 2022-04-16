@@ -89,7 +89,21 @@ export class DeployJob extends CheckoutJob {
           git add \${{ github.repository }}
           git commit -m "chore(k8s): deploy $RELEASE_NAME"
           git push`
-        }        
+        },
+        {
+          name: "Deploy",
+          run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
+          # get repo name from synth step
+          RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
+          # Deploy
+          kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
+          kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
+          env: {
+            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+            AWS_ACCESS_KEY_ID: "${{ secrets.GH_AWS_ACCESS_KEY_ID }}",
+            AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
+          },
+        },
       ],
       ...overrides,
     });
