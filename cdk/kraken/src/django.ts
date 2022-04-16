@@ -1,6 +1,6 @@
-import { CheckoutJob, Workflow, StepsProps, JobProps } from 'cdkactions';
-import dedent from 'ts-dedent';
-import { buildId, buildName } from './utils';
+import { CheckoutJob, Workflow, StepsProps, JobProps } from "cdkactions";
+import dedent from "ts-dedent";
+import { buildId, buildName } from "./utils";
 
 /**
  * Props to configure the Django check job.
@@ -55,12 +55,16 @@ export class DjangoCheckJob extends CheckoutJob {
    * @param config Configuration for the Django check job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config: DjangoCheckJobProps, overrides?: Partial<JobProps>) {
+  public constructor(
+    scope: Workflow,
+    config: DjangoCheckJobProps,
+    overrides?: Partial<JobProps>
+  ) {
     // Build config
     const fullConfig: Required<DjangoCheckJobProps> = {
-      id: '',
-      pythonVersion: '3.8-buster',
-      path: '.',
+      id: "",
+      pythonVersion: "3.8-buster",
+      path: ".",
       black: true,
       flake8: true,
       ...config,
@@ -69,15 +73,15 @@ export class DjangoCheckJob extends CheckoutJob {
     // Define steps
     const steps: StepsProps[] = [
       {
-        name: 'Cache',
-        uses: 'actions/cache@v2',
+        name: "Cache",
+        uses: "actions/cache@v2",
         with: {
-          path: '~/.local/share/virtualenvs',
+          path: "~/.local/share/virtualenvs",
           key: `v0-\${{ hashFiles('${fullConfig.path}/Pipfile.lock') }}`,
         },
       },
       {
-        name: 'Install Dependencies',
+        name: "Install Dependencies",
         run: dedent`cd ${fullConfig.path}
       pip install pipenv
       pipenv install --deploy --dev`,
@@ -85,55 +89,55 @@ export class DjangoCheckJob extends CheckoutJob {
     ];
     if (fullConfig.flake8) {
       steps.push({
-        name: 'Lint (flake8)',
+        name: "Lint (flake8)",
         run: dedent`cd ${fullConfig.path}
         pipenv run flake8 .`,
       });
     }
     if (fullConfig.black) {
       steps.push({
-        name: 'Lint (black)',
+        name: "Lint (black)",
         run: dedent`cd ${fullConfig.path}
         pipenv run black --check .`,
       });
     }
     steps.push({
-      name: 'Test (run in parallel)',
+      name: "Test (run in parallel)",
       run: dedent`cd ${fullConfig.path}
       pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel
       pipenv run coverage combine`,
     });
     steps.push({
-      name: 'Upload Code Coverage',
+      name: "Upload Code Coverage",
       run: dedent`ROOT=$(pwd)
       cd ${fullConfig.path}
       pipenv run codecov --root $ROOT --flags backend`,
     });
 
     // Create Job
-    super(scope, buildId('django-check', fullConfig.id), {
-      name: buildName('Django Check', fullConfig.id),
-      runsOn: 'ubuntu-latest',
+    super(scope, buildId("django-check", fullConfig.id), {
+      name: buildName("Django Check", fullConfig.id),
+      runsOn: "ubuntu-latest",
       steps,
       container: {
         image: `python:${fullConfig.pythonVersion}`,
       },
       env: {
-        DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/postgres',
+        DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres",
       },
       services: {
         postgres: {
-          image: 'postgres:12',
+          image: "postgres:12",
           env: {
-            POSTGRES_USER: 'postgres',
-            POSTGRES_DB: 'postgres',
-            POSTGRES_PASSWORD: 'postgres',
+            POSTGRES_USER: "postgres",
+            POSTGRES_DB: "postgres",
+            POSTGRES_PASSWORD: "postgres",
           },
-          options: '--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5',
+          options:
+            "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5",
         },
       },
       ...overrides,
     });
   }
 }
-

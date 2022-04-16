@@ -1,5 +1,5 @@
-import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
-import dedent from 'ts-dedent';
+import { CheckoutJob, Workflow, JobProps } from "cdkactions";
+import dedent from "ts-dedent";
 
 /**
  * Optional props to configure the deploy job.
@@ -28,21 +28,25 @@ export class DeployJob extends CheckoutJob {
    * @param config Optional configuration for the deploy job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config?: DeployJobProps, overrides?: Partial<JobProps>) {
+  public constructor(
+    scope: Workflow,
+    config?: DeployJobProps,
+    overrides?: Partial<JobProps>
+  ) {
     // Build config
     const fullConfig: Required<DeployJobProps> = {
-      deployTag: '${{ github.sha }}',
-      defaultBranch: 'master',
+      deployTag: "${{ github.sha }}",
+      defaultBranch: "master",
       ...config,
     };
 
-    super(scope, 'deploy', {
-      runsOn: 'ubuntu-latest',
+    super(scope, "deploy", {
+      runsOn: "ubuntu-latest",
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [
         {
-          id: 'synth',
-          name: 'Synth cdk8s manifests',
+          id: "synth",
+          name: "Synth cdk8s manifests",
           run: dedent`cd k8s
           yarn install --frozen-lockfile
 
@@ -55,12 +59,12 @@ export class DeployJob extends CheckoutJob {
           yarn build`,
           env: {
             GIT_SHA: fullConfig.deployTag,
-            REPOSITORY: '${{ github.repository }}',
-            AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
+            REPOSITORY: "${{ github.repository }}",
+            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
           },
         },
         {
-          name: 'Deploy',
+          name: "Deploy",
           run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
 
           # get repo name from synth step
@@ -70,9 +74,9 @@ export class DeployJob extends CheckoutJob {
           kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
           kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
           env: {
-            AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
-            AWS_ACCESS_KEY_ID: '${{ secrets.GH_AWS_ACCESS_KEY_ID }}',
-            AWS_SECRET_ACCESS_KEY: '${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}',
+            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+            AWS_ACCESS_KEY_ID: "${{ secrets.GH_AWS_ACCESS_KEY_ID }}",
+            AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
           },
         },
       ],
