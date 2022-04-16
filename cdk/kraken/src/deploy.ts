@@ -1,5 +1,5 @@
-import { CheckoutJob, Workflow, JobProps } from 'cdkactions';
-import dedent from 'ts-dedent';
+import { CheckoutJob, Workflow, JobProps } from "cdkactions";
+import dedent from "ts-dedent";
 
 /**
  * Optional props to configure the deploy job.
@@ -28,16 +28,20 @@ export class DeployJob extends CheckoutJob {
    * @param config Optional configuration for the deploy job.
    * @param overrides Optional overrides for the job.
    */
-  public constructor(scope: Workflow, config?: DeployJobProps, overrides?: Partial<JobProps>) {
+  public constructor(
+    scope: Workflow,
+    config?: DeployJobProps,
+    overrides?: Partial<JobProps>
+  ) {
     // Build config
     const fullConfig: Required<DeployJobProps> = {
-      deployTag: '${{ github.sha }}',
-      defaultBranch: 'master',
+      deployTag: "${{ github.sha }}",
+      defaultBranch: "master",
       ...config,
     };
 
-    super(scope, 'deploy', {
-      runsOn: 'ubuntu-latest',
+    super(scope, "deploy", {
+      runsOn: "ubuntu-latest",
       if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [
         {
@@ -69,8 +73,8 @@ export class DeployJob extends CheckoutJob {
           yarn build`,
           env: {
             GIT_SHA: fullConfig.deployTag,
-            REPOSITORY: '${{ github.repository }}',
-            AWS_ACCOUNT_ID: '${{ secrets.AWS_ACCOUNT_ID }}',
+            REPOSITORY: "${{ github.repository }}",
+            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
           },
         },
         {
