@@ -15,9 +15,9 @@ created. For `Ingress`, the default port is assumed.
 If `port` IS NOT specified in `Application` and `port` IS specified in `ingressProps`, 
 the ingress port value is used for the `Ingress`
 
-3. In Ingress, Not Application: Uses Ingress Port for Ingress
+3. In Ingress, Not Application: Throw Error
 - If `port` IS specified in `Application` and `port` IS NOT specified in `ingressProps`, 
-the application port value is passed to `Ingress` as well.
+throw an erorr for defining a custom ingress port but a different port being assumed by the application.
 
 4. BOTH: Ingress Port Overrides Application
 - If `port` IS specified in both `Application` and `ingressProps`, the ingress port value
@@ -44,7 +44,7 @@ export function buildCustomApplicationPortIngressChart(scope: Construct) {
   });
 }
 
-export function buildCustomIngressPortIngressChart(scope: Construct) {
+export function buildFailingCustomIngressPortIngressChart(scope: Construct) {
   new Application(scope, "serve", {
     deployment: {
       image: "pennlabs/website",
@@ -76,8 +76,8 @@ test("Ingress -- Default (1)", () => chartTest(buildDefaultIngressChart));
 test("Ingress -- Custom Application Port (2)", () =>
   chartTest(buildCustomApplicationPortIngressChart));
 
-test("Ingress -- Custom Ingress Port (3)", () =>
-  chartTest(buildCustomIngressPortIngressChart));
+test("Ingress -- Custom Ingress Port (3, fails)", () =>
+  failingTest(buildFailingCustomIngressPortIngressChart));
 
 test("Ingress -- Custom Ports for Both (4)", () =>
   chartTest(buildCustomPortInBothOverrideIngressChart));
