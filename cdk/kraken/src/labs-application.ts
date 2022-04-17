@@ -215,8 +215,15 @@ export class LabsApplicationStack extends Stack {
       ...overrides,
     });
 
-    new DeployJob(featureBranchWorkflow, fullConfig.deployProps, {
-      ...fullConfig.deployOverrides,
-    });
+    new DeployJob(
+      featureBranchWorkflow,
+      {
+        ...fullConfig.deployProps,
+        isFeatureDeploy: true,
+      },
+      {
+        ...fullConfig.deployOverrides,
+      }
+    );
   }
 }

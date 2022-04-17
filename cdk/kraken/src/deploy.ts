@@ -16,6 +16,12 @@ export interface DeployJobProps {
    * @default master
    */
   defaultBranch?: string;
+
+  /**
+   * Deploy for a specific feature branch.
+   * @default false
+   */
+  isFeatureDeploy?: boolean;
 }
 
 /**
@@ -37,38 +43,46 @@ export class DeployJob extends CheckoutJob {
     const fullConfig: Required<DeployJobProps> = {
       deployTag: "${{ github.sha }}",
       defaultBranch: "master",
+      isFeatureDeploy: false,
       ...config,
     };
 
     super(scope, "deploy", {
       runsOn: "ubuntu-latest",
-      if:
-        `github.ref == 'refs/heads/${fullConfig.defaultBranch}'` ||
-        `github.event_name == 'pull_request'`,
+      if: fullConfig.isFeatureDeploy
+        ? `github.event_name == 'pull_request'`
+        : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
       steps: [
         {
           id: "synth",
           name: "Synth cdk8s manifests",
           run: dedent`cd k8s
           yarn install --frozen-lockfile
+          ${
+            fullConfig.isFeatureDeploy
+              ? dedent`
 
-          # get repo name (by removing owner/organization)
+          # Feature Branch deployment set-up
+          export IS_FEATURE_BRANCH=true;
+          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;
+          
+          `
+              : dedent`
+
+          # Get repo name (by removing owner/organization)
           export RELEASE_NAME=\${REPOSITORY#*/}
 
-          # check for feature-branch deployment set-up
-          if [[ $GIT_REF != 'refs/heads/${fullConfig.defaultBranch}' ]]; 
-          then
-            export IS_FEATURE_BRANCH=true;
-            export RELEASE_NAME=$RELEASE_NAME-pr-$PR_NUMBER;
-          fi;
-
+              `
+          }
           # Export RELEASE_NAME as an output
           echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
 
           yarn build`,
           env: {
-            PR_NUMBER: "${{ github.event.pull_request.number }}",
-            GIT_REF: "${{ github.ref }}",
+            ...(fullConfig.isFeatureDeploy && {
+              PR_NUMBER: "${{ github.event.pull_request.number }}",
+              GIT_REF: "${{ github.ref }}",
+            }),
             GIT_SHA: fullConfig.deployTag,
             REPOSITORY: "${{ github.repository }}",
             AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
@@ -78,7 +92,7 @@ export class DeployJob extends CheckoutJob {
           name: "Deploy",
           run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
 
-          # get repo name from synth step
+          # Get repo name from synth step
           RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
 
           # Deploy

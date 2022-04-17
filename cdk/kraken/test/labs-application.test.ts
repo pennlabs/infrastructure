@@ -11,9 +11,16 @@ test("default", () => {
   app.synth();
   expect(fs.readdirSync(app.outdir)).toEqual([
     "cdkactions_build-and-deploy.yaml",
+    "cdkactions_feature-branch-deploy.yaml",
   ]);
   expect(
     fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
+  ).toMatchSnapshot();
+  expect(
+    fs.readFileSync(
+      `${app.outdir}/cdkactions_feature-branch-deploy.yaml`,
+      "utf-8"
+    )
   ).toMatchSnapshot();
 });
 
@@ -27,8 +34,15 @@ test("integration tests", () => {
   app.synth();
   expect(fs.readdirSync(app.outdir)).toEqual([
     "cdkactions_build-and-deploy.yaml",
+    "cdkactions_feature-branch-deploy.yaml",
   ]);
   expect(
     fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
+  ).toMatchSnapshot();
+  expect(
+    fs.readFileSync(
+      `${app.outdir}/cdkactions_feature-branch-deploy.yaml`,
+      "utf-8"
+    )
   ).toMatchSnapshot();
 });
