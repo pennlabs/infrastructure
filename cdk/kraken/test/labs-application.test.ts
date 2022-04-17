@@ -12,6 +12,7 @@ test("default", () => {
   expect(fs.readdirSync(app.outdir)).toEqual([
     "cdkactions_build-and-deploy.yaml",
     "cdkactions_feature-branch-deploy.yaml",
+    "cdkactions_feature-branch-nuke.yaml",
   ]);
   expect(
     fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
@@ -19,6 +20,12 @@ test("default", () => {
   expect(
     fs.readFileSync(
       `${app.outdir}/cdkactions_feature-branch-deploy.yaml`,
+      "utf-8"
+    )
+  ).toMatchSnapshot();
+  expect(
+    fs.readFileSync(
+      `${app.outdir}/cdkactions_feature-branch-nuke.yaml`,
       "utf-8"
     )
   ).toMatchSnapshot();
@@ -35,6 +42,7 @@ test("integration tests", () => {
   expect(fs.readdirSync(app.outdir)).toEqual([
     "cdkactions_build-and-deploy.yaml",
     "cdkactions_feature-branch-deploy.yaml",
+    "cdkactions_feature-branch-nuke.yaml",
   ]);
   expect(
     fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
@@ -42,6 +50,12 @@ test("integration tests", () => {
   expect(
     fs.readFileSync(
       `${app.outdir}/cdkactions_feature-branch-deploy.yaml`,
+      "utf-8"
+    )
+  ).toMatchSnapshot();
+  expect(
+    fs.readFileSync(
+      `${app.outdir}/cdkactions_feature-branch-nuke.yaml`,
       "utf-8"
     )
   ).toMatchSnapshot();

@@ -8,6 +8,7 @@ import {
   IntegrationTestsJob,
   IntegrationTestsJobProps,
 } from "./integration-tests";
+import { NukeJob } from "./nuke";
 import { ReactCheckJobProps } from "./react";
 import { ReactProject } from "./react-project";
 
@@ -209,14 +210,18 @@ export class LabsApplicationStack extends Stack {
     });
 
     // Feature Branch Deploy
-    const featureBranchWorkflow = new Workflow(this, "feature-branch-deploy", {
-      name: "Feature Branch Deploy",
-      on: "pullRequest",
-      ...overrides,
-    });
+    const featureBranchDeployWorkflow = new Workflow(
+      this,
+      "feature-branch-deploy",
+      {
+        name: "Feature Branch Deploy",
+        on: { pullRequest: { types: ["opened"] } },
+        ...overrides,
+      }
+    );
 
     new DeployJob(
-      featureBranchWorkflow,
+      featureBranchDeployWorkflow,
       {
         ...fullConfig.deployProps,
         isFeatureDeploy: true,
@@ -225,5 +230,20 @@ export class LabsApplicationStack extends Stack {
         ...fullConfig.deployOverrides,
       }
     );
+
+    // Feature Branch Nuke
+    const featureBranchNukeWorkflow = new Workflow(
+      this,
+      "feature-branch-nuke",
+      {
+        name: "Feature Branch Nuke",
+        on: { pullRequest: { types: ["closed"] } },
+        ...overrides,
+      }
+    );
+
+    new NukeJob(featureBranchNukeWorkflow, fullConfig.deployProps, {
+      ...fullConfig.deployOverrides,
+    });
   }
 }
