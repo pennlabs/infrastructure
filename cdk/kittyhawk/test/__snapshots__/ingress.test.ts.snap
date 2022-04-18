@@ -262,7 +262,9 @@ Array [
                 "backend": Object {
                   "service": Object {
                     "name": "RELEASE_NAME-serve",
-                    "port": Object {},
+                    "port": Object {
+                      "number": 80,
+                    },
                   },
                 },
                 "path": "/",
