@@ -10,11 +10,6 @@ export interface ReactApplicationProps {
   readonly deployment: DeploymentProps;
 
   /**
-   * Port to expose the application on.
-   */
-  readonly port?: number;
-
-  /**
    * Host is the domain the application runs on,
    * isSubdomain is true if the domain should be treated as a subdomain for certificate purposes.
    * paths is the list of paths to expose the application on.
@@ -24,14 +19,14 @@ export interface ReactApplicationProps {
   readonly domain: HostRules;
 
   /**
+   * Port to expose the application on.
+   */
+  readonly port?: number;
+
+  /**
    * Optional ingressProps to override the default ingress props.
    */
   readonly ingressProps?: Partial<Omit<IngressProps, "port">>;
-
-  /**
-   * PORT environment variable for react. Default '80'.
-   */
-  readonly portEnv?: string;
 
   /**
    * Creates a service account and attach it to any deployment pods.
@@ -47,7 +42,7 @@ export class ReactApplication extends Application {
       ...new Set([
         ...(props.deployment?.env || []),
         { name: "DOMAIN", value: props.domain.host },
-        { name: "PORT", value: props.portEnv || "80" },
+        { name: "PORT", value: props.port ? `${props.port}` : "80" },
       ]),
     ];
 

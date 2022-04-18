@@ -366,8 +366,8 @@ Array [
     "spec": Object {
       "ports": Array [
         Object {
-          "port": 80,
-          "targetPort": 80,
+          "port": 8080,
+          "targetPort": 8080,
         },
       ],
       "selector": Object {
@@ -434,7 +434,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 80,
+                  "containerPort": 8080,
                 },
               ],
             },
@@ -467,7 +467,7 @@ Array [
                   "service": Object {
                     "name": "RELEASE_NAME-platform",
                     "port": Object {
-                      "number": 80,
+                      "number": 8080,
                     },
                   },
                 },
@@ -963,8 +963,8 @@ Array [
     "spec": Object {
       "ports": Array [
         Object {
-          "port": 80,
-          "targetPort": 80,
+          "port": 8080,
+          "targetPort": 8080,
         },
       ],
       "selector": Object {
@@ -1031,7 +1031,7 @@ Array [
               "name": "worker",
               "ports": Array [
                 Object {
-                  "containerPort": 80,
+                  "containerPort": 8080,
                 },
               ],
             },
@@ -1064,7 +1064,7 @@ Array [
                   "service": Object {
                     "name": "RELEASE_NAME-react",
                     "port": Object {
-                      "number": 80,
+                      "number": 8080,
                     },
                   },
                 },

@@ -128,7 +128,7 @@ const djangoTestConfig = {
       { host: "platform.pennlabs.org", isSubdomain: true, paths: ["/"] },
     ] as NonEmptyArray<HostRules>,
     djangoSettingsModule: "Platform.settings.production",
-    portEnv: "8080",
+    port: 8080,
   },
   duplicateEnv: {
     deployment: {
@@ -172,7 +172,7 @@ const reactTestConfig = {
       env: [{ name: "SOME_ENV", value: "environment variables are cool" }],
     },
     domain: { host: "pennclubs.com", paths: ["/"] },
-    portEnv: "8080",
+    port: 8080,
   },
   duplicateEnv: {
     deployment: {
@@ -181,7 +181,7 @@ const reactTestConfig = {
       env: [{ name: "DOMAIN", value: "pennclubs.com" }],
     },
     domain: { host: "pennclubs.com", paths: ["/"] },
-    portEnv: "80",
+    port: 80,
   },
 };
 
