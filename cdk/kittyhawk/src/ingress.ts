@@ -45,9 +45,9 @@ export class Ingress extends Construct {
     super(scope, `ingress-${appname}`);
 
     const fullConfig: Required<IngressProps> = {
+      ...props,
       port: props.port ?? 80,
       annotations: props.annotations ?? {},
-      ...props,
     };
 
     const tls = props.rules.map((h) => {
