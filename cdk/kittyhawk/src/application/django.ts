@@ -30,7 +30,7 @@ export interface DjangoApplicationProps {
   /**
    * Optional ingressProps to override the default ingress props.
    */
-  readonly ingressProps?: Partial<IngressProps>;
+  readonly ingressProps?: Partial<Omit<IngressProps, "port">>;
 
   /**
    * DJANGO_SETTINGS_MODULE environment variable.

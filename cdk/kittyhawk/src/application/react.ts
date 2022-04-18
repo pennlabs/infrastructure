@@ -26,7 +26,7 @@ export interface ReactApplicationProps {
   /**
    * Optional ingressProps to override the default ingress props.
    */
-  readonly ingressProps?: IngressProps;
+  readonly ingressProps?: Partial<Omit<IngressProps, "port">>;
 
   /**
    * PORT environment variable for react. Default '80'.
