@@ -23,6 +23,7 @@ export function buildDefaultIngressChart(scope: Construct) {
       image: "pennlabs/website",
       tag: "latest",
     },
+    ingress: { rules: [{ host: "pennlabs.org", paths: ["/"] }] },
   });
 }
 
