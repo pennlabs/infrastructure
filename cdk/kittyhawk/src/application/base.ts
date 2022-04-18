@@ -6,13 +6,11 @@ import { Ingress, IngressProps } from "../ingress";
 import { Service } from "../service";
 import { ServiceAccount } from "../serviceaccount";
 
-interface PortExclusiveIngressProps extends Omit<IngressProps, "port"> {}
-
 export interface ApplicationProps {
   /**
    * Ingress configuration
    */
-  readonly ingress?: PortExclusiveIngressProps;
+  readonly ingress?: Omit<IngressProps, "port">;
 
   /**
    * Deployment configuration
