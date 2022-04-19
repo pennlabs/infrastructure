@@ -12,6 +12,11 @@ export interface DjangoApplicationProps {
   readonly deployment: DeploymentProps;
 
   /**
+   * DJANGO_SETTINGS_MODULE environment variable.
+   */
+  readonly djangoSettingsModule: string;
+
+  /**
    * Port to expose the application on.
    */
   readonly port?: number;
@@ -30,12 +35,7 @@ export interface DjangoApplicationProps {
   /**
    * Optional ingressProps to override the default ingress props.
    */
-  readonly ingressProps?: Partial<IngressProps>;
-
-  /**
-   * DJANGO_SETTINGS_MODULE environment variable.
-   */
-  readonly djangoSettingsModule: string;
+  readonly ingressProps?: Partial<Omit<IngressProps, "port">>;
 
   /**
    * Creates a service account and attach it to any deployment pods.
