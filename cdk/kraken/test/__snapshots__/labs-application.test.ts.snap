@@ -368,9 +368,9 @@ jobs:
           cd k8s
           yarn install --frozen-lockfile
 
-          # Feature Branch deployment set-up
-          export IS_FEATURE_BRANCH=true;
-          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;
+          # Get repo name (by removing owner/organization)
+          export IS_FEATURE_BRANCH=true
+          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER
 
           # Export RELEASE_NAME as an output
           echo \\"::set-output name=RELEASE_NAME::$RELEASE_NAME\\"

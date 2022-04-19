@@ -59,13 +59,11 @@ export class DeployJob extends CheckoutJob {
           run: dedent`cd k8s
           yarn install --frozen-lockfile
           
-          ${
-            fullConfig.isFeatureDeploy
-              ? dedent`# Feature Branch deployment set-up
-          export IS_FEATURE_BRANCH=true;
-          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;`
-              : dedent`# Get repo name (by removing owner/organization)
-          export RELEASE_NAME=\${REPOSITORY#*/}`
+          # Get repo name (by removing owner/organization)${
+            fullConfig.isFeatureDeploy ? "\nexport IS_FEATURE_BRANCH=true" : ""
+          }
+          export RELEASE_NAME=\${REPOSITORY#*/}${
+            fullConfig.isFeatureDeploy ? `-pr-$PR_NUMBER` : ""
           }
 
           # Export RELEASE_NAME as an output
