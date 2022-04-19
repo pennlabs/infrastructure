@@ -29,6 +29,12 @@ export interface LabsApplicationStackProps {
   frontendPath?: string;
 
   /**
+   * If true, workflows for feature branch deployment will be generated.
+   * @default false
+   */
+  enableFeatureBranchDeploy?: boolean;
+
+  /**
    * If true, run integration tests using docker-compose.
    * @default false
    */
@@ -130,6 +136,7 @@ export class LabsApplicationStack extends Stack {
     const fullConfig: Required<LabsApplicationStackProps> = {
       backendPath: "backend",
       frontendPath: "frontend",
+      enableFeatureBranchDeploy: false,
       integrationTests: false,
       djangoCheckProps: {},
       djangoCheckOverrides: {},
@@ -210,40 +217,42 @@ export class LabsApplicationStack extends Stack {
     });
 
     // Feature Branch Deploy
-    const featureBranchDeployWorkflow = new Workflow(
-      this,
-      "feature-branch-deploy",
-      {
-        name: "Feature Branch Deploy",
-        on: { pullRequest: { types: ["opened"] } },
-        ...overrides,
-      }
-    );
+    if (fullConfig.enableFeatureBranchDeploy) {
+      const featureBranchDeployWorkflow = new Workflow(
+        this,
+        "feature-branch-deploy",
+        {
+          name: "Feature Branch Deploy",
+          on: { pullRequest: { types: ["opened"] } },
+          ...overrides,
+        }
+      );
 
-    new DeployJob(
-      featureBranchDeployWorkflow,
-      {
-        ...fullConfig.deployProps,
-        isFeatureDeploy: true,
-      },
-      {
+      new DeployJob(
+        featureBranchDeployWorkflow,
+        {
+          ...fullConfig.deployProps,
+          isFeatureDeploy: true,
+        },
+        {
+          ...fullConfig.deployOverrides,
+        }
+      );
+
+      // Feature Branch Nuke
+      const featureBranchNukeWorkflow = new Workflow(
+        this,
+        "feature-branch-nuke",
+        {
+          name: "Feature Branch Nuke",
+          on: { pullRequest: { types: ["closed"] } },
+          ...overrides,
+        }
+      );
+
+      new NukeJob(featureBranchNukeWorkflow, fullConfig.deployProps, {
         ...fullConfig.deployOverrides,
-      }
-    );
-
-    // Feature Branch Nuke
-    const featureBranchNukeWorkflow = new Workflow(
-      this,
-      "feature-branch-nuke",
-      {
-        name: "Feature Branch Nuke",
-        on: { pullRequest: { types: ["closed"] } },
-        ...overrides,
-      }
-    );
-
-    new NukeJob(featureBranchNukeWorkflow, fullConfig.deployProps, {
-      ...fullConfig.deployOverrides,
-    });
+      });
+    }
   }
 }
