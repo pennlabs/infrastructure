@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.4 (2022-04-18)
+
+* Better handling of custom ports
+    * Fix bug for ingress ports
+    * Disallow custom ports within ingress prop in `Application` and its extended classes
+    * Update tests & snapshots
+* Update `API.md` file
+
 ## 1.1.3 (2022-04-08)
 
 * Upgrade dependencies and fix projen version configuration

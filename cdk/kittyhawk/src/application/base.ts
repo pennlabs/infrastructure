@@ -10,7 +10,7 @@ export interface ApplicationProps {
   /**
    * Ingress configuration
    */
-  readonly ingress?: IngressProps;
+  readonly ingress?: Omit<IngressProps, "port">;
 
   /**
    * Deployment configuration
@@ -54,7 +54,10 @@ export class Application extends Construct {
     });
 
     if (props.ingress) {
-      new Ingress(this, fullname, props.ingress);
+      new Ingress(this, fullname, {
+        ...props.ingress,
+        port: props.port,
+      });
 
       const alreadyCreatedCertificates = new Set<string>();
 
