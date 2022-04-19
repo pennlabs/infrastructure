@@ -1,5 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Cron Job for feature branch deploy 1`] = `
+Array [
+  Object {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-calculate-waits",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-calculate-waits",
+    },
+    "spec": Object {
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": Object {
+        "spec": Object {
+          "template": Object {
+            "spec": Object {
+              "containers": Array [
+                Object {
+                  "command": Array [
+                    "python",
+                    "manage.py",
+                    "calculatewaittimes",
+                  ],
+                  "env": Array [
+                    Object {
+                      "name": "IS_FEATURE_BRANCH",
+                      "value": "true",
+                    },
+                    Object {
+                      "name": "GIT_SHA",
+                      "value": "TAG_FROM_CI",
+                    },
+                  ],
+                  "envFrom": Array [
+                    Object {
+                      "secretRef": Object {
+                        "name": "penn-courses",
+                      },
+                    },
+                  ],
+                  "image": "pennlabs/penn-courses-backend:TAG_FROM_CI",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "worker",
+                  "volumeMounts": Array [
+                    Object {
+                      "mountPath": "/app/ios_key.p8",
+                      "name": "labs-api-server-ios-key",
+                      "subPath": "ios-key",
+                    },
+                  ],
+                },
+              ],
+              "restartPolicy": "Never",
+              "volumes": Array [
+                Object {
+                  "name": "labs-api-server-ios-key",
+                  "secret": Object {
+                    "items": Array [
+                      Object {
+                        "key": "ios-key",
+                        "path": "ios-key",
+                      },
+                    ],
+                    "secretName": "labs-api-server",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      "schedule": "*/5 * * * *",
+      "successfulJobsHistoryLimit": 1,
+    },
+  },
+]
+`;
+
 exports[`Cron Job with limits 1`] = `
 Array [
   Object {
