@@ -73,6 +73,11 @@ export class DeployJob extends CheckoutJob {
           {
             id: "synth",
             name: "Synth cdk8s manifests",
+            ...(fullConfig.isFeatureDeploy
+              ? {
+                  if: "steps.pr.outputs.pull_request_number",
+                }
+              : {}),
             run: dedent`cd k8s
           yarn install --frozen-lockfile
           
@@ -97,6 +102,7 @@ export class DeployJob extends CheckoutJob {
           },
           {
             name: "Deploy",
+            if: "steps.synth.outcome == 'success'",
             run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
 
           # Get repo name from synth step
