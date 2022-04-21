@@ -227,6 +227,7 @@ export class LabsApplicationStack extends Stack {
         },
         {
           ...fullConfig.deployOverrides,
+          needs: deployNeeds,
         }
       );
 
