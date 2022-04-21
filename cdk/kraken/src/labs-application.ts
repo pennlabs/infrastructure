@@ -218,18 +218,9 @@ export class LabsApplicationStack extends Stack {
 
     // Feature Branch Deploy
     if (fullConfig.enableFeatureBranchDeploy) {
-      const featureBranchDeployWorkflow = new Workflow(
-        this,
-        "feature-branch-deploy",
-        {
-          name: "Feature Branch Deploy",
-          on: { pullRequest: { types: ["opened"] } },
-          ...overrides,
-        }
-      );
-
+      // Add Feature Branch Deploy to Original Workflow
       new DeployJob(
-        featureBranchDeployWorkflow,
+        workflow,
         {
           ...fullConfig.deployProps,
           isFeatureDeploy: true,
@@ -239,7 +230,7 @@ export class LabsApplicationStack extends Stack {
         }
       );
 
-      // Feature Branch Nuke
+      // New Feature Branch Nuke Worflow
       const featureBranchNukeWorkflow = new Workflow(
         this,
         "feature-branch-nuke",

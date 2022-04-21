@@ -27,17 +27,10 @@ test("enabled feature branch deploy", () => {
   app.synth();
   expect(fs.readdirSync(app.outdir)).toEqual([
     "cdkactions_build-and-deploy.yaml",
-    "cdkactions_feature-branch-deploy.yaml",
     "cdkactions_feature-branch-nuke.yaml",
   ]);
   expect(
     fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
-  ).toMatchSnapshot();
-  expect(
-    fs.readFileSync(
-      `${app.outdir}/cdkactions_feature-branch-deploy.yaml`,
-      "utf-8"
-    )
   ).toMatchSnapshot();
   expect(
     fs.readFileSync(
