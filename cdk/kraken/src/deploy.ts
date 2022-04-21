@@ -53,7 +53,7 @@ export class DeployJob extends CheckoutJob {
       {
         runsOn: "ubuntu-latest",
         if: fullConfig.isFeatureDeploy
-          ? `startsWith(github.ref, 'refs/heads/feature/') == true`
+          ? `startsWith(github.ref, 'refs/heads/feat/') == true`
           : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         steps: [
           ...(fullConfig.isFeatureDeploy

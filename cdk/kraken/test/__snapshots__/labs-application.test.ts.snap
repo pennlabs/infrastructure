@@ -347,7 +347,7 @@ jobs:
       - publish-frontend
   feature-branch-deploy:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/feature/') == true
+    if: startsWith(github.ref, 'refs/heads/feat/') == true
     steps:
       - uses: actions/checkout@v2
       - name: Get Pull Request Number
