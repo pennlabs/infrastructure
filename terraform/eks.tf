@@ -9,7 +9,6 @@ module "eks-production" {
   vpc_id          = module.vpc.vpc_id
   eks_managed_node_groups = {
     spot = {
-      desired_size = local.k8s_cluster_size
       max_size     = local.k8s_cluster_size
       min_size     = local.k8s_cluster_size
 
