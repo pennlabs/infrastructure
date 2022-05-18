@@ -42,7 +42,7 @@ locals {
     "jonathan",
   ])
   k8s_cluster_name = "production"
-  k8s_cluster_size = 3
+  k8s_cluster_size = 5
   vault_ami        = "ami-0eec2c28d4dd94628"
   domains = toset([
     "ohq.io",
