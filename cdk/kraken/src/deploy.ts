@@ -18,10 +18,10 @@ export interface DeployJobProps {
   defaultBranch?: string;
 
   /**
-   * Deploy for a specific feature branch.
+   * Deploy to a specific feature branch.
    * @default false
    */
-  isFeatureDeploy?: boolean;
+  deployToFeatureBranch?: boolean;
 }
 
 /**
@@ -43,20 +43,20 @@ export class DeployJob extends CheckoutJob {
     const fullConfig: Required<DeployJobProps> = {
       deployTag: "${{ github.sha }}",
       defaultBranch: "master",
-      isFeatureDeploy: false,
+      deployToFeatureBranch: false,
       ...config,
     };
 
     super(
       scope,
-      fullConfig.isFeatureDeploy ? "feature-branch-deploy" : "deploy",
+      fullConfig.deployToFeatureBranch ? "feature-branch-deploy" : "deploy",
       {
         runsOn: "ubuntu-latest",
-        if: fullConfig.isFeatureDeploy
+        if: fullConfig.deployToFeatureBranch
           ? `startsWith(github.ref, 'refs/heads/feat/') == true`
           : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         steps: [
-          ...(fullConfig.isFeatureDeploy
+          ...(fullConfig.deployToFeatureBranch
             ? [
                 {
                   name: "Get Pull Request Number",
@@ -73,7 +73,7 @@ export class DeployJob extends CheckoutJob {
           {
             id: "synth",
             name: "Synth cdk8s manifests",
-            ...(fullConfig.isFeatureDeploy
+            ...(fullConfig.deployToFeatureBranch
               ? {
                   if: "steps.pr.outputs.pull_request_number",
                 }
@@ -82,12 +82,12 @@ export class DeployJob extends CheckoutJob {
           yarn install --frozen-lockfile
           
           # Get repo name (by removing owner/organization)${
-            fullConfig.isFeatureDeploy
+            fullConfig.deployToFeatureBranch
               ? "\nexport DEPLOY_TO_FEATURE_BRANCH=true"
               : ""
           }
           export RELEASE_NAME=\${REPOSITORY#*/}${
-            fullConfig.isFeatureDeploy
+            fullConfig.deployToFeatureBranch
               ? `-pr-\${{ steps.pr.outputs.pull_request_number }}`
               : ""
           }

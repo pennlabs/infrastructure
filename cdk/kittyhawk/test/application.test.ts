@@ -66,9 +66,11 @@ function buildReactChartDuplicateEnv(scope: Construct) {
 
 test("Tag Override", () => chartTest(buildTagOverrideChart));
 
+// Redis tests
 test("Redis Application -- Default", () => chartTest(buildRedisChartDefault));
 test("Redis Application -- Example", () => chartTest(buildRedisChartExample));
 
+// Django tests
 test("Django Application -- Default", () => chartTest(buildDjangoChartDefault));
 test("Django Application -- Example", () => chartTest(buildDjangoChartExample));
 test("Django Application -- Duplicate Env", () =>
@@ -80,6 +82,7 @@ test("Django Application -- Feature Branch Deploy", () => {
 test("Django Application -- Undefined Domains Chart", () =>
   chartTest(buildDjangoIngressUndefinedDomainsChart));
 
+// React tests
 test("React Application -- Default", () => chartTest(buildReactChartDefault));
 test("React Application -- Example", () => chartTest(buildReactChartExample));
 test("React Application -- Feature Branch Deploy", () => {
@@ -92,6 +95,7 @@ test("React Application -- Duplicate Env", () =>
 afterEach(() => {
   delete process.env.DEPLOY_TO_FEATURE_BRANCH;
 });
+
 /**
  * Test Configuration for RedisApplication
  *

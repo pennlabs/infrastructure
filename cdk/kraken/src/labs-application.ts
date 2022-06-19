@@ -223,7 +223,7 @@ export class LabsApplicationStack extends Stack {
         workflow,
         {
           ...fullConfig.deployProps,
-          isFeatureDeploy: true,
+          deployToFeatureBranch: true,
         },
         {
           ...fullConfig.deployOverrides,

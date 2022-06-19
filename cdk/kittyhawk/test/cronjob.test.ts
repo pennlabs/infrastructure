@@ -32,12 +32,12 @@ export function buildCronjobLimitsChart(scope: Construct) {
   });
 }
 
-test("Cron Job with volume", () => chartTest(buildCronjobVolumeChart));
-test("Cron Job for feature branch deploy", () => {
+test("Cron Job -- With volume", () => chartTest(buildCronjobVolumeChart));
+test("Cron Job -- Feature Branch Deploy", () => {
   process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
   chartTest(buildCronjobVolumeChart);
 });
-test("Cron Job with limits", () => chartTest(buildCronjobLimitsChart));
+test("Cron Job -- With limits", () => chartTest(buildCronjobLimitsChart));
 afterEach(() => {
   delete process.env.DEPLOY_TO_FEATURE_BRANCH;
 });
