@@ -82,7 +82,9 @@ export class DeployJob extends CheckoutJob {
           yarn install --frozen-lockfile
           
           # Get repo name (by removing owner/organization)${
-            fullConfig.isFeatureDeploy ? "\nexport IS_FEATURE_BRANCH=true" : ""
+            fullConfig.isFeatureDeploy
+              ? "\nexport DEPLOY_TO_FEATURE_BRANCH=true"
+              : ""
           }
           export RELEASE_NAME=\${REPOSITORY#*/}${
             fullConfig.isFeatureDeploy

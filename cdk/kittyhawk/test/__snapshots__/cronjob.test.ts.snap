@@ -29,7 +29,7 @@ Array [
                   ],
                   "env": Array [
                     Object {
-                      "name": "IS_FEATURE_BRANCH",
+                      "name": "DEPLOY_TO_FEATURE_BRANCH",
                       "value": "true",
                     },
                     Object {

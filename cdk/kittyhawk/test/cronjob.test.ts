@@ -34,10 +34,10 @@ export function buildCronjobLimitsChart(scope: Construct) {
 
 test("Cron Job with volume", () => chartTest(buildCronjobVolumeChart));
 test("Cron Job for feature branch deploy", () => {
-  process.env.IS_FEATURE_BRANCH = "true";
+  process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
   chartTest(buildCronjobVolumeChart);
 });
 test("Cron Job with limits", () => chartTest(buildCronjobLimitsChart));
 afterEach(() => {
-  delete process.env.IS_FEATURE_BRANCH;
+  delete process.env.DEPLOY_TO_FEATURE_BRANCH;
 });

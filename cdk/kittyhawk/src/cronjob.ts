@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { Container, ContainerProps, SecretVolume } from "./container";
 import { KubeCronJob as CronJobApiObject } from "./imports/k8s";
-import { defaultChildName } from "./utils";
+import { defaultChildName, deployToFeatureBranch } from "./utils";
 
 export interface CronJobProps extends ContainerProps {
   /**
@@ -59,14 +59,13 @@ export class CronJob extends Construct {
     // We want to prepend the project name to the name of each component
     const release_name = process.env.RELEASE_NAME ?? "undefined_release";
     const fullname = `${release_name}-${jobname}`;
-    const isFeatureBranch = process.env.IS_FEATURE_BRANCH == "true";
 
     const containers: Container[] = [
       new Container({
         ...props,
-        ...(isFeatureBranch
+        ...(deployToFeatureBranch
           ? {
-              env: [{ name: "IS_FEATURE_BRANCH", value: "true" }],
+              env: [{ name: "DEPLOY_TO_FEATURE_BRANCH", value: "true" }],
             }
           : {}),
         noContainerPorts: true,

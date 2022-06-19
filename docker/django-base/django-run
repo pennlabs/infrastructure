@@ -4,8 +4,8 @@ set -e
 # Django Migrate
 /usr/local/bin/python3 /app/manage.py migrate --noinput
 
-# If IS_FEATURE_BRANCH is set, run populate
-if [[ ! -z "${IS_FEATURE_BRANCH}" ]]; then
+# If DEPLOY_TO_FEATURE_BRANCH is set, run populate
+if [[ ! -z "${DEPLOY_TO_FEATURE_BRANCH}" ]]; then
   /usr/local/bin/python3 /app/manage.py populate
 fi
 

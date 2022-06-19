@@ -5,6 +5,7 @@ import { Deployment, DeploymentProps } from "../deployment";
 import { Ingress, IngressProps } from "../ingress";
 import { Service } from "../service";
 import { ServiceAccount } from "../serviceaccount";
+import { deployToFeatureBranch } from "../utils";
 
 export interface ApplicationProps {
   /**
@@ -36,7 +37,6 @@ export class Application extends Construct {
     // We want to prepend the project name to the name of each component
     const release_name = process.env.RELEASE_NAME || "undefined_release";
     const fullname = `${release_name}-${appname}`;
-    const isFeatureBranch = process.env.IS_FEATURE_BRANCH == "true";
 
     new Service(this, fullname, props.port);
 
@@ -49,11 +49,11 @@ export class Application extends Construct {
     new Deployment(this, fullname, {
       ...props.deployment,
       port: props.port,
-      ...(isFeatureBranch
+      ...(deployToFeatureBranch
         ? {
             env: [
               ...(props.deployment.env ?? []),
-              { name: "IS_FEATURE_BRANCH", value: "true" },
+              { name: "DEPLOY_TO_FEATURE_BRANCH", value: "true" },
             ],
           }
         : {}),

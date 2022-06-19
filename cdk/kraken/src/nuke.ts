@@ -44,7 +44,7 @@ export class NukeJob extends CheckoutJob {
           yarn install --frozen-lockfile
           
           # Feature Branch nuke set-up
-          export IS_FEATURE_BRANCH=true;
+          export DEPLOY_TO_FEATURE_BRANCH=true;
           export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;
           
           # Export RELEASE_NAME as an output

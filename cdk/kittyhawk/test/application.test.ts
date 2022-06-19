@@ -74,7 +74,7 @@ test("Django Application -- Example", () => chartTest(buildDjangoChartExample));
 test("Django Application -- Duplicate Env", () =>
   chartTest(buildDjangoChartDuplicateEnv));
 test("Django Application -- Feature Branch Deploy", () => {
-  process.env.IS_FEATURE_BRANCH = "true";
+  process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
   chartTest(buildDjangoChartDefault);
 });
 test("Django Application -- Undefined Domains Chart", () =>
@@ -83,14 +83,14 @@ test("Django Application -- Undefined Domains Chart", () =>
 test("React Application -- Default", () => chartTest(buildReactChartDefault));
 test("React Application -- Example", () => chartTest(buildReactChartExample));
 test("React Application -- Feature Branch Deploy", () => {
-  process.env.IS_FEATURE_BRANCH = "true";
+  process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
   chartTest(buildReactChartDefault);
 });
 test("React Application -- Duplicate Env", () =>
   chartTest(buildReactChartDuplicateEnv));
 
 afterEach(() => {
-  delete process.env.IS_FEATURE_BRANCH;
+  delete process.env.DEPLOY_TO_FEATURE_BRANCH;
 });
 /**
  * Test Configuration for RedisApplication

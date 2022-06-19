@@ -605,7 +605,7 @@ Array [
                   "value": "Platform.settings.production",
                 },
                 Object {
-                  "name": "IS_FEATURE_BRANCH",
+                  "name": "DEPLOY_TO_FEATURE_BRANCH",
                   "value": "true",
                 },
                 Object {
@@ -1371,7 +1371,7 @@ Array [
                   "value": "80",
                 },
                 Object {
-                  "name": "IS_FEATURE_BRANCH",
+                  "name": "DEPLOY_TO_FEATURE_BRANCH",
                   "value": "true",
                 },
                 Object {
