@@ -46,7 +46,7 @@ export class NukeJob extends CheckoutJob {
           
           # Feature Branch nuke set-up
           export DEPLOY_TO_FEATURE_BRANCH=true;
-          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;
+          export RELEASE_NAME=${"${REPOSITORY#*/}"}-pr-$PR_NUMBER;
           
           # Export RELEASE_NAME as an output
           echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
@@ -62,10 +62,10 @@ export class NukeJob extends CheckoutJob {
         },
         {
           name: "Nuke",
-          run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
+          run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::${"${AWS_ACCOUNT_ID}"}:role/kubectl
 
           # Get repo name from synth step
-          RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
+          RELEASE_NAME=${"${{ steps.synth.outputs.RELEASE_NAME }}"}
 
           # Delete all non-certificate resources
           kubectl delete -f k8s/dist/ -l app.kubernetes.io/part-of=$RELEASE_NAME
