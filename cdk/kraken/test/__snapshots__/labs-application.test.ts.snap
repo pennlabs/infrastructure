@@ -408,6 +408,7 @@ on:
 jobs:
   nuke:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/feat/') == true
     steps:
       - uses: actions/checkout@v2
       - id: synth

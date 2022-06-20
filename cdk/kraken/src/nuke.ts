@@ -36,6 +36,7 @@ export class NukeJob extends CheckoutJob {
 
     super(scope, "nuke", {
       runsOn: "ubuntu-latest",
+      if: `startsWith(github.ref, 'refs/heads/feat/') == true`, // Nuke only for feature branches
       steps: [
         {
           id: "synth",
