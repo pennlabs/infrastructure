@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Cron Job for feature branch deploy 1`] = `
+exports[`Cron Job -- Feature Branch Deploy 1`] = `
 Array [
   Object {
     "apiVersion": "batch/v1",
@@ -82,7 +82,7 @@ Array [
 ]
 `;
 
-exports[`Cron Job with limits 1`] = `
+exports[`Cron Job -- With limits 1`] = `
 Array [
   Object {
     "apiVersion": "batch/v1",
@@ -139,7 +139,7 @@ Array [
 ]
 `;
 
-exports[`Cron Job with volume 1`] = `
+exports[`Cron Job -- With volume 1`] = `
 Array [
   Object {
     "apiVersion": "batch/v1",
