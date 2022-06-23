@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5 (2022-06-20)
+* Add feature branch deploy initial accommodation
+    * Support `DEPLOY_TO_FEATURE_BRANCH` env variables to resources
+
 ## 1.1.4 (2022-04-18)
 
 * Better handling of custom ports

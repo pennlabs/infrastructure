@@ -2,6 +2,12 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.7 (2022-06-20)
+* Add feature branch deployment related workflow objects:
+  * Add optional configuration to `DeployJob`.
+  * Add `NukeJob`.
+  * Enable feature branch deployment on `LabsApplicationStack`.
+
 ## 0.8.6 (2022-04-08)
 
 * Upgrade dependencies and fix projen version configuration
