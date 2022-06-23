@@ -110,6 +110,11 @@ export interface LabsApplicationStackProps {
    * Optional overrides for the deploy job.
    */
   deployOverrides?: Partial<JobProps>;
+
+  /**
+   * Urls sent in a message once deployment successfully completes.
+   */
+  deploymentUrls?: string[];
 }
 
 /**
@@ -150,6 +155,7 @@ export class LabsApplicationStack extends Stack {
       integrationOverrides: {},
       deployProps: {},
       deployOverrides: {},
+      deploymentUrls: [],
       ...config,
     };
     fullConfig.djangoDockerProps.noPublish = fullConfig.integrationTests;
@@ -224,6 +230,7 @@ export class LabsApplicationStack extends Stack {
         {
           ...fullConfig.deployProps,
           deployToFeatureBranch: true,
+          deploymentUrls: fullConfig.deploymentUrls,
         },
         {
           ...fullConfig.deployOverrides,

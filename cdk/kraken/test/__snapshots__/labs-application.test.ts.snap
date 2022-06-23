@@ -151,6 +151,7 @@ jobs:
 
           yarn build
         env:
+          PR_NUMBER: \${{ steps.pr.outputs.pull_request_number }}
           GIT_SHA: \${{ github.sha }}
           REPOSITORY: \${{ github.repository }}
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
@@ -326,6 +327,7 @@ jobs:
 
           yarn build
         env:
+          PR_NUMBER: \${{ steps.pr.outputs.pull_request_number }}
           GIT_SHA: \${{ github.sha }}
           REPOSITORY: \${{ github.repository }}
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
@@ -373,6 +375,7 @@ jobs:
 
           yarn build
         env:
+          PR_NUMBER: \${{ steps.pr.outputs.pull_request_number }}
           GIT_SHA: \${{ github.sha }}
           REPOSITORY: \${{ github.repository }}
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
@@ -391,6 +394,14 @@ jobs:
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
           AWS_ACCESS_KEY_ID: \${{ secrets.GH_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: \${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}
+      - name: Announce successful deployment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: \${{ steps.pr.outputs.pull_request_number }}
+          body: |-
+            Successfully deployed feature branch to:
+            pr-\${{ steps.pr.outputs.pull_request_number }}-example.com
+          reactions: +1 | -1 | laugh | hooray | heart | rocket | eyes
     needs:
       - publish-backend
       - publish-frontend
@@ -418,8 +429,8 @@ jobs:
           yarn install --frozen-lockfile
 
           # Feature Branch nuke set-up
-          export DEPLOY_TO_FEATURE_BRANCH=true;
-          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER;
+          export DEPLOY_TO_FEATURE_BRANCH=true
+          export RELEASE_NAME=\${REPOSITORY#*/}-pr-$PR_NUMBER
 
           # Export RELEASE_NAME as an output
           echo \\"::set-output name=RELEASE_NAME::$RELEASE_NAME\\"
@@ -670,6 +681,7 @@ jobs:
 
           yarn build
         env:
+          PR_NUMBER: \${{ steps.pr.outputs.pull_request_number }}
           GIT_SHA: \${{ github.sha }}
           REPOSITORY: \${{ github.repository }}
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}

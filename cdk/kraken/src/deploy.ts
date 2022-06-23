@@ -22,6 +22,11 @@ export interface DeployJobProps {
    * @default false
    */
   deployToFeatureBranch?: boolean;
+
+  /**
+   * Urls sent in a message once deployment successfully completes.
+   */
+  deploymentUrls?: string[];
 }
 
 /**
@@ -44,6 +49,7 @@ export class DeployJob extends CheckoutJob {
       deployTag: "${{ github.sha }}",
       defaultBranch: "master",
       deployToFeatureBranch: false,
+      deploymentUrls: [],
       ...config,
     };
 
@@ -58,47 +64,24 @@ export class DeployJob extends CheckoutJob {
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
         },
       },
-      {
-        id: "synth",
-        name: "Synth cdk8s manifests",
-        if: "steps.pr.outputs.pull_request_number",
-        run: dedent`cd k8s
-          yarn install --frozen-lockfile
-          
-          # Get repo name (by removing owner/organization)
-          export DEPLOY_TO_FEATURE_BRANCH=true
-          export RELEASE_NAME=${"${REPOSITORY#*/}-pr-${{ steps.pr.outputs.pull_request_number }}"}
-
-          # Export RELEASE_NAME as an output
-          echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
-
-          yarn build`,
-        env: {
-          GIT_SHA: fullConfig.deployTag,
-          REPOSITORY: "${{ github.repository }}",
-          AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
-        },
-      },
     ];
 
-    const prodDeploySynthSteps: StepsProps[] = [
+    const featureDeployPostSteps: StepsProps[] = [
       {
-        id: "synth",
-        name: "Synth cdk8s manifests",
-        run: dedent`cd k8s
-          yarn install --frozen-lockfile
-          
-          # Get repo name (by removing owner/organization)
-          export RELEASE_NAME=${"${REPOSITORY#*/}"}
-
-          # Export RELEASE_NAME as an output
-          echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
-
-          yarn build`,
-        env: {
-          GIT_SHA: fullConfig.deployTag,
-          REPOSITORY: "${{ github.repository }}",
-          AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+        name: "Announce successful deployment",
+        uses: "peter-evans/create-or-update-comment@v2",
+        with: {
+          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
+          body:
+            fullConfig.deploymentUrls.length > 0
+              ? dedent`
+              Successfully deployed feature branch to:
+              ${fullConfig.deploymentUrls.map(
+                (url) =>
+                  dedent`pr-\${{ steps.pr.outputs.pull_request_number }}-${url}`
+              )}`
+              : "Successfully deployed feature branch!",
+          reactions: "+1 | -1 | laugh | hooray | heart | rocket | eyes",
         },
       },
     ];
@@ -112,9 +95,40 @@ export class DeployJob extends CheckoutJob {
           ? `startsWith(github.ref, 'refs/heads/feat/') == true`
           : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         steps: [
-          ...(fullConfig.deployToFeatureBranch
-            ? featureDeploySynthSteps
-            : prodDeploySynthSteps),
+          ...(fullConfig.deployToFeatureBranch ? featureDeploySynthSteps : []),
+          {
+            id: "synth",
+            name: "Synth cdk8s manifests",
+            ...(fullConfig.deployToFeatureBranch
+              ? {
+                  if: "steps.pr.outputs.pull_request_number",
+                }
+              : {}),
+            run: dedent`cd k8s
+          yarn install --frozen-lockfile
+          
+          # Get repo name (by removing owner/organization)${
+            fullConfig.deployToFeatureBranch
+              ? "\nexport DEPLOY_TO_FEATURE_BRANCH=true"
+              : ""
+          }
+          export RELEASE_NAME=${
+            fullConfig.deployToFeatureBranch
+              ? "${REPOSITORY#*/}-pr-${{ steps.pr.outputs.pull_request_number }}"
+              : "${REPOSITORY#*/}"
+          }
+
+          # Export RELEASE_NAME as an output
+          echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
+
+          yarn build`,
+            env: {
+              PR_NUMBER: "${{ steps.pr.outputs.pull_request_number }}",
+              GIT_SHA: fullConfig.deployTag,
+              REPOSITORY: "${{ github.repository }}",
+              AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+            },
+          },
           {
             name: "Deploy",
             if: "steps.synth.outcome == 'success'",
@@ -132,6 +146,7 @@ export class DeployJob extends CheckoutJob {
               AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
             },
           },
+          ...(fullConfig.deployToFeatureBranch ? featureDeployPostSteps : []),
         ],
         ...overrides,
       }

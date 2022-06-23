@@ -20,6 +20,7 @@ test("default", () => {
 test("enabled feature branch deploy", () => {
   const app = TestingApp({ createValidateWorkflow: false });
   new LabsApplicationStack(app, {
+    deploymentUrls: ["example.com"],
     djangoProjectName: "example",
     dockerImageBaseName: "example",
     enableFeatureBranchDeploy: true,

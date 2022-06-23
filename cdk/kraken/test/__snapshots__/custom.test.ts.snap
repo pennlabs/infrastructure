@@ -20,6 +20,7 @@ Object {
           "env": Object {
             "AWS_ACCOUNT_ID": "\${{ secrets.AWS_ACCOUNT_ID }}",
             "GIT_SHA": "\${{ github.sha }}",
+            "PR_NUMBER": "\${{ steps.pr.outputs.pull_request_number }}",
             "REPOSITORY": "\${{ github.repository }}",
           },
           "id": "synth",
