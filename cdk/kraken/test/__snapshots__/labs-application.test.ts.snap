@@ -394,7 +394,7 @@ jobs:
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
           AWS_ACCESS_KEY_ID: \${{ secrets.GH_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: \${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}
-      - name: Announce successful deployment
+      - name: Announce successful feature branch deployment
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: \${{ steps.pr.outputs.pull_request_number }}

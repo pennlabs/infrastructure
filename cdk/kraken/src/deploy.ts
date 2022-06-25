@@ -24,7 +24,8 @@ export interface DeployJobProps {
   deployToFeatureBranch?: boolean;
 
   /**
-   * Urls sent in a message once deployment successfully completes.
+   * Domains used to access the deployment. These help form the urls sent
+   * in a Github Actions message once deployment successfully completes.
    */
   deploymentUrls?: string[];
 }
@@ -53,7 +54,7 @@ export class DeployJob extends CheckoutJob {
       ...config,
     };
 
-    const featureDeploySynthSteps: StepsProps[] = [
+    const featureBranchPreDeploySteps: StepsProps[] = [
       {
         name: "Get Pull Request Number",
         id: "pr",
@@ -66,9 +67,9 @@ export class DeployJob extends CheckoutJob {
       },
     ];
 
-    const featureDeployPostSteps: StepsProps[] = [
+    const featureBranchPostDeploySteps: StepsProps[] = [
       {
-        name: "Announce successful deployment",
+        name: "Announce successful feature branch deployment",
         uses: "peter-evans/create-or-update-comment@v2",
         with: {
           "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
@@ -95,7 +96,9 @@ export class DeployJob extends CheckoutJob {
           ? `startsWith(github.ref, 'refs/heads/feat/') == true`
           : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
         steps: [
-          ...(fullConfig.deployToFeatureBranch ? featureDeploySynthSteps : []),
+          ...(fullConfig.deployToFeatureBranch
+            ? featureBranchPreDeploySteps
+            : []),
           {
             id: "synth",
             name: "Synth cdk8s manifests",
@@ -146,7 +149,9 @@ export class DeployJob extends CheckoutJob {
               AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
             },
           },
-          ...(fullConfig.deployToFeatureBranch ? featureDeployPostSteps : []),
+          ...(fullConfig.deployToFeatureBranch
+            ? featureBranchPostDeploySteps
+            : []),
         ],
         ...overrides,
       }

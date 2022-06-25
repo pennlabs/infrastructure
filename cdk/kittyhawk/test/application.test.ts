@@ -31,6 +31,10 @@ export function buildSimpleChart(scope: Construct) {
   });
 }
 
+beforeEach(() => {
+  jest.resetModules();
+});
+
 test("Application -- No Git Sha", () => failingTestNoGitSha(buildSimpleChart));
 test("Application -- No ServiceAccount But CreateServiceAccount", () =>
   failingTestNoAWSAccountId(buildRedisChartExample));
@@ -75,25 +79,42 @@ test("Django Application -- Default", () => chartTest(buildDjangoChartDefault));
 test("Django Application -- Example", () => chartTest(buildDjangoChartExample));
 test("Django Application -- Duplicate Env", () =>
   chartTest(buildDjangoChartDuplicateEnv));
-test("Django Application -- Feature Branch Deploy", () => {
-  process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
-  chartTest(buildDjangoChartDefault);
-});
+test("Django Application -- Feature Branch Deploy", () =>
+  chartTest(buildDjangoChartDefault, [
+    {
+      env: "DEPLOY_TO_FEATURE_BRANCH",
+      value: "true",
+    },
+    {
+      env: "RELEASE_NAME",
+      value: "RELEASE_NAME-pr-0",
+    },
+  ]));
 test("Django Application -- Undefined Domains Chart", () =>
   chartTest(buildDjangoIngressUndefinedDomainsChart));
 
 // React tests
 test("React Application -- Default", () => chartTest(buildReactChartDefault));
 test("React Application -- Example", () => chartTest(buildReactChartExample));
-test("React Application -- Feature Branch Deploy", () => {
-  process.env.DEPLOY_TO_FEATURE_BRANCH = "true";
-  chartTest(buildReactChartDefault);
-});
+test("React Application -- Feature Branch Deploy", () =>
+  chartTest(buildReactChartDefault, [
+    {
+      env: "DEPLOY_TO_FEATURE_BRANCH",
+      value: "true",
+    },
+    {
+      env: "RELEASE_NAME",
+      value: "RELEASE_NAME-pr-0",
+    },
+  ]));
 test("React Application -- Duplicate Env", () =>
   chartTest(buildReactChartDuplicateEnv));
 
 afterEach(() => {
   delete process.env.DEPLOY_TO_FEATURE_BRANCH;
+  delete process.env.RELEASE_NAME;
+  delete process.env.GIT_SHA;
+  delete process.env.AWS_ACCOUNT_ID;
 });
 
 /**

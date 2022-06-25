@@ -8,6 +8,3 @@ export function nonEmptyMap<T, U>(
 }
 
 export const defaultChildName = "Default";
-
-export const deployToFeatureBranch =
-  process.env.DEPLOY_TO_FEATURE_BRANCH == "true";

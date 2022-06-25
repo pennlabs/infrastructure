@@ -526,11 +526,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-platform",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "RELEASE_NAME-pr-0-platform",
     },
     "spec": Object {
       "ports": Array [
@@ -540,7 +540,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "RELEASE_NAME-platform",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
       },
       "type": "ClusterIP",
     },
@@ -550,14 +550,14 @@ Array [
     "kind": "ServiceAccount",
     "metadata": Object {
       "annotations": Object {
-        "eks.amazonaws.com/role-arn": "arn:aws:iam::TEST_AWS_ACCOUNT_ID:role/RELEASE_NAME",
+        "eks.amazonaws.com/role-arn": "arn:aws:iam::TEST_AWS_ACCOUNT_ID:role/RELEASE_NAME-pr-0",
       },
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME",
+      "name": "RELEASE_NAME-pr-0",
     },
   },
   Object {
@@ -566,17 +566,17 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-platform",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "RELEASE_NAME-pr-0-platform",
     },
     "spec": Object {
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "app.kubernetes.io/name": "RELEASE_NAME-platform",
+          "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
         },
       },
       "strategy": Object {
@@ -589,7 +589,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "app.kubernetes.io/name": "RELEASE_NAME-platform",
+            "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
           },
         },
         "spec": Object {
@@ -634,11 +634,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-platform",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-platform",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-platform",
+      "name": "RELEASE_NAME-pr-0-platform",
     },
     "spec": Object {
       "rules": Array [
@@ -649,7 +649,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-platform",
+                    "name": "RELEASE_NAME-pr-0-platform",
                     "port": Object {
                       "number": 80,
                     },
@@ -1307,11 +1307,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-react",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "RELEASE_NAME-pr-0-react",
     },
     "spec": Object {
       "ports": Array [
@@ -1321,7 +1321,7 @@ Array [
         },
       ],
       "selector": Object {
-        "app.kubernetes.io/name": "RELEASE_NAME-react",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
       },
       "type": "ClusterIP",
     },
@@ -1332,17 +1332,17 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-react",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "RELEASE_NAME-pr-0-react",
     },
     "spec": Object {
       "replicas": 1,
       "selector": Object {
         "matchLabels": Object {
-          "app.kubernetes.io/name": "RELEASE_NAME-react",
+          "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
         },
       },
       "strategy": Object {
@@ -1355,7 +1355,7 @@ Array [
       "template": Object {
         "metadata": Object {
           "labels": Object {
-            "app.kubernetes.io/name": "RELEASE_NAME-react",
+            "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
           },
         },
         "spec": Object {
@@ -1400,11 +1400,11 @@ Array [
     "metadata": Object {
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
-        "app.kubernetes.io/name": "RELEASE_NAME-react",
-        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/name": "RELEASE_NAME-pr-0-react",
+        "app.kubernetes.io/part-of": "RELEASE_NAME-pr-0",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-react",
+      "name": "RELEASE_NAME-pr-0-react",
     },
     "spec": Object {
       "rules": Array [
@@ -1415,7 +1415,7 @@ Array [
               Object {
                 "backend": Object {
                   "service": Object {
-                    "name": "RELEASE_NAME-react",
+                    "name": "RELEASE_NAME-pr-0-react",
                     "port": Object {
                       "number": 80,
                     },

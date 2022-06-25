@@ -4,7 +4,7 @@
 
 ## 0.8.7 (2022-06-20)
 * Add feature branch deployment related workflow objects:
-  * Add optional configuration to `DeployJob`.
+  * Nonprod deployment configuration for `DeployJob`.
   * Add `NukeJob`.
   * Enable feature branch deployment on `LabsApplicationStack`.
 

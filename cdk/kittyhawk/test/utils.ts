@@ -6,11 +6,21 @@ import { PennLabsChart } from "../src";
  * Helper function to run each chart test
  * @param build function containing the constructs to be generated
  */
-export const chartTest = (build: (scope: Construct) => void) => {
+export const chartTest = (
+  build: (scope: Construct) => void,
+  envOverrides?: {
+    env: string;
+    value: string;
+  }[]
+) => {
   // Overriding env vars for testing purposes
   process.env.RELEASE_NAME = "RELEASE_NAME";
   process.env.GIT_SHA = "TAG_FROM_CI";
   process.env.AWS_ACCOUNT_ID = "TEST_AWS_ACCOUNT_ID";
+
+  envOverrides?.forEach(({ env: e, value: v }) => {
+    process.env[e] = v;
+  });
 
   const app = Testing.app();
   const chart = new PennLabsChart(app, "kittyhawk");
