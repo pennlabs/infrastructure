@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "cdk8s": "^2.2.59",
-    "cdk8s-cli": "^1.0.143",
-    "constructs": "^10.0.106",
+    "cdk8s-cli": "^2.0.31",
+    "constructs": "^10.0.119",
     "cron-time-generator": "^1.3.0"
   },
   "keywords": [
