@@ -2,6 +2,9 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.8 (2022-06-27)
+* Announce successful feature branch deployment.
+
 ## 0.8.7 (2022-06-20)
 * Add feature branch deployment related workflow objects:
   * Nonprod deployment configuration for `DeployJob`.
