@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.5 (2022-06-20)
+## 1.1.6 (2022-06-27)
 * Add feature branch deploy:
     * Support `DEPLOY_TO_FEATURE_BRANCH` env variables in resources.
 
