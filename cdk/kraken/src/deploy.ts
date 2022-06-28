@@ -71,19 +71,20 @@ export class DeployJob extends CheckoutJob {
     const featureBranchPostDeploySteps: StepsProps[] = [
       {
         name: "Announce successful feature branch deployment",
-        uses: "peter-evans/create-or-update-comment@v2",
+        uses: "marocchino/sticky-pull-request-comment@v2",
         with: {
-          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
-          body:
+          header: "Feature Branch Deployment",
+          message:
             fullConfig.deploymentUrls.length > 0
               ? dedent`
-              Successfully deployed feature branch to:
+              Deployment preview for commit \`\${{ github.sha }}\` ready at:
               ${fullConfig.deploymentUrls.map(
                 (url) =>
-                  dedent`pr-\${{ steps.pr.outputs.pull_request_number }}-${url}`
+                  dedent`pr-\${{ steps.pr.outputs.pull_request_number }}.${url}`
               )}`
-              : "Successfully deployed feature branch!",
-          reactions: "+1 | -1 | laugh | hooray | heart | rocket | eyes",
+              : "Deployment preview for commit ${{ github.sha }} ready.",
+          recreate: true,
+          number: "${{ steps.pr.outputs.pull_request_number }}",
         },
       },
     ];

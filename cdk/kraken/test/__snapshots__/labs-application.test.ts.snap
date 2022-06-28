@@ -395,13 +395,14 @@ jobs:
           AWS_ACCESS_KEY_ID: \${{ secrets.GH_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: \${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}
       - name: Announce successful feature branch deployment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          issue-number: \${{ steps.pr.outputs.pull_request_number }}
-          body: |-
-            Successfully deployed feature branch to:
-            pr-\${{ steps.pr.outputs.pull_request_number }}-example.com
-          reactions: +1 | -1 | laugh | hooray | heart | rocket | eyes
+          header: Feature Branch Deployment
+          message: |-
+            Deployment preview for commit \`\${{ github.sha }}\` ready at:
+            pr-\${{ steps.pr.outputs.pull_request_number }}.example.com
+          recreate: true
+          number: \${{ steps.pr.outputs.pull_request_number }}
     needs:
       - publish-backend
       - publish-frontend
