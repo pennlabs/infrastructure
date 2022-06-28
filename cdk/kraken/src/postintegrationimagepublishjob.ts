@@ -1,4 +1,5 @@
 import { CheckoutJob, Workflow, JobProps } from "cdkactions";
+import { defaultBranch } from "./utils";
 
 /**
  * Props to configure the post integration test docker image publish job.
@@ -51,7 +52,7 @@ export class PostIntegrationPublishJob extends CheckoutJob {
   ) {
     // Build config
     const fullConfig: Required<PostIntegrationPublishJobProps> = {
-      defaultBranch: "master",
+      defaultBranch,
       dockerUsername: "${{ secrets.DOCKER_USERNAME }}",
       dockerPassword: "${{ secrets.DOCKER_PASSWORD }}",
       ...config,

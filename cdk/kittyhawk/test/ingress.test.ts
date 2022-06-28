@@ -4,13 +4,13 @@ import { Application } from "../src/application";
 import { chartTest, failingTest } from "./utils";
 
 /*
-Ingress Port Behavior 
+Ingress Port Behavior
 
 For the application, the ingress port should never be explicitly defined. This is because the
-application port must be uniform with the ingress port provided. 
+application port must be uniform with the ingress port provided.
 
 1. Default Behavior
-If `port` IS NOT specified in `Application`, continue with default behavior in `Application` 
+If `port` IS NOT specified in `Application`, continue with default behavior in `Application`
 and other children objects created. For `Ingress`, the default port is assumed.
 
 2. In Application, Not Ingress: Inherits Application port

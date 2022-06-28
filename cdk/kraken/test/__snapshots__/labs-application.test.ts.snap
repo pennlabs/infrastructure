@@ -248,7 +248,7 @@ jobs:
         with:
           context: backend
           file: backend/Dockerfile
-          push: \${{ github.ref == 'refs/heads/master' }}
+          push: \${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/feat/') == true }}
           cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/example-backend:latest
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: pennlabs/example-backend:latest,pennlabs/example-backend:\${{ github.sha }}
@@ -303,7 +303,7 @@ jobs:
         with:
           context: frontend
           file: frontend/Dockerfile
-          push: \${{ github.ref == 'refs/heads/master' }}
+          push: \${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/feat/') == true }}
           cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/example-frontend:latest
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: pennlabs/example-frontend:latest,pennlabs/example-frontend:\${{ github.sha }}

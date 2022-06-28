@@ -1,6 +1,7 @@
 import { CheckoutJob, Workflow, Stack, WorkflowProps } from "cdkactions";
 import { Construct } from "constructs";
 import dedent from "ts-dedent";
+import { defaultBranch } from "./utils";
 
 /**
  * Optional props to configure the CDK publish stack.
@@ -38,7 +39,7 @@ export class CDKPublishStack extends Stack {
   ) {
     // Build config
     const fullConfig: Required<CDKPublishStackProps> = {
-      defaultBranch: "master",
+      defaultBranch,
       nodeVersion: "14",
       ...config,
     };
@@ -120,7 +121,7 @@ export class CDKPublishStack extends Stack {
             personal_token: "${{ secrets.BOT_GITHUB_PAT }}",
             external_repository: `pennlabs/${id}-docs`,
             cname: `${id}.pennlabs.org`,
-            publish_branch: "master",
+            publish_branch: defaultBranch,
             publish_dir: `${path}/docs`,
             user_name: "github-actions",
             user_email: "github-actions[bot]@users.noreply.github.com",

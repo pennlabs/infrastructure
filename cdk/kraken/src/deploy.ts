@@ -1,5 +1,6 @@
 import { CheckoutJob, Workflow, JobProps, StepsProps } from "cdkactions";
 import dedent from "ts-dedent";
+import { defaultBranch } from "./utils";
 
 /**
  * Optional props to configure the deploy job.
@@ -48,7 +49,7 @@ export class DeployJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DeployJobProps> = {
       deployTag: "${{ github.sha }}",
-      defaultBranch: "master",
+      defaultBranch,
       deployToFeatureBranch: false,
       deploymentUrls: [],
       ...config,

@@ -11,6 +11,7 @@ import {
 import { NukeJob } from "./nuke";
 import { ReactCheckJobProps } from "./react";
 import { ReactProject } from "./react-project";
+import { defaultBranch } from "./utils";
 
 /**
  * Props to configure the LabsApplication stack
@@ -160,6 +161,15 @@ export class LabsApplicationStack extends Stack {
     };
     fullConfig.djangoDockerProps.noPublish = fullConfig.integrationTests;
     fullConfig.reactDockerProps.noPublish = fullConfig.integrationTests;
+
+    if (config.enableFeatureBranchDeploy) {
+      const publishCondition = `\${{ github.ref == 'refs/heads/${
+        fullConfig.deployProps.defaultBranch ?? defaultBranch
+      }' || startsWith(github.ref, 'refs/heads/feat/') == true }}`;
+
+      fullConfig.reactDockerProps.push = publishCondition;
+      fullConfig.djangoDockerProps.push = publishCondition;
+    }
 
     // Create stack
     super(scope, "application");
