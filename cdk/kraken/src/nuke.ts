@@ -10,6 +10,11 @@ export interface NukeJobProps {
    * @default current git sha
    */
   deployTag?: string;
+  /**
+   * Condition for nuke job to run.
+   * @default "startsWith(github.head_ref, 'refs/heads/feat/') == true"
+   */
+  if?: string;
 }
 
 /**
@@ -31,12 +36,13 @@ export class NukeJob extends CheckoutJob {
     // Nuke config
     const fullConfig: Required<NukeJobProps> = {
       deployTag: "${{ github.sha }}",
+      if: "startsWith(github.event.pull_request.base.ref, 'feat/') == true",
       ...config,
     };
 
     super(scope, "nuke", {
       runsOn: "ubuntu-latest",
-      if: `startsWith(github.ref, 'refs/heads/feat/') == true`, // Nuke only for feature branches
+      if: fullConfig.if, // Nuke only for feature branches
       steps: [
         {
           id: "synth",

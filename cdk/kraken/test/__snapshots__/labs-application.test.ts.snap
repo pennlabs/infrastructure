@@ -394,15 +394,22 @@ jobs:
           AWS_ACCOUNT_ID: \${{ secrets.AWS_ACCOUNT_ID }}
           AWS_ACCESS_KEY_ID: \${{ secrets.GH_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: \${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}
-      - name: Announce successful feature branch deployment
-        uses: marocchino/sticky-pull-request-comment@v2
+      - name: Find announcement if exists
+        uses: peter-evans/find-comment@v2
+        id: find-announcement
         with:
-          header: Feature Branch Deployment
-          message: |-
+          issue-number: \${{ steps.pr.outputs.pull_request_number }}
+          body-includes: Deployment preview for
+          token: \${{ secrets.GITHUB_TOKEN }}
+      - name: Announce successful feature branch deployment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: \${{ steps.find-announcement.outputs.comment-id }}
+          issue-number: \${{ steps.pr.outputs.pull_request_number }}
+          edit-mode: replace
+          body: |-
             Deployment preview for commit \`\${{ github.sha }}\` ready at:
-            pr-\${{ steps.pr.outputs.pull_request_number }}.example.com
-          recreate: true
-          number: \${{ steps.pr.outputs.pull_request_number }}
+            [pr-\${{ steps.pr.outputs.pull_request_number }}.example.com](https://pr-\${{ steps.pr.outputs.pull_request_number }}.example.com)
     needs:
       - publish-backend
       - publish-frontend
@@ -417,10 +424,12 @@ on:
   pull_request:
     types:
       - closed
+    branches:
+      - feat/**
 jobs:
   nuke:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/feat/') == true
+    if: startsWith(github.event.pull_request.base.ref, 'feat/') == true
     steps:
       - uses: actions/checkout@v2
       - id: synth

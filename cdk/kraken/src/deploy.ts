@@ -70,21 +70,31 @@ export class DeployJob extends CheckoutJob {
 
     const featureBranchPostDeploySteps: StepsProps[] = [
       {
-        name: "Announce successful feature branch deployment",
-        uses: "marocchino/sticky-pull-request-comment@v2",
+        name: "Find announcement if exists",
+        uses: "peter-evans/find-comment@v2",
+        id: "find-announcement",
         with: {
-          header: "Feature Branch Deployment",
-          message:
+          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
+          "body-includes": "Deployment preview for",
+          token: "${{ secrets.GITHUB_TOKEN }}",
+        },
+      },
+      {
+        name: "Announce successful feature branch deployment",
+        uses: "peter-evans/create-or-update-comment@v2",
+        with: {
+          "comment-id": "${{ steps.find-announcement.outputs.comment-id }}",
+          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
+          "edit-mode": "replace",
+          body:
             fullConfig.deploymentUrls.length > 0
               ? dedent`
               Deployment preview for commit \`\${{ github.sha }}\` ready at:
               ${fullConfig.deploymentUrls.map(
                 (url) =>
-                  dedent`pr-\${{ steps.pr.outputs.pull_request_number }}.${url}`
+                  dedent`[pr-\${{ steps.pr.outputs.pull_request_number }}.${url}](https://pr-\${{ steps.pr.outputs.pull_request_number }}.${url})`
               )}`
               : "Deployment preview for commit ${{ github.sha }} ready.",
-          recreate: true,
-          number: "${{ steps.pr.outputs.pull_request_number }}",
         },
       },
     ];

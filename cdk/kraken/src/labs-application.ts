@@ -254,7 +254,12 @@ export class LabsApplicationStack extends Stack {
         "feature-branch-nuke",
         {
           name: "Feature Branch Nuke",
-          on: { pullRequest: { types: ["closed"] } },
+          on: {
+            pullRequest: {
+              types: ["closed"],
+              branches: ["feat/**"],
+            },
+          },
           ...overrides,
         }
       );
