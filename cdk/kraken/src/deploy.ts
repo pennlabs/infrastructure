@@ -57,11 +57,12 @@ export class DeployJob extends CheckoutJob {
 
     const featureBranchPreDeploySteps: StepsProps[] = [
       {
-        name: "Get Pull Request Number",
+        name: "Get Pull Request Metadata",
         id: "pr",
         run: dedent`
           echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
-                  `,
+          echo "::set-output name=pull_request_closed::$(gh pr view --json closed -q .closed || echo "")"
+          `,
         env: {
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
         },
@@ -116,7 +117,7 @@ export class DeployJob extends CheckoutJob {
             name: "Synth cdk8s manifests",
             ...(fullConfig.deployToFeatureBranch
               ? {
-                  if: "steps.pr.outputs.pull_request_number",
+                  if: "(steps.pr.outputs.pull_request_number) && (steps.pr.outputs.pull_request_closed == 'false')",
                 }
               : {}),
             run: dedent`cd k8s
