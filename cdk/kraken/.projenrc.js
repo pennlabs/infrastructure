@@ -12,7 +12,7 @@ const project = new TypeScriptProject({
   ...common.options,
 });
 
-project.addFields({['version']: '0.8.8'});
+project.addFields({['version']: '0.8.9'});
 project.prettier?.ignoreFile?.addPatterns('src/imports');
 project.testTask.steps.forEach(step => {
   if (step.exec) {

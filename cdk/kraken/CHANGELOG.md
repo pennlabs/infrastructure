@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.9 (2022-06-30)
+* Fix nuke job bugs.
+* Sticky announcement message (design considerations [here](https://github.com/pennlabs/infrastructure/pull/98#issuecomment-1168086333))
+
 ## 0.8.8 (2022-06-27)
 * Announce successful feature branch deployment.
 
