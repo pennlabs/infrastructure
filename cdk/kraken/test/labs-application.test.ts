@@ -17,6 +17,30 @@ test("default", () => {
   ).toMatchSnapshot();
 });
 
+test("enabled feature branch deploy", () => {
+  const app = TestingApp({ createValidateWorkflow: false });
+  new LabsApplicationStack(app, {
+    deploymentUrls: ["example.com"],
+    djangoProjectName: "example",
+    dockerImageBaseName: "example",
+    enableFeatureBranchDeploy: true,
+  });
+  app.synth();
+  expect(fs.readdirSync(app.outdir)).toEqual([
+    "cdkactions_build-and-deploy.yaml",
+    "cdkactions_feature-branch-nuke.yaml",
+  ]);
+  expect(
+    fs.readFileSync(`${app.outdir}/cdkactions_build-and-deploy.yaml`, "utf-8")
+  ).toMatchSnapshot();
+  expect(
+    fs.readFileSync(
+      `${app.outdir}/cdkactions_feature-branch-nuke.yaml`,
+      "utf-8"
+    )
+  ).toMatchSnapshot();
+});
+
 test("integration tests", () => {
   const app = TestingApp({ createValidateWorkflow: false });
   new LabsApplicationStack(app, {

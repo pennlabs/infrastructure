@@ -6,6 +6,7 @@ export * from "./django";
 export * from "./docker";
 export * from "./integration-tests";
 export * from "./labs-application";
+export * from "./nuke";
 export * from "./postintegrationimagepublishjob";
 export * from "./pypi";
 export * from "./react-project";

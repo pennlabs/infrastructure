@@ -20,6 +20,7 @@ Object {
           "env": Object {
             "AWS_ACCOUNT_ID": "\${{ secrets.AWS_ACCOUNT_ID }}",
             "GIT_SHA": "\${{ github.sha }}",
+            "PR_NUMBER": "\${{ steps.pr.outputs.pull_request_number }}",
             "REPOSITORY": "\${{ github.repository }}",
           },
           "id": "synth",
@@ -27,7 +28,7 @@ Object {
           "run": "cd k8s
 yarn install --frozen-lockfile
 
-# get repo name (by removing owner/organization)
+# Get repo name (by removing owner/organization)
 export RELEASE_NAME=\${REPOSITORY#*/}
 
 # Export RELEASE_NAME as an output
@@ -41,10 +42,11 @@ yarn build",
             "AWS_ACCOUNT_ID": "\${{ secrets.AWS_ACCOUNT_ID }}",
             "AWS_SECRET_ACCESS_KEY": "\${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
           },
+          "if": "steps.synth.outcome == 'success'",
           "name": "Deploy",
           "run": "aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
 
-# get repo name from synth step
+# Get repo name from synth step
 RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
 
 # Deploy

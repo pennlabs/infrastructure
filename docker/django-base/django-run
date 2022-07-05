@@ -1,7 +1,13 @@
 #!/bin/bash
+set -e
 
 # Django Migrate
 /usr/local/bin/python3 /app/manage.py migrate --noinput
+
+# If DEPLOY_TO_FEATURE_BRANCH is set, run populate
+if [[ ! -z "${DEPLOY_TO_FEATURE_BRANCH}" ]]; then
+  /usr/local/bin/python3 /app/manage.py populate
+fi
 
 # Run UWSGI
 exec /usr/local/bin/uwsgi --ini /app/setup.cfg

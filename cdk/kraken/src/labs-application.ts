@@ -8,8 +8,10 @@ import {
   IntegrationTestsJob,
   IntegrationTestsJobProps,
 } from "./integration-tests";
+import { NukeJob } from "./nuke";
 import { ReactCheckJobProps } from "./react";
 import { ReactProject } from "./react-project";
+import { defaultBranch } from "./utils";
 
 /**
  * Props to configure the LabsApplication stack
@@ -26,6 +28,12 @@ export interface LabsApplicationStackProps {
    * @default "frontend"
    */
   frontendPath?: string;
+
+  /**
+   * If true, workflows for feature branch deployment will be generated.
+   * @default false
+   */
+  enableFeatureBranchDeploy?: boolean;
 
   /**
    * If true, run integration tests using docker-compose.
@@ -103,6 +111,11 @@ export interface LabsApplicationStackProps {
    * Optional overrides for the deploy job.
    */
   deployOverrides?: Partial<JobProps>;
+
+  /**
+   * Urls sent in a message once deployment successfully completes.
+   */
+  deploymentUrls?: string[];
 }
 
 /**
@@ -129,6 +142,7 @@ export class LabsApplicationStack extends Stack {
     const fullConfig: Required<LabsApplicationStackProps> = {
       backendPath: "backend",
       frontendPath: "frontend",
+      enableFeatureBranchDeploy: false,
       integrationTests: false,
       djangoCheckProps: {},
       djangoCheckOverrides: {},
@@ -142,10 +156,20 @@ export class LabsApplicationStack extends Stack {
       integrationOverrides: {},
       deployProps: {},
       deployOverrides: {},
+      deploymentUrls: [],
       ...config,
     };
     fullConfig.djangoDockerProps.noPublish = fullConfig.integrationTests;
     fullConfig.reactDockerProps.noPublish = fullConfig.integrationTests;
+
+    if (config.enableFeatureBranchDeploy) {
+      const publishCondition = `\${{ github.ref == 'refs/heads/${
+        fullConfig.deployProps.defaultBranch ?? defaultBranch
+      }' || startsWith(github.ref, 'refs/heads/feat/') == true }}`;
+
+      fullConfig.reactDockerProps.push = publishCondition;
+      fullConfig.djangoDockerProps.push = publishCondition;
+    }
 
     // Create stack
     super(scope, "application");
@@ -207,5 +231,42 @@ export class LabsApplicationStack extends Stack {
       ...fullConfig.deployOverrides,
       needs: deployNeeds,
     });
+
+    // Feature Branch Deploy
+    if (fullConfig.enableFeatureBranchDeploy) {
+      // Add Feature Branch Deploy to Original Workflow
+      new DeployJob(
+        workflow,
+        {
+          ...fullConfig.deployProps,
+          deployToFeatureBranch: true,
+          deploymentUrls: fullConfig.deploymentUrls,
+        },
+        {
+          ...fullConfig.deployOverrides,
+          needs: deployNeeds,
+        }
+      );
+
+      // New Feature Branch Nuke Worflow
+      const featureBranchNukeWorkflow = new Workflow(
+        this,
+        "feature-branch-nuke",
+        {
+          name: "Feature Branch Nuke",
+          on: {
+            pullRequest: {
+              types: ["closed"],
+              branches: ["feat/**"],
+            },
+          },
+          ...overrides,
+        }
+      );
+
+      new NukeJob(featureBranchNukeWorkflow, fullConfig.deployProps, {
+        ...fullConfig.deployOverrides,
+      });
+    }
   }
 }

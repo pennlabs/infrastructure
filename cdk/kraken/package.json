@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "cdkactions": "^0.2.3",
-    "constructs": "^3.2.80",
+    "constructs": "^3.2.109",
     "ts-dedent": "^2.2.0"
   },
   "keywords": [
@@ -63,7 +63,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "homepage": "https://kraken.pennlabs.org",
-  "version": "0.8.6",
+  "version": "0.8.9",
   "jest": {
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",

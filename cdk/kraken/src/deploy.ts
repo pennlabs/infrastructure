@@ -1,5 +1,6 @@
-import { CheckoutJob, Workflow, JobProps } from "cdkactions";
+import { CheckoutJob, Workflow, JobProps, StepsProps } from "cdkactions";
 import dedent from "ts-dedent";
+import { defaultBranch } from "./utils";
 
 /**
  * Optional props to configure the deploy job.
@@ -16,6 +17,18 @@ export interface DeployJobProps {
    * @default master
    */
   defaultBranch?: string;
+
+  /**
+   * Deploy to a specific feature branch.
+   * @default false
+   */
+  deployToFeatureBranch?: boolean;
+
+  /**
+   * Domains used to access the deployment. These help form the urls sent
+   * in a Github Actions message once deployment successfully completes.
+   */
+  deploymentUrls?: string[];
 }
 
 /**
@@ -36,51 +49,125 @@ export class DeployJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DeployJobProps> = {
       deployTag: "${{ github.sha }}",
-      defaultBranch: "master",
+      defaultBranch,
+      deployToFeatureBranch: false,
+      deploymentUrls: [],
       ...config,
     };
 
-    super(scope, "deploy", {
-      runsOn: "ubuntu-latest",
-      if: `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
-      steps: [
-        {
-          id: "synth",
-          name: "Synth cdk8s manifests",
-          run: dedent`cd k8s
-          yarn install --frozen-lockfile
+    const featureBranchPreDeploySteps: StepsProps[] = [
+      {
+        name: "Get Pull Request Metadata",
+        id: "pr",
+        run: dedent`
+          echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+          echo "::set-output name=pull_request_closed::$(gh pr view --json closed -q .closed || echo "")"
+          `,
+        env: {
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
+        },
+      },
+    ];
 
-          # get repo name (by removing owner/organization)
-          export RELEASE_NAME=\${REPOSITORY#*/}
+    const featureBranchPostDeploySteps: StepsProps[] = [
+      {
+        name: "Find announcement if exists",
+        uses: "peter-evans/find-comment@v2",
+        id: "find-announcement",
+        with: {
+          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
+          "body-includes": "Deployment preview for",
+          token: "${{ secrets.GITHUB_TOKEN }}",
+        },
+      },
+      {
+        name: "Announce successful feature branch deployment",
+        uses: "peter-evans/create-or-update-comment@v2",
+        with: {
+          "comment-id": "${{ steps.find-announcement.outputs.comment-id }}",
+          "issue-number": "${{ steps.pr.outputs.pull_request_number }}",
+          "edit-mode": "replace",
+          body:
+            fullConfig.deploymentUrls.length > 0
+              ? dedent`
+              Deployment preview for commit \`\${{ github.sha }}\` ready at:
+              ${fullConfig.deploymentUrls.map(
+                (url) =>
+                  dedent`[pr-\${{ steps.pr.outputs.pull_request_number }}.${url}](https://pr-\${{ steps.pr.outputs.pull_request_number }}.${url})`
+              )}`
+              : "Deployment preview for commit ${{ github.sha }} ready.",
+        },
+      },
+    ];
+
+    super(
+      scope,
+      fullConfig.deployToFeatureBranch ? "feature-branch-deploy" : "deploy",
+      {
+        runsOn: "ubuntu-latest",
+        if: fullConfig.deployToFeatureBranch
+          ? `startsWith(github.ref, 'refs/heads/feat/') == true`
+          : `github.ref == 'refs/heads/${fullConfig.defaultBranch}'`,
+        steps: [
+          ...(fullConfig.deployToFeatureBranch
+            ? featureBranchPreDeploySteps
+            : []),
+          {
+            id: "synth",
+            name: "Synth cdk8s manifests",
+            ...(fullConfig.deployToFeatureBranch
+              ? {
+                  if: "(steps.pr.outputs.pull_request_number) && (steps.pr.outputs.pull_request_closed == 'false')",
+                }
+              : {}),
+            run: dedent`cd k8s
+          yarn install --frozen-lockfile
+          
+          # Get repo name (by removing owner/organization)${
+            fullConfig.deployToFeatureBranch
+              ? "\nexport DEPLOY_TO_FEATURE_BRANCH=true"
+              : ""
+          }
+          export RELEASE_NAME=${
+            fullConfig.deployToFeatureBranch
+              ? "${REPOSITORY#*/}-pr-${{ steps.pr.outputs.pull_request_number }}"
+              : "${REPOSITORY#*/}"
+          }
 
           # Export RELEASE_NAME as an output
           echo "::set-output name=RELEASE_NAME::$RELEASE_NAME"
 
           yarn build`,
-          env: {
-            GIT_SHA: fullConfig.deployTag,
-            REPOSITORY: "${{ github.repository }}",
-            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+            env: {
+              PR_NUMBER: "${{ steps.pr.outputs.pull_request_number }}",
+              GIT_SHA: fullConfig.deployTag,
+              REPOSITORY: "${{ github.repository }}",
+              AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+            },
           },
-        },
-        {
-          name: "Deploy",
-          run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::\${AWS_ACCOUNT_ID}:role/kubectl
+          {
+            name: "Deploy",
+            if: "steps.synth.outcome == 'success'",
+            run: dedent`aws eks --region us-east-1 update-kubeconfig --name production --role-arn arn:aws:iam::${"${AWS_ACCOUNT_ID}"}:role/kubectl
 
-          # get repo name from synth step
-          RELEASE_NAME=\${{ steps.synth.outputs.RELEASE_NAME }}
+            # Get repo name from synth step
+            RELEASE_NAME=${"${{ steps.synth.outputs.RELEASE_NAME }}"}
 
-          # Deploy
-          kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
-          kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
-          env: {
-            AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
-            AWS_ACCESS_KEY_ID: "${{ secrets.GH_AWS_ACCESS_KEY_ID }}",
-            AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
+            # Deploy
+            kubectl apply -f k8s/dist/ -l app.kubernetes.io/component=certificate
+            kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME`,
+            env: {
+              AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID }}",
+              AWS_ACCESS_KEY_ID: "${{ secrets.GH_AWS_ACCESS_KEY_ID }}",
+              AWS_SECRET_ACCESS_KEY: "${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}",
+            },
           },
-        },
-      ],
-      ...overrides,
-    });
+          ...(fullConfig.deployToFeatureBranch
+            ? featureBranchPostDeploySteps
+            : []),
+        ],
+        ...overrides,
+      }
+    );
   }
 }

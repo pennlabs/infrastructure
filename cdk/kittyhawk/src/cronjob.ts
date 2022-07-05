@@ -58,10 +58,17 @@ export class CronJob extends Construct {
 
     // We want to prepend the project name to the name of each component
     const release_name = process.env.RELEASE_NAME ?? "undefined_release";
+    const deploy_to_feature_branch =
+      process.env.DEPLOY_TO_FEATURE_BRANCH == "true";
     const fullname = `${release_name}-${jobname}`;
     const containers: Container[] = [
       new Container({
         ...props,
+        ...(deploy_to_feature_branch
+          ? {
+              env: [{ name: "DEPLOY_TO_FEATURE_BRANCH", value: "true" }],
+            }
+          : {}),
         noContainerPorts: true,
       }),
     ];

@@ -2,6 +2,19 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.9 (2022-06-30)
+* Fix nuke job bugs.
+* Sticky announcement message (design considerations [here](https://github.com/pennlabs/infrastructure/pull/98#issuecomment-1168086333))
+
+## 0.8.8 (2022-06-27)
+* Announce successful feature branch deployment.
+
+## 0.8.7 (2022-06-20)
+* Add feature branch deployment related workflow objects:
+  * Nonprod deployment configuration for `DeployJob`.
+  * Add `NukeJob`.
+  * Enable feature branch deployment on `LabsApplicationStack`.
+
 ## 0.8.6 (2022-04-08)
 
 * Upgrade dependencies and fix projen version configuration
