@@ -51,9 +51,7 @@ Humans can update secrets in 3 ways:
 
 # Sync
 ## Secret-Sync
-Once a secret got updated in one of the ways mentioned above, we have to make sure it gets propagated to the cluste.
-
-For Vault, this is done through `secret-sync`, a cronjob that regularly reads vault and updates our cluster with the latest secret data.
+Once a secret got updated in one of the ways mentioned above, we have to make sure it gets propagated to the cluster. For Vault, this is done through `secret-sync`, a cronjob that regularly reads vault and updates our cluster with the latest secret data.
 
 ## Team Sync
 When a new lead gets added to a team via Github organization, they get access to *Vault*, *Bitwarden*, and *Django admin console* (if it applies). This is done by regularly going through the list of teams, and assigning them access to the services they have access to.
