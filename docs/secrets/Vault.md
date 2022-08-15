@@ -24,7 +24,7 @@ Also, Vault allow for *versioned secrets*, which is a pretty neato way to say th
 Configures Vault itself. 
 
 An example configuration includes updating [Vault policies](../../terraform/modules/vault/policies). Adding a new policy requires:
-1. Add a new policy file to the [Vault policies](../../terraform/modules/vault/policies) folder. See `admin.hcl` for exmaple.
+1. Add a new policy file to the [Vault policies](../../terraform/modules/vault/policies) folder. See [`admin.hcl`](../../terraform/modules/vault/policies/admin.hcl) for exmaple.
 2. Modify vault terraform files to include the new policy by declaring a new [`resource "vault_policy"`](../../terraform/modules/vault/main.tf#L21-L27) block.
 3. Apply your changes.
 
