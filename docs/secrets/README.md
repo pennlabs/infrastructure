@@ -58,4 +58,5 @@ When a new lead gets added to a team via Github organization, they get access to
 
 # Secrets Flow
 Overall, the flow for secrets can be summarized using the following chart:
-![Secrets Flow](img/secrets-flow.png)
+![Secrets Flow](img/secrets-flow-light.png#gh-dark-mode-only)
+![Secrets Flow](img/secrets-flow-dark.png#gh-light-mode-only)
