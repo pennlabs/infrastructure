@@ -1,8 +1,6 @@
 # Secrets
 ## Overview
-Most of the Labs products reference *secrets* within their code.
-
-Secrets are objects or values necessary for a product to function but should not be exposed to the public.
+Most of the Labs products reference *secrets* within their code, which are objects or values necessary for a product to function but should not be exposed to the public.
 
 When it comes to configuring secrets, there are three parts we care about:
 
@@ -10,7 +8,7 @@ When it comes to configuring secrets, there are three parts we care about:
 - *Access*: How do we access it?
 - *Sync*: A secret got updated, what happens next?
 
-> *Note*: When we talk about secrets, we are mainly referring to values necessary for the application. This does not include managing login information such as Bitwarden, which is still covered loosely here but not the focus.
+> **Note**: When we talk about secrets, we are mainly referring to values necessary for the application. This does not include managing login information such as Bitwarden, which is still covered loosely here but not the focus.
 
 # Location: Where is the secret managed?
 At Labs, secrets and their values are managed in two places: [Vault](Vault.md) and [Github Secrets](Github.md).
