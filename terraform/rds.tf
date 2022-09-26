@@ -40,6 +40,7 @@ resource "aws_db_instance" "production" {
   engine_version                      = "11.13"
   availability_zone                   = "us-east-1a"
   allocated_storage                   = 20
+  max_allocated_storage               = 100
   username                            = "postgres"
   password                            = random_password.rds-password.result
   iam_database_authentication_enabled = true
@@ -49,6 +50,11 @@ resource "aws_db_instance" "production" {
   tags = {
     Name       = "Production",
     created-by = "terraform"
+  }
+  timeouts {
+    create = "2m"
+    update = "4m"
+    delete = "3m"
   }
 }
 
