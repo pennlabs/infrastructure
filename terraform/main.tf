@@ -40,6 +40,9 @@ locals {
     "peyton",
     "joy",
     "jonathan",
+    "vince",
+    "alex",
+    "chris"
   ])
   k8s_cluster_name = "production"
   k8s_cluster_size = 5
