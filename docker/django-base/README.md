@@ -29,7 +29,7 @@ For example, the current "Shared tag" can be `a142aa6975ee293bbc8a09ef0b81998ce7
 
 - `[sha]-3.10`: Python 3.10.1 (`penn-courses`)
 - `[sha]-3.9`: Python 3.9.14 (`penn-mobile`)
-- `[sha]-3.8`: Python 3.8.5 (`penn-clubs`, `office-hours-queue`)
+- `[sha]-3.8`: Python 3.8.11 (`penn-clubs`, `office-hours-queue`)
 
 ## Features
 

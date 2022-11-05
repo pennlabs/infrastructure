@@ -32,8 +32,8 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: PYTHON_VERSION=3.9.14
           tags: pennlabs/django-base:${{ github.sha }}-3.9.14
-  publish-django-base-3-8-5:
-    name: Publish django-base-3-8-5
+  publish-django-base-3-8-11:
+    name: Publish django-base-3-8-11
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: buildx-publish-django-base-3-8-5
+          key: buildx-publish-django-base-3-8-11
       - uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -56,8 +56,8 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' }}
           cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/django-base:latest
           cache-to: type=local,dest=/tmp/.buildx-cache
-          build-args: PYTHON_VERSION=3.8.5
-          tags: pennlabs/django-base:${{ github.sha }}-3.8.5
+          build-args: PYTHON_VERSION=3.8.11
+          tags: pennlabs/django-base:${{ github.sha }}-3.8.11
   publish-django-base-3-10-1:
     name: Publish django-base-3-10-1
     runs-on: ubuntu-latest
