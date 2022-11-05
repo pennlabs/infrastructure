@@ -45,7 +45,7 @@ export class DjangoBaseDockerStack extends Stack {
     });
     
     pythonVersions.map(version => {
-      new DockerPublishJob(workflow, `${name}-${this.toTagString(version)}`, {
+      new DockerPublishJob(workflow, `${name}:${this.toTagString(version)}`, {
         imageName: name,
         path: `docker/${name}`,
         buildArgs: {
