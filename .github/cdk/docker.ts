@@ -23,6 +23,47 @@ export class DockerPublishStack extends Stack {
 }
 
 /**
+ * Customer Docker Publish Stack for Django base that supports
+ * building multiple images with docker build arg (PYTHON_VERSION)
+ */
+export class DjangoBaseDockerStack extends Stack {
+  private toTagString(str: string): string {
+    return str.replace(/[^a-zA-Z0-9]/g, '-');
+  }
+
+  constructor(scope: Construct, pythonVersions = ['3.9.14', '3.8.5', '3.10.1']) {
+    const name = 'django-base'; // Simple tagged django-base images
+    super(scope, name);
+
+    const workflow = new Workflow(this, `docker-${name}`, {
+      name: `Publish ${name}`,
+      on: {
+        push: {
+          paths: [`docker/${name}/**`]
+        }
+      },
+    });
+    
+    pythonVersions.map(version => {
+      new DockerPublishJob(workflow, `${name}-${this.toTagString(version)}`, {
+        imageName: name,
+        path: `docker/${name}`,
+        buildArgs: {
+          PYTHON_VERSION: version
+        },
+        tags: `\${{ github.sha }}-${version}`
+      });
+    });
+
+    // Regular one with no build args
+    new DockerPublishJob(workflow, name, {
+      imageName: name,
+      path: `docker/${name}`,
+    });
+  }
+}
+
+/**
  * Custom Docker Publish Stack for Shibboleth that supports
  * loading an image tag from a file
  */

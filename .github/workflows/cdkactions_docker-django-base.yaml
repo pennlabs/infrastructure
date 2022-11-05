@@ -6,6 +6,84 @@ on:
     paths:
       - docker/django-base/**
 jobs:
+  publish-django-base-3-9-14:
+    name: Publish django-base-3-9-14
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-publish-django-base-3-9-14
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build/Publish
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/django-base
+          file: docker/django-base/Dockerfile
+          push: ${{ github.ref == 'refs/heads/master' }}
+          cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/django-base:latest
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: PYTHON_VERSION=3.9.14
+          tags: pennlabs/django-base:${{ github.sha }}-3.9.14
+  publish-django-base-3-8-5:
+    name: Publish django-base-3-8-5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-publish-django-base-3-8-5
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build/Publish
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/django-base
+          file: docker/django-base/Dockerfile
+          push: ${{ github.ref == 'refs/heads/master' }}
+          cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/django-base:latest
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: PYTHON_VERSION=3.8.5
+          tags: pennlabs/django-base:${{ github.sha }}-3.8.5
+  publish-django-base-3-10-1:
+    name: Publish django-base-3-10-1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-publish-django-base-3-10-1
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build/Publish
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/django-base
+          file: docker/django-base/Dockerfile
+          push: ${{ github.ref == 'refs/heads/master' }}
+          cache-from: type=local,src=/tmp/.buildx-cache,type=registry,ref=pennlabs/django-base:latest
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: PYTHON_VERSION=3.10.1
+          tags: pennlabs/django-base:${{ github.sha }}-3.10.1
   publish-django-base:
     name: Publish django-base
     runs-on: ubuntu-latest
