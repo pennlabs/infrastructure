@@ -51,7 +51,8 @@ export class DjangoBaseDockerStack extends Stack {
         buildArgs: {
           PYTHON_VERSION: version
         },
-        tags: `\${{ github.sha }}-${version}`
+        tags: `\${{ github.sha }}-${version}`,
+        cache: false,
       });
     });
 
