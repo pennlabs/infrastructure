@@ -58,6 +58,12 @@ export interface DockerPublishJobProps {
    * @default false
    */
   noPublish?: boolean;
+
+  /**
+   * Build arguments to pass to the docker build command.
+   * @default {}
+   */
+  buildArgs?: { [key: string]: string };
 }
 
 /**
@@ -92,6 +98,7 @@ export class DockerPublishJob extends CheckoutJob {
       dockerfile: "Dockerfile",
       cache: true,
       noPublish: false,
+      buildArgs: {},
       ...config,
     };
     const formattedName = fullConfig.noPublish
@@ -108,6 +115,12 @@ export class DockerPublishJob extends CheckoutJob {
       push: fullConfig.push,
       "cache-from": "type=local,src=/tmp/.buildx-cache",
       "cache-to": "type=local,dest=/tmp/.buildx-cache",
+      // if build args are provided, add them to the docker build command
+      ...(Object.keys(fullConfig.buildArgs).length > 0 && {
+        "build-args": Object.entries(fullConfig.buildArgs)
+          .map(([key, value]) => `${key}=${value}`)
+          .join(","),
+      }),
     };
     if (fullConfig.cache) {
       dockerWith["cache-from"] = dockerWith["cache-from"].concat(

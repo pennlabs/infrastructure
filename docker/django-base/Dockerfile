@@ -1,4 +1,5 @@
-FROM python:3.10.1-slim-bullseye
+ARG PYTHON_VERSION=3.10.1
+FROM python:${PYTHON_VERSION}-slim-buster
 
 LABEL maintainer="Penn Labs"
 
