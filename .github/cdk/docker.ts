@@ -31,7 +31,7 @@ export class DjangoBaseDockerStack extends Stack {
     return str.replace(/[^a-zA-Z0-9]/g, '-');
   }
 
-  constructor(scope: Construct, pythonVersions = ['3.9.14', '3.8.11', '3.10.1']) {
+  constructor(scope: Construct, pythonVersions = ['3.9.14', '3.8.5', '3.10.1']) {
     const name = 'django-base'; // Simple tagged django-base images
     super(scope, name);
 

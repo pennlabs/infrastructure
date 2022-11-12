@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.10.1
-FROM python:${PYTHON_VERSION}-slim-bullseye
+FROM python:${PYTHON_VERSION}-slim-buster
 
 LABEL maintainer="Penn Labs"
 
