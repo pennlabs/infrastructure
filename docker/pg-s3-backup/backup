@@ -2,17 +2,13 @@
 
 set -euo pipefail
 
-# Define a helper function to run a command in the background and check the exit status
+# Helper - run a command in the background and check the exit status
 run_bg_and_check_exit() {
-  # Run the command in the background
   "$@" &
   local pid=$!
-  # Wait for the command to finish
   wait "$pid"
-  # Check the exit status of the command
   local exit_status=$?
   if [ $exit_status -ne 0 ]; then
-    # If the exit status is non-zero, exit the script
     echo "Error: command '$@' exited with non-zero status $exit_status"
     exit $exit_status
   fi
