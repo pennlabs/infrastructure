@@ -2,6 +2,18 @@
 
 set -euo pipefail
 
+# Helper - run a command in the background and check the exit status
+run_bg_and_check_exit() {
+  "$@" &
+  local pid=$!
+  wait "$pid"
+  local exit_status=$?
+  if [ $exit_status -ne 0 ]; then
+    echo "Error: command '$@' exited with non-zero status $exit_status"
+    exit $exit_status
+  fi
+}
+
 # Get current timestamp
 STAMP=`date +"%Y%m%d - %A %d %B %Y @ %H:%M"`
 
@@ -15,9 +27,11 @@ for DB in $DATABASES
 do
   (FILENAME="$STAMP - $DB.sql.gz";
   echo "Creating dump of $DB";
-  pg_dump $DATABASE_URL/$DB | gzip > $DB.dump;
+  # Use the helper function to run the command in the background and check the exit status
+  run_bg_and_check_exit pg_dump $DATABASE_URL/$DB | gzip > $DB.dump;
   echo "Uploading dump of $DB";
-  cat $DB.dump | aws s3 cp - "s3://$S3_BUCKET/$STAMP/$FILENAME") &
+  # Use the helper function to run the command in the background and check the exit status
+  run_bg_and_check_exit cat $DB.dump | aws s3 cp - "s3://$S3_BUCKET/$STAMP/$FILENAME") &
 done
 
 wait

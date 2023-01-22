@@ -24,6 +24,17 @@ test("no publish", () => {
   expect(dc.toGHAction()).toMatchSnapshot();
 });
 
+test("with build args", () => {
+  const dc = new DockerPublishJob(undefined as any, "publish", {
+    imageName: "example",
+    buildArgs: {
+      FOO: "bar",
+      BAR: "baz",
+    },
+  });
+  expect(dc.toGHAction()).toMatchSnapshot();
+});
+
 test("with overrides", () => {
   const dc = new DockerPublishJob(
     undefined as any,
