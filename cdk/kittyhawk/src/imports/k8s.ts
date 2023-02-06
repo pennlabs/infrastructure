@@ -228,7 +228,7 @@ export class KubeMutatingWebhookConfigurationV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.admissionregistration.v1beta1.MutatingWebhookConfiguration"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'admissionregistration.k8s.io/v1beta1',
+    apiVersion: 'admissionregistration.k8s.io/v1',
     kind: 'MutatingWebhookConfiguration',
   }
 
@@ -282,7 +282,7 @@ export class KubeMutatingWebhookConfigurationListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.admissionregistration.v1beta1.MutatingWebhookConfigurationList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'admissionregistration.k8s.io/v1beta1',
+    apiVersion: 'admissionregistration.k8s.io/v1',
     kind: 'MutatingWebhookConfigurationList',
   }
 
@@ -336,7 +336,7 @@ export class KubeValidatingWebhookConfigurationV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.admissionregistration.v1beta1.ValidatingWebhookConfiguration"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'admissionregistration.k8s.io/v1beta1',
+    apiVersion: 'admissionregistration.k8s.io/v1',
     kind: 'ValidatingWebhookConfiguration',
   }
 
@@ -390,7 +390,7 @@ export class KubeValidatingWebhookConfigurationListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.admissionregistration.v1beta1.ValidatingWebhookConfigurationList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'admissionregistration.k8s.io/v1beta1',
+    apiVersion: 'admissionregistration.k8s.io/v1',
     kind: 'ValidatingWebhookConfigurationList',
   }
 
@@ -1204,7 +1204,7 @@ export class KubeTokenReviewV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.authentication.v1beta1.TokenReview"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'authentication.k8s.io/v1beta1',
+    apiVersion: 'authentication.k8s.io/v1',
     kind: 'TokenReview',
   }
 
@@ -1474,7 +1474,7 @@ export class KubeLocalSubjectAccessReviewV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.authorization.v1beta1.LocalSubjectAccessReview"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'authorization.k8s.io/v1beta1',
+    apiVersion: 'authorization.k8s.io/v1',
     kind: 'LocalSubjectAccessReview',
   }
 
@@ -1528,7 +1528,7 @@ export class KubeSelfSubjectAccessReviewV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.authorization.v1beta1.SelfSubjectAccessReview"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'authorization.k8s.io/v1beta1',
+    apiVersion: 'authorization.k8s.io/v1',
     kind: 'SelfSubjectAccessReview',
   }
 
@@ -1582,7 +1582,7 @@ export class KubeSelfSubjectRulesReviewV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.authorization.v1beta1.SelfSubjectRulesReview"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'authorization.k8s.io/v1beta1',
+    apiVersion: 'authorization.k8s.io/v1',
     kind: 'SelfSubjectRulesReview',
   }
 
@@ -1636,7 +1636,7 @@ export class KubeSubjectAccessReviewV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.authorization.v1beta1.SubjectAccessReview"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'authorization.k8s.io/v1beta1',
+    apiVersion: 'authorization.k8s.io/v1',
     kind: 'SubjectAccessReview',
   }
 
@@ -2506,7 +2506,7 @@ export class KubeCertificateSigningRequestV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.certificates.v1beta1.CertificateSigningRequest"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'certificates.k8s.io/v1beta1',
+    apiVersion: 'certificates.k8s.io/v1',
     kind: 'CertificateSigningRequest',
   }
 
@@ -2560,7 +2560,7 @@ export class KubeCertificateSigningRequestListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.certificates.v1beta1.CertificateSigningRequestList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'certificates.k8s.io/v1beta1',
+    apiVersion: 'certificates.k8s.io/v1',
     kind: 'CertificateSigningRequestList',
   }
 
@@ -2722,7 +2722,7 @@ export class KubeLeaseV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.coordination.v1beta1.Lease"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'coordination.k8s.io/v1beta1',
+    apiVersion: 'coordination.k8s.io/v1',
     kind: 'Lease',
   }
 
@@ -2776,7 +2776,7 @@ export class KubeLeaseListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.coordination.v1beta1.LeaseList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'coordination.k8s.io/v1beta1',
+    apiVersion: 'coordination.k8s.io/v1',
     kind: 'LeaseList',
   }
 
@@ -5001,7 +5001,7 @@ export class KubeIngressV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.networking.v1beta1.Ingress"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'networking.k8s.io/v1beta1',
+    apiVersion: 'networking.k8s.io/v1',
     kind: 'Ingress',
   }
 
@@ -5055,7 +5055,7 @@ export class KubeIngressListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.networking.v1beta1.IngressList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'networking.k8s.io/v1beta1',
+    apiVersion: 'networking.k8s.io/v1',
     kind: 'IngressList',
   }
 
@@ -5649,7 +5649,7 @@ export class KubeIngressClassV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.networking.v1beta1.IngressClass"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'networking.k8s.io/v1beta1',
+    apiVersion: 'networking.k8s.io/v1',
     kind: 'IngressClass',
   }
 
@@ -5703,7 +5703,7 @@ export class KubeIngressClassListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.networking.v1beta1.IngressClassList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'networking.k8s.io/v1beta1',
+    apiVersion: 'networking.k8s.io/v1',
     kind: 'IngressClassList',
   }
 
@@ -7323,7 +7323,7 @@ export class KubeClusterRoleV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.ClusterRole"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'ClusterRole',
   }
 
@@ -7377,7 +7377,7 @@ export class KubeClusterRoleBindingV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.ClusterRoleBinding"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'ClusterRoleBinding',
   }
 
@@ -7431,7 +7431,7 @@ export class KubeClusterRoleBindingListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.ClusterRoleBindingList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'ClusterRoleBindingList',
   }
 
@@ -7485,7 +7485,7 @@ export class KubeClusterRoleListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.ClusterRoleList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'ClusterRoleList',
   }
 
@@ -7539,7 +7539,7 @@ export class KubeRoleV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.Role"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'Role',
   }
 
@@ -7593,7 +7593,7 @@ export class KubeRoleBindingV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.RoleBinding"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'RoleBinding',
   }
 
@@ -7647,7 +7647,7 @@ export class KubeRoleBindingListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.RoleBindingList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'RoleBindingList',
   }
 
@@ -7701,7 +7701,7 @@ export class KubeRoleListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.rbac.v1beta1.RoleList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+    apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'RoleList',
   }
 
@@ -7971,7 +7971,7 @@ export class KubePriorityClassV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.scheduling.v1beta1.PriorityClass"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'scheduling.k8s.io/v1beta1',
+    apiVersion: 'scheduling.k8s.io/v1',
     kind: 'PriorityClass',
   }
 
@@ -8025,7 +8025,7 @@ export class KubePriorityClassListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.scheduling.v1beta1.PriorityClassList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'scheduling.k8s.io/v1beta1',
+    apiVersion: 'scheduling.k8s.io/v1',
     kind: 'PriorityClassList',
   }
 
@@ -8741,7 +8741,7 @@ export class KubeCsiDriverV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSIDriver"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSIDriver',
   }
 
@@ -8795,7 +8795,7 @@ export class KubeCsiDriverListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSIDriverList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSIDriverList',
   }
 
@@ -8849,7 +8849,7 @@ export class KubeCsiNodeV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSINode"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSINode',
   }
 
@@ -8903,7 +8903,7 @@ export class KubeCsiNodeListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSINodeList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSINodeList',
   }
 
@@ -8965,7 +8965,7 @@ export class KubeCsiStorageCapacityV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSIStorageCapacity"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSIStorageCapacity',
   }
 
@@ -9019,7 +9019,7 @@ export class KubeCsiStorageCapacityListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.CSIStorageCapacityList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'CSIStorageCapacityList',
   }
 
@@ -9075,7 +9075,7 @@ export class KubeStorageClassV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.StorageClass"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'StorageClass',
   }
 
@@ -9129,7 +9129,7 @@ export class KubeStorageClassListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.StorageClassList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'StorageClassList',
   }
 
@@ -9185,7 +9185,7 @@ export class KubeVolumeAttachmentV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.VolumeAttachment"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'VolumeAttachment',
   }
 
@@ -9239,7 +9239,7 @@ export class KubeVolumeAttachmentListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.api.storage.v1beta1.VolumeAttachmentList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'storage.k8s.io/v1beta1',
+    apiVersion: 'storage.k8s.io/v1',
     kind: 'VolumeAttachmentList',
   }
 
@@ -9401,7 +9401,7 @@ export class KubeCustomResourceDefinitionV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.apiextensions-apiserver.pkg.apis.apiextensions.v1beta1.CustomResourceDefinition"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'apiextensions.k8s.io/v1beta1',
+    apiVersion: 'apiextensions.k8s.io/v1',
     kind: 'CustomResourceDefinition',
   }
 
@@ -9455,7 +9455,7 @@ export class KubeCustomResourceDefinitionListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.apiextensions-apiserver.pkg.apis.apiextensions.v1beta1.CustomResourceDefinitionList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'apiextensions.k8s.io/v1beta1',
+    apiVersion: 'apiextensions.k8s.io/v1',
     kind: 'CustomResourceDefinitionList',
   }
 
@@ -9671,7 +9671,7 @@ export class KubeApiServiceV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.kube-aggregator.pkg.apis.apiregistration.v1beta1.APIService"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'apiregistration.k8s.io/v1beta1',
+    apiVersion: 'apiregistration.k8s.io/v1',
     kind: 'APIService',
   }
 
@@ -9725,7 +9725,7 @@ export class KubeApiServiceListV1Beta1 extends ApiObject {
    * Returns the apiVersion and kind for "io.k8s.kube-aggregator.pkg.apis.apiregistration.v1beta1.APIServiceList"
    */
   public static readonly GVK: GroupVersionKind = {
-    apiVersion: 'apiregistration.k8s.io/v1beta1',
+    apiVersion: 'apiregistration.k8s.io/v1',
     kind: 'APIServiceList',
   }
 
