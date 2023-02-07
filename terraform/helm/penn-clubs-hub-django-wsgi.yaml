@@ -2,19 +2,19 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   annotations:
-  name: office-hours-queue-django-wsgi
+  name: penn-clubs-hub-django-wsgi
   namespace: default
 spec:
   entryPoints:
   - websecure
   routes:
   - kind: Rule
-    match: (Host(`ohq.io`) && PathPrefix(`/admin`)) || (Host(`ohq.io`) && PathPrefix(`/api`)) || (Host(`ohq.io`) && PathPrefix(`/assets`))
+    match: Host(`hub.provost.upenn.edu`) && PathPrefix(`/api`))
     services:
     - kind: Service
-      name: office-hours-queue-django-wsgi
+      name: penn-clubs-hub-django-wsgi
       namespace: default
       passHostHeader: true
       port: 80
   tls:
-    secretName: ohq-io-tls
+    secretName: hub-provost-upenn-edu-tls

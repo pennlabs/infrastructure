@@ -9,7 +9,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`ohq.io`) && PathPrefix(`/`)
+    match: Host(`ohq.io`) && PathPrefix(`/api/ws`)
     services:
     - kind: Service
       name: office-hours-queue-django-asgi
