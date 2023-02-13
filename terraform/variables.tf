@@ -22,3 +22,8 @@ variable "DOCKERHUB_TOKEN" {
   type        = string
   description = "Read-only API token for Docker Hub"
 }
+
+variable "RDS_PASSWORD" {
+  type        = string
+  description = "Root password for Production RDS instance"
+}

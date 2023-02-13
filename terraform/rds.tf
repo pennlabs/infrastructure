@@ -18,11 +18,6 @@ resource "aws_security_group" "rds" {
   }
 }
 
-resource "random_password" "rds-password" {
-  length  = 64
-  special = false
-}
-
 resource "aws_db_subnet_group" "rds" {
   name       = "public-subnets"
   subnet_ids = module.vpc.public_subnets
@@ -40,9 +35,9 @@ resource "aws_db_instance" "production" {
   engine_version                      = "11.16"
   availability_zone                   = "us-east-1a"
   allocated_storage                   = 20
-  max_allocated_storage               = 100
+  max_allocated_storage               = 200
   username                            = "postgres"
-  password                            = random_password.rds-password.result
+  password                            = var.RDS_PASSWORD
   iam_database_authentication_enabled = true
   db_subnet_group_name                = aws_db_subnet_group.rds.name
   vpc_security_group_ids              = [aws_security_group.rds.id]
