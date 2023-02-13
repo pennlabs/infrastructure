@@ -2,11 +2,11 @@ installCRDs: true
 
 serviceAccount:
   annotations:
-    eks.amazonaws.com/role-arn: ${roleARN}
+    eks.amazonaws.com/role-arn: arn:aws:iam::449445102765:role/cert-manager
 
-securityContext:
-  enabled: true
-  fsGroup: 1001
+#securityContext:
+#  enabled: true
+#  fsGroup: 1001
 
 global:
   imagePullSecrets:

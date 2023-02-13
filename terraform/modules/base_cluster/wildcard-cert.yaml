@@ -1,6 +1,9 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  annotations: 
+    meta.helm.sh/release-name: pennlabs-wildcard-cert
+    meta.helm.sh/release-namespace: default
   name: pennlabs-org
 spec:
   secretName: pennlabs-org-tls

@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: penn-clubs-hub-react
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`hub.provost.upenn.edu`) && PathPrefix(`/`))
+    services:
+    - kind: Service
+      name: penn-clubs-hub-react
+      passHostHeader: true
+      port: 80
+  tls:
+    secretName: hub-provost-upenn-edu-tls

@@ -4,7 +4,7 @@ module "eks-production" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "18.4.0"
   cluster_name    = local.k8s_cluster_name
-  cluster_version = "1.21"
+  cluster_version = "1.22"
   subnet_ids      = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
   eks_managed_node_groups = {

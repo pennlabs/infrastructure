@@ -8,7 +8,7 @@ resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
-  version    = "v1.5.4"
+  version    = "v1.11.0"
   namespace  = kubernetes_namespace.cert-manager.metadata[0].name
   // This is set to ensure that cert-manager is working before the CRs are applied
   atomic = true

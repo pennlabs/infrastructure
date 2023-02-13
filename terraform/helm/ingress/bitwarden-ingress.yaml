@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: bitwarden-bitwarden
+spec:
+  routes:
+  - kind: Rule
+    match: Host(`bitwarden.pennlabs.org`) && PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: bitwarden-bitwarden
+      namespace: default
+      port: 80
+  tls:
+    domains:
+    - main: pennlabs.org
+    secretName: pennlabs-org-tls

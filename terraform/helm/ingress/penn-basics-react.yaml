@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: penn-basics-react
+spec:
+  routes:
+  - kind: Rule
+    match: Host(`pennbasics.com`) && PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: penn-basics-react
+      passHostHeader: true
+      port: 80
+  tls:
+    domains:
+    - main: pennbasics.com
+    secretName: pennbasics-com-tls

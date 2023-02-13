@@ -1,48 +1,13 @@
-replicas: ${count}
-
-deploymentStrategy:
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 0
-  type: RollingUpdate
-
-ssl:
-  enabled: true
-  enforced: true
-  permanentRedirect: true
-  upstream: false
-  insecureSkipVerify: false
-  generateTLS: false
-
-  persistence:
-    enabled: false
-
-dashboard:
-  enabled: false
-
-accessLogs:
-  enabled: true
-  format: common
-
-rbac:
-  enabled: true
-
-metrics:
-  prometheus:
-    enabled: true
-    buckets: [0.1, 0.3, 1.2, 5]
-    service:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9100"
-
 deployment:
+  replicas: 2
+  imagePullSecrets:
+    - name: dockerPullSecret
   podAnnotations:
     ad.datadoghq.com/traefik.check_names: |
       ["openmetrics"]
     ad.datadoghq.com/traefik.init_configs: |
       [{}]
-    ad.datadoghq.com/traefik.instances: | 
+    ad.datadoghq.com/traefik.instances: |
       [
         {
           "openmetrics_endpoint": "http://%%host%%:9100/metrics",
@@ -50,7 +15,9 @@ deployment:
           "metrics": [".*"],
           "max_returned_metrics": 3000
         }
-      ]       
+      ]
 
-imagePullSecrets:
-  - docker-pull-secret
+logs:
+  general:
+    access:
+      enabled: true

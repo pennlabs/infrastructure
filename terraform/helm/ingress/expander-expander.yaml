@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: expander-expander 
+spec:
+  routes:
+  - kind: Rule
+    match: Host(`u.pennlabs.org`) && PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: expander-expander 
+      namespace: default
+      port: 80
+  tls:
+    domains:
+    - main: pennlabs.org
+    secretName: pennlabs-org-tls

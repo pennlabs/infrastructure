@@ -1,5 +1,5 @@
 language: typescript
 app: node main.js
 imports:
-  - k8s@1.21.0
-  - https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.crds.yaml
+  - k8s@1.22.0
+  - https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
