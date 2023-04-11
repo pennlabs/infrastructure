@@ -48,8 +48,8 @@ resource "aws_db_instance" "production" {
   }
   timeouts {
     create = "2m"
-    update = "4m"
-    delete = "3m"
+    update = "2m" // "4m"
+    delete = "2m" // "3m"
   }
 }
 
