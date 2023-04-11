@@ -4,4 +4,4 @@
 /usr/local/bin/python3 /app/manage.py migrate --noinput
 
 # Run UWSGI
-exec /usr/local/bin/uwsgi --ini /app/setup.cfg
+exec /usr/local/bin/uwsgi --ini /app/setup.cfg --listen 1000
