@@ -30,7 +30,7 @@ resource "aws_db_subnet_group" "rds" {
 
 resource "aws_db_instance" "production" {
   identifier                          = "production"
-  instance_class                      = "db.t3.xlarge"
+  instance_class                      = "db.t3.2xlarge"
   engine                              = "postgres"
   engine_version                      = "11.16"
   availability_zone                   = "us-east-1a"
@@ -45,11 +45,6 @@ resource "aws_db_instance" "production" {
   tags = {
     Name       = "Production",
     created-by = "terraform"
-  }
-  timeouts {
-    create = "2m"
-    update = "2m" // "4m"
-    delete = "2m" // "3m"
   }
 }
 
