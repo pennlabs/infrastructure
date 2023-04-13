@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1    
+kind: IngressRoute  
+metadata:   
+  annotations: 
+  name: penn-clubs-hub-django-asgi      
+  namespace: default
+spec:       
+  entryPoints:      
+  - websecure       
+  routes:   
+  - kind: Rule      
+    match: Host(`hub.provost.upenn.edu`) && PathPrefix(`/api/ws`)  
+    middlewares:    
+    - name: ws-middleware
+    services:       
+    - kind: Service 
+      name: penn-clubs-hub-django-asgi  
+      namespace: default
+      port: 80      
+  tls:      
+    secretName: hub-provost-upenn-edu-tls
