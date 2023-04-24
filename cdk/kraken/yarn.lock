@@ -1184,10 +1184,10 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-constructs@^3.2.80:
-  version "3.3.261"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.261.tgz#2d051a33535ce9595eba3375eaccaa26ff0d33ec"
-  integrity sha512-WAcluBHRkIlTIW0jXOhp9Fm8ZtjS2cF3MbAxN6/VEdAVtjuXlHqKmrBOVIp8V5L26ze/xuMz3mDhq1CrC2pjsw==
+constructs@^10.0.111:
+  version "10.0.111"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.111.tgz#9b45e51b2f450c71d900b0a6012c7b30e2018874"
+  integrity sha512-q1rqmz6ECUBjuWMPjjJsZSnieZfQr+oRSJHyF4dFlYjKHJKF86RgIM5T0ZEX4VEfmkoXwfILYM39aUWgIlpwDg==
 
 conventional-changelog-config-spec@^2.1.0:
   version "2.1.0"
