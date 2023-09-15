@@ -26,7 +26,6 @@ export class Certificate extends Construct {
           "app.kubernetes.io/name": hostString,
           "app.kubernetes.io/component": "certificate",
         },
-        finalizers: ["kubernetes"],
       },
       spec: {
         secretName: `${hostString}-tls`,

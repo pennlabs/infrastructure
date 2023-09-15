@@ -154,9 +154,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
@@ -323,9 +320,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
@@ -492,9 +486,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
@@ -751,9 +742,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
@@ -920,9 +908,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
@@ -1089,9 +1074,6 @@ Array [
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
     "metadata": Object {
-      "finalizers": Array [
-        "kubernetes",
-      ],
       "labels": Object {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
