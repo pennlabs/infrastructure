@@ -105,13 +105,19 @@ export class DjangoCheckJob extends CheckoutJob {
       name: "Test (run in parallel)",
       run: dedent`cd ${fullConfig.path}
       pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=${fullConfig.projectName}.settings.ci --parallel
-      pipenv run coverage combine`,
+      pipenv run coverage combine
+      pipenv run coverage xml`,
     });
     steps.push({
       name: "Upload Code Coverage",
-      run: dedent`ROOT=$(pwd)
-      cd ${fullConfig.path}
-      pipenv run codecov --root $ROOT --flags backend`,
+      uses: "codecov/codecov-action@v3",
+      with: {
+        directory: "./backend/",
+        fail_ci_if_error: true,
+        files: "coverage.xml",
+        name: "codecov-umbrella",
+        verbose: true,
+      }
     });
 
     // Create Job
