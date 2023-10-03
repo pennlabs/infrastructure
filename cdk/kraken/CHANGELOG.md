@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.11 (2023-10-02)
+
+- Update DjangoCheckJob to account for codecov deprecation
+
 ## 0.8.10 (2022-11-05)
 
 - Docker image: support build args
