@@ -55,13 +55,19 @@ pipenv run black --check .",
           "name": "Test (run in parallel)",
           "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
-pipenv run coverage combine",
+pipenv run coverage combine
+pipenv run coverage xml",
         },
         Object {
           "name": "Upload Code Coverage",
-          "run": "ROOT=$(pwd)
-cd .
-pipenv run codecov --root $ROOT --flags backend",
+          "uses": "codecov/codecov-action@v3",
+          "with": Object {
+            "directory": "./backend/",
+            "fail_ci_if_error": true,
+            "files": "coverage.xml",
+            "name": "codecov-umbrella",
+            "verbose": true,
+          },
         },
       ],
     },
@@ -169,13 +175,19 @@ pipenv run black --check .",
           "name": "Test (run in parallel)",
           "run": "cd .
 pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
-pipenv run coverage combine",
+pipenv run coverage combine
+pipenv run coverage xml",
         },
         Object {
           "name": "Upload Code Coverage",
-          "run": "ROOT=$(pwd)
-cd .
-pipenv run codecov --root $ROOT --flags backend",
+          "uses": "codecov/codecov-action@v3",
+          "with": Object {
+            "directory": "./backend/",
+            "fail_ci_if_error": true,
+            "files": "coverage.xml",
+            "name": "codecov-umbrella",
+            "verbose": true,
+          },
         },
       ],
     },
