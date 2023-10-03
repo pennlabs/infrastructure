@@ -2,6 +2,10 @@
 
 ## X.Y.Z (UNRELEASED)
 
+## 0.8.12 (2023-10-03)
+
+- Update DjangoCheckJob to have codecov token
+
 ## 0.8.11 (2023-10-02)
 
 - Update DjangoCheckJob to account for codecov deprecation

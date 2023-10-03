@@ -112,6 +112,7 @@ export class DjangoCheckJob extends CheckoutJob {
       name: "Upload Code Coverage",
       uses: "codecov/codecov-action@v3",
       with: {
+        token: "${{ secrets.CODECOV_TOKEN }}",
         directory: "./backend/",
         fail_ci_if_error: true,
         files: "coverage.xml",
