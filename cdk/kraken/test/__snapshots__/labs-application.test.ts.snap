@@ -34,11 +34,15 @@ jobs:
           cd backend
           pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
           pipenv run coverage combine
+          pipenv run coverage xml
       - name: Upload Code Coverage
-        run: |-
-          ROOT=$(pwd)
-          cd backend
-          pipenv run codecov --root $ROOT --flags backend
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./backend/
+          fail_ci_if_error: true
+          files: coverage.xml
+          name: codecov-umbrella
+          verbose: true
     container:
       image: python:3.8-buster
     env:
@@ -208,11 +212,15 @@ jobs:
           cd backend
           pipenv run coverage run --concurrency=multiprocessing manage.py test --settings=example.settings.ci --parallel
           pipenv run coverage combine
+          pipenv run coverage xml
       - name: Upload Code Coverage
-        run: |-
-          ROOT=$(pwd)
-          cd backend
-          pipenv run codecov --root $ROOT --flags backend
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./backend/
+          fail_ci_if_error: true
+          files: coverage.xml
+          name: codecov-umbrella
+          verbose: true
     container:
       image: python:3.8-buster
     env:
