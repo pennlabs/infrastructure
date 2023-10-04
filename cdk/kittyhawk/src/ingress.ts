@@ -61,7 +61,11 @@ export class Ingress extends Construct {
     const rules: IngressRule[] = props.rules.map((h) => ({
       host: h.host,
       metadata: {
-        annotations: props.annotations,
+        annotations: {
+          "traefik.ingress.kubernetes.io/router.middlewares":
+            "default-redict-http@kubernetescrd",
+          ...props.annotations,
+        },
       },
       http: {
         paths: h.paths.map((path) => ({
