@@ -5,6 +5,7 @@ import {
   KubeDeployment as DeploymentApiObject,
   KubeServiceAccount,
   VolumeMount,
+  Volume,
 } from "./imports/k8s";
 import { defaultChildName } from "./utils";
 
@@ -22,6 +23,20 @@ export interface DeploymentProps extends ContainerProps {
    * @default []
    */
   readonly secretMounts?: VolumeMount[];
+
+  /**
+   * Volume mounts for deployment container.
+   */
+  readonly volumes?: Volume[];
+
+  /**
+   * Volume mounts for deployment container.
+   *
+   * This appends to the existing list of volumes, if created by the `secretMounts` property.
+   *
+   * @default []
+   */
+  readonly volumeMounts?: VolumeMount[];
 
   /**
    * The service account to be used to attach to any deployment pods.
@@ -64,7 +79,7 @@ export class Deployment extends Construct {
               ? { serviceAccountName: props.serviceAccount.name }
               : {}),
             containers: containers,
-            volumes: secretVolumes,
+            volumes: [...secretVolumes, ...(props.volumes || [])],
           },
         },
       },

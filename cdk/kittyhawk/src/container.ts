@@ -63,6 +63,13 @@ export interface ContainerProps {
   readonly secretMounts?: VolumeMount[];
 
   /**
+   * Volume mounts for deployment container.
+   *
+   * @default []
+   */
+  readonly volumeMounts?: VolumeMount[];
+
+  /**
    * Internal port.
    *
    * @default port
@@ -165,10 +172,16 @@ export class Container implements ContainerInterface {
       : [{ containerPort: props.port ?? 80 }];
     this.imagePullPolicy = props.pullPolicy || "IfNotPresent";
     this.command = props.cmd;
-    this.volumeMounts = props.secretMounts?.map((vm) => ({
-      ...vm,
-      name: secretVolumeName(vm),
-    }));
+    this.volumeMounts = [
+      ...(props.secretMounts?.map((vm) => ({
+        ...vm,
+        name: secretVolumeName(vm),
+      })) ?? []),
+      ...(props.volumeMounts || []),
+    ];
+    if (this.volumeMounts.length === 0) {
+      this.volumeMounts = undefined;
+    }
     this.envFrom = props.secret
       ? [{ secretRef: { name: props.secret } }]
       : undefined;
