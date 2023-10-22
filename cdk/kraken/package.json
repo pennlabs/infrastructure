@@ -63,7 +63,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "homepage": "https://kraken.pennlabs.org",
-  "version": "0.8.10",
+  "version": "0.8.12",
   "jest": {
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
