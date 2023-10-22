@@ -32,9 +32,23 @@ export function buildCronjobLimitsChart(scope: Construct) {
   });
 }
 
+export function buildCronjobWithServiceAccount(scope: Construct) {
+  /** Tests a Cronjob with a service account. */
+  new CronJob(scope, "calculate-waits", {
+    schedule: cronTime.every(5).minutes(),
+    image: "pennlabs/penn-courses-backend",
+    secret: "penn-courses",
+    cmd: ["python", "manage.py", "calculatewaittimes"],
+    createServiceAccount: true,
+  });
+}
+
 test("Cron Job with volume", () => chartTest(buildCronjobVolumeChart));
 
 test("Cron Job with limits", () => chartTest(buildCronjobLimitsChart));
 
 test("Cron Job -- No Git Sha", () =>
   failingTestNoGitSha(buildCronjobVolumeChart));
+
+test("Cron Job with service account", () =>
+  chartTest(buildCronjobWithServiceAccount));
