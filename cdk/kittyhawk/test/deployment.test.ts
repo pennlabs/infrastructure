@@ -35,3 +35,5 @@ test("Deployment -- With Service Account", () =>
   chartTest(buildDeploymentWithServiceAccount));
 test("Deployment -- Default", () => chartTest(buildDeploymentDefault));
 test("Container -- Default", () => chartTest(buildContainerDefault));
+test("Container -- No Git Sha", () =>
+  failingTestNoGitSha(buildContainerDefault));
