@@ -30,9 +30,10 @@ resource "aws_db_subnet_group" "rds" {
 
 resource "aws_db_instance" "production" {
   identifier                          = "production"
-  instance_class                      = "db.t3.2xlarge"
+  instance_class                      = "db.t3.xlarge"
   engine                              = "postgres"
-  engine_version                      = "11.16"
+  engine_version                      = "15.4"
+  parameter_group_name                = aws_db_parameter_group.timeouts.name
   availability_zone                   = "us-east-1a"
   allocated_storage                   = 20
   max_allocated_storage               = 200
@@ -42,9 +43,38 @@ resource "aws_db_instance" "production" {
   db_subnet_group_name                = aws_db_subnet_group.rds.name
   vpc_security_group_ids              = [aws_security_group.rds.id]
   publicly_accessible                 = true
+
   tags = {
     Name       = "Production",
     created-by = "terraform"
+  }
+}
+
+resource "aws_db_parameter_group" "timeouts" {
+  name        = "rds-pg"
+  family      = "postgres15"
+  description = "Custom Timeout RDS parameter group for Postgres 15"
+
+  parameter {
+    name  = "idle_in_transaction_session_timeout"
+    value = "30000"
+  }
+
+  parameter {
+    name  = "deadlock_timeout"
+    value = "20000"
+  }
+
+  parameter {
+    name  = "statement_timeout"
+    value = "30000000"
+  }
+
+  // Datadog does not use SSL as of now, so we need to disable it.
+  // This is a temporary measure and we should try to figure out Datadog with SSL in the future.
+  parameter {
+    name  = "rds.force_ssl"
+    value = "0"
   }
 }
 
