@@ -39,11 +39,9 @@ const redisTestConfig = {
     },
   },
   customConfigMap: {
-    configMap: {
+    redisConfigMap: {
       name: "custom-config-map",
-      data: {
-        "redis-config": "custom-config",
-      },
+      config: "custom-config",
     },
   },
 };

@@ -35,11 +35,9 @@ export interface RedisApplicationProps {
   /**
    * Override the default redis ConfigMap configuration and creates a custom ConfigMap object.
    */
-  readonly configMap?: {
+  readonly redisConfigMap?: {
     readonly name: string;
-    readonly data: {
-      readonly "redis-config": string;
-    };
+    readonly config: string;
   };
 }
 
@@ -51,12 +49,14 @@ export class RedisApplication extends Application {
   ) {
     const CONFIG_MAP_NAME = "redis-config";
 
-    if (redisProps.configMap) {
-      new KubeConfigMap(scope, redisProps.configMap.name, {
+    if (redisProps.redisConfigMap) {
+      new KubeConfigMap(scope, redisProps.redisConfigMap.name, {
         metadata: {
-          name: redisProps.configMap.name,
+          name: redisProps.redisConfigMap.name,
         },
-        data: redisProps.configMap.data,
+        data: {
+          "redis-config": redisProps.redisConfigMap.config,
+        },
       });
     }
 
@@ -123,7 +123,7 @@ export class RedisApplication extends Application {
                 {
                   name: "config",
                   configMap: {
-                    name: redisProps.configMap?.name ?? CONFIG_MAP_NAME,
+                    name: redisProps.redisConfigMap?.name ?? CONFIG_MAP_NAME,
                     items: [
                       {
                         key: "redis-config",
