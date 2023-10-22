@@ -27,7 +27,7 @@ locals {
     "penn-courses",
     "platform",
     "platform-dev",
-    "penn-mobile"
+    "penn-mobile",
   ])
   iam_service_accounts = setunion(local.products,
     toset([
