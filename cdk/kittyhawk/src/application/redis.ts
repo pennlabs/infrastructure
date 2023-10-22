@@ -47,7 +47,7 @@ export class RedisApplication extends Application {
         },
         spec: {
           storageClassName: `${appname}-redis-storage`,
-          accessModes: ["ReadWriteMany"], // TODO: WHAT IS THIS
+          accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
           capacity: {
             storage: Quantity.fromString("1Gi"),
           },
@@ -62,7 +62,7 @@ export class RedisApplication extends Application {
         },
         spec: {
           storageClassName: `${appname}-redis-storage`,
-          accessModes: ["ReadWriteMany"], // TODO: WHAT IS THIS
+          accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
           resources: {
             requests: {
               storage: Quantity.fromString("1Gi"),
