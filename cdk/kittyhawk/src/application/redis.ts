@@ -76,40 +76,46 @@ export class RedisApplication extends Application {
       deployment: {
         image: redisProps.deployment?.image ?? "redis",
         tag: redisProps.deployment?.tag ?? "6.0",
-
-        ...((redisProps.persistData && {
-          volumeMounts: [
-            {
-              name: "data",
-              mountPath: "/redis-master-data",
-            },
-            {
-              name: "config",
-              mountPath: "/redis-master",
-            },
-          ],
-          volumes: [
-            {
-              name: "data",
-              persistentVolumeClaim: {
-                claimName: `${appname}-pvc`,
-              },
-            },
-            {
-              name: "config",
-              configMap: {
-                name: CONFIG_MAP_NAME,
-                items: [
-                  {
-                    key: "redis-config",
-                    path: "redis.conf",
+        volumeMounts: [
+          ...(redisProps.persistData
+            ? [
+                {
+                  name: "data",
+                  mountPath: "/redis-master-data",
+                },
+                {
+                  name: "config",
+                  mountPath: "/redis-master",
+                },
+              ]
+            : []),
+          ...(redisProps.deployment?.volumeMounts ?? []),
+        ],
+        volumes: [
+          ...(redisProps.persistData
+            ? [
+                {
+                  name: "data",
+                  persistentVolumeClaim: {
+                    claimName: `${appname}-pvc`,
                   },
-                ],
-              },
-            },
-          ],
-        }) ??
-          {}),
+                },
+                {
+                  name: "config",
+                  configMap: {
+                    name: CONFIG_MAP_NAME,
+                    items: [
+                      {
+                        key: "redis-config",
+                        path: "redis.conf",
+                      },
+                    ],
+                  },
+                },
+              ]
+            : []),
+          ...(redisProps.deployment?.volumes ?? []),
+        ],
         ...redisProps.deployment,
       },
       port: redisProps.port ?? 6379,

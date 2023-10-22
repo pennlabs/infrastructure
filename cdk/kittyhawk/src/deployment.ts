@@ -26,17 +26,17 @@ export interface DeploymentProps extends ContainerProps {
 
   /**
    * Volume mounts for deployment container.
-   */
-  readonly volumes?: Volume[];
-
-  /**
-   * Volume mounts for deployment container.
    *
    * This appends to the existing list of volumes, if created by the `secretMounts` property.
    *
    * @default []
    */
   readonly volumeMounts?: VolumeMount[];
+
+  /**
+   * Volume mounts for deployment container.
+   */
+  readonly volumes?: Volume[];
 
   /**
    * The service account to be used to attach to any deployment pods.

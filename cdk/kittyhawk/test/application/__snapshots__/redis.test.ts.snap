@@ -1,0 +1,519 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redis Application -- Default 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`Redis Application -- Example 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6380,
+          "targetPort": 6380,
+        },
+      ],
+      "selector": Object {
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "annotations": Object {
+        "eks.amazonaws.com/role-arn": "arn:aws:iam::TEST_AWS_ACCOUNT_ID:role/RELEASE_NAME",
+      },
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "custom-redis-image:5.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6380,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`Redis Application -- Persistence 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "PersistentVolume",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "redis-pv",
+    },
+    "spec": Object {
+      "accessModes": Array [
+        "ReadWriteMany",
+      ],
+      "capacity": Object {
+        "storage": "1Gi",
+      },
+      "hostPath": Object {
+        "path": "/redis/redis",
+      },
+      "storageClassName": "redis-redis-storage",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "PersistentVolumeClaim",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "redis-pvc",
+    },
+    "spec": Object {
+      "accessModes": Array [
+        "ReadWriteMany",
+      ],
+      "resources": Object {
+        "requests": Object {
+          "storage": "1Gi",
+        },
+      },
+      "storageClassName": "redis-redis-storage",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/redis-master-data",
+                  "name": "data",
+                },
+                Object {
+                  "mountPath": "/redis-master",
+                  "name": "config",
+                },
+              ],
+            },
+          ],
+          "volumes": Array [
+            Object {
+              "name": "data",
+              "persistentVolumeClaim": Object {
+                "claimName": "redis-pvc",
+              },
+            },
+            Object {
+              "configMap": Object {
+                "items": Array [
+                  Object {
+                    "key": "redis-config",
+                    "path": "redis.conf",
+                  },
+                ],
+                "name": "redis-config",
+              },
+              "name": "config",
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`Redis Application -- Persistence with Custom Config 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "PersistentVolume",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "redis-pv",
+    },
+    "spec": Object {
+      "accessModes": Array [
+        "ReadWriteMany",
+      ],
+      "capacity": Object {
+        "storage": "1Gi",
+      },
+      "hostPath": Object {
+        "path": "/redis/redis",
+      },
+      "storageClassName": "redis-redis-storage",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "PersistentVolumeClaim",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "redis-pvc",
+    },
+    "spec": Object {
+      "accessModes": Array [
+        "ReadWriteMany",
+      ],
+      "resources": Object {
+        "requests": Object {
+          "storage": "1Gi",
+        },
+      },
+      "storageClassName": "redis-redis-storage",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/etc/redis",
+                  "name": "example-mount-secret",
+                },
+                Object {
+                  "mountPath": "/etc/volumes",
+                  "name": "example-mount",
+                },
+              ],
+            },
+          ],
+          "volumes": Array [
+            Object {
+              "name": "example-mount-secret",
+              "secret": Object {
+                "items": Array [],
+                "secretName": "example-mount-secret",
+              },
+            },
+            Object {
+              "name": "data",
+              "persistentVolumeClaim": Object {
+                "claimName": "redis-pvc",
+              },
+            },
+            Object {
+              "configMap": Object {
+                "items": Array [
+                  Object {
+                    "key": "redis-config",
+                    "path": "redis.conf",
+                  },
+                ],
+                "name": "redis-config",
+              },
+              "name": "config",
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
