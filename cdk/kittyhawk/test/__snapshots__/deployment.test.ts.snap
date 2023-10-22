@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Container -- Default 1`] = `Array []`;
+
 exports[`Deployment -- Default 1`] = `
 Array [
   Object {
@@ -53,6 +55,80 @@ Array [
               ],
             },
           ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`Deployment -- With Service Account 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "service-account",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "container",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "container",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "container",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "container",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "pennlabs/website:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+          "serviceAccountName": "service-account",
           "volumes": Array [],
         },
       },
