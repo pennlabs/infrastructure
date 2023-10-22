@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import cronTime from "cron-time-generator";
 import { CronJob } from "../src/cronjob";
-import { chartTest } from "./utils";
+import { chartTest, failingTestNoGitSha } from "./utils";
 
 export function buildCronjobVolumeChart(scope: Construct) {
   /** Tests a Cronjob with a volume. */
@@ -35,3 +35,6 @@ export function buildCronjobLimitsChart(scope: Construct) {
 test("Cron Job with volume", () => chartTest(buildCronjobVolumeChart));
 
 test("Cron Job with limits", () => chartTest(buildCronjobLimitsChart));
+
+test("Cron Job -- No Git Sha", () =>
+  failingTestNoGitSha(buildCronjobVolumeChart));
