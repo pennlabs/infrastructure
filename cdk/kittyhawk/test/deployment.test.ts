@@ -36,4 +36,18 @@ test("Deployment -- With Service Account", () =>
 test("Deployment -- Default", () => chartTest(buildDeploymentDefault));
 test("Container -- Default", () => chartTest(buildContainerDefault));
 test("Container -- No Git Sha", () =>
-  failingTestNoGitSha(buildContainerDefault));
+  failingContainerTestNoGitSha(buildContainerDefault));
+
+export const failingContainerTestNoGitSha = (_: (scope: Construct) => void) => {
+  const { GIT_SHA, ...env } = process.env;
+
+  process.env = {
+    ...env,
+    RELEASE_NAME: "RELEASE_NAME",
+    AWS_ACCOUNT_ID: "TEST_AWS_ACCOUNT_ID",
+  };
+
+  expect(() => {
+    buildContainerDefault;
+  }).toThrowError("process.exit: 1");
+};
