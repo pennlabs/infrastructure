@@ -1,5 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Redis Application -- Custom ConfigMap 1`] = `
+Array [
+  Object {
+    "apiVersion": "v1",
+    "data": Object {
+      "redis-config": "custom-config",
+    },
+    "kind": "ConfigMap",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "custom-config-map",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 6379,
+          "targetPort": 6379,
+        },
+      ],
+      "selector": Object {
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app.kubernetes.io/managed-by": "kittyhawk",
+        "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        "app.kubernetes.io/part-of": "RELEASE_NAME",
+        "app.kubernetes.io/version": "TAG_FROM_CI",
+      },
+      "name": "RELEASE_NAME-redis",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app.kubernetes.io/name": "RELEASE_NAME-redis",
+        },
+      },
+      "strategy": Object {
+        "rollingUpdate": Object {
+          "maxSurge": 3,
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app.kubernetes.io/name": "RELEASE_NAME-redis",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "GIT_SHA",
+                  "value": "TAG_FROM_CI",
+                },
+              ],
+              "image": "redis:6.0",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "worker",
+              "ports": Array [
+                Object {
+                  "containerPort": 6379,
+                },
+              ],
+            },
+          ],
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Redis Application -- Default 1`] = `
 Array [
   Object {
@@ -349,7 +450,7 @@ Array [
 ]
 `;
 
-exports[`Redis Application -- Persistence with Custom Config 1`] = `
+exports[`Redis Application -- Persistence with Custom Volumes 1`] = `
 Array [
   Object {
     "apiVersion": "v1",

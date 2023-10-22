@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { DeploymentProps } from "../deployment";
 import { Application } from "./base";
 import {
+  KubeConfigMap,
   KubePersistentVolume,
   KubePersistentVolumeClaim,
   Quantity,
@@ -29,7 +30,17 @@ export interface RedisApplicationProps {
   /**
    * Persists data to a volume, using a ConfigMap to decide where to mount it.
    */
-  persistData?: boolean;
+  readonly persistData?: boolean;
+
+  /**
+   * Override the default redis ConfigMap configuration and creates a custom ConfigMap object.
+   */
+  readonly configMap?: {
+    readonly name: string;
+    readonly data: {
+      readonly "redis-config": string;
+    };
+  };
 }
 
 export class RedisApplication extends Application {
@@ -39,6 +50,15 @@ export class RedisApplication extends Application {
     redisProps: RedisApplicationProps
   ) {
     const CONFIG_MAP_NAME = "redis-config";
+
+    if (redisProps.configMap) {
+      new KubeConfigMap(scope, redisProps.configMap.name, {
+        metadata: {
+          name: redisProps.configMap.name,
+        },
+        data: redisProps.configMap.data,
+      });
+    }
 
     if (redisProps.persistData) {
       new KubePersistentVolume(scope, `${appname}-pv`, {
@@ -103,7 +123,7 @@ export class RedisApplication extends Application {
                 {
                   name: "config",
                   configMap: {
-                    name: CONFIG_MAP_NAME,
+                    name: redisProps.configMap?.name ?? CONFIG_MAP_NAME,
                     items: [
                       {
                         key: "redis-config",

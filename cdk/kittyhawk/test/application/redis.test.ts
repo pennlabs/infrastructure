@@ -18,6 +18,34 @@ const redisTestConfig = {
     port: 6380,
     createServiceAccount: true,
   },
+  persistent: {
+    persistData: true,
+  },
+  persistentWithCustomVolumes: {
+    persistData: true,
+    deployment: {
+      secretMounts: [
+        {
+          name: "example-mount-secret",
+          mountPath: "/etc/redis",
+        },
+      ],
+      volumeMounts: [
+        {
+          name: "example-mount",
+          mountPath: "/etc/volumes",
+        },
+      ],
+    },
+  },
+  customConfigMap: {
+    configMap: {
+      name: "custom-config-map",
+      data: {
+        "redis-config": "custom-config",
+      },
+    },
+  },
 };
 
 function buildRedisChartDefault(scope: Construct) {
@@ -27,34 +55,29 @@ function buildRedisChartExample(scope: Construct) {
   new RedisApplication(scope, "redis", redisTestConfig.example);
 }
 
+function buildRedisChartCustomConfigMap(scope: Construct) {
+  new RedisApplication(scope, "redis", redisTestConfig.customConfigMap);
+}
+
+function buildRedisChartPersistent(scope: Construct) {
+  new RedisApplication(scope, "redis", redisTestConfig.persistent);
+}
+function buildRedisChartPersistentWithCustomVolumes(scope: Construct) {
+  new RedisApplication(
+    scope,
+    "redis",
+    redisTestConfig.persistentWithCustomVolumes
+  );
+}
+
 test("Redis -- No ServiceAccount But CreateServiceAccount", () =>
   failingTestNoAWSAccountId(buildRedisChartExample));
 test("Redis Application -- Default", () => chartTest(buildRedisChartDefault));
 test("Redis Application -- Example", () => chartTest(buildRedisChartExample));
 test("Redis Application -- Persistence", () =>
-  chartTest((scope) => {
-    new RedisApplication(scope, "redis", {
-      persistData: true,
-    });
-  }));
+  chartTest(buildRedisChartPersistent));
+test("Redis Application -- Custom ConfigMap", () =>
+  chartTest(buildRedisChartCustomConfigMap));
 
-test("Redis Application -- Persistence with Custom Config", () =>
-  chartTest((scope) => {
-    new RedisApplication(scope, "redis", {
-      persistData: true,
-      deployment: {
-        secretMounts: [
-          {
-            name: "example-mount-secret",
-            mountPath: "/etc/redis",
-          },
-        ],
-        volumeMounts: [
-          {
-            name: "example-mount",
-            mountPath: "/etc/volumes",
-          },
-        ],
-      },
-    });
-  }));
+test("Redis Application -- Persistence with Custom Volumes", () =>
+  chartTest(buildRedisChartPersistentWithCustomVolumes));
