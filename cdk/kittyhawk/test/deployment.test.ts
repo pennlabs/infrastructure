@@ -48,6 +48,6 @@ export const failingContainerTestNoGitSha = (_: (scope: Construct) => void) => {
   };
 
   expect(() => {
-    buildContainerDefault;
+    buildContainerDefault();
   }).toThrowError("process.exit: 1");
 };
