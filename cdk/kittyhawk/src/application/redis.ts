@@ -1,12 +1,12 @@
 import { Construct } from "constructs";
 import { DeploymentProps } from "../deployment";
-import { Application } from "./base";
 import {
   KubeConfigMap,
   KubePersistentVolume,
   KubePersistentVolumeClaim,
   Quantity,
 } from "../imports/k8s";
+import { Application } from "./base";
 
 export interface RedisApplicationProps {
   /**
@@ -48,6 +48,12 @@ export class RedisApplication extends Application {
     redisProps: RedisApplicationProps
   ) {
     const CONFIG_MAP_NAME = "redis-config";
+    const releaseName = process.env.RELEASE_NAME || "undefined_release";
+
+    // Persistence constants
+    const storageClassName = `${releaseName}-${appname}-storage`;
+    const pvName = `${releaseName}-${appname}-pv`;
+    const pvcName = `${releaseName}-${appname}-pvc`;
 
     if (redisProps.redisConfigMap) {
       new KubeConfigMap(scope, redisProps.redisConfigMap.name, {
@@ -61,12 +67,12 @@ export class RedisApplication extends Application {
     }
 
     if (redisProps.persistData) {
-      new KubePersistentVolume(scope, `${appname}-pv`, {
+      new KubePersistentVolume(scope, pvName, {
         metadata: {
-          name: `${appname}-pv`,
+          name: pvName,
         },
         spec: {
-          storageClassName: `${appname}-redis-storage`,
+          storageClassName,
           accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
           capacity: {
             storage: Quantity.fromString("1Gi"),
@@ -76,12 +82,12 @@ export class RedisApplication extends Application {
           },
         },
       });
-      new KubePersistentVolumeClaim(scope, `${appname}-pvc`, {
+      new KubePersistentVolumeClaim(scope, pvcName, {
         metadata: {
-          name: `${appname}-pvc`,
+          name: pvcName,
         },
         spec: {
-          storageClassName: `${appname}-redis-storage`,
+          storageClassName,
           accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
           resources: {
             requests: {
@@ -117,7 +123,7 @@ export class RedisApplication extends Application {
                 {
                   name: "data",
                   persistentVolumeClaim: {
-                    claimName: `${appname}-pvc`,
+                    claimName: pvcName,
                   },
                 },
                 {

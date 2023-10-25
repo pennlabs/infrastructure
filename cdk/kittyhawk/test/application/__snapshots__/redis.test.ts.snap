@@ -299,7 +299,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "redis-pv",
+      "name": "RELEASE_NAME-redis-pv",
     },
     "spec": Object {
       "accessModes": Array [
@@ -311,7 +311,7 @@ Array [
       "hostPath": Object {
         "path": "/redis/redis",
       },
-      "storageClassName": "redis-redis-storage",
+      "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
   Object {
@@ -323,7 +323,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "redis-pvc",
+      "name": "RELEASE_NAME-redis-pvc",
     },
     "spec": Object {
       "accessModes": Array [
@@ -334,7 +334,7 @@ Array [
           "storage": "1Gi",
         },
       },
-      "storageClassName": "redis-redis-storage",
+      "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
   Object {
@@ -427,7 +427,7 @@ Array [
             Object {
               "name": "data",
               "persistentVolumeClaim": Object {
-                "claimName": "redis-pvc",
+                "claimName": "RELEASE_NAME-redis-pvc",
               },
             },
             Object {
@@ -461,7 +461,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "redis-pv",
+      "name": "RELEASE_NAME-redis-pv",
     },
     "spec": Object {
       "accessModes": Array [
@@ -473,7 +473,7 @@ Array [
       "hostPath": Object {
         "path": "/redis/redis",
       },
-      "storageClassName": "redis-redis-storage",
+      "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
   Object {
@@ -485,7 +485,7 @@ Array [
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "redis-pvc",
+      "name": "RELEASE_NAME-redis-pvc",
     },
     "spec": Object {
       "accessModes": Array [
@@ -496,7 +496,7 @@ Array [
           "storage": "1Gi",
         },
       },
-      "storageClassName": "redis-redis-storage",
+      "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
   Object {
@@ -596,7 +596,7 @@ Array [
             Object {
               "name": "data",
               "persistentVolumeClaim": Object {
-                "claimName": "redis-pvc",
+                "claimName": "RELEASE_NAME-redis-pvc",
               },
             },
             Object {
