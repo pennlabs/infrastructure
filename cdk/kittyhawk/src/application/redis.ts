@@ -78,7 +78,7 @@ export class RedisApplication extends Application {
             storage: Quantity.fromString("1Gi"),
           },
           hostPath: {
-            path: `/${appname}/redis`,
+            path: `/${releaseName}/redis`,
           },
         },
       });

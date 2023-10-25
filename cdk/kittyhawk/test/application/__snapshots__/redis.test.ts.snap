@@ -309,7 +309,7 @@ Array [
         "storage": "1Gi",
       },
       "hostPath": Object {
-        "path": "/redis/redis",
+        "path": "/RELEASE_NAME/redis",
       },
       "storageClassName": "RELEASE_NAME-redis-storage",
     },
@@ -471,7 +471,7 @@ Array [
         "storage": "1Gi",
       },
       "hostPath": Object {
-        "path": "/redis/redis",
+        "path": "/RELEASE_NAME/redis",
       },
       "storageClassName": "RELEASE_NAME-redis-storage",
     },
