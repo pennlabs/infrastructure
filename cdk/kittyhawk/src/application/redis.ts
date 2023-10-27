@@ -102,6 +102,9 @@ export class RedisApplication extends Application {
       deployment: {
         image: redisProps.deployment?.image ?? "redis",
         tag: redisProps.deployment?.tag ?? "6.0",
+        ...(redisProps.persistData
+          ? { cmd: ["redis-server", "/redis-master/redis.conf"] }
+          : {}),
         volumeMounts: [
           ...(redisProps.persistData
             ? [
