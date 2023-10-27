@@ -397,6 +397,10 @@ Array [
         "spec": Object {
           "containers": Array [
             Object {
+              "command": Array [
+                "redis-server",
+                "/redis-master/redis.conf",
+              ],
               "env": Array [
                 Object {
                   "name": "GIT_SHA",
@@ -559,6 +563,10 @@ Array [
         "spec": Object {
           "containers": Array [
             Object {
+              "command": Array [
+                "redis-server",
+                "/redis-master/redis.conf",
+              ],
               "env": Array [
                 Object {
                   "name": "GIT_SHA",
