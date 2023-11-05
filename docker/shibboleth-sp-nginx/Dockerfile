@@ -34,7 +34,7 @@ ENV NGINX_VERSION=1.18.0-2~buster
 
 # Install dependencies
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget build-essential ca-certificates curl tar make zlib1g-dev libssl-dev libpcre3-dev \
+    && apt-get install --no-install-recommends -y gnupg2 wget build-essential ca-certificates curl tar make zlib1g-dev libssl-dev libpcre3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.10 from the official Python repository
