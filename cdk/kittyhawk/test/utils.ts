@@ -46,9 +46,13 @@ const mockConsoleError = jest.spyOn(console, "error").mockImplementation(() => {
 });
 
 export const failingTestNoGitSha = (_: (scope: Construct) => void) => {
-  process.env.RELEASE_NAME = "RELEASE_NAME";
-  process.env.GIT_SHA = "";
-  process.env.AWS_ACCOUNT_ID = "TEST_AWS_ACCOUNT_ID";
+  const { GIT_SHA, ...env } = process.env;
+
+  process.env = {
+    ...env,
+    RELEASE_NAME: "RELEASE_NAME",
+    AWS_ACCOUNT_ID: "TEST_AWS_ACCOUNT_ID",
+  };
 
   expect(() => {
     const app = Testing.app();
