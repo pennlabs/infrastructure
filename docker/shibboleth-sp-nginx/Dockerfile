@@ -61,7 +61,7 @@ COPY shibd.logger /etc/shibboleth/
 RUN mkdir /opt/shibboleth && chown _shibd:_shibd /opt/shibboleth
 RUN mkdir /run/shibboleth && chown _shibd:_shibd /run/shibboleth
 
-# Allow Nginx to access Shibboleth sockets
+# Allow Nginx to access the Shibboleth sockets
 RUN adduser nginx _shibd
 
 EXPOSE 80 443
