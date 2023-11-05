@@ -1,7 +1,7 @@
 # Build stage
 FROM debian:buster-slim AS build
 
-ENV NGINX_VERSION=1.18.0-2~buster
+ENV NGINX_VERSION=1.14.2-2~buster
 
 # Install dependencies
 RUN apt-get update \
@@ -61,7 +61,7 @@ COPY shibd.logger /etc/shibboleth/
 RUN mkdir /opt/shibboleth && chown _shibd:_shibd /opt/shibboleth
 RUN mkdir /run/shibboleth && chown _shibd:_shibd /run/shibboleth
 
-# Allow Nginx to access the Shibboleth sockets
+# Allow Nginx to access Shibboleth sockets
 RUN adduser nginx _shibd
 
 EXPOSE 80 443
