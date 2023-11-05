@@ -3,7 +3,7 @@ FROM debian:bookworm-slim AS build
 
 # Install dependencies
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-release devscripts fakeroot quilt libssl-dev libpcre2-dev libpcre3-dev zlib1g-dev debhelper libxml2-utils xsltproc \
+    && apt-get install --no-install-recommends -y gnupg2 ca-certificates wget git mercurial build-essential lsb-release devscripts fakeroot quilt libssl-dev libpcre2-dev libpcre3-dev zlib1g-dev debhelper libxml2-utils xsltproc libparse-recdescent-perl \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Nginx repository and install
@@ -39,6 +39,7 @@ RUN wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - \
 
 # Install Shibboleth, Nginx, and Supervisor
 RUN apt-get update && apt-get install --no-install-recommends -y libapache2-mod-shib supervisor nginx \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Nginx modules
