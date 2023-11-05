@@ -1,7 +1,7 @@
 # Build stage
 FROM debian:buster-slim AS build
 
-ENV NGINX_VERSION=1.14.2-2~buster
+ENV NGINX_VERSION=1.18.0-2~buster
 
 # Install dependencies
 RUN apt-get update \
@@ -36,6 +36,16 @@ ENV NGINX_VERSION=1.18.0-2~buster
 RUN apt-get update \
     && apt-get install --no-install-recommends -y gnupg2 wget ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Python 3.10
+RUN curl -O https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz && \
+    tar -xzvf Python-3.10.0.tgz && \
+    cd Python-3.10.0 && \
+    ./configure --enable-optimizations && \
+    make -j "$(nproc)" && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.10.0*
 
 # Add Shibboleth and Nginx repositories
 RUN wget -qO - http://pkg.switch.ch/switchaai/SWITCHaai-swdistrib.asc | apt-key add - \
