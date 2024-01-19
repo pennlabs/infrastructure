@@ -15,7 +15,7 @@ RUN pip install pipenv
 
 # Install poetry
 RUN python3 -m venv /opt/poetry
-RUN /opt/poetry/bin/pip install poetry==1.2.0
+RUN /opt/poetry/bin/pip install poetry
 RUN /opt/poetry/bin/poetry --version
 ENV PATH="/opt/poetry/bin:${PATH}"
 
