@@ -11,10 +11,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev l
 COPY mime.types /etc/mime.types
 
 # Install pipenv
-RUN pip install pipenv
-
-# Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN pip install pipenv 
 
 # Copy run file
 COPY django-run /usr/local/bin/
