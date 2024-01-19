@@ -14,7 +14,10 @@ COPY mime.types /etc/mime.types
 RUN pip install pipenv
 
 # Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN python3 -m venv /opt/poetry
+RUN /opt/poetry/bin/pip install poetry
+RUN /opt/poetry/bin/poetry --version
+ENV PATH="/opt/poetry/bin:${PATH}"
 
 # Copy run file
 COPY django-run /usr/local/bin/
