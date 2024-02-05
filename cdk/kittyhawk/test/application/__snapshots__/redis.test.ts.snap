@@ -305,12 +305,13 @@ Array [
       "accessModes": Array [
         "ReadWriteMany",
       ],
+      "awsElasticBlockStore": Object {
+        "volumeID": "RELEASE_NAME-redis-pv",
+      },
       "capacity": Object {
         "storage": "1Gi",
       },
-      "hostPath": Object {
-        "path": "/RELEASE_NAME/redis",
-      },
+      "persistentVolumeReclaimPolicy": "Retain",
       "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
@@ -471,12 +472,13 @@ Array [
       "accessModes": Array [
         "ReadWriteMany",
       ],
+      "awsElasticBlockStore": Object {
+        "volumeID": "RELEASE_NAME-redis-pv",
+      },
       "capacity": Object {
         "storage": "1Gi",
       },
-      "hostPath": Object {
-        "path": "/RELEASE_NAME/redis",
-      },
+      "persistentVolumeReclaimPolicy": "Retain",
       "storageClassName": "RELEASE_NAME-redis-storage",
     },
   },
