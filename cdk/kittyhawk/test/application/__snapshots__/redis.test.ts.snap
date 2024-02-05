@@ -291,29 +291,24 @@ Array [
 exports[`Redis Application -- Persistence 1`] = `
 Array [
   Object {
-    "apiVersion": "v1",
-    "kind": "PersistentVolume",
+    "apiVersion": "storage.k8s.io/v1",
+    "kind": "StorageClass",
     "metadata": Object {
+      "annotations": Object {
+        "storageclass.kubernetes.io/is-default-class": "true",
+      },
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-redis-pv",
+      "name": "RELEASE_NAME-redis-storage",
     },
-    "spec": Object {
-      "accessModes": Array [
-        "ReadWriteMany",
-      ],
-      "awsElasticBlockStore": Object {
-        "volumeID": "RELEASE_NAME-redis-pv",
-      },
-      "capacity": Object {
-        "storage": "1Gi",
-      },
-      "persistentVolumeReclaimPolicy": "Retain",
-      "storageClassName": "RELEASE_NAME-redis-storage",
+    "parameters": Object {
+      "type": "gp3",
     },
+    "provisioner": "ebs.csi.aws.com",
+    "volumeBindingMode": "WaitForFirstConsumer",
   },
   Object {
     "apiVersion": "v1",
@@ -328,7 +323,7 @@ Array [
     },
     "spec": Object {
       "accessModes": Array [
-        "ReadWriteMany",
+        "ReadWriteOnce",
       ],
       "resources": Object {
         "requests": Object {
@@ -458,29 +453,24 @@ Array [
 exports[`Redis Application -- Persistence with Custom Volumes 1`] = `
 Array [
   Object {
-    "apiVersion": "v1",
-    "kind": "PersistentVolume",
+    "apiVersion": "storage.k8s.io/v1",
+    "kind": "StorageClass",
     "metadata": Object {
+      "annotations": Object {
+        "storageclass.kubernetes.io/is-default-class": "true",
+      },
       "labels": Object {
         "app.kubernetes.io/managed-by": "kittyhawk",
         "app.kubernetes.io/part-of": "RELEASE_NAME",
         "app.kubernetes.io/version": "TAG_FROM_CI",
       },
-      "name": "RELEASE_NAME-redis-pv",
+      "name": "RELEASE_NAME-redis-storage",
     },
-    "spec": Object {
-      "accessModes": Array [
-        "ReadWriteMany",
-      ],
-      "awsElasticBlockStore": Object {
-        "volumeID": "RELEASE_NAME-redis-pv",
-      },
-      "capacity": Object {
-        "storage": "1Gi",
-      },
-      "persistentVolumeReclaimPolicy": "Retain",
-      "storageClassName": "RELEASE_NAME-redis-storage",
+    "parameters": Object {
+      "type": "gp3",
     },
+    "provisioner": "ebs.csi.aws.com",
+    "volumeBindingMode": "WaitForFirstConsumer",
   },
   Object {
     "apiVersion": "v1",
@@ -495,7 +485,7 @@ Array [
     },
     "spec": Object {
       "accessModes": Array [
-        "ReadWriteMany",
+        "ReadWriteOnce",
       ],
       "resources": Object {
         "requests": Object {
