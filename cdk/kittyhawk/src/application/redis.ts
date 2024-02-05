@@ -74,11 +74,12 @@ export class RedisApplication extends Application {
         spec: {
           storageClassName,
           accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
+          awsElasticBlockStore: {
+            volumeId: pvName,
+          },
+          persistentVolumeReclaimPolicy: "Retain",
           capacity: {
             storage: Quantity.fromString("1Gi"),
-          },
-          hostPath: {
-            path: `/${releaseName}/redis`,
           },
         },
       });
