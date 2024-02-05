@@ -2,8 +2,8 @@ import { Construct } from "constructs";
 import { DeploymentProps } from "../deployment";
 import {
   KubeConfigMap,
-  KubePersistentVolume,
   KubePersistentVolumeClaim,
+  KubeStorageClass,
   Quantity,
 } from "../imports/k8s";
 import { Application } from "./base";
@@ -52,7 +52,6 @@ export class RedisApplication extends Application {
 
     // Persistence constants
     const storageClassName = `${releaseName}-${appname}-storage`;
-    const pvName = `${releaseName}-${appname}-pv`;
     const pvcName = `${releaseName}-${appname}-pvc`;
 
     if (redisProps.redisConfigMap) {
@@ -65,21 +64,18 @@ export class RedisApplication extends Application {
         },
       });
     }
-
     if (redisProps.persistData) {
-      new KubePersistentVolume(scope, pvName, {
+      new KubeStorageClass(scope, storageClassName, {
         metadata: {
-          name: pvName,
+          name: storageClassName,
+          annotations: {
+            "storageclass.kubernetes.io/is-default-class": "true",
+          },
         },
-        spec: {
-          storageClassName,
-          accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
-          capacity: {
-            storage: Quantity.fromString("1Gi"),
-          },
-          hostPath: {
-            path: `/${releaseName}/redis`,
-          },
+        provisioner: "ebs.csi.aws.com",
+        volumeBindingMode: "WaitForFirstConsumer",
+        parameters: {
+          type: "gp3",
         },
       });
       new KubePersistentVolumeClaim(scope, pvcName, {
@@ -88,7 +84,7 @@ export class RedisApplication extends Application {
         },
         spec: {
           storageClassName,
-          accessModes: ["ReadWriteMany"], // TODO: ask Redis folks
+          accessModes: ["ReadWriteOnce"], // AWS EBS only supports RWO
           resources: {
             requests: {
               storage: Quantity.fromString("1Gi"),

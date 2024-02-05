@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { Container, Deployment } from "../src";
-import { chartTest, failingTestNoGitSha } from "./utils";
 import { KubeServiceAccount } from "../src/imports/k8s";
+import { chartTest, failingTestNoGitSha } from "./utils";
 
 export function buildDeploymentDefault(scope: Construct) {
   new Deployment(scope, "container", {
