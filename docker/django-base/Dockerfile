@@ -17,7 +17,7 @@ RUN pip install pipenv
 RUN python3 -m venv /opt/poetry
 RUN /opt/poetry/bin/pip install poetry
 RUN /opt/poetry/bin/poetry --version
-ENV PATH="/opt/poetry/bin:${PATH}"
+# ENV PATH="/opt/poetry/bin:${PATH}"
 
 # Copy run file
 COPY django-run /usr/local/bin/
