@@ -33,11 +33,11 @@ resource "aws_route53_record" "spf" {
 }
 
 resource "aws_route53_record" "mailgun" {
-  zone_id                          = aws_route53_zone.domain.zone_id
-  name                             = "email"
-  type                             = "CNAME"
-  ttl                              = 3600
-  records                          = ["mailgun.org."]
+  zone_id = aws_route53_zone.domain.zone_id
+  name    = "email"
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["mailgun.org."]
 }
 
 resource "aws_route53_record" "gmail" {
