@@ -23,23 +23,23 @@ resource "aws_route53_record" "wildcard" {
 }
 
 resource "aws_route53_record" "spf" {
-  zone_id = aws_route53_zone.domain.zone_id
-  name    = ""
-  type    = "TXT"
-  ttl     = 3600
-  records = ["v=spf1 include:mailgun.org ~all"]
+  zone_id                          = aws_route53_zone.domain.zone_id
+  name                             = ""
+  type                             = "TXT"
+  ttl                              = 3600
+  records                          = ["v=spf1 include:mailgun.org ~all"]
   multivalue_answer_routing_policy = true
-  set_identifier = "spf"
+  set_identifier                   = "spf"
 }
 
 resource "aws_route53_record" "mailgun" {
-  zone_id = aws_route53_zone.domain.zone_id
-  name    = "email"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["mailgun.org."]
+  zone_id                          = aws_route53_zone.domain.zone_id
+  name                             = "email"
+  type                             = "CNAME"
+  ttl                              = 3600
+  records                          = ["mailgun.org."]
   multivalue_answer_routing_policy = true
-  set_identifier = "mailgun"
+  set_identifier                   = "mailgun"
 }
 
 resource "aws_route53_record" "gmail" {
