@@ -28,6 +28,8 @@ resource "aws_route53_record" "spf" {
   type    = "TXT"
   ttl     = 3600
   records = ["v=spf1 include:mailgun.org ~all"]
+  multivalue_answer_routing_policy = true
+  set_identifier = "spf"
 }
 
 resource "aws_route53_record" "mailgun" {
@@ -36,6 +38,8 @@ resource "aws_route53_record" "mailgun" {
   type    = "CNAME"
   ttl     = 3600
   records = ["mailgun.org."]
+  multivalue_answer_routing_policy = true
+  set_identifier = "mailgun"
 }
 
 resource "aws_route53_record" "gmail" {
