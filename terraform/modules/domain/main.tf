@@ -38,8 +38,6 @@ resource "aws_route53_record" "mailgun" {
   type                             = "CNAME"
   ttl                              = 3600
   records                          = ["mailgun.org."]
-  multivalue_answer_routing_policy = true
-  set_identifier                   = "mailgun"
 }
 
 resource "aws_route53_record" "gmail" {
