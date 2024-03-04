@@ -23,11 +23,13 @@ resource "aws_route53_record" "wildcard" {
 }
 
 resource "aws_route53_record" "spf" {
-  zone_id = aws_route53_zone.domain.zone_id
-  name    = ""
-  type    = "TXT"
-  ttl     = 3600
-  records = ["v=spf1 include:mailgun.org ~all"]
+  zone_id                          = aws_route53_zone.domain.zone_id
+  name                             = ""
+  type                             = "TXT"
+  ttl                              = 3600
+  records                          = ["v=spf1 include:mailgun.org ~all"]
+  multivalue_answer_routing_policy = true
+  set_identifier                   = "spf"
 }
 
 resource "aws_route53_record" "mailgun" {
