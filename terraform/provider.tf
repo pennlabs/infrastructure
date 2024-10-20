@@ -31,14 +31,6 @@ provider "github" {
 }
 
 terraform {
-  backend "s3" {
-    region         = "us-east-1"
-    bucket         = "pennlabs-terraform"
-    key            = "terraform.tfstate"
-    dynamodb_table = "pennlabs-terraform-lock"
-    encrypt        = "true"
-  }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
