@@ -1,0 +1,24 @@
+#!/bin/bash
+
+declare -A PRODUCT_TO_SHA
+
+PRODUCT_TO_SHA=(
+  ["office-hours-queue"]="524282d029a330b59158e80299e3be23988f1765"
+  ["penn-clubs"]="d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd"
+  ["penn-mobile"]="b1a8bfa53a35496c972b880f7e3ab9d93845b614"
+  ["penn-courses"]="723640b1dbb815877c24bb1bc8b729c15e12c87a"
+)
+
+for product in "${!PRODUCT_TO_SHA[@]}"; do
+  sha="${PRODUCT_TO_SHA[$product]}"
+  PRODUCT_PATH="/opt/waypoint/$product"
+  mkdir -p "$PRODUCT_PATH"
+
+  curl -o $PRODUCT_PATH/Pipfile "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile"
+  curl -o $PRODUCT_PATH/Pipfile.lock "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile.lock"
+
+  pipenv requirements > $PRODUCT_PATH/requirements.txt
+
+  uv venv "$PRODUCT_PATH/venv" --python 3.11
+  source "$PRODUCT_PATH/venv/bin/activate" && uv pip install -r $PRODUCT_PATH/requirements.txt
+done
