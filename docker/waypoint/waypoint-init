@@ -10,6 +10,7 @@ PRODUCT_TO_SHA=(
 )
 
 for product in "${!PRODUCT_TO_SHA[@]}"; do
+  echo "Installing dependencies for $product"
   sha="${PRODUCT_TO_SHA[$product]}"
   PRODUCT_PATH="/opt/waypoint/$product"
   mkdir -p "$PRODUCT_PATH"
@@ -22,3 +23,12 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
   uv venv "$PRODUCT_PATH/venv" --python 3.11
   source "$PRODUCT_PATH/venv/bin/activate" && uv pip install -r $PRODUCT_PATH/requirements.txt
 done
+
+for product in "${!PRODUCT_TO_SHA[@]}"; do
+  PRODUCT_CODE_PATH="/usr/$product"
+  git clone "https://github.com/pennlabs/$product.git"
+  cd "$PRODUCT_CODE_PATH"
+  echo "Finished cloning $product"
+done
+
+echo "Setup complete!"

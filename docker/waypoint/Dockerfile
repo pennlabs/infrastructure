@@ -6,10 +6,10 @@ LABEL maintainer="Penn Labs"
 RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev \
   && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl \
+RUN apt-get update && apt-get install --no-install-recommends -y curl git \
   && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install --no-install-recommends -y python3 python3-pip python3-venv \
+RUN apt-get update && apt-get install --no-install-recommends -y python3-dev python3-pip python3-venv libpq-dev postgresql-client \
   && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install uv
@@ -18,15 +18,21 @@ RUN pip3 install pipenv
 
 # --- labs setup
 # TODO: install and set up postgres db w systemd
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y tzdata \
+    && ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata
+
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib
 
 # Install nvm, node, and npm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-RUN nvm install 22
+ENV NVM_DIR=/root/.nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
+    && . "$NVM_DIR/nvm.sh" \
+    && nvm install 22 \
+    && nvm use 22
 
 # For each product, setup the python environment
 RUN mkdir /opt/waypoint/
-COPY env-sync /opt/waypoint/env-sync
-RUN chmod +x /opt/waypoint/env-sync
-RUN /opt/waypoint/env-sync
-
-# TODO: copy over waypoint helper scripts
+COPY waypoint-init /opt/waypoint/waypoint-init
+RUN chmod +x /opt/waypoint/waypoint-init
+RUN /opt/waypoint/waypoint-init
