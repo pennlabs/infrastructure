@@ -19,6 +19,7 @@ waypoint() {
     fi
 }
 
+source $NVM_DIR/nvm.sh
 echo 'Welcome to Waypoint!'
 echo 'Run "waypoint services" to start services.'
 waypoint-switch-shell-context

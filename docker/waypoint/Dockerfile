@@ -36,7 +36,6 @@ RUN mkdir -p $NVM_DIR && \
 
 RUN . $NVM_DIR/nvm.sh && npm install -g yarn
 
-
 RUN mkdir /opt/waypoint/
 RUN mkdir /labs/
 

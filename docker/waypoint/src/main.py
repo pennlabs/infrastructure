@@ -52,7 +52,7 @@ def init_product(product: str) -> None:
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
-        f.write(f"Initialized {product} environment")
+        f.write("")
     
     print(f"Product '{product}' initialized successfully.")
     
