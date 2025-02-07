@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+# Start PostgreSQL service
+sudo service postgresql start
+
+# Start Redis server in the background
+redis-server --daemonize yes
+
+# PostgreSQL user and database details
+PG_USER="postgres"
+PG_PASSWORD="postgres"
+PG_DATABASE="postgres"
+
+# Alter the PostgreSQL user password
+sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DATABASE" <<-EOSQL
+    ALTER USER $PG_USER WITH PASSWORD '$PG_PASSWORD';
+EOSQL
+
+echo "PostgreSQL user password updated successfully."

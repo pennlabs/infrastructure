@@ -12,6 +12,7 @@ PRODUCTS = {
 }
 
 WAYPOINT_DIR = "/opt/waypoint"
+CODE_DIR = "/labs"
 
 def init() -> None:
     """Set up waypoint, install dependencies."""
@@ -29,29 +30,6 @@ def init() -> None:
                     print(f"Error: Secret '{secret_file}' not found")
                     sys.exit(1)
     print("Secrets loaded successfully")
-
-
-def init_product(product: str) -> None:
-    """Initialize a product environment"""
-    if product not in PRODUCTS:
-        print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
-        sys.exit(1)
-
-    product_path = os.path.join(WAYPOINT_DIR, product)
-    if os.path.exists(product_path):
-        print(f"Product '{product}' is already initialized")
-        return
-
-    print(f"Initializing {product}...")
-    
-    repo_url = f"https://github.com/pennlabs/{product}.git"
-    subprocess.run(["git", "clone", repo_url, product_path], check=True)
-    
-    subprocess.run(["python3", "-m", "venv", f"{product_path}/venv"], check=True)
-    
-    print(f"Successfully initialized {product}")
-
 
 def switch_product(product: str) -> None:
     """Switch to a different product environment"""
@@ -77,7 +55,7 @@ def switch_product(product: str) -> None:
 def start_services() -> None:
     """Start background services"""
     try:
-        subprocess.run(["sudo", "systemctl", "start", "postgresql"], check=True)
+        subprocess.run(["/opt/waypoint/database-init"], check=True)
         print("PostgreSQL service started")
     except subprocess.CalledProcessError:
         print("Failed to start PostgreSQL service")
@@ -91,8 +69,16 @@ def start_development() -> None:
         print("No product selected. Use 'waypoint switch <product>' first.")
         sys.exit(1)
 
+    current_link_points_to = os.readlink(current_link) if os.path.islink(current_link) else None
+    product_name = os.path.basename(current_link_points_to) if current_link_points_to else None
+
+    if not product_name:
+        print("No product selected. Use 'waypoint switch <product>' first.")
+        sys.exit(1)
+    
+    product_code_path = os.path.join(CODE_DIR, product_name)
     venv_activate = f". {current_link}/venv/bin/activate"
-    start_cmd = f"{venv_activate} && cd {current_link}/backend && python manage.py runserver"
+    start_cmd = f"{venv_activate} && cd {product_code_path}"
     
     try:
         subprocess.run(start_cmd, shell=True, check=True)
@@ -105,9 +91,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Waypoint development environment manager")
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
-    init_parser = subparsers.add_parser("init", help="Initialize a product environment")
-    init_parser.add_argument("product", help="Product to initialize")
-
     switch_parser = subparsers.add_parser("switch", help="Switch to a different product")
     switch_parser.add_argument("product", help="Product to switch to")
 
@@ -117,9 +100,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    if args.command == "init":
-        init_product(args.product)
-    elif args.command == "switch":
+    if args.command == "switch":
         switch_product(args.product)
     elif args.command == "start":
         start_development()

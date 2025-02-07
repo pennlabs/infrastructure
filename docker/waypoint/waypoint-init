@@ -24,7 +24,8 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
 done
 
 for product in "${!PRODUCT_TO_SHA[@]}"; do
-  PRODUCT_CODE_PATH="/usr"
+  PRODUCT_CODE_PATH="/labs"
+
   cd "$PRODUCT_CODE_PATH"
   git clone "https://github.com/pennlabs/$product.git"
   echo "Finished cloning $product"
