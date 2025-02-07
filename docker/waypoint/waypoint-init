@@ -18,13 +18,14 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
   curl -o $PRODUCT_PATH/Pipfile "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile"
   curl -o $PRODUCT_PATH/Pipfile.lock "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile.lock"
 
-  uv venv "$PRODUCT_PATH/venv" --python 3.11
+  uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product"
   cd $PRODUCT_PATH
   source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > requirements.txt && uv pip install -r $PRODUCT_PATH/requirements.txt
 done
 
 for product in "${!PRODUCT_TO_SHA[@]}"; do
-  PRODUCT_CODE_PATH="/usr"
+  PRODUCT_CODE_PATH="/labs"
+
   cd "$PRODUCT_CODE_PATH"
   git clone "https://github.com/pennlabs/$product.git"
   echo "Finished cloning $product"

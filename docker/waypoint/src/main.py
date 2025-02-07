@@ -12,6 +12,7 @@ PRODUCTS = {
 }
 
 WAYPOINT_DIR = "/opt/waypoint"
+CODE_DIR = "/labs"
 
 def init() -> None:
     """Set up waypoint, install dependencies."""
@@ -30,7 +31,6 @@ def init() -> None:
                     sys.exit(1)
     print("Secrets loaded successfully")
 
-
 def init_product(product: str) -> None:
     """Initialize a product environment"""
     if product not in PRODUCTS:
@@ -39,19 +39,23 @@ def init_product(product: str) -> None:
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
-    if os.path.exists(product_path):
-        print(f"Product '{product}' is already initialized")
-        return
+    backend_path = os.path.join(CODE_DIR, product, "backend")
+    initalized = os.path.exists(product_path + "/.initialized")
+    if initalized:
+        print(f"Product '{product}' is already initialized.")
+        sys.exit(1)
+    
+    # Run manage.py commands in product venv
+    venv_path = os.path.join(product_path, "venv", "bin", "activate")
+    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
+    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
 
-    print(f"Initializing {product}...")
+    # Make .initialized file
+    with open(os.path.join(product_path, ".initialized"), "w") as f:
+        f.write("")
     
-    repo_url = f"https://github.com/pennlabs/{product}.git"
-    subprocess.run(["git", "clone", repo_url, product_path], check=True)
+    print(f"Product '{product}' initialized successfully.")
     
-    subprocess.run(["python3", "-m", "venv", f"{product_path}/venv"], check=True)
-    
-    print(f"Successfully initialized {product}")
-
 
 def switch_product(product: str) -> None:
     """Switch to a different product environment"""
@@ -61,7 +65,8 @@ def switch_product(product: str) -> None:
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
-    if not os.path.exists(product_path):
+    initalized = os.path.exists(product_path + "/.initialized")
+    if not initalized:
         print(f"Product '{product}' is not initialized. Run 'waypoint init {product}' first.")
         sys.exit(1)
 
@@ -74,15 +79,34 @@ def switch_product(product: str) -> None:
     print(f"Switched to {product}")
 
 
-def start_services() -> None:
+def start_services(mode: str = "start") -> None:
     """Start background services"""
-    try:
-        subprocess.run(["sudo", "systemctl", "start", "postgresql"], check=True)
-        print("PostgreSQL service started")
-    except subprocess.CalledProcessError:
-        print("Failed to start PostgreSQL service")
-        sys.exit(1)
-
+    if (mode == "start" or mode == ""):
+        try:
+            subprocess.run(["/opt/waypoint/database-init"], check=True)
+            print("PostgreSQL and Redis service started")
+        except subprocess.CalledProcessError:
+            print("Failed to start PostgreSQL service")
+            sys.exit(1)
+    elif (mode == "stop"):
+        try:
+            subprocess.run(["service", "postgresql", "stop"], check=True)
+            subprocess.run(["redis-cli", "shutdown"], check=True)
+            print("PostgreSQL service stopped")
+        except subprocess.CalledProcessError:
+            print("Failed to stop PostgreSQL or Redis service")
+            sys.exit(1)
+    elif (mode == "status"):
+        try:
+            subprocess.run(["service", "postgresql", "status"], check=True)
+        except subprocess.CalledProcessError:
+            print("PostgreSQL is not running")
+        try:
+            subprocess.run(["redis-cli", "ping"], check=True)
+        except subprocess.CalledProcessError:
+            print("Redis is not running")
+            sys.exit(1)
+        print("PostgrestgreSQL and Redis are running")
 
 def start_development() -> None:
     """Start development environment"""
@@ -91,8 +115,21 @@ def start_development() -> None:
         print("No product selected. Use 'waypoint switch <product>' first.")
         sys.exit(1)
 
+    current_link_points_to = os.readlink(current_link) if os.path.islink(current_link) else None
+    product_name = os.path.basename(current_link_points_to) if current_link_points_to else None
+
+    if not product_name:
+        print("No product selected. Use 'waypoint switch <product>' first.")
+        sys.exit(1)
+    
+    initalized = os.path.exists(current_link + "/.initialized")
+    if not initalized:
+        print(f"Product '{product_name}' is not initialized. Run 'waypoint init {product_name}' first.")
+        sys.exit(1)
+    
+    product_code_path = os.path.join(CODE_DIR, product_name)
     venv_activate = f". {current_link}/venv/bin/activate"
-    start_cmd = f"{venv_activate} && cd {current_link}/backend && python manage.py runserver"
+    start_cmd = f"{venv_activate} && cd {product_code_path}"
     
     try:
         subprocess.run(start_cmd, shell=True, check=True)
@@ -113,18 +150,20 @@ def main() -> None:
 
     subparsers.add_parser("start", help="Start development environment")
 
-    subparsers.add_parser("services", help="Start background services")
+    services_parser = subparsers.add_parser("services", help="Start background services")
+    services_parser.add_argument("mode", help="start, stop, or status of services", 
+                                 choices=["start", "stop", "status"], nargs="?", const="start", default="start")
 
     args = parser.parse_args()
 
-    if args.command == "init":
-        init_product(args.product)
-    elif args.command == "switch":
+    if args.command == "switch":
         switch_product(args.product)
     elif args.command == "start":
         start_development()
     elif args.command == "services":
-        start_services()
+        start_services(args.mode)
+    elif args.command == "init":
+        init_product(args.product)
     else:
         parser.print_help()
         sys.exit(1)

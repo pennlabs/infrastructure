@@ -1,0 +1,25 @@
+waypoint-switch-shell-context() {
+    if [[ -L /opt/waypoint/current ]]; then
+        symlink_path=$(readlink /opt/waypoint/current)
+        PRODUCT_NAME=$(basename "$symlink_path")
+
+        cd "/labs/$PRODUCT_NAME"
+        source "/opt/waypoint/$PRODUCT_NAME/venv/bin/activate"
+    else
+        echo 'Run "waypoint switch <product>" to jump into a product environment.'
+    fi
+}
+
+waypoint() {
+    command waypoint $@
+
+    # For waypoint switch, cd and source the venv in the user's shell
+    if [[ "$1" == "switch" || "$1" == "start" ]]; then
+        waypoint-switch-shell-context
+    fi
+}
+
+source $NVM_DIR/nvm.sh
+echo 'Welcome to Waypoint!'
+echo 'Run "waypoint services" to start services.'
+waypoint-switch-shell-context
