@@ -20,9 +20,15 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
     && ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
-RUN apt-get update && apt-get install -y postgresql postgresql-contrib
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib redis-server \
+  && rm -rf /var/lib/apt/lists/*
 
-# Install nvm, node, and npm
+# expose ports
+EXPOSE 5432
+EXPOSE 3000
+EXPOSE 8000
+
+# Install nvm, node, and npm, yarn
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 22
 
@@ -32,6 +38,12 @@ RUN mkdir -p $NVM_DIR && \
     nvm install $NODE_VERSION && \
     nvm alias default $NODE_VERSION && \
     nvm use default
+
+RUN . $NVM_DIR/nvm.sh && npm install -g yarn
+
+# start redis and postgres service
+RUN redis-server --daemonize yes
+RUN service postgresql start
 
 # For each product, setup the python environment
 RUN mkdir /opt/waypoint/
