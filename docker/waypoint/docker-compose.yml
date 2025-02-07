@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  waypoint:
+    build: .
+    volumes:
+      - ${WAYPOINT_CODE_DIR}:/opt/waypoint
+      - ${WAYPOINT_SECRETS_DIR}:/opt/waypoint/secrets
+    ports:
+      - "8000:8000"
+    command: /bin/bash
+    working_dir: /opt/waypoint 

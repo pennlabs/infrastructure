@@ -13,6 +13,24 @@ PRODUCTS = {
 
 WAYPOINT_DIR = "/opt/waypoint"
 
+def init() -> None:
+    """Set up waypoint, install dependencies."""
+    if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
+        print("No secrets found. Skipping...")
+        return
+    
+    for secret_file in os.listdir(os.path.join(WAYPOINT_DIR, "secrets")):
+        if os.path.isfile(os.path.join(WAYPOINT_DIR, "secrets", secret_file)):
+            print(f"Loading secrets from: {secret_file}")
+            with open(os.path.join(WAYPOINT_DIR, "secrets", secret_file), "r", encoding="utf-8") as f:
+                secret_value = f.read().strip()
+                os.environ[secret_file] = secret_value
+                if secret_file not in os.environ:
+                    print(f"Error: Secret '{secret_file}' not found")
+                    sys.exit(1)
+    print("Secrets loaded successfully")
+
+
 def init_product(product: str) -> None:
     """Initialize a product environment"""
     if product not in PRODUCTS:
@@ -58,7 +76,6 @@ def switch_product(product: str) -> None:
 
 def start_services() -> None:
     """Start background services"""
-    # Start PostgreSQL service
     try:
         subprocess.run(["sudo", "systemctl", "start", "postgresql"], check=True)
         print("PostgreSQL service started")
@@ -74,7 +91,6 @@ def start_development() -> None:
         print("No product selected. Use 'waypoint switch <product>' first.")
         sys.exit(1)
 
-    # Activate virtual environment and start development server
     venv_activate = f". {current_link}/venv/bin/activate"
     start_cmd = f"{venv_activate} && cd {current_link}/backend && python manage.py runserver"
     
