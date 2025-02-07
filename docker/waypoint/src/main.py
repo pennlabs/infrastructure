@@ -31,6 +31,32 @@ def init() -> None:
                     sys.exit(1)
     print("Secrets loaded successfully")
 
+def init_product(product: str) -> None:
+    """Initialize a product environment"""
+    if product not in PRODUCTS:
+        print(f"Error: Unknown product '{product}'")
+        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        sys.exit(1)
+
+    product_path = os.path.join(WAYPOINT_DIR, product)
+    backend_path = os.path.join(CODE_DIR, product, "backend")
+    initalized = os.path.exists(product_path + "/.initialized")
+    if initalized:
+        print(f"Product '{product}' is already initialized.")
+        sys.exit(1)
+    
+    # Run manage.py commands in product venv
+    venv_path = os.path.join(product_path, "venv", "bin", "activate")
+    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
+    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
+
+    # Make .initialized file
+    with open(os.path.join(product_path, ".initialized"), "w") as f:
+        f.write(f"Initialized {product} environment")
+    
+    print(f"Product '{product}' initialized successfully.")
+    
+
 def switch_product(product: str) -> None:
     """Switch to a different product environment"""
     if product not in PRODUCTS:
@@ -39,7 +65,8 @@ def switch_product(product: str) -> None:
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
-    if not os.path.exists(product_path):
+    initalized = os.path.exists(product_path + "/.initialized")
+    if not initalized:
         print(f"Product '{product}' is not initialized. Run 'waypoint init {product}' first.")
         sys.exit(1)
 
@@ -52,15 +79,34 @@ def switch_product(product: str) -> None:
     print(f"Switched to {product}")
 
 
-def start_services() -> None:
+def start_services(mode: str = "start") -> None:
     """Start background services"""
-    try:
-        subprocess.run(["/opt/waypoint/database-init"], check=True)
-        print("PostgreSQL service started")
-    except subprocess.CalledProcessError:
-        print("Failed to start PostgreSQL service")
-        sys.exit(1)
-
+    if (mode == "start" or mode == ""):
+        try:
+            subprocess.run(["/opt/waypoint/database-init"], check=True)
+            print("PostgreSQL and Redis service started")
+        except subprocess.CalledProcessError:
+            print("Failed to start PostgreSQL service")
+            sys.exit(1)
+    elif (mode == "stop"):
+        try:
+            subprocess.run(["service", "postgresql", "stop"], check=True)
+            subprocess.run(["redis-cli", "shutdown"], check=True)
+            print("PostgreSQL service stopped")
+        except subprocess.CalledProcessError:
+            print("Failed to stop PostgreSQL or Redis service")
+            sys.exit(1)
+    elif (mode == "status"):
+        try:
+            subprocess.run(["service", "postgresql", "status"], check=True)
+        except subprocess.CalledProcessError:
+            print("PostgreSQL is not running")
+        try:
+            subprocess.run(["redis-cli", "ping"], check=True)
+        except subprocess.CalledProcessError:
+            print("Redis is not running")
+            sys.exit(1)
+        print("PostgrestgreSQL and Redis are running")
 
 def start_development() -> None:
     """Start development environment"""
@@ -74,6 +120,11 @@ def start_development() -> None:
 
     if not product_name:
         print("No product selected. Use 'waypoint switch <product>' first.")
+        sys.exit(1)
+    
+    initalized = os.path.exists(current_link + "/.initialized")
+    if not initalized:
+        print(f"Product '{product_name}' is not initialized. Run 'waypoint init {product_name}' first.")
         sys.exit(1)
     
     product_code_path = os.path.join(CODE_DIR, product_name)
@@ -91,12 +142,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Waypoint development environment manager")
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
+    init_parser = subparsers.add_parser("init", help="Initialize a product environment")
+    init_parser.add_argument("product", help="Product to initialize")
+
     switch_parser = subparsers.add_parser("switch", help="Switch to a different product")
     switch_parser.add_argument("product", help="Product to switch to")
 
     subparsers.add_parser("start", help="Start development environment")
 
-    subparsers.add_parser("services", help="Start background services")
+    services_parser = subparsers.add_parser("services", help="Start background services")
+    services_parser.add_argument("mode", help="start, stop, or status of services", 
+                                 choices=["start", "stop", "status"], nargs="?", const="start", default="start")
 
     args = parser.parse_args()
 
@@ -105,7 +161,9 @@ def main() -> None:
     elif args.command == "start":
         start_development()
     elif args.command == "services":
-        start_services()
+        start_services(args.mode)
+    elif args.command == "init":
+        init_product(args.product)
     else:
         parser.print_help()
         sys.exit(1)
