@@ -35,27 +35,3 @@ jobs:
           files: dist/waypoint-client
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  update-tap:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout tap repo
-        uses: actions/checkout@v3
-        with:
-          repository: pennlabs/homebrew-waypoint
-          token: ${{ secrets.TAP_REPO_TOKEN }}
-          
-      - name: Update formula
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/waypoint.rb
-          sed -i "s/sha256 \".*\"/sha256 \"${{ env.BINARY_SHA }}\"/" Formula/waypoint.rb
-          
-      - name: Commit and push changes
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add Formula/waypoint.rb
-          git commit -m "Update waypoint to version ${GITHUB_REF#refs/tags/v}"
-          git push
