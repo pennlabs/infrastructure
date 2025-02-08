@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'waypoint-client-v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -e .
+          
+      - name: Build binary
+        run: pyinstaller src/waypoint_client.py --onefile --name waypoint-client
+          
+      - name: Calculate SHA256
+        run: |
+          cd dist
+          echo "BINARY_SHA=$(sha256sum waypoint-client | awk '{print $1}')" >> $GITHUB_ENV
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/waypoint-client
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-tap:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap repo
+        uses: actions/checkout@v3
+        with:
+          repository: pennlabs/homebrew-waypoint
+          token: ${{ secrets.TAP_REPO_TOKEN }}
+          
+      - name: Update formula
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/waypoint.rb
+          sed -i "s/sha256 \".*\"/sha256 \"${{ env.BINARY_SHA }}\"/" Formula/waypoint.rb
+          
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add Formula/waypoint.rb
+          git commit -m "Update waypoint to version ${GITHUB_REF#refs/tags/v}"
+          git push
