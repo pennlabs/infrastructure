@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*'
+    # TODO: TEMP, do not commit this. just to trigger the workflow.
+    paths:
+      - 'docker/waypoint/**'
 
 jobs:
   build:
