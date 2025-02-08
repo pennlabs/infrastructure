@@ -16,5 +16,6 @@ sudo mv waypoint-client $INSTALL_DIR/
 
 echo "Waypoint client installed successfully!"
 echo "Run 'waypoint-client configure' to get started."
+echo "Run 'waypoint-client --help' to see available commands."
 
 rm -rf $TMP_DIR 
