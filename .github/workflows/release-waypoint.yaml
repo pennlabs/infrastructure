@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'waypoint-client-v*'
+      - 'v*'
 
 jobs:
   build:
