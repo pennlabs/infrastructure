@@ -9,7 +9,6 @@ PRODUCTS = {
     {
         "sha": "524282d029a330b59158e80299e3be23988f1765",
         "node_version": "22"
-
     },
     "penn-clubs": {
         "sha": "d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd",
@@ -55,6 +54,7 @@ def init_product(product: str) -> None:
     product_path = os.path.join(WAYPOINT_DIR, product)
     backend_path = os.path.join(CODE_DIR, product, "backend")
     initalized = os.path.exists(product_path + "/.initialized")
+
     if initalized:
         print(f"Product '{product}' is already initialized.")
         sys.exit(1)
@@ -63,8 +63,8 @@ def init_product(product: str) -> None:
     venv_path = os.path.join(product_path, "venv", "bin", "activate")
     subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
     subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
-    # init yarn (done in Dockerfiles)
-    # subprocess.run(f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'", shell=True, check=True)
+    # init yarn
+    subprocess.run(f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'", shell=True, check=True)
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
@@ -73,7 +73,7 @@ def init_product(product: str) -> None:
     print(f"Product '{product}' initialized successfully.")
     
 
-def switch_product(product: str) -> None:
+def switch_product(product: str, no_vsc: bool) -> None:
     """Switch to a different product environment"""
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
@@ -81,7 +81,9 @@ def switch_product(product: str) -> None:
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
+
     initalized = os.path.exists(product_path + "/.initialized")
+
     if not initalized:
         print(f"Product '{product}' is not initialized. Run 'waypoint init {product}' first.")
         sys.exit(1)
@@ -91,9 +93,18 @@ def switch_product(product: str) -> None:
     if os.path.exists(current_link):
         os.remove(current_link)
     os.symlink(product_path, current_link)
+    
     # Switch node versions with nvm
-    node_version = PRODUCTS[product].get("node_version", 22)
-    subprocess.run(f"bash -c '. /usr/local/nvm/nvm.sh && nvm use {node_version}'", shell=True, check=True)
+    # node_version = PRODUCTS[product].get("node_version", 22)
+    # subprocess.run(f"bash -c '. /usr/local/nvm/nvm.sh && nvm use {node_version}'", shell=True, check=True)
+   
+    # Switch VSCode window
+    code_path = os.path.join(code_path, product)
+    if not no_vsc:
+        try:
+            subprocess.run(['code', '--new-window', '.'], cwd=code_path)
+        except FileNotFoundError:
+            print("VSCode not found. You may not be in a dev container. Skipping opening VSCode.")
     print(f"Switched to {product}")
 
 
@@ -170,6 +181,7 @@ def main() -> None:
 
     switch_parser = subparsers.add_parser("switch", help="Switch to a different product")
     switch_parser.add_argument("product", help="Product to switch to")
+    switch_parser.add_argument('--no-vsc', action='store_true', help='Do not open VSCode on switch')
 
     subparsers.add_parser("start", help="Start development environment")
 
@@ -183,7 +195,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.command == "switch":
-        switch_product(args.product)
+        switch_product(args.product, args.no_vsc)
     elif args.command == "start":
         start_development("all")
     elif args.command == "services":

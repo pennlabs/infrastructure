@@ -39,17 +39,18 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
   cd "$PRODUCT_CODE_PATH"
   git clone "https://github.com/pennlabs/$product.git"
   echo "Finished cloning $product"
+  # . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH/$product/frontend && yarn install
 done
 
-for product in "${!PRODUCT_TO_NODE_VERSION[@]}"; do
-  echo "Installing frontend dependencies for $product"
-  node_version="${PRODUCT_TO_NODE_VERSION[$product]}"
-  PRODUCT_PATH="/labs/$product/frontend"
-  . $NVM_DIR/nvm.sh && nvm install $node_version
-  . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && nvm use $node_version
-  . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && npm install -g yarn
-  . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && yarn install
+# for product in "${!PRODUCT_TO_NODE_VERSION[@]}"; do
+#   echo "Installing frontend dependencies for $product"
+#   node_version="${PRODUCT_TO_NODE_VERSION[$product]}"
+#   PRODUCT_PATH="/labs/$product/frontend"
+#   . $NVM_DIR/nvm.sh && nvm install $node_version
+#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && nvm use $node_version
+#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && npm install -g yarn
+#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && yarn install
   
-done
+# done
 
 echo "Setup complete!"

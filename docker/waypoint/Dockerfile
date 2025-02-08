@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y postgresql postgresql-contrib redis-ser
 
 # Install nvm, node, and npm, yarn
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 22
+ENV NODE_VERSION 20
 
 RUN mkdir -p $NVM_DIR && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \
@@ -38,7 +38,6 @@ RUN . $NVM_DIR/nvm.sh && npm install -g yarn
 
 RUN mkdir /opt/waypoint/
 RUN mkdir /labs/
-
 
 # For each product, setup the python environment
 COPY waypoint-init /opt/waypoint/waypoint-init
