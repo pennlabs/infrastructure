@@ -5,10 +5,24 @@ import subprocess
 import sys
 
 PRODUCTS = {
-    "office-hours-queue": "524282d029a330b59158e80299e3be23988f1765",
-    "penn-clubs": "d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd",
-    "penn-mobile": "b1a8bfa53a35496c972b880f7e3ab9d93845b614",
-    "penn-courses": "723640b1dbb815877c24bb1bc8b729c15e12c87a"
+    "office-hours-queue": 
+    {
+        "sha": "524282d029a330b59158e80299e3be23988f1765",
+        "node_version": "22"
+
+    },
+    "penn-clubs": {
+        "sha": "d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd",
+        "node_version": "20"
+    },
+    "penn-mobile": {
+        "sha": "b1a8bfa53a35496c972b880f7e3ab9d93845b614",
+        "node_version": "22"
+    },
+    "penn-courses": {
+        "sha": "723640b1dbb815877c24bb1bc8b729c15e12c87a",
+        "node_version": "22"
+    }
 }
 
 WAYPOINT_DIR = "/opt/waypoint"
@@ -49,6 +63,8 @@ def init_product(product: str) -> None:
     venv_path = os.path.join(product_path, "venv", "bin", "activate")
     subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
     subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
+    # init yarn (done in Dockerfiles)
+    # subprocess.run(f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'", shell=True, check=True)
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
@@ -75,7 +91,9 @@ def switch_product(product: str) -> None:
     if os.path.exists(current_link):
         os.remove(current_link)
     os.symlink(product_path, current_link)
-    
+    # Switch node versions with nvm
+    node_version = PRODUCTS[product].get("node_version", 22)
+    subprocess.run(f"bash -c '. /usr/local/nvm/nvm.sh && nvm use {node_version}'", shell=True, check=True)
     print(f"Switched to {product}")
 
 
@@ -108,7 +126,7 @@ def start_services(mode: str = "start") -> None:
             sys.exit(1)
         print("PostgrestgreSQL and Redis are running")
 
-def start_development() -> None:
+def start_development(mode: str) -> None:
     """Start development environment"""
     current_link = os.path.join(WAYPOINT_DIR, "current")
     if not os.path.exists(current_link):
@@ -128,8 +146,13 @@ def start_development() -> None:
         sys.exit(1)
     
     product_code_path = os.path.join(CODE_DIR, product_name)
-    venv_activate = f". {current_link}/venv/bin/activate"
-    start_cmd = f"{venv_activate} && cd {product_code_path}"
+   
+    if mode == "backend":
+        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver 0.0.0.0:8000'"
+    elif mode == "frontend":
+        start_cmd = f"bash -c 'cd {product_code_path}/frontend && yarn dev'"
+    else:
+        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver  0.0.0.0:8000 && cd {product_code_path}/frontend && yarn dev'"
     
     try:
         subprocess.run(start_cmd, shell=True, check=True)
@@ -150,6 +173,9 @@ def main() -> None:
 
     subparsers.add_parser("start", help="Start development environment")
 
+    subparsers.add_parser("backend", help="Start current product backend")
+    subparsers.add_parser("frontend", help="Start current product frontend")
+
     services_parser = subparsers.add_parser("services", help="Start background services")
     services_parser.add_argument("mode", help="start, stop, or status of services", 
                                  choices=["start", "stop", "status"], nargs="?", const="start", default="start")
@@ -159,11 +185,15 @@ def main() -> None:
     if args.command == "switch":
         switch_product(args.product)
     elif args.command == "start":
-        start_development()
+        start_development("all")
     elif args.command == "services":
         start_services(args.mode)
     elif args.command == "init":
         init_product(args.product)
+    elif args.command == "backend":
+        start_development("backend")
+    elif args.command == "frontend":
+        start_development("frontend")
     else:
         parser.print_help()
         sys.exit(1)
