@@ -1,0 +1,90 @@
+#0 building with "orbstack" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.81kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/19] FROM docker.io/library/ubuntu:22.04@sha256:ed1544e454989078f5dec1bfdabd8c5cc9c48e0705d07b678ab6ae3fb61952d2
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 9.18kB done
+#5 DONE 0.0s
+
+#6 [ 6/19] RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y tzdata     && ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime     && dpkg-reconfigure -f noninteractive tzdata
+#6 CACHED
+
+#7 [11/19] RUN mkdir /labs/
+#7 CACHED
+
+#8 [14/19] RUN /opt/waypoint/waypoint-init
+#8 CACHED
+
+#9 [ 9/19] RUN . /usr/local/nvm/nvm.sh && npm install -g yarn
+#9 CACHED
+
+#10 [15/19] COPY database-init /opt/waypoint/database-init
+#10 CACHED
+
+#11 [13/19] RUN chmod +x /opt/waypoint/waypoint-init
+#11 CACHED
+
+#12 [ 3/19] RUN apt-get update && apt-get install --no-install-recommends -y curl git sudo   && rm -rf /var/lib/apt/lists/*
+#12 CACHED
+
+#13 [ 2/19] RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev   && rm -rf /var/lib/apt/lists/*
+#13 CACHED
+
+#14 [ 5/19] RUN pip3 install uv pipenv
+#14 CACHED
+
+#15 [ 7/19] RUN apt-get update && apt-get install -y postgresql postgresql-contrib redis-server systemd
+#15 CACHED
+
+#16 [12/19] COPY waypoint-init /opt/waypoint/waypoint-init
+#16 CACHED
+
+#17 [10/19] RUN mkdir /opt/waypoint/
+#17 CACHED
+
+#18 [ 4/19] RUN apt-get update && apt-get install --no-install-recommends -y python3-dev python3-pip python3-venv libpq-dev postgresql-client nano   && rm -rf /var/lib/apt/lists/*
+#18 CACHED
+
+#19 [ 8/19] RUN mkdir -p /usr/local/nvm &&     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash &&     . /usr/local/nvm/nvm.sh &&     nvm install 22 &&     nvm alias default 22 &&     nvm use default
+#19 CACHED
+
+#20 [16/19] RUN chmod +x /opt/waypoint/database-init
+#20 CACHED
+
+#21 [17/19] COPY . /opt/waypoint/cli
+#21 DONE 0.1s
+
+#22 [18/19] RUN cd /opt/waypoint/cli && pip install -e .
+#22 0.480 Obtaining file:///opt/waypoint/cli
+#22 0.480   Preparing metadata (setup.py): started
+#22 0.601   Preparing metadata (setup.py): finished with status 'done'
+#22 0.652 Installing collected packages: waypoint
+#22 0.652   Running setup.py develop for waypoint
+#22 0.796 Successfully installed waypoint-0.0.1
+#22 0.797 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#22 DONE 0.9s
+
+#23 [19/19] COPY waypoint-bashrc /root/.bashrc
+#23 DONE 0.1s
+
+#24 exporting to image
+#24 exporting layers 0.0s done
+#24 writing image sha256:f68578fc815bca8580bd03fd9a5e6d71734518908b29f2763f333702ec5c130f done
+#24 naming to docker.io/library/waypoint:v0.0.7 done
+#24 DONE 0.1s
+
+ [33m2 warnings found (use docker --debug to expand):
+[0m - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 27)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 28)
