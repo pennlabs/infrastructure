@@ -20,19 +20,20 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pyinstaller
-          pip install -e .
+          cd docker/waypoint && pip install .
           
       - name: Build binary
+        working-directory: docker/waypoint
         run: pyinstaller src/waypoint_client.py --onefile --name waypoint-client
           
       - name: Calculate SHA256
         run: |
-          cd dist
+          cd docker/waypoint/dist
           echo "BINARY_SHA=$(sha256sum waypoint-client | awk '{print $1}')" >> $GITHUB_ENV
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/waypoint-client
+          files: docker/waypoint/dist/waypoint-client
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
