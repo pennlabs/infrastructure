@@ -98,7 +98,7 @@ def init_product(product: str) -> None:
         f.write("")
     
     print(f"Product '{product}' initialized successfully.")
-    
+
 
 def switch_product(product: str, no_vsc: bool) -> None:
     """Switch to a different product environment"""

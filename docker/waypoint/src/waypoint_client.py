@@ -32,6 +32,14 @@ def configure() -> None:
     
     config = load_config()
     
+    default_config = os.path.expanduser("~/waypoint/config")
+    default_config_dir = config.get("config_dir", default_config)
+    current_setting = f" (current: {config['config_dir']})" if "config_dir" in config else ""
+    prompt = f"Enter config directory path [{default_config_dir}]{current_setting}: "
+    config_dir = input(prompt).strip()
+    if not config_dir:
+        config_dir = default_config_dir
+    
     default_code = os.path.expanduser("~/waypoint/code")
     default_code_dir = config.get("code_dir", default_code)
     current_setting = f" (current: {config['code_dir']})" if "code_dir" in config else ""
@@ -48,18 +56,19 @@ def configure() -> None:
     if not secrets_dir:
         secrets_dir = default_secrets_dir
     
+    os.makedirs(config_dir, exist_ok=True)
     os.makedirs(code_dir, exist_ok=True)
     os.makedirs(secrets_dir, exist_ok=True)
     
     config = {
+        "config_dir": config_dir,
         "code_dir": code_dir,
         "secrets_dir": secrets_dir
     }
     save_config(config)
     print(f"\nConfiguration saved successfully to {CONFIG_FILE}!")
 
-
-def start() -> None:
+def start(rebuild: bool = False) -> None:
     """Start waypoint services using docker-compose."""
     config = load_config()
     
@@ -69,19 +78,24 @@ def start() -> None:
         config = load_config()
     
     env = os.environ.copy()
+    env["WAYPOINT_CONFIG_DIR"] = config["config_dir"]
     env["WAYPOINT_CODE_DIR"] = config["code_dir"]
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
     
-    image_name = "waypoint:v0.0.7"
+    image_name = "waypoint"
     result = subprocess.run(
         ["docker", "images", "-q", image_name],
         capture_output=True,
         text=True,
         check=True,
     )
-    
-    if not result.stdout.strip():
-        print(f"Docker image {image_name} not found. Building...")
+    image_found = result.stdout.strip()
+
+    if not image_found or rebuild:
+        if not image_found:
+            print(f"Docker image {image_name} not found. Building...")
+        else:
+            print(f"--rebuild flag detected. Rebuilding...")
         try:
             subprocess.run(
                 ["docker", "build", "-t", image_name, "."],
@@ -96,6 +110,8 @@ def start() -> None:
             subprocess.run(
                 [
                     "docker", "run", "-it",
+                    "-v", f"{config['config_dir']}/.ssh:/root/.ssh",
+                    "-v", f"{config['config_dir']}/.gnupg:/root/.gnupg",
                     "-v", f"{config['code_dir']}:/labs",
                     "-v", f"{config['secrets_dir']}:/opt/waypoint/secrets",
                     "-p", "8000:8000",
@@ -123,14 +139,21 @@ def main() -> None:
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
     
     subparsers.add_parser("configure", help="Configure waypoint directories")
-    subparsers.add_parser("start", help="Start waypoint services")
+    start_parser = subparsers.add_parser("start", help="Start waypoint services")
+    start_parser.add_argument("--rebuild", action="store_true", help="Rebuild waypoint image to be up to date. Note this will delete the existing image and start from scratch, but your code and secrets will be preserved.")
     
     args = parser.parse_args()
     
     if args.command == "configure":
         configure()
     elif args.command == "start":
-        start()
+        if args.rebuild:
+            if input("Are you sure you want to rebuild the waypoint image? (y/n): ").lower() != "y":
+                print("Aborting...")
+                sys.exit(1)
+            start(rebuild=True)
+        else:
+            start()
     else:
         parser.print_help()
         sys.exit(1)
