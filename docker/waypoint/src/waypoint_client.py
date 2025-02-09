@@ -80,7 +80,7 @@ def start() -> None:
             subprocess.run(
                 [
                     "docker", "run", "-it",
-                    # "-v", f"{config['code_dir']}:/opt/waypoint",
+                    "-v", f"{config['code_dir']}:/labs",
                     "-v", f"{config['secrets_dir']}:/opt/waypoint/secrets",
                     "-p", "8000:8000",
                     "-p", "3000:3000",
