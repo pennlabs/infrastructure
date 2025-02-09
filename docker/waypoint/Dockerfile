@@ -5,7 +5,8 @@ LABEL maintainer="Penn Labs"
 
 # --- systems setup
 RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev \
-  && rm -rf /var/lib/apt/lists/*
+    htop vim net-tools procps sysstat strace tcpdump lsof \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install --no-install-recommends -y curl git sudo \
   && rm -rf /var/lib/apt/lists/*
