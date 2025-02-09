@@ -9,11 +9,16 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        arch: [x86_64, arm64]
-        exclude:
+        include:
           - os: ubuntu-latest
+            arch: x86_64
+            binary_suffix: ""
+          - os: macos-latest
+            arch: x86_64
+            binary_suffix: ""
+          - os: macos-latest
             arch: arm64
+            binary_suffix: "-arm64"
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -31,21 +36,12 @@ jobs:
           
       - name: Build binary
         working-directory: docker/waypoint
-        run: |
-          ARCH_SUFFIX=""
-          if [ "${{ matrix.arch }}" = "arm64" ]; then
-            ARCH_SUFFIX="-arm64"
-          fi
-          pyinstaller src/waypoint_client.py --onefile --name "waypoint-client${ARCH_SUFFIX}"
+        run: pyinstaller src/waypoint_client.py --onefile --name "waypoint-client${{ matrix.binary_suffix }}"
           
       - name: Calculate SHA256
         run: |
           cd docker/waypoint/dist
-          if [ "${{ matrix.arch }}" = "arm64" ]; then
-            echo "BINARY_SHA=$(sha256sum waypoint-client-arm64 | awk '{print $1}')" >> $GITHUB_ENV
-          else
-            echo "BINARY_SHA=$(sha256sum waypoint-client | awk '{print $1}')" >> $GITHUB_ENV
-          fi
+          echo "BINARY_SHA=$(sha256sum waypoint-client${{ matrix.binary_suffix }} | awk '{print $1}')" >> $GITHUB_ENV
           
       - name: Create Release
         uses: softprops/action-gh-release@v1

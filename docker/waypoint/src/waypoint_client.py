@@ -105,7 +105,7 @@ def start(rebuild: bool = False) -> None:
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
     editor_type = config.get("editor_type", None)
 
-    image_name = "waypoint"
+    image_name = "pennlabs/waypoint"
     result = subprocess.run(
         ["docker", "images", "-q", image_name],
         capture_output=True,
@@ -116,13 +116,13 @@ def start(rebuild: bool = False) -> None:
 
     if not image_found or rebuild:
         if not image_found:
-            print(f"Docker image {image_name} not found. Building...")
+            print(f"Docker image {image_name} not found. Pulling from pennlabs/waypoint...")
         else:
-            print(f"--rebuild flag detected. Rebuilding...")
+            print(f"--rebuild flag detected. Pulling latest pennlabs/waypoint...")
         try:
-            subprocess.run(["docker", "build", "-t", image_name, "."], check=True)
+            subprocess.run(["docker", "pull", image_name], check=True)
         except subprocess.CalledProcessError:
-            print("\nError: Failed to build waypoint container")
+            print("\nError: Failed to pull waypoint container")
             sys.exit(1)
 
     # TODO: Currently not working in detecting cursor
