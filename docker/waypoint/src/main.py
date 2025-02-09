@@ -170,6 +170,7 @@ def init_product(product: str) -> None:
         shell=True,
         check=True,
     )
+    
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
