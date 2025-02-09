@@ -6,3 +6,6 @@ creds.txt
 terraform.*
 tf_creds.json
 .DS_Store
+
+__pycache__
+waypoint.egg-info
