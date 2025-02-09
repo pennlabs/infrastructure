@@ -46,15 +46,16 @@ def clone_product(product: str) -> None:
         print(f"Repository {product} already exists, skipping clone")
 
 
-def clone_products() -> None:
+def clone_and_init_products() -> None:
     """Clone all products from GitHub if they don't exist."""
     for product in PRODUCTS:
         clone_product(product)
+        init_product(product)
 
 
 def init() -> None:
     """Set up waypoint, install dependencies."""
-    clone_products()
+    clone_and_init_products()
 
     if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
         print("No secrets found. Skipping...")
@@ -116,7 +117,7 @@ def sync_env(product: str) -> None:
             )
 
         subprocess.run(
-            f"cd {waypoint_product_path} && source venv/bin/activate && "
+            f"cd {waypoint_product_path} && . venv/bin/activate && "
             f"pipenv requirements --dev > requirements.txt && "
             f"uv pip install -r requirements.txt",
             shell=True,
@@ -310,15 +311,11 @@ def main() -> None:
 
     switch_parser = subparsers.add_parser(
         "switch",
-        help="""
-                                        Switch to a product environment:
+        help="""Switch to a product environment:
+Starts the uv virtual enviroment assosiated with the product, and opens the product in VSCode if in a dev container.
+You can also specify --no-vsc to not open VSCode.
                                         
-                                        Starts the uv virtual enviroment assosiated with the product, and opens the product in VSCode if in a dev container.
-                                        You can also specify --no-vsc to not open VSCode.
-                                        
-                                        Example: waypoint switch office-hours-queue --no-vsc
-                                    
-                                        """,
+Example: waypoint switch office-hours-queue --no-vsc""",
     )
     switch_parser.add_argument(
         "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
@@ -330,48 +327,48 @@ def main() -> None:
     subparsers.add_parser(
         "start",
         help="""
-                            Start both the backend and frontend of the current development environment:
-                            
-                            Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.
-                            Note: Must be in a dev container to run this command.
+Start both the backend and frontend of the current development environment:
 
-                            Example: waypoint start
+Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.
+Note: Must be in a dev container to run this command.
+
+Example: waypoint start
                         """,
     )
 
     subparsers.add_parser(
         "backend",
         help="""
-                                Start current product backend
+-------------Start current product backend-------------------
+Runs `python manage.py runserver` in the appropriate directory.
+Note: Must be in a dev container to run this command.
 
-                                Runs `python manage.py runserver` in the appropriate directory.
-                                Note: Must be in a dev container to run this command.
-
-                                Example: waypoint backend                         
+Example: waypoint backend                         
+-------------------------------------------------------------
                                 """,
     )
     subparsers.add_parser(
         "frontend",
         help="""
-                                Start current product frontend
+-------------Start current product frontend-------------------
+Runs `yarn dev` in the appropriate directory.
+Note: Must be in a dev container to run this command.
 
-                                Runs `yarn dev` in the appropriate directory.
-                                Note: Must be in a dev container to run this command.
-
-                                Example: waypoint frontend                         
-                                """,
+Example: waypoint frontend                         
+-------------------------------------------------------------
+        """
     )
 
     services_parser = subparsers.add_parser(
         "services",
         help="""
-                                            Manage background services:
-                                            
-                                            Starts, stop or chec the status of the PostgreSQL and Redis services.
-                                            If no mode is specified, it will start the services.
-                                            
-                                            Example: waypoint services start
-                                            """,
+-------------Manage background services----------------------
+Starts, stop or chec the status of the PostgreSQL and Redis services.
+If no mode is specified, it will start the services.
+
+Example: waypoint services start
+-------------------------------------------------------------
+""",
     )
     services_parser.add_argument(
         "mode",
