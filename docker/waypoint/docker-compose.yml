@@ -8,4 +8,4 @@ services:
     ports:
       - "8000:8000"
     command: /bin/bash
-    working_dir: /opt/labs 
+    working_dir: /labs 
