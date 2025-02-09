@@ -88,8 +88,12 @@ def init_product(product: str) -> None:
     
     # Run manage.py commands in product venv
     venv_path = os.path.join(product_path, "venv", "bin", "activate")
-    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
-    subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
+    try: 
+        subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'", shell=True, check=True)
+        subprocess.run(f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'", shell=True, check=True)
+    except subprocess.CalledProcessError:
+        print(f"Failed to run manage.py commands for {product}, did you run `waypoint services`?")
+        sys.exit(1)
     # init yarn
     subprocess.run(f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'", shell=True, check=True)
 
@@ -126,7 +130,7 @@ def switch_product(product: str, no_vsc: bool) -> None:
     # subprocess.run(f"bash -c '. /usr/local/nvm/nvm.sh && nvm use {node_version}'", shell=True, check=True)
    
     # Switch VSCode window
-    code_path = os.path.join(code_path, product)
+    code_path = os.path.join(CODE_DIR, product)
     if not no_vsc:
         try:
             subprocess.run(['code', '--new-window', '.'], cwd=code_path)
