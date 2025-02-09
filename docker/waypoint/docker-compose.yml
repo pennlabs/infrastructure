@@ -4,7 +4,7 @@ services:
   waypoint:
     build: .
     volumes:
-      - ${WAYPOINT_CODE_DIR}:/opt/labs
+      - ${WAYPOINT_CODE_DIR}:/labs
     ports:
       - "8000:8000"
     command: /bin/bash
