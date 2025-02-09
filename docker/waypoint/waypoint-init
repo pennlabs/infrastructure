@@ -33,15 +33,6 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
 done
 
 
-for product in "${!PRODUCT_TO_SHA[@]}"; do
-  PRODUCT_CODE_PATH="/labs"
-
-  cd "$PRODUCT_CODE_PATH"
-  git clone "https://github.com/pennlabs/$product.git"
-  echo "Finished cloning $product"
-  # . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH/$product/frontend && yarn install
-done
-
 # for product in "${!PRODUCT_TO_NODE_VERSION[@]}"; do
 #   echo "Installing frontend dependencies for $product"
 #   node_version="${PRODUCT_TO_NODE_VERSION[$product]}"

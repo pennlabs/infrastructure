@@ -7,5 +7,6 @@ services:
       - ${WAYPOINT_CODE_DIR}:/labs
     ports:
       - "8000:8000"
+      - "3000:3000"
     command: /bin/bash
     working_dir: /labs 

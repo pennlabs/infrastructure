@@ -107,9 +107,10 @@ def start() -> None:
             )
         except KeyboardInterrupt:
             print("\nExiting waypoint shell...")
-        except subprocess.CalledProcessError:
-            print("\nError: Failed to start waypoint container")
-            sys.exit(1)
+            sys.exit(0)
+    except subprocess.CalledProcessError:
+        print("\nError: Failed to start waypoint container")
+        sys.exit(1)
             
     except KeyboardInterrupt:
         print("\nStartup interrupted.")

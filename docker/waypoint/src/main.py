@@ -27,8 +27,34 @@ PRODUCTS = {
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
 
+def clone_product(product: str) -> None:
+    """Clone a product from GitHub if it doesn't exist."""
+    product_path = os.path.join(CODE_DIR, product)
+    if not os.path.exists(product_path):
+        print(f"Cloning {product}...")
+        try:
+            subprocess.run(
+                ["git", "clone", f"https://github.com/pennlabs/{product}.git"],
+                cwd=CODE_DIR,
+                check=True
+            )
+            print(f"Finished cloning {product}")
+        except subprocess.CalledProcessError:
+            print(f"Failed to clone {product}")
+            sys.exit(1)
+    else:
+        print(f"Repository {product} already exists, skipping clone")
+
+
+def clone_products() -> None:
+    """Clone all products from GitHub if they don't exist."""
+    for product in PRODUCTS:
+        clone_product(product)
+
 def init() -> None:
     """Set up waypoint, install dependencies."""
+    clone_products()
+    
     if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
         print("No secrets found. Skipping...")
         return
@@ -51,6 +77,7 @@ def init_product(product: str) -> None:
         print(f"Available products: {', '.join(PRODUCTS.keys())}")
         sys.exit(1)
 
+    clone_product(product)
     product_path = os.path.join(WAYPOINT_DIR, product)
     backend_path = os.path.join(CODE_DIR, product, "backend")
     initalized = os.path.exists(product_path + "/.initialized")
@@ -177,7 +204,7 @@ def main() -> None:
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
     init_parser = subparsers.add_parser("init", help="Initialize a product environment")
-    init_parser.add_argument("product", help="Product to initialize")
+    init_parser.add_argument("product", help="Product to initialize", nargs="?", default=None)
 
     switch_parser = subparsers.add_parser("switch", help="Switch to a different product")
     switch_parser.add_argument("product", help="Product to switch to")
@@ -201,7 +228,10 @@ def main() -> None:
     elif args.command == "services":
         start_services(args.mode)
     elif args.command == "init":
-        init_product(args.product)
+        if args.product:
+            init_product(args.product)
+        else:
+            init()
     elif args.command == "backend":
         start_development("backend")
     elif args.command == "frontend":
