@@ -8,7 +8,6 @@ A development environment manager for Penn Labs products.
 pip install waypoint
 ```
 
-
 ## Usage
 
 - Initialize a product environment:
