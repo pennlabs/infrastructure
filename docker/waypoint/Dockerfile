@@ -4,15 +4,17 @@ LABEL maintainer="Penn Labs"
 
 
 # --- systems setup
-RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev \
-    htop vim net-tools procps sysstat strace tcpdump lsof \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl git sudo \
+RUN apt-get update && apt-get install --no-install-recommends -y curl git gh \
+  sudo python3-dev python3-pip python3-venv libpq-dev postgresql-client nano \
+  htop vim net-tools procps sysstat strace tcpdump lsof \
   && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install --no-install-recommends -y python3-dev python3-pip python3-venv libpq-dev postgresql-client nano \
-  && rm -rf /var/lib/apt/lists/*
+# Install locales and configure the correct locale
+# RUN apt-get update && apt-get install -y locales
+# RUN locale-gen en_US.UTF-8
+# RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 RUN pip3 install uv pipenv
 
