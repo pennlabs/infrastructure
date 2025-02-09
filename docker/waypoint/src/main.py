@@ -170,7 +170,7 @@ def init_product(product: str) -> None:
         shell=True,
         check=True,
     )
-    
+
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
@@ -298,13 +298,14 @@ def main() -> None:
     init_parser = subparsers.add_parser(
         "init",
         help="""
-                                        Initialize a product environment or all products:
-                                        
-                                        Clones repos, installs dependencies, runs manage.py commands, and yarn install.
-                                        If no product is specified, it will initialize all products.
+-------------Initialize a product environment or all products-----------------
 
-                                        Example: waypoint init office-hours-queue
-                                        """,
+Clones repos, installs dependencies, runs manage.py commands, and yarn install.
+If no product is specified, it will initialize all products.
+
+Example: waypoint init office-hours-queue
+------------------------------------------------------------------------------
+""",
     )
     init_parser.add_argument(
         "product", help="Product to initialize", nargs="?", default=None
@@ -312,11 +313,14 @@ def main() -> None:
 
     switch_parser = subparsers.add_parser(
         "switch",
-        help="""Switch to a product environment:
-Starts the uv virtual enviroment assosiated with the product, and opens the product in VSCode if in a dev container.
+        help="""
+-------------Switch to a product environment-------------
+Starts the uv virtual enviroment assosiated with the product
+Opens the product in VSCode if in a dev container.
 You can also specify --no-vsc to not open VSCode.
                                         
-Example: waypoint switch office-hours-queue --no-vsc""",
+Example: waypoint switch office-hours-queue --no-vsc
+---------------------------------------------------------""",
     )
     switch_parser.add_argument(
         "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
@@ -328,12 +332,12 @@ Example: waypoint switch office-hours-queue --no-vsc""",
     subparsers.add_parser(
         "start",
         help="""
-Start both the backend and frontend of the current development environment:
-
+-------------Start both the backend and frontend of the current development environment-------------
 Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.
 Note: Must be in a dev container to run this command.
 
 Example: waypoint start
+----------------------------------------------------------------------------------------------------
                         """,
     )
 
