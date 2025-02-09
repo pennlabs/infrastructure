@@ -6,7 +6,6 @@ cd infrastructure
 git sparse-checkout init --cone
 git sparse-checkout set docker/waypoint
 
-
 # Make the install.sh script executable
 chmod +x docker/waypoint/install.sh
 
