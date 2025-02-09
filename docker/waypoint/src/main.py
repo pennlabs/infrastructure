@@ -116,7 +116,7 @@ def sync_env(product: str) -> None:
             )
 
         subprocess.run(
-            f"cd {waypoint_product_path} && source venv/bin/activate && "
+            f"cd {waypoint_product_path} && . venv/bin/activate && "
             f"pipenv requirements --dev > requirements.txt && "
             f"uv pip install -r requirements.txt",
             shell=True,
