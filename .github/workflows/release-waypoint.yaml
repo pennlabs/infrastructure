@@ -2,9 +2,8 @@ name: Release
 
 on:
   push:
-    # TODO: TEMP, do not commit this. just to trigger the workflow.
-    paths:
-      - 'docker/waypoint/**'
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -35,5 +34,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: docker/waypoint/dist/waypoint-client
+          name: Release ${{ github.ref_name }}
+          body: |
+            SHA256: ${{ env.BINARY_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
