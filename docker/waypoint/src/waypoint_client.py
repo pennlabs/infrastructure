@@ -72,8 +72,24 @@ def start() -> None:
     env["WAYPOINT_CODE_DIR"] = config["code_dir"]
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
     
-    # TODO: deadcode
-    docker_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    image_name = "waypoint:v0.0.7"
+    result = subprocess.run(
+        ["docker", "images", "-q", image_name],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    
+    if not result.stdout.strip():
+        print(f"Docker image {image_name} not found. Building...")
+        try:
+            subprocess.run(
+                ["docker", "build", "-t", image_name, "."],
+                check=True
+            )
+        except subprocess.CalledProcessError:
+            print("\nError: Failed to build waypoint container")
+            sys.exit(1)
     
     try:
         try:
@@ -84,7 +100,7 @@ def start() -> None:
                     "-v", f"{config['secrets_dir']}:/opt/waypoint/secrets",
                     "-p", "8000:8000",
                     "-p", "3000:3000",
-                    "waypoint:v0.0.7",
+                    image_name,
                     "bash"
                 ],
                 check=True
