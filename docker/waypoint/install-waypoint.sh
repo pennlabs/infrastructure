@@ -11,3 +11,5 @@ chmod +x docker/waypoint/install.sh
 
 # Run the install.sh script
 bash docker/waypoint/install.sh
+
+cd docker/waypoint
