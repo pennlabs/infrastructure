@@ -154,11 +154,12 @@ def init_product(product: str) -> None:
             shell=True,
             check=True,
         )
-        subprocess.run(
-            f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
-            shell=True,
-            check=True,
-        )
+        if (product != "penn-mobile"):
+            subprocess.run(
+                f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
+                shell=True,
+                check=True,
+            )
     except subprocess.CalledProcessError:
         print(
             f"Failed to run manage.py commands for {product}, did you run `waypoint services`?"
@@ -320,6 +321,7 @@ Opens the product in VSCode if in a dev container.
 You can also specify --no-vsc to not open VSCode.
                                         
 Example: waypoint switch office-hours-queue --no-vsc
+
 ---------------------------------------------------------""",
     )
     switch_parser.add_argument(
@@ -337,6 +339,7 @@ Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.
 Note: Must be in a dev container to run this command.
 
 Example: waypoint start
+
 ----------------------------------------------------------------------------------------------------
                         """,
     )
@@ -348,7 +351,8 @@ Example: waypoint start
 Runs `python manage.py runserver` in the appropriate directory.
 Note: Must be in a dev container to run this command.
 
-Example: waypoint backend                         
+Example: waypoint backend   
+
 -------------------------------------------------------------
                                 """,
     )
@@ -359,7 +363,8 @@ Example: waypoint backend
 Runs `yarn dev` in the appropriate directory.
 Note: Must be in a dev container to run this command.
 
-Example: waypoint frontend                         
+Example: waypoint frontend
+
 -------------------------------------------------------------
         """
     )
@@ -372,6 +377,7 @@ Starts, stop or chec the status of the PostgreSQL and Redis services.
 If no mode is specified, it will start the services.
 
 Example: waypoint services start
+
 -------------------------------------------------------------
 """,
     )
