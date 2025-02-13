@@ -65,4 +65,3 @@ COPY waypoint-bashrc /root/.bashrc
 EXPOSE 5432
 EXPOSE 3000
 EXPOSE 8000
-
