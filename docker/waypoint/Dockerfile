@@ -1,12 +1,9 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL maintainer="Penn Labs"
 
 
 # --- systems setup
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    systemd systemd-sysv
-  
 RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev
 
 RUN apt-get update && apt-get install --no-install-recommends -y curl git \
@@ -54,8 +51,12 @@ RUN /opt/waypoint/waypoint-init
 COPY database-init /opt/waypoint/database-init
 RUN chmod +x /opt/waypoint/database-init
 
+RUN mkdir -p /opt/waypoint/cli
 COPY . /opt/waypoint/cli
-RUN cd /opt/waypoint/cli && pip install -e .
+WORKDIR /opt/waypoint/cli
+RUN pip install -e .
+
+WORKDIR /
 
 # Copy .bashrc
 COPY waypoint-bashrc /root/.bashrc

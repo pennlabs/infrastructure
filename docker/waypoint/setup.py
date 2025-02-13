@@ -17,3 +17,4 @@ setup(
     description="Waypoint development environment manager",
     python_requires=">=3.6",
 )
+
