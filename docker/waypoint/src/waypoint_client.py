@@ -135,6 +135,7 @@ def start(rebuild: bool = False) -> None:
             print(f"Editor {editor_type} found. Opening {editor_type}...")
         else:
             print(f"Editor {editor_type} not found. Opening default editor...")
+    # TODO: check that local ssh folder and gnupg folders exist, otherwise mkdir them
     try:
         try:
             subprocess.run(
