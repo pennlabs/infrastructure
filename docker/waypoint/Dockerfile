@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 LABEL maintainer="Penn Labs"
 
@@ -65,4 +65,3 @@ COPY waypoint-bashrc /root/.bashrc
 EXPOSE 5432
 EXPOSE 3000
 EXPOSE 8000
-
