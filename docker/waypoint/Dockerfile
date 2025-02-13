@@ -1,9 +1,12 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 LABEL maintainer="Penn Labs"
 
 
 # --- systems setup
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    systemd systemd-sysv
+  
 RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev libc-dev
 
 RUN apt-get update && apt-get install --no-install-recommends -y curl git gh \
