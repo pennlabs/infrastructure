@@ -1,21 +1,42 @@
 #!/bin/bash
 
 INSTALL_DIR="/usr/local/bin"
-WAYPOINT_VERSION="v0.0.2.9"
+WAYPOINT_VERSION="v0.0.2.11"
 GITHUB_ORG="pennlabs"
 REPO_NAME="infrastructure"
 
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 BINARY_SUFFIX=""
-case $ARCH in
-    arm64|aarch64)
-        BINARY_SUFFIX="-arm64"
+
+case "$OS" in
+    linux*)
+        case "$ARCH" in
+            x86_64|amd64)
+                BINARY_SUFFIX="-linux-x86_64"
+                ;;
+            *)
+                echo "Unsupported Linux architecture: $ARCH"
+                exit 1
+                ;;
+        esac
         ;;
-    x86_64|amd64)
-        BINARY_SUFFIX=""
+    darwin*)
+        case "$ARCH" in
+            arm64|aarch64)
+                BINARY_SUFFIX="-macos-arm64"
+                ;;
+            x86_64|amd64)
+                BINARY_SUFFIX="-macos-x86_64"
+                ;;
+            *)
+                echo "Unsupported macOS architecture: $ARCH"
+                exit 1
+                ;;
+        esac
         ;;
     *)
-        echo "Unsupported architecture: $ARCH"
+        echo "Unsupported operating system: $OS"
         exit 1
         ;;
 esac
@@ -23,7 +44,7 @@ esac
 TMP_DIR=$(mktemp -d)
 cd $TMP_DIR
 
-echo "Downloading Waypoint for $ARCH architecture..."
+echo "Downloading Waypoint for $OS $ARCH..."
 curl -L "https://github.com/${GITHUB_ORG}/${REPO_NAME}/releases/download/${WAYPOINT_VERSION}/waypoint-client${BINARY_SUFFIX}" -o waypoint-client
 
 chmod +x waypoint-client
