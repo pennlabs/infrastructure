@@ -8,8 +8,8 @@ setup(
     install_requires=[],
     entry_points={
         "console_scripts": [
-            "waypoint=main:main",
-            "waypoint-client=waypoint_client:main",
+            "waypoint=waypoint.main:main",
+            "waypoint-client=waypoint.waypoint_client:main",
         ],
     },
     author="Penn Labs",
