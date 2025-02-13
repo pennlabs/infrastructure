@@ -1,1 +1,1 @@
-"""Waypoint package."""
+"""Waypoint package"""
