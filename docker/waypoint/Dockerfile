@@ -52,7 +52,7 @@ COPY database-init /opt/waypoint/database-init
 RUN chmod +x /opt/waypoint/database-init
 
 RUN mkdir -p /opt/waypoint/cli
-COPY . /opt/waypoint/cli
+COPY docker/waypoint /opt/waypoint/cli
 WORKDIR /opt/waypoint/cli
 RUN pip install -e .
 
