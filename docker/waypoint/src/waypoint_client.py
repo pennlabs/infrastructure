@@ -156,11 +156,7 @@ def start(rebuild: bool = False) -> None:
                     "-p",
                     "3000:3000",
                     image_name,
-                    (
-                        "bash"
-                        if not editor_exists
-                        else f"bash -c '{editor_type} --folder-uri vscode-remote://dev-container/{config['code_dir']}'"
-                    ),
+                    "bash"
                 ],
                 check=True,
             )

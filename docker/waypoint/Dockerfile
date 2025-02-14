@@ -27,8 +27,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib redis-server systemd
 
 # Install nvm, node, and npm, yarn
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 20
+ENV NVM_DIR=/usr/local/nvm
+ENV NODE_VERSION=20
 
 RUN mkdir -p $NVM_DIR && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \
@@ -54,7 +54,7 @@ RUN chmod +x /opt/waypoint/database-init
 RUN mkdir -p /opt/waypoint/cli
 COPY . /opt/waypoint/cli
 WORKDIR /opt/waypoint/cli
-RUN pip install -e .
+RUN pip3 install .
 
 WORKDIR /
 
