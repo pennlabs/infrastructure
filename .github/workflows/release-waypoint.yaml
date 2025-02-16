@@ -22,7 +22,7 @@ jobs:
 
     runs-on: ${{ strategy.matrix.os }}
     outputs:
-      sha_${{ matrix.os }}_${{ matrix.arch }}: ${{ env.BINARY_SHA }}
+      sha_${{ strategy.matrix.os }}_${{ strategy.matrix.arch }}: ${{ env.BINARY_SHA }}
     steps:
       - uses: actions/checkout@v3
 
