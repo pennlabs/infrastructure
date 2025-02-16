@@ -166,11 +166,26 @@ def init_product(product: str) -> None:
         )
         sys.exit(1)
     # init yarn
-    subprocess.run(
-        f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'",
-        shell=True,
-        check=True,
-    )
+    if (product != "penn-courses"):
+        subprocess.run(
+            f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'",
+            shell=True,
+            check=True,
+        )
+    else:
+        subprocess.run(
+            f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
+            shell=True,
+            check=True,
+        )
+        # Yarn install in subfolders, [alert|plan|review]
+        for folder in ["alert", "plan", "review"]:
+            subprocess.run(
+                f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend', folder)} && yarn'",
+                shell=True,
+                check=True,
+            )
+        
 
 
     # Make .initialized file
