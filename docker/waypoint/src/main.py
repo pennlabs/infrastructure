@@ -154,7 +154,7 @@ def init_product(product: str) -> None:
             shell=True,
             check=True,
         )
-        if (product != "penn-mobile" or product != "penn-courses"):
+        if (product != "penn-mobile" and product != "penn-courses"):
             subprocess.run(
                 f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
                 shell=True,
