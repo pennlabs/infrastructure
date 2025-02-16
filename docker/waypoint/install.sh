@@ -8,6 +8,7 @@ REPO_NAME="infrastructure"
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 BINARY_SUFFIX=""
+CWD=$(pwd)
 
 case "$OS" in
     linux*)
@@ -55,3 +56,5 @@ echo "Run 'waypoint-client configure' to get started."
 echo "Run 'waypoint-client --help' to see available commands."
 
 rm -rf $TMP_DIR
+
+cd $CWD
