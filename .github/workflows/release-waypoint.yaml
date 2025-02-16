@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
@@ -20,31 +20,31 @@ jobs:
             arch: arm64
             binary_suffix: "-macos-arm64"
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ strategy.matrix.os }}
     outputs:
       sha_${{ matrix.os }}_${{ matrix.arch }}: ${{ env.BINARY_SHA }}
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-          
+          python-version: "3.11"
+
       - name: Install dependencies
         run: |
           pip install pyinstaller
           cd docker/waypoint && pip install .
-          
+
       - name: Build binary
         working-directory: docker/waypoint
         run: pyinstaller src/waypoint_client.py --onefile --name "waypoint-client${{ matrix.binary_suffix }}"
-          
+
       - name: Calculate SHA256
         run: |
           cd docker/waypoint/dist
           echo "BINARY_SHA=$(sha256sum waypoint-client${{ matrix.binary_suffix }} | awk '{print $1}')" >> $GITHUB_ENV
-          
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
