@@ -20,9 +20,7 @@ jobs:
             arch: arm64
             binary_suffix: "-macos-arm64"
 
-    runs-on: ${{ strategy.matrix.os }}
-    outputs:
-      sha_${{ strategy.matrix.os }}_${{ strategy.matrix.arch }}: ${{ env.BINARY_SHA }}
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
 
@@ -45,30 +43,12 @@ jobs:
           cd docker/waypoint/dist
           echo "BINARY_SHA=$(sha256sum waypoint-client${{ matrix.binary_suffix }} | awk '{print $1}')" >> $GITHUB_ENV
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: waypoint-client${{ matrix.binary_suffix }}
-          path: docker/waypoint/dist/waypoint-client${{ matrix.binary_suffix }}
-
-  create-release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts
-
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/**/*
+          files: docker/waypoint/dist/waypoint-client*
           name: Release ${{ github.ref_name }}
           body: |
-            SHA256 Checksums:
-            - Linux (x86_64): ${{ needs.build.outputs.sha_ubuntu-latest_x86_64 }}
-            - macOS (x86_64): ${{ needs.build.outputs.sha_macos-latest_x86_64 }}
-            - macOS (arm64): ${{ needs.build.outputs.sha_macos-latest_arm64 }}
+            SHA256 (${{ matrix.os }}-${{ matrix.arch }}): ${{ env.BINARY_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
