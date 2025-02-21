@@ -185,8 +185,36 @@ def init_product(product: str) -> None:
                 shell=True,
                 check=True,
             )
-        
+    
+    if product == "penn-courses":
+        # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
+        sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
+        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli", "reset_courses.sql")
+        if os.path.exists(sql_file):
+            try:
+                password = "postgres"
+                # Run the psql command with the password
+                # Reset Courses Related Tables
+                subprocess.run(
+                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f  {reset_courses_file}",
+                    shell=True,
+                    check=True,
+                )
 
+                print("Successfully reset courses related tables")
+                # Add data
+                subprocess.run(
+                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f {sql_file}",
+                    shell=True,
+                    check=True,
+                )
+                print("Successfully ran pcx_tsxt.sql")
+            except subprocess.CalledProcessError:
+                print("Failed to run pcx_test.sql, check if it exists in your secrets folder")
+                exit(1)
+        else:
+            print("pcx_test.sql not found in secrets folder, skipping")
+        
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
