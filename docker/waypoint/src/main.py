@@ -21,6 +21,10 @@ PRODUCTS = {
         "sha": "723640b1dbb815877c24bb1bc8b729c15e12c87a",
         "node_version": "22",
     },
+    "platform": {
+        "sha": "42c56ff509f60de5389262a9de5e38faf1d9aac2",
+        "node_version": "22",
+    }
 }
 
 WAYPOINT_DIR = "/opt/waypoint"
@@ -154,7 +158,8 @@ def init_product(product: str) -> None:
             shell=True,
             check=True,
         )
-        if (product != "penn-mobile" and product != "penn-courses"):
+        
+        if product not in ["penn-mobile", "penn-courses", "platform"]:
             subprocess.run(
                 f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
                 shell=True,
@@ -166,18 +171,13 @@ def init_product(product: str) -> None:
         )
         sys.exit(1)
     # init yarn
-    if (product != "penn-courses"):
-        subprocess.run(
-            f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn install'",
-            shell=True,
-            check=True,
-        )
-    else:
+
         subprocess.run(
             f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
             shell=True,
             check=True,
         )
+    if (product is "penn-courses"):
         # Yarn install in subfolders, [alert|plan|review]
         for folder in ["alert", "plan", "review"]:
             subprocess.run(
@@ -341,15 +341,7 @@ def main() -> None:
 
     init_parser = subparsers.add_parser(
         "init",
-        help="""
--------------Initialize a product environment or all products-----------------
-
-Clones repos, installs dependencies, runs manage.py commands, and yarn install.
-If no product is specified, it will initialize all products.
-
-Example: waypoint init office-hours-queue
-------------------------------------------------------------------------------
-""",
+        help="Initialize a product environment or all products. Clones repos, installs dependencies, runs manage.py commands, and yarn install. If no product is specified, it will initialize all products."
     )
     init_parser.add_argument(
         "product", help="Product to initialize", nargs="?", default=None
@@ -357,15 +349,7 @@ Example: waypoint init office-hours-queue
 
     switch_parser = subparsers.add_parser(
         "switch",
-        help="""
--------------Switch to a product environment-------------
-Starts the uv virtual enviroment assosiated with the product
-Opens the product in VSCode if in a dev container.
-You can also specify --no-vsc to not open VSCode.
-                                        
-Example: waypoint switch office-hours-queue --no-vsc
-
----------------------------------------------------------""",
+        help="Switch to a product environment. Starts the uv virtual environment associated with the product and opens the product in VSCode if in a dev container. Use --no-vsc to not open VSCode."
     )
     switch_parser.add_argument(
         "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
@@ -376,53 +360,22 @@ Example: waypoint switch office-hours-queue --no-vsc
 
     subparsers.add_parser(
         "start",
-        help="""
--------------Start both the backend and frontend of the current development environment-------------
-Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.
-Note: Must be in a dev container to run this command.
-
-Example: waypoint start
-
-----------------------------------------------------------------------------------------------------
-                        """,
+        help="Start both the backend and frontend of the current development environment. Runs `python manage.py runserver` and `yarn dev` in the appropriate directories."
     )
 
     subparsers.add_parser(
         "backend",
-        help="""
--------------Start current product backend-------------------
-Runs `python manage.py runserver` in the appropriate directory.
-Note: Must be in a dev container to run this command.
-
-Example: waypoint backend   
-
--------------------------------------------------------------
-                                """,
+        help="Start the current product backend. Runs `python manage.py runserver` in the appropriate directory."
     )
+
     subparsers.add_parser(
         "frontend",
-        help="""
--------------Start current product frontend-------------------
-Runs `yarn dev` in the appropriate directory.
-Note: Must be in a dev container to run this command.
-
-Example: waypoint frontend
-
--------------------------------------------------------------
-        """
+        help="Start the current product frontend. Runs `yarn dev` in the appropriate directory."
     )
 
     services_parser = subparsers.add_parser(
         "services",
-        help="""
--------------Manage background services----------------------
-Starts, stop or chec the status of the PostgreSQL and Redis services.
-If no mode is specified, it will start the services.
-
-Example: waypoint services start
-
--------------------------------------------------------------
-""",
+        help="Manage background services. Starts, stops, or checks the status of the PostgreSQL and Redis services. If no mode is specified, it will start the services."
     )
     services_parser.add_argument(
         "mode",

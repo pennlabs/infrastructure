@@ -8,6 +8,7 @@ PRODUCT_TO_SHA=(
   ["penn-clubs"]="d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd"
   ["penn-mobile"]="b1a8bfa53a35496c972b880f7e3ab9d93845b614"
   ["penn-courses"]="723640b1dbb815877c24bb1bc8b729c15e12c87a"
+  ["platform"]="42c56ff509f60de5389262a9de5e38faf1d9aac2"
 )
 
 PRODUCT_TO_NODE_VERSION=(
@@ -15,6 +16,7 @@ PRODUCT_TO_NODE_VERSION=(
   ["penn-clubs"]="20"
   ["penn-mobile"]="22"
   ["penn-courses"]="22"
+  ["platform"]="22"
 )
 
 

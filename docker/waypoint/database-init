@@ -23,6 +23,7 @@ sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DAT
     BEGIN
         IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'penn-courses') THEN
             CREATE USER "penn-courses" WITH PASSWORD '$PG_PASSWORD';
+            ALTER USER "penn-courses" WITH SUPERUSER;
         END IF;
     END
     \$\$;
