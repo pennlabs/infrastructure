@@ -12,14 +12,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y curl git \
   && rm -rf /var/lib/apt/lists/*
 
 # Install locales and configure the correct locale
-# RUN apt-get update && apt-get install -y locales
-# RUN locale-gen en_US.UTF-8
-# RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+RUN apt-get update && apt-get install -y locales
+RUN locale-gen en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 RUN pip3 install uv pipenv
 
 # --- labs setup
-# TODO: install and set up postgres db w systemd
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y tzdata \
     && ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata

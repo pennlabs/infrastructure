@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e
-
-product="office-hours-queue"
-source /opt/waypoint/current/venv/bin/activate
-cd /labs/$product

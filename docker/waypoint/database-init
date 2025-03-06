@@ -1,23 +1,20 @@
 #!/bin/bash
 set -e
 
-# Start PostgreSQL service
+# Start PostgreSQL & Redis
 sudo service postgresql start
-
-# Start Redis server in the background
 redis-server --daemonize yes
 
-# PostgreSQL user and database details
+# Create DBs (unless made)
 PG_USER="postgres"
 PG_PASSWORD="postgres"
 PG_DATABASE="postgres"
-
-# Alter the PostgreSQL user password
 sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DATABASE" <<-EOSQL
     ALTER USER $PG_USER WITH PASSWORD '$PG_PASSWORD';
 EOSQL
 
-# Create a new PostgreSQL user "penn-courses" with the same password if it doesn't already exist
+# Product specific
+# This is needed here rather than in init because of the way penn-courses interacts with both of these DBs
 sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DATABASE" <<-EOSQL
     DO \$\$
     BEGIN

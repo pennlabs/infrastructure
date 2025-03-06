@@ -24,12 +24,11 @@ PRODUCTS = {
     "platform": {
         "sha": "42c56ff509f60de5389262a9de5e38faf1d9aac2",
         "node_version": "22",
-    }
+    },
 }
 
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
-
 
 def clone_product(product: str) -> None:
     """Clone a product from GitHub if it doesn't exist."""
@@ -158,7 +157,7 @@ def init_product(product: str) -> None:
             shell=True,
             check=True,
         )
-        
+
         if product not in ["penn-mobile", "penn-courses", "platform"]:
             subprocess.run(
                 f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
@@ -170,14 +169,15 @@ def init_product(product: str) -> None:
             f"Failed to run manage.py commands for {product}, did you run `waypoint services`?"
         )
         sys.exit(1)
-    # init yarn
 
-        subprocess.run(
-            f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
-            shell=True,
-            check=True,
-        )
-    if (product is "penn-courses"):
+    # init yarn
+    subprocess.run(
+        f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
+        shell=True,
+        check=True,
+    )
+    
+    if product == "penn-courses":
         # Yarn install in subfolders, [alert|plan|review]
         for folder in ["alert", "plan", "review"]:
             subprocess.run(
@@ -185,11 +185,11 @@ def init_product(product: str) -> None:
                 shell=True,
                 check=True,
             )
-    
+
     if product == "penn-courses":
         # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
         sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
-        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli", "reset_courses.sql")
+        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli","utils","courses_reset_db.sql")
         if os.path.exists(sql_file):
             try:
                 password = "postgres"
@@ -210,11 +210,12 @@ def init_product(product: str) -> None:
                 )
                 print("Successfully ran pcx_tsxt.sql")
             except subprocess.CalledProcessError:
-                print("Failed to run pcx_test.sql, check if it exists in your secrets folder")
+                print(
+                    "Failed to run pcx_test.sql, check if it exists in your secrets folder"
+                )
                 exit(1)
         else:
             print("pcx_test.sql not found in secrets folder, skipping")
-        
 
     # Make .initialized file
     with open(os.path.join(product_path, ".initialized"), "w") as f:
@@ -341,15 +342,16 @@ def main() -> None:
 
     init_parser = subparsers.add_parser(
         "init",
-        help="Initialize a product environment or all products. Clones repos, installs dependencies, runs manage.py commands, and yarn install. If no product is specified, it will initialize all products."
+        help="Initialize a product environment or all products. Clones repos, installs dependencies, runs manage.py commands, and yarn install. If no product is specified, it will initialize all products.",
     )
     init_parser.add_argument(
-        "product", help="Product to initialize", nargs="?", default=None
+        "product", help="Product to initalize to, options: "
+        + ", ".join(PRODUCTS.keys()), nargs="?", default=None
     )
 
     switch_parser = subparsers.add_parser(
         "switch",
-        help="Switch to a product environment. Starts the uv virtual environment associated with the product and opens the product in VSCode if in a dev container. Use --no-vsc to not open VSCode."
+        help="Switch to a product environment. Starts the uv virtual environment associated with the product and opens the product in VSCode if in a dev container. Use --no-vsc to not open VSCode.",
     )
     switch_parser.add_argument(
         "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
@@ -360,22 +362,22 @@ def main() -> None:
 
     subparsers.add_parser(
         "start",
-        help="Start both the backend and frontend of the current development environment. Runs `python manage.py runserver` and `yarn dev` in the appropriate directories."
+        help="Start both the backend and frontend of the current development environment. Runs `python manage.py runserver` and `yarn dev` in the appropriate directories.",
     )
 
     subparsers.add_parser(
         "backend",
-        help="Start the current product backend. Runs `python manage.py runserver` in the appropriate directory."
+        help="Start the current product backend. Runs `python manage.py runserver` in the appropriate directory.",
     )
 
     subparsers.add_parser(
         "frontend",
-        help="Start the current product frontend. Runs `yarn dev` in the appropriate directory."
+        help="Start the current product frontend. Runs `yarn dev` in the appropriate directory.",
     )
 
     services_parser = subparsers.add_parser(
         "services",
-        help="Manage background services. Starts, stops, or checks the status of the PostgreSQL and Redis services. If no mode is specified, it will start the services."
+        help="Manage background services. Starts, stops, or checks the status of the PostgreSQL and Redis services. If no mode is specified, it will start the services.",
     )
     services_parser.add_argument(
         "mode",

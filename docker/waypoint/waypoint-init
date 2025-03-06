@@ -34,16 +34,4 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
   source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > requirements.txt && uv pip install -r $PRODUCT_PATH/requirements.txt
 done
 
-
-# for product in "${!PRODUCT_TO_NODE_VERSION[@]}"; do
-#   echo "Installing frontend dependencies for $product"
-#   node_version="${PRODUCT_TO_NODE_VERSION[$product]}"
-#   PRODUCT_PATH="/labs/$product/frontend"
-#   . $NVM_DIR/nvm.sh && nvm install $node_version
-#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && nvm use $node_version
-#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && npm install -g yarn
-#   . $NVM_DIR/nvm.sh && cd $PRODUCT_PATH && yarn install
-  
-# done
-
 echo "Setup complete!"
