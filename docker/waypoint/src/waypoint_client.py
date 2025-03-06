@@ -7,7 +7,7 @@ import json
 
 
 CONFIG_FILE = os.path.expanduser("~/.waypoint/config.json")
-
+IMAGE_NAME = "pennlabs/waypoint"
 
 def load_config() -> dict:
     """Load waypoint configuration from file."""
@@ -105,9 +105,9 @@ def start(rebuild: bool = False) -> None:
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
     editor_type = config.get("editor_type", None)
 
-    image_name = "pennlabs/waypoint"
+   
     result = subprocess.run(
-        ["docker", "images", "-q", image_name],
+        ["docker", "images", "-q", IMAGE_NAME],
         capture_output=True,
         text=True,
         check=True,
@@ -116,11 +116,11 @@ def start(rebuild: bool = False) -> None:
 
     if not image_found or rebuild:
         if not image_found:
-            print(f"Docker image {image_name} not found. Pulling from pennlabs/waypoint...")
+            print(f"Docker image {IMAGE_NAME} not found. Pulling from pennlabs/waypoint...")
         else:
             print(f"--rebuild flag detected. Pulling latest pennlabs/waypoint...")
         try:
-            subprocess.run(["docker", "pull", image_name], check=True)
+            subprocess.run(["docker", "pull", IMAGE_NAME], check=True)
         except subprocess.CalledProcessError:
             print("\nError: Failed to pull waypoint container")
             sys.exit(1)
@@ -155,7 +155,7 @@ def start(rebuild: bool = False) -> None:
                     "8000:8000",
                     "-p",
                     "3000:3000",
-                    image_name,
+                    IMAGE_NAME,
                     "bash"
                 ],
                 check=True,
@@ -171,6 +171,21 @@ def start(rebuild: bool = False) -> None:
         print("\nStartup interrupted.")
         sys.exit(1)
 
+def spawn() -> None:
+    """Spawn a new bash shell in the waypoint container."""
+    container_id_cmd = "docker container ls | grep '" + IMAGE_NAME + "' | awk '{print $1}'"
+    result = subprocess.run(container_id_cmd, shell=True, 
+                            capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        print("Error: Waypoint container not found, is it running?")
+        sys.exit(1)
+    container_id = result.stdout.strip()
+    if (container_id != ""):
+        print("Waypoint contianer found, spawning new bash shell...")
+        subprocess.run(["docker", "exec", "-it", container_id, "bash"], check=False)
+    else:
+        print("Error: Waypoint container not found, is it running?")
+        sys.exit(1)
 
 def main() -> None:
     """Main entry point for waypoint client."""
@@ -184,6 +199,8 @@ def main() -> None:
         action="store_true",
         help="Rebuild waypoint image to be up to date. Note this will delete the existing image and start from scratch, but your code and secrets will be preserved.",
     )
+
+    subparsers.add_parser("spawn", help="Spawn a new bash shell in the waypoint container")
 
     args = parser.parse_args()
 
@@ -202,6 +219,8 @@ def main() -> None:
             start(rebuild=True)
         else:
             start()
+    elif args.command == "spawn":
+        spawn()
     else:
         parser.print_help()
         sys.exit(1)
