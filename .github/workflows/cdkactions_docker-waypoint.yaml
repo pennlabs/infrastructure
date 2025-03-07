@@ -9,7 +9,7 @@ jobs:
     name: Publish waypoint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v3
         with:
           platforms: linux/amd64,linux/arm64
@@ -18,7 +18,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: buildx-publish-waypoint
