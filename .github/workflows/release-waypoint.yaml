@@ -3,22 +3,22 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   build:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             arch: x86_64
-            binary_suffix: "-linux-x86_64"
+            binary_suffix: '-linux-x86_64'
           - os: macos-latest
             arch: x86_64
-            binary_suffix: "-macos-x86_64"
+            binary_suffix: '-macos-x86_64'
           - os: macos-latest
             arch: arm64
-            binary_suffix: "-macos-arm64"
+            binary_suffix: '-macos-arm64'
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,7 +27,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |

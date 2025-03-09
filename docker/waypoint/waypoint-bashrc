@@ -18,6 +18,7 @@ waypoint() {
         waypoint-switch-shell-context
     fi
 }
+alias wp=waypoint
 
 source $NVM_DIR/nvm.sh
 echo 'Welcome to Waypoint!'

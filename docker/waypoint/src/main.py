@@ -135,6 +135,9 @@ def sync_env(product: str) -> None:
 
 def init_product(product: str) -> None:
     """Initialize a product environment"""
+    if product == "ohq":
+        product = "office-hours-queue"
+        
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
         print(f"Available products: {', '.join(PRODUCTS.keys())}")

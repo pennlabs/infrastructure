@@ -8,6 +8,7 @@ import json
 
 CONFIG_FILE = os.path.expanduser("~/.waypoint/config.json")
 IMAGE_NAME = "pennlabs/waypoint"
+CONTAINER_NAME = "waypoint-1"
 
 def load_config() -> dict:
     """Load waypoint configuration from file."""
@@ -103,9 +104,7 @@ def start(rebuild: bool = False) -> None:
     env["WAYPOINT_CONFIG_DIR"] = config["config_dir"]
     env["WAYPOINT_CODE_DIR"] = config["code_dir"]
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
-    editor_type = config.get("editor_type", None)
 
-   
     result = subprocess.run(
         ["docker", "images", "-q", IMAGE_NAME],
         capture_output=True,
@@ -125,64 +124,90 @@ def start(rebuild: bool = False) -> None:
             print("\nError: Failed to pull waypoint container")
             sys.exit(1)
 
-    # TODO: Currently not working in detecting cursor
-    if editor_type is not None:
-        result = subprocess.run(
-            ["which", editor_type], capture_output=True, text=True, check=False
-        )
-        editor_exists = result.returncode == 0 or "aliased to" in result.stdout
-        if editor_exists:
-            print(f"Editor {editor_type} found. Opening {editor_type}...")
-        else:
-            print(f"Editor {editor_type} not found. Opening default editor...")
-    # TODO: check that local ssh folder and gnupg folders exist, otherwise mkdir them
-    try:
-        try:
-            subprocess.run(
-                [
-                    "docker",
-                    "run",
-                    "-it",
-                    "-v",
-                    f"{config['config_dir']}/.ssh:/root/.ssh",
-                    "-v",
-                    f"{config['config_dir']}/.gnupg:/root/.gnupg",
-                    "-v",
-                    f"{config['code_dir']}:/labs",
-                    "-v",
-                    f"{config['secrets_dir']}:/opt/waypoint/secrets",
-                    "-p",
-                    "8000:8000",
-                    "-p",
-                    "3000:3000",
-                    IMAGE_NAME,
-                    "bash"
-                ],
-                check=True,
-            )
-        except KeyboardInterrupt:
-            print("\nExiting waypoint shell...")
-            sys.exit(0)
-    except subprocess.CalledProcessError:
-        print("\nError: Failed to start waypoint container")
-        sys.exit(1)
+    ssh_dir = os.path.join(config['config_dir'], '.ssh')
+    gnupg_dir = os.path.join(config['config_dir'], '.gnupg')
 
-    except KeyboardInterrupt:
-        print("\nStartup interrupted.")
-        sys.exit(1)
+    # Check if the ssh and gnupg directories exist, and create them if they don't
+    if not os.path.exists(ssh_dir):
+        os.makedirs(ssh_dir)
+    if not os.path.exists(gnupg_dir):
+        os.makedirs(gnupg_dir)
+    
+    waypoint_state = is_waypoint_running()
+    if waypoint_state == 2: 
+            print(f"Waypoint is already running. Use 'waypoint-client spawn' to open a new shell.")
+            sys.exit(1)
+    elif waypoint_state == 1:
+            try:
+                subprocess.run(["docker", "start", CONTAINER_NAME], check=True)
+            except subprocess.CalledProcessError:
+                print("\nError: Failed to start waypoint container")
+                sys.exit(1)
+    else:
+        try:
+            try:
+                subprocess.run(
+                    [
+                        "docker",
+                        "run",
+                        "-it",
+                        "-v",
+                        f"{config['config_dir']}/.ssh:/root/.ssh",
+                        "-v",
+                        f"{config['config_dir']}/.gnupg:/root/.gnupg",
+                        "-v",
+                        f"{config['code_dir']}:/labs",
+                        "-v",
+                        f"{config['secrets_dir']}:/opt/waypoint/secrets",
+                        "-p",
+                        "8000:8000",
+                        "-p",
+                        "3000:3000",
+                        "--name",
+                        CONTAINER_NAME,
+                        IMAGE_NAME,
+                        "bash"
+                    ],
+                    check=True,
+                )
+            except KeyboardInterrupt:
+                print("\nExiting waypoint shell...")
+                sys.exit(0)
+        except subprocess.CalledProcessError:
+            print("\nError: Failed to start waypoint container")
+            sys.exit(1)
+
+        except KeyboardInterrupt:
+            print("\nStartup interrupted.")
+            sys.exit(1)
+
+def is_waypoint_running() -> int:
+    """Check the state of the waypoint container. 
+    Returns 0 if the container does not exist, 
+    1 if the container exists but is not running, and 2 if the container is running."""
+    result = subprocess.run(
+        ["docker", "inspect", "--format", "{{.State.Running}}", CONTAINER_NAME],
+        capture_output=True, text=True, check=False
+    )
+    
+    if result.returncode != 0:
+        # Container does not exist
+        print(f"Error: Container '{CONTAINER_NAME}' does not exist.")
+        return 0
+    
+    if result.stdout.strip() == "true":
+        # Container is running
+        return 2
+    
+    # Container exists but is not running
+    return 1
+
 
 def spawn() -> None:
     """Spawn a new bash shell in the waypoint container."""
-    container_id_cmd = "docker container ls | grep '" + IMAGE_NAME + "' | awk '{print $1}'"
-    result = subprocess.run(container_id_cmd, shell=True, 
-                            capture_output=True, text=True, check=False)
-    if result.returncode != 0:
-        print("Error: Waypoint container not found, is it running?")
-        sys.exit(1)
-    container_id = result.stdout.strip()
-    if (container_id != ""):
+    if is_waypoint_running() == 2:
         print("Waypoint contianer found, spawning new bash shell...")
-        subprocess.run(["docker", "exec", "-it", container_id, "bash"], check=False)
+        subprocess.run(["docker", "exec", "-it", CONTAINER_NAME, "bash"], check=False)
     else:
         print("Error: Waypoint container not found, is it running?")
         sys.exit(1)
