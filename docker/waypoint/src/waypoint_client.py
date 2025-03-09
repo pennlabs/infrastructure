@@ -192,7 +192,6 @@ def is_waypoint_running() -> int:
     
     if result.returncode != 0:
         # Container does not exist
-        print(f"Error: Container '{CONTAINER_NAME}' does not exist.")
         return 0
     
     if result.stdout.strip() == "true":
