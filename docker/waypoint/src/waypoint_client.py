@@ -139,7 +139,7 @@ def start(rebuild: bool = False) -> None:
             sys.exit(1)
     elif waypoint_state == 1:
             try:
-                subprocess.run(["docker", "start", CONTAINER_NAME], check=True)
+                subprocess.run(["docker", "start", CONTAINER_NAME],stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
                 subprocess.run(["docker", "exec", "-it", CONTAINER_NAME, "bash"], check=False)
             except subprocess.CalledProcessError:
                 print("\nError: Failed to start waypoint container")
