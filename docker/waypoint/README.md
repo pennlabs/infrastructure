@@ -75,7 +75,9 @@ waypoint init [product] # or just `waypoint init`
 waypoint switch [product]
 ```
 
-### All products supported. Warning Penn-Courses requires a special SQL file. 
+### List of all currently supported products.
+
+Warning: Penn-Courses requires a special SQL file.
 | Product              | SHA                                      |
 |---------------------|------------------------------------------|
 | **office-hours-queue** | 524282d029a330b59158e80299e3be23988f1765 |
