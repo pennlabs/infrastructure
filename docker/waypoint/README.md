@@ -1,116 +1,179 @@
-# Waypoint
 
-A development environment manager for Penn Labs products.
+# 🚀 Waypoint: Unified Devbox Set-up  
 
-## Installation
+> **Creators:** @Ryan Tanenholz, @Qijia Liu  
 
-### Set-up
+An easy to setup dev environment for Penn Labs products that simplifies onboarding and cross-team collaboration.  
 
-To get started, install `waypoint-client` on your local machine by running:
+---
 
-```bash
+## 🎯 Motivation  
+The current dev environment setup is:  
+✅ **Time-consuming**  
+✅ **Inconsistent across teams and devices**  
+✅ **Hard to reproduce**  
+
+**Waypoint** solves this by creating a standardized development environment that:  
+- Works across all teams and roles  
+- Speeds up onboarding for new developers  
+- Makes it easier to switch between projects  
+
+---
+
+## ✨ Features  
+
+| Feature | Description |
+|---------|-------------|
+| 🏗️ **Easy Setup** | Simple one-liner install to get started quickly |
+| 🔄 **Consistent Environment** | Same set-up for all products, no more "works on my machine" issues |
+| 🐳 **Docker-Based** | Run all services in a containerized environment |
+| 🌐 **Cross-Platform** | Works on Mac, Linux, and Windows (with WSL) |
+| 🔒 **Secret Management** | Secrets are mounted securely and persist after container updates |
+| 🛠️ **Product Switching** | Instantly switch between product environments |
+
+---
+
+## 📥 Installation  
+
+### **Prerequisites**  
+- [Docker](https://www.docker.com/products/docker-desktop/) (or [OrbStack](https://orbstack.dev/) for Mac)  
+- WSL (Windows only, Ubuntu 22.04+)  
+- VSCode or Cursor  
+- Python 3.11+  
+
+### **Set-up**  
+Install `waypoint-client` on your local machine:  
+```
 curl -sSL https://raw.githubusercontent.com/pennlabs/infrastructure/refs/heads/add-waypoint/docker/waypoint/install.sh | sudo bash
 ```
 
-Next, configure `waypoint-client`:
-
-```bash
+Configure Waypoint:  
+```
 waypoint-client configure
 ```
 
-This setup ensures your code, secrets, and config files persist even if the container is rebuilt or stopped.
-
-To start developing, run:
-
-```bash
+Start the container:  
+```
 waypoint-client start
 ```
 
-### Developing on a Waypoint Container
+✅ **Requires 6–7 GB of free space**  
 
-On the first boot, the waypoint will build the image.
+---
 
-1. [Install the VSCode Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
-2. Select `Dev containers: attach to a running container`. (<kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> on Mac)
+## 🚀 Getting Started  
 
-Then, execute the following commands:
+### 1. **Attach to the Container**  
+- Install the **VSCode Dev Containers** extension.  
+- Open **Command Palette** → `Dev Containers: Attach to Running Container`.
+- To open the Command Palette in VSCode, press <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows).  
 
-- Start background services (e.g., databases):
-
-  ```bash
-  waypoint services
-  ```
-
-- Initialize environments:
-
-  ```bash
-  waypoint init
-  ```
-
-  or
-
-  ```bash
-  waypoint init [product]
-  ```
-
-- Switch between products:
-
-  ```bash
-  waypoint switch [product]
-  ```
-
-Now, you are ready to start coding. Treat the waypoint as a VM; you can make changes, set up git, etc. However, remember that updates to the waypoint will erase any changes not made in `/labs`, which is mounted to your local machine based on your initial configuration.
-
-Mounts:
-
-- **Code mount**: Your code is mounted so you can access it locally.
-- **Secret mount**: A directory is used as a secret mount, and all files are loaded in with `source` as secrets.
-
-## Waypoint Commands
-
-### `waypoint-client` CLI
-
-The waypoint-client CLI is for your local machine.
-
-- `waypoint-client configure` to set up your waypoint-client and set the location for your secrets and code to be stored on your local machine. These will be mounted into the waypoint dev machine.
-- `waypoint-client start` to start the docker image and begin coding. After running, use VSCode dev containers to connect to the waypoint.
-
-### `waypoint` CLI
-
-The waypoint CLI is for your waypoint dev machine.
-
-- `waypoint services (start/stop/status)` to start, stop, or check the status of background services, such as PostgreSQL and Redis.
-  - Defaults to `start`
-- `waypoint init (product)` to set up initial environments. This will clone corresponding repositories to `/labs/[product]`, migrate and populate the backend, and install frontend packages with `yarn`.
-  - You may omit the product name to initialize all products (recommended)
-- `waypoint switch [product]` to switch environments. This will attempt to switch to a new VSCode window if you are using waypoint in a dev container
-
-The following commands are done only in a product environment. (You must switch to some product for these to work)
-
-- `waypoint sync [product]` refreshes backend dependencies for a particular product to be up to date to what the container currently specifies.
-- `waypoint backend` to start the backend for your current product
-- `waypoint frontend` to start the frontend for your current product
-
-- Initialize a product environment:
-
-```bash
-waypoint init (product)
+### 2. **Set Up a Product**  
 ```
-
-- Switch between products:
-
-```bash
+waypoint services
+waypoint init [product] # or just `waypoint init`
 waypoint switch [product]
 ```
 
-- Start development server:
+### All products supported. Warning Penn-Courses requires a special SQL file. 
+| Product              | SHA                                      |
+|---------------------|------------------------------------------|
+| **office-hours-queue** | 524282d029a330b59158e80299e3be23988f1765 |
+| **penn-clubs**         | d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd |
+| **penn-mobile**        | b1a8bfa53a35496c972b880f7e3ab9d93845b614 |
+| **penn-courses**       | 723640b1dbb815877c24bb1bc8b729c15e12c87a |
+| **platform**           | 42c56ff509f60de5389262a9de5e38faf1d9aac2 |
 
-```bash
-waypoint start
+
+### 3. **Start Developing**  
+- Code and secrets are mounted to your local machine.  
+- Any changes made inside `/labs` will persist after container updates.  
+
+---
+
+## 🧩 CLI Commands  
+
+### **Local CLI** (`waypoint-client`)  
+| Command | Description |
+|---------|-------------|
+| `waypoint-client configure` | Set up Waypoint on your local machine |
+| `waypoint-client start` | Start the container and attach to VSCode |
+| `waypoint-client start --rebuild` | Force a container rebuild |
+| `waypoint-client spawn` | Open a new bash terminal inside the container |
+
+### **Container CLI** (`waypoint`)  
+| Command | Description |
+|---------|-------------|
+| `waypoint services (start/stop/status)` | Start, stop, or check status of services (e.g., PostgreSQL, Redis) |
+| `waypoint init [product]` | Set up initial environment for a product |
+| `waypoint switch [product]` | Switch environments |
+| `waypoint sync [product]` | Refresh backend dependencies |
+| `waypoint backend` | Start the backend |
+| `waypoint frontend` | Start the frontend |
+
+---
+
+## 🔄 Dependency Management  
+
+- Uses `uv` for fast installs and shared dependencies  
+- Dependencies are **pinned** at build time for consistency  
+- Backends are synced with Git SHA (e.g., OHQ → `524282d029a330b59158e80299e3be23988f1765`)  
+
+### **Updating Dependencies**  
+- Bump version by submitting a PR to Waypoint  
+- `waypoint sync [product]` refreshes dependencies  
+
+---
+
+## 🔒 Secret Management  
+
+- Secrets can be managed like normal with .env files in each project
+- You can use the mounted secrets folder to assist with file transfers.
+
+---
+
+## 📦 Updating Waypoint  
+
+### **Update Waypoint-Client**  
+Re-run the install command:  
+```
+curl -sSL https://raw.githubusercontent.com/pennlabs/infrastructure/refs/heads/add-waypoint/docker/waypoint/install.sh | sudo bash
 ```
 
-- Start background services:
-
-```bash
-waypoint services
+### **Update the Container**  
+Rebuild the container:  
 ```
+waypoint-client start --rebuild
+```
+- Old containers may need to be deleted  
+- Mounted files will persist  
+
+---
+
+## 🌍 Mounted Paths: Configured with `waypoint-client configure`  
+
+| Path | Configuration | Notes | 
+|------|---------------|---------|
+| `/root/.ssh` | **Mounted from `[CONFIG_DIR]/.ssh`** | SSH keys |
+| `/root/.gnupg` | **Mounted from `[CONFIG_DIR]/.gnupg`** | GPG keys |
+| `/labs` | **Mounted from `[CODE_DIR]`** | Stores repos |
+| `/opt/waypoint/secrets` | **Mounted from `[SECRETS_DIR]`** | Stores secrets |
+
+
+---
+
+## 🤔 Common Questions  
+
+### ✅ **Do local changes persist?**  
+- Changes to mounted folders (code, secrets) will persist.  
+- Other local changes (e.g., installing new packages) won’t persist after an update unless you push them.  
+
+---
+
+## 💡 Pro Tips  
+✔️ Use `OrbStack` instead of Docker on Mac for better performance  
+✔️ Waypoint files are stored at `/opt/waypoint` you can go to `/cli` and modify the `.waypoint-bashrc` if needed!
+✔️ Use `waypoint switch [product]` to quickly switch environments  
+
+---
+
