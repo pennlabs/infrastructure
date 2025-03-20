@@ -1,0 +1,37 @@
+#!/bin/bash
+
+declare -A PRODUCT_TO_SHA
+declare -A PRODUCT_TO_NODE_VERSION
+
+PRODUCT_TO_SHA=(
+  ["office-hours-queue"]="524282d029a330b59158e80299e3be23988f1765"
+  ["penn-clubs"]="1bcd3ce4f3040395e081989df81fd3105047b24b"
+  ["penn-mobile"]="f0a65d07764f4e3bce56b3f5349c0b556d708780"
+  ["penn-courses"]="01e3dac5f5465ad39f810b2c81969f0165c70dcf"
+  ["platform"]="42c56ff509f60de5389262a9de5e38faf1d9aac2"
+)
+
+PRODUCT_TO_NODE_VERSION=(
+  ["office-hours-queue"]="22"
+  ["penn-clubs"]="20"
+  ["penn-mobile"]="22"
+  ["penn-courses"]="22"
+  ["platform"]="22"
+)
+
+
+for product in "${!PRODUCT_TO_SHA[@]}"; do
+  echo "Installing dependencies for $product"
+  sha="${PRODUCT_TO_SHA[$product]}"
+  PRODUCT_PATH="/opt/waypoint/$product"
+  mkdir -p "$PRODUCT_PATH"
+
+  curl -o $PRODUCT_PATH/Pipfile "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile"
+  curl -o $PRODUCT_PATH/Pipfile.lock "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile.lock"
+
+  uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product" 
+  cd $PRODUCT_PATH
+  source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > requirements.txt && uv pip install -r $PRODUCT_PATH/requirements.txt
+done
+
+echo "Setup complete!"

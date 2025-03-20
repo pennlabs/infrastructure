@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+# Start PostgreSQL & Redis
+sudo service postgresql start
+redis-server --daemonize yes
+
+# Create DBs (unless made)
+PG_USER="postgres"
+PG_PASSWORD="postgres"
+PG_DATABASE="postgres"
+sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DATABASE" <<-EOSQL
+    ALTER USER $PG_USER WITH PASSWORD '$PG_PASSWORD';
+EOSQL
+
+# Product specific
+# This is needed here rather than in init because of the way penn-courses interacts with both of these DBs
+sudo -u postgres psql -v ON_ERROR_STOP=1 --username "$PG_USER" --dbname "$PG_DATABASE" <<-EOSQL
+    DO \$\$
+    BEGIN
+        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'penn-courses') THEN
+            CREATE USER "penn-courses" WITH PASSWORD '$PG_PASSWORD';
+            ALTER USER "penn-courses" WITH SUPERUSER;
+        END IF;
+    END
+    \$\$;
+EOSQL
+
+echo "PostgreSQL user password updated successfully."
