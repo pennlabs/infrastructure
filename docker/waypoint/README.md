@@ -1,8 +1,6 @@
 
 # 🚀 Waypoint: Unified Devbox Set-up  
 
-> **Creators:** @Ryan Tanenholz, @Qijia Liu  
-
 An easy to setup dev environment for Penn Labs products that simplifies onboarding and cross-team collaboration.  
 
 ---
