@@ -6,23 +6,18 @@ import sys
 
 PRODUCTS = {
     "office-hours-queue": {
-        "sha": "524282d029a330b59158e80299e3be23988f1765",
         "node_version": "22",
     },
     "penn-clubs": {
-        "sha": "d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd",
         "node_version": "20",
     },
     "penn-mobile": {
-        "sha": "b1a8bfa53a35496c972b880f7e3ab9d93845b614",
         "node_version": "22",
     },
     "penn-courses": {
-        "sha": "723640b1dbb815877c24bb1bc8b729c15e12c87a",
         "node_version": "22",
     },
     "platform": {
-        "sha": "42c56ff509f60de5389262a9de5e38faf1d9aac2",
         "node_version": "22",
     },
 }
