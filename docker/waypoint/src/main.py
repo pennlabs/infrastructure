@@ -245,10 +245,6 @@ def switch_product(product: str, no_vsc: bool) -> None:
         os.remove(current_link)
     os.symlink(product_path, current_link)
 
-    # Switch node versions with nvm
-    # node_version = PRODUCTS[product].get("node_version", 22)
-    # subprocess.run(f"bash -c '. /usr/local/nvm/nvm.sh && nvm use {node_version}'", shell=True, check=True)
-
     # Switch VSCode window
     code_path = os.path.join(CODE_DIR, product)
     if not no_vsc:
