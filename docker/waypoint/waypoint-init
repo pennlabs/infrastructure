@@ -5,9 +5,9 @@ declare -A PRODUCT_TO_NODE_VERSION
 
 PRODUCT_TO_SHA=(
   ["office-hours-queue"]="524282d029a330b59158e80299e3be23988f1765"
-  ["penn-clubs"]="d2e5758f1498b17cd3f20d08c37969d3e8c9c7bd"
-  ["penn-mobile"]="b1a8bfa53a35496c972b880f7e3ab9d93845b614"
-  ["penn-courses"]="723640b1dbb815877c24bb1bc8b729c15e12c87a"
+  ["penn-clubs"]="1bcd3ce4f3040395e081989df81fd3105047b24b"
+  ["penn-mobile"]="f0a65d07764f4e3bce56b3f5349c0b556d708780"
+  ["penn-courses"]="01e3dac5f5465ad39f810b2c81969f0165c70dcf"
   ["platform"]="42c56ff509f60de5389262a9de5e38faf1d9aac2"
 )
 
