@@ -9,11 +9,11 @@ Object {
   "runs-on": "ubuntu-latest",
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./yarn.lock') }}",
         "path": "**/node_modules",
@@ -53,11 +53,11 @@ Object {
   "runs-on": "ubuntu-latest",
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('frontend/yarn.lock') }}",
         "path": "**/node_modules",
@@ -97,11 +97,11 @@ Object {
   "runs-on": "ubuntu-latest",
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./yarn.lock') }}",
         "path": "**/node_modules",
@@ -142,11 +142,11 @@ Object {
   "runs-on": "ubuntu-latest",
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./yarn.lock') }}",
         "path": "**/node_modules",

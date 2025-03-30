@@ -9,9 +9,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: "**/node_modules"
           key: v0-${{ hashFiles('cdk/kittyhawk/yarn.lock') }}
