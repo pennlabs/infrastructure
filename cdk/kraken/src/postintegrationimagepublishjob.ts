@@ -79,7 +79,7 @@ export class PostIntegrationPublishJob extends CheckoutJob {
             .join("\n"),
         },
         {
-          uses: "docker/login-action@v1",
+          uses: "docker/login-action@v3",
           with: {
             username: fullConfig.dockerUsername,
             password: fullConfig.dockerPassword,

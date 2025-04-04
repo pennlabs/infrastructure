@@ -56,7 +56,7 @@ export class ReactCheckJob extends CheckoutJob {
       steps: [
         {
           name: "Cache",
-          uses: "actions/cache@v2",
+          uses: "actions/cache@v4",
           with: {
             path: "**/node_modules",
             key: `v0-\${{ hashFiles('${fullConfig.path}/yarn.lock') }}`,

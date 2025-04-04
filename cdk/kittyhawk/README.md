@@ -15,7 +15,7 @@ Import the kittyhawk library (`yarn add @pennlabs/kittyhawk`) and start writing 
 
 At the very top level, add to your `main.ts` file in the following format using the `PennLabsChart`. 
 
-```
+```typescript
 export class MyChart extends PennLabsChart {
   constructor(scope: Construct) {
     super(scope);
@@ -59,7 +59,7 @@ The deploy job (`DeployJob`) in [Kraken](https://github.com/pennlabs/infrastruct
 ## Example
 A sample `main.ts` file is included below, covering the more common use cases for Penn Labs products:
 
-```
+```typescript
 import { Construct } from 'constructs';
 import { PennLabsChart, ReactApplication, DjangoApplication, RedisApplication, CronJob } from '@pennlabs/kittyhawk';
 

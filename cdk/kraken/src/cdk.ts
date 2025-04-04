@@ -58,7 +58,7 @@ export class CDKPublishStack extends Stack {
       steps: [
         {
           name: "Cache",
-          uses: "actions/cache@v2",
+          uses: "actions/cache@v4",
           with: {
             path: "**/node_modules",
             key: `v0-\${{ hashFiles('${path}/yarn.lock') }}`,

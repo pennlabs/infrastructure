@@ -74,7 +74,7 @@ export class DjangoCheckJob extends CheckoutJob {
     const steps: StepsProps[] = [
       {
         name: "Cache",
-        uses: "actions/cache@v2",
+        uses: "actions/cache@v4",
         with: {
           path: "~/.local/share/virtualenvs",
           key: `v0-\${{ hashFiles('${fullConfig.path}/Pipfile.lock') }}`,

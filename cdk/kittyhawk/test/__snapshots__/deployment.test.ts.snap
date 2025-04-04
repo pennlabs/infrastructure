@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Container -- Default 1`] = `Array []`;
+exports[`Container -- Default 1`] = `[]`;
 
 exports[`Deployment -- Default 1`] = `
 Array [

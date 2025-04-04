@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Certificate (Non Penn Labs Chart) -- Success 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
-    "metadata": Object {
-      "labels": Object {
+    "metadata": {
+      "labels": {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/name": "pennlabs-org",
       },
       "name": "pennlabs-org",
     },
-    "spec": Object {
-      "dnsNames": Array [
+    "spec": {
+      "dnsNames": [
         "pennlabs.org",
         "*.pennlabs.org",
       ],
-      "issuerRef": Object {
+      "issuerRef": {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",
@@ -29,24 +29,24 @@ Array [
 `;
 
 exports[`Certificate -- Success 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "cert-manager.io/v1",
     "kind": "Certificate",
-    "metadata": Object {
-      "labels": Object {
+    "metadata": {
+      "labels": {
         "app.kubernetes.io/component": "certificate",
         "app.kubernetes.io/managed-by": "kittyhawk",
         "app.kubernetes.io/name": "pennlabs-org",
       },
       "name": "pennlabs-org",
     },
-    "spec": Object {
-      "dnsNames": Array [
+    "spec": {
+      "dnsNames": [
         "pennlabs.org",
         "*.pennlabs.org",
       ],
-      "issuerRef": Object {
+      "issuerRef": {
         "group": "cert-manager.io",
         "kind": "ClusterIssuer",
         "name": "wildcard-letsencrypt-prod",

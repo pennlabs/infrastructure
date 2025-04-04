@@ -23,11 +23,11 @@ Object {
   },
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
         "path": "~/.local/share/virtualenvs",
@@ -95,11 +95,11 @@ Object {
   },
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('backend/Pipfile.lock') }}",
         "path": "~/.local/share/virtualenvs",
@@ -167,11 +167,11 @@ Object {
   },
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
         "path": "~/.local/share/virtualenvs",
@@ -239,11 +239,11 @@ Object {
   },
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
         "path": "~/.local/share/virtualenvs",
@@ -302,11 +302,11 @@ Object {
   },
   "steps": Array [
     Object {
-      "uses": "actions/checkout@v2",
+      "uses": "actions/checkout@v4",
     },
     Object {
       "name": "Cache",
-      "uses": "actions/cache@v2",
+      "uses": "actions/cache@v4",
       "with": Object {
         "key": "v0-\${{ hashFiles('./Pipfile.lock') }}",
         "path": "~/.local/share/virtualenvs",

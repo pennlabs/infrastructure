@@ -8,26 +8,23 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cdk/kittyhawk
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: "**/node_modules"
           key: v0-${{ hashFiles('cdk/kittyhawk/yarn.lock') }}
       - name: Install Dependencies
-        run: |-
-          cd cdk/kittyhawk
-          yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: Test
-        run: |-
-          cd cdk/kittyhawk
-          yarn test
+        run: yarn test
       - name: Upload Code Coverage
         run: |-
-          ROOT=$(pwd)
-          cd cdk/kittyhawk
-          yarn run codecov -p $ROOT -F kittyhawk
+          yarn run codecov -p $GITHUB_WORKSPACE -F kittyhawk
       - name: Install jq
         run: |-
           curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
@@ -35,14 +32,12 @@ jobs:
       - name: Check if version is already published to npm
         id: version_check
         run: |-
-          cd cdk/kittyhawk
           PACKAGE=$(node -p "require('./package.json').name")
           VERSION=$(node -p "require('./package.json').version")
           NEW_VERSION=$(yarn info $PACKAGE versions --json | jq ".data | any(. == \"$VERSION\") | not")
           echo "::set-output name=NEW_VERSION::$NEW_VERSION"
       - name: Publish to npm
         run: |-
-          cd cdk/kittyhawk
           yarn compile
           yarn package
           mv dist/js/*.tgz dist/js/kittyhawk.tgz
@@ -51,9 +46,7 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Build docs
-        run: |-
-          cd cdk/kittyhawk
-          yarn docgen
+        run: yarn docgen
       - name: Publish docs
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
@@ -66,4 +59,4 @@ jobs:
           user_name: github-actions
           user_email: github-actions[bot]@users.noreply.github.com
     container:
-      image: node:14
+      image: node:16
