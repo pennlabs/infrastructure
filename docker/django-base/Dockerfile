@@ -10,14 +10,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y gcc libpq-dev l
 # Copy mime definitions
 COPY mime.types /etc/mime.types
 
-# Install pipenv
-RUN pip install pipenv
-
-# Install poetry
-RUN python3 -m venv /opt/poetry
-RUN /opt/poetry/bin/pip install poetry
-RUN /opt/poetry/bin/poetry --version
-# ENV PATH="/opt/poetry/bin:${PATH}"
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv@sha256:2381d6aa60c326b71fd40023f921a0a3b8f91b14d5db6b90402e65a635053709 /uv /uvx /bin/
 
 # Copy run file
 COPY django-run /usr/local/bin/
