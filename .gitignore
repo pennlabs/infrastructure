@@ -10,3 +10,5 @@ tf_creds.json
 
 __pycache__
 waypoint.egg-info
+
+*.env
