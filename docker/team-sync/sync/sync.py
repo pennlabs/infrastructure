@@ -1,22 +1,24 @@
-#!/usr/bin/env python
 import os
 import pkgutil
-
-from airtable import Airtable
+from dotenv import load_dotenv
+load_dotenv()
 from github import Github
+from github import Auth
+from pyairtable import Api as AirtableAPI
 
 
 AIRTABLE_BASE_KEY = os.environ.get("AIRTABLE_BASE_KEY")
 AIRTABLE_API_KEY = os.environ.get("AIRTABLE_API_KEY")
-airtable = Airtable(AIRTABLE_BASE_KEY, "Roster", AIRTABLE_API_KEY)
+airtable_api = AirtableAPI(AIRTABLE_API_KEY)
+airtable = airtable_api.table(AIRTABLE_BASE_KEY, "Roster")
 
 
 def get_user_info():
     """
     Create a dictionary of GitHub usernames to PennKeys and emails.
     """
-
-    roster = airtable.get_all(view="Platform Sync", fields=["Github", "PennKey", "Email"])
+    airtable.all()
+    roster = airtable.all(view="Platform Sync", fields=["Github", "PennKey", "Email"])
     data = {}
     for record in roster:
         fields = record["fields"]
@@ -31,7 +33,8 @@ def get_user_info():
 
 
 def run():
-    g = Github(os.getenv("GITHUB_TOKEN"))
+    auth = Auth.Token(os.getenv("GITHUB_TOKEN"))
+    g = Github(auth=auth)
 
     # Generate dictionary of teams
     teams = {}
@@ -48,14 +51,15 @@ def run():
     # Generate dictionary of GitHub usernames to PennKey
     users = get_user_info()
 
+
     # Dynamically find each module and run its sync method
-    location = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modules")
-    for finder, name, _ in pkgutil.walk_packages([location]):
-        try:
-            module = finder.find_module(name).load_module(name)
-            module.sync(teams, users)
-        except (AttributeError, TypeError) as e:
-            print(f"Could not execute module '{name}'. The following exception occurred: {e}")
+    # location = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modules")
+    # for finder, name, _ in pkgutil.walk_packages([location]):
+    #     try:
+    #         module = finder.find_module(name).load_module(name)
+    #         # module.sync(teams, users)
+    #     except (AttributeError, TypeError) as e:
+    #         print(f"Could not execute module '{name}'. The following exception occurred: {e}")
 
 
 if __name__ == "__main__":

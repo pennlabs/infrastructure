@@ -1,0 +1,11 @@
+[project]
+name = "team-sync"
+version = "0.1.0"
+description = "Team Sync: Sync team members between different platforms based on GitHub teams & Google Drive."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dotenv>=0.9.9",
+    "pyairtable>=3.1.1",
+    "pygithub>=2.6.1",
+]
