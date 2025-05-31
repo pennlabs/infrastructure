@@ -1,4 +1,4 @@
-FROM debian:buster-slim as build
+FROM debian:bookworm-slim as build
 
 ENV AWS_CLI_VERSION 2.27.26
 
