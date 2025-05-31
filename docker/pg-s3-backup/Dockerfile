@@ -1,6 +1,6 @@
 FROM debian:buster-slim as build
 
-ENV AWS_CLI_VERSION 2.0.27
+ENV AWS_CLI_VERSION 2.27.26
 
 # Install aws cli
 RUN apt-get update \
@@ -10,7 +10,7 @@ RUN apt-get update \
     && ./aws/install --bin-dir /aws-cli-bin/
 
 
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 LABEL maintainer="Penn Labs"
 
