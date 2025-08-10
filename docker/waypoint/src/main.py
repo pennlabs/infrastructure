@@ -25,6 +25,7 @@ PRODUCTS = {
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
 
+
 def clone_product(product: str) -> None:
     """Clone a product from GitHub if it doesn't exist."""
     product_path = os.path.join(CODE_DIR, product)
@@ -44,10 +45,105 @@ def clone_product(product: str) -> None:
         print(f"Repository {product} already exists, skipping clone")
 
 
+def init_product(product: str) -> None:
+    """Clone and initialize a product environment."""
+    if product == "ohq":
+        product = "office-hours-queue"
+
+    if product not in PRODUCTS:
+        print(f"Error: Unknown product '{product}'")
+        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        sys.exit(1)
+
+    clone_product(product)
+    product_path = os.path.join(WAYPOINT_DIR, product)
+    backend_path = os.path.join(CODE_DIR, product, "backend")
+    initalized = os.path.exists(product_path + "/.initialized")
+
+    if initalized:
+        print(f"Product '{product}' is already initialized.")
+        sys.exit(1)
+
+    # Run manage.py commands in product venv
+    venv_path = os.path.join(product_path, "venv", "bin", "activate")
+    try:
+        subprocess.run(
+            f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'",
+            shell=True,
+            check=True,
+        )
+
+        if product not in ["penn-mobile", "penn-courses", "platform"]:
+            subprocess.run(
+                f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
+                shell=True,
+                check=True,
+            )
+    except subprocess.CalledProcessError:
+        print(
+            f"Failed to run manage.py commands for {product}, did you run `waypoint services`?"
+        )
+        sys.exit(1)
+
+    # init yarn
+    subprocess.run(
+        f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
+        shell=True,
+        check=True,
+    )
+
+    if product == "penn-courses":
+        # Yarn install in subfolders, [alert|plan|review]
+        for folder in ["alert", "plan", "review"]:
+            subprocess.run(
+                f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend', folder)} && yarn'",
+                shell=True,
+                check=True,
+            )
+
+    if product == "penn-courses":
+        # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
+        sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
+        reset_courses_file = os.path.join(
+            WAYPOINT_DIR, "cli", "utils", "courses_reset_db.sql"
+        )
+        if os.path.exists(sql_file):
+            try:
+                password = "postgres"
+                # Run the psql command with the password
+                # Reset Courses Related Tables
+                subprocess.run(
+                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f  {reset_courses_file}",
+                    shell=True,
+                    check=True,
+                )
+
+                print("Successfully reset courses related tables")
+                # Add data
+                subprocess.run(
+                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f {sql_file}",
+                    shell=True,
+                    check=True,
+                )
+                print("Successfully ran pcx_tsxt.sql")
+            except subprocess.CalledProcessError:
+                print(
+                    "Failed to run pcx_test.sql, check if it exists in your secrets folder"
+                )
+                exit(1)
+        else:
+            print("pcx_test.sql not found in secrets folder, skipping")
+
+    # Make .initialized file
+    with open(os.path.join(product_path, ".initialized"), "w") as f:
+        f.write("")
+
+    print(f"Product '{product}' initialized successfully.")
+
+
 def clone_and_init_products() -> None:
-    """Clone all products from GitHub if they don't exist."""
+    """Clone all products from GitHub if they don't exist and init their product environments."""
     for product in PRODUCTS:
-        clone_product(product)
         init_product(product)
 
 
@@ -126,100 +222,6 @@ def sync_env(product: str) -> None:
     except (OSError, subprocess.CalledProcessError) as e:
         print(f"Error syncing environment for {product}: {str(e)}")
         sys.exit(1)
-
-
-def init_product(product: str) -> None:
-    """Initialize a product environment"""
-    if product == "ohq":
-        product = "office-hours-queue"
-        
-    if product not in PRODUCTS:
-        print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
-        sys.exit(1)
-
-    clone_product(product)
-    product_path = os.path.join(WAYPOINT_DIR, product)
-    backend_path = os.path.join(CODE_DIR, product, "backend")
-    initalized = os.path.exists(product_path + "/.initialized")
-
-    if initalized:
-        print(f"Product '{product}' is already initialized.")
-        sys.exit(1)
-
-    # Run manage.py commands in product venv
-    venv_path = os.path.join(product_path, "venv", "bin", "activate")
-    try:
-        subprocess.run(
-            f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'",
-            shell=True,
-            check=True,
-        )
-
-        if product not in ["penn-mobile", "penn-courses", "platform"]:
-            subprocess.run(
-                f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
-                shell=True,
-                check=True,
-            )
-    except subprocess.CalledProcessError:
-        print(
-            f"Failed to run manage.py commands for {product}, did you run `waypoint services`?"
-        )
-        sys.exit(1)
-
-    # init yarn
-    subprocess.run(
-        f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend')} && yarn'",
-        shell=True,
-        check=True,
-    )
-    
-    if product == "penn-courses":
-        # Yarn install in subfolders, [alert|plan|review]
-        for folder in ["alert", "plan", "review"]:
-            subprocess.run(
-                f"bash -c 'cd {os.path.join(CODE_DIR, product, 'frontend', folder)} && yarn'",
-                shell=True,
-                check=True,
-            )
-
-    if product == "penn-courses":
-        # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
-        sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
-        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli","utils","courses_reset_db.sql")
-        if os.path.exists(sql_file):
-            try:
-                password = "postgres"
-                # Run the psql command with the password
-                # Reset Courses Related Tables
-                subprocess.run(
-                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f  {reset_courses_file}",
-                    shell=True,
-                    check=True,
-                )
-
-                print("Successfully reset courses related tables")
-                # Add data
-                subprocess.run(
-                    f"PGPASSWORD={password} psql -h localhost -d postgres -U penn-courses -f {sql_file}",
-                    shell=True,
-                    check=True,
-                )
-                print("Successfully ran pcx_tsxt.sql")
-            except subprocess.CalledProcessError:
-                print(
-                    "Failed to run pcx_test.sql, check if it exists in your secrets folder"
-                )
-                exit(1)
-        else:
-            print("pcx_test.sql not found in secrets folder, skipping")
-
-    # Make .initialized file
-    with open(os.path.join(product_path, ".initialized"), "w") as f:
-        f.write("")
-
-    print(f"Product '{product}' initialized successfully.")
 
 
 def switch_product(product: str, no_vsc: bool) -> None:
@@ -339,8 +341,10 @@ def main() -> None:
         help="Initialize a product environment or all products. Clones repos, installs dependencies, runs manage.py commands, and yarn install. If no product is specified, it will initialize all products.",
     )
     init_parser.add_argument(
-        "product", help="Product to initalize to, options: "
-        + ", ".join(PRODUCTS.keys()), nargs="?", default=None
+        "product",
+        help="Product to initalize to, options: " + ", ".join(PRODUCTS.keys()),
+        nargs="?",
+        default=None,
     )
 
     switch_parser = subparsers.add_parser(
