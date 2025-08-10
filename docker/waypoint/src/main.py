@@ -25,6 +25,7 @@ PRODUCTS = {
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
 
+
 def clone_product(product: str) -> None:
     """Clone a product from GitHub if it doesn't exist."""
     product_path = os.path.join(CODE_DIR, product)
@@ -132,7 +133,7 @@ def init_product(product: str) -> None:
     """Initialize a product environment"""
     if product == "ohq":
         product = "office-hours-queue"
-        
+
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
         print(f"Available products: {', '.join(PRODUCTS.keys())}")
@@ -174,7 +175,7 @@ def init_product(product: str) -> None:
         shell=True,
         check=True,
     )
-    
+
     if product == "penn-courses":
         # Yarn install in subfolders, [alert|plan|review]
         for folder in ["alert", "plan", "review"]:
@@ -187,7 +188,9 @@ def init_product(product: str) -> None:
     if product == "penn-courses":
         # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
         sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
-        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli","utils","courses_reset_db.sql")
+        reset_courses_file = os.path.join(
+            WAYPOINT_DIR, "cli", "utils", "courses_reset_db.sql"
+        )
         if os.path.exists(sql_file):
             try:
                 password = "postgres"
@@ -339,8 +342,10 @@ def main() -> None:
         help="Initialize a product environment or all products. Clones repos, installs dependencies, runs manage.py commands, and yarn install. If no product is specified, it will initialize all products.",
     )
     init_parser.add_argument(
-        "product", help="Product to initalize to, options: "
-        + ", ".join(PRODUCTS.keys()), nargs="?", default=None
+        "product",
+        help="Product to initalize to, options: " + ", ".join(PRODUCTS.keys()),
+        nargs="?",
+        default=None,
     )
 
     switch_parser = subparsers.add_parser(
