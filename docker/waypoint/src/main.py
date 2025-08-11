@@ -45,90 +45,8 @@ def clone_product(product: str) -> None:
         print(f"Repository {product} already exists, skipping clone")
 
 
-def clone_and_init_products() -> None:
-    """Clone all products from GitHub if they don't exist."""
-    for product in PRODUCTS:
-        clone_product(product)
-        init_product(product)
-
-
-def init() -> None:
-    """Set up waypoint, install dependencies."""
-    clone_and_init_products()
-
-    if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
-        print("No secrets found. Skipping...")
-        return
-
-    for secret_file in os.listdir(os.path.join(WAYPOINT_DIR, "secrets")):
-        if os.path.isfile(os.path.join(WAYPOINT_DIR, "secrets", secret_file)):
-            print(f"Loading secrets from: {secret_file}")
-            with open(
-                os.path.join(WAYPOINT_DIR, "secrets", secret_file),
-                "r",
-                encoding="utf-8",
-            ) as f:
-                secret_value = f.read().strip()
-                os.environ[secret_file] = secret_value
-                if secret_file not in os.environ:
-                    print(f"Error: Secret '{secret_file}' not found")
-                    sys.exit(1)
-    print("Secrets loaded successfully")
-
-
-def sync_env(product: str) -> None:
-    """Sync .env file from product to waypoint."""
-    if product not in PRODUCTS:
-        print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
-        sys.exit(1)
-
-    product_backend_path = os.path.join(CODE_DIR, product, "backend")
-    waypoint_product_path = os.path.join(WAYPOINT_DIR, product)
-
-    if not os.path.exists(product_backend_path):
-        print(f"Error: Backend directory not found at {product_backend_path}")
-        sys.exit(1)
-
-    os.makedirs(waypoint_product_path, exist_ok=True)
-
-    try:
-        for file in ["Pipfile", "Pipfile.lock"]:
-            src = os.path.join(product_backend_path, file)
-            dst = os.path.join(waypoint_product_path, file)
-
-            if not os.path.exists(src):
-                print(f"Warning: {file} not found in {product_backend_path}")
-                continue
-
-            with open(src, "r", encoding="utf-8") as f_src:
-                with open(dst, "w", encoding="utf-8") as f_dst:
-                    f_dst.write(f_src.read())
-            print(f"Copied {file} from {product_backend_path} to {waypoint_product_path}")
-
-        venv_path = os.path.join(waypoint_product_path, "venv")
-        if not os.path.exists(venv_path):
-            subprocess.run(
-                ["uv", "venv", venv_path, "--python", "3.11", "--prompt", product],
-                check=True,
-            )
-
-        subprocess.run(
-            f"cd {waypoint_product_path} && . venv/bin/activate && "
-            f"pipenv requirements --dev > requirements.txt && "
-            f"uv pip install -r requirements.txt",
-            shell=True,
-            check=True,
-        )
-        print(f"Successfully synced environment for {product}")
-
-    except (OSError, subprocess.CalledProcessError) as e:
-        print(f"Error syncing environment for {product}: {str(e)}")
-        sys.exit(1)
-
-
-def init_product(product: str) -> None:
-    """Initialize a product environment"""
+def clone_and_init_product(product: str) -> None:
+    """Clone and initialize a product environment."""
     if product == "ohq":
         product = "office-hours-queue"
 
@@ -215,6 +133,87 @@ def init_product(product: str) -> None:
         f.write("")
 
     print(f"Product '{product}' initialized successfully.")
+
+
+def clone_and_init_products() -> None:
+    """Clone all products from GitHub if they don't exist and init their product environments."""
+    for product in PRODUCTS:
+        clone_and_init_product(product)
+
+
+def init() -> None:
+    """Set up waypoint, install dependencies."""
+    clone_and_init_products()
+
+    if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
+        print("No secrets found. Skipping...")
+        return
+
+    for secret_file in os.listdir(os.path.join(WAYPOINT_DIR, "secrets")):
+        if os.path.isfile(os.path.join(WAYPOINT_DIR, "secrets", secret_file)):
+            print(f"Loading secrets from: {secret_file}")
+            with open(
+                os.path.join(WAYPOINT_DIR, "secrets", secret_file),
+                "r",
+                encoding="utf-8",
+            ) as f:
+                secret_value = f.read().strip()
+                os.environ[secret_file] = secret_value
+                if secret_file not in os.environ:
+                    print(f"Error: Secret '{secret_file}' not found")
+                    sys.exit(1)
+    print("Secrets loaded successfully")
+
+
+def sync_env(product: str) -> None:
+    """Sync .env file from product to waypoint."""
+    if product not in PRODUCTS:
+        print(f"Error: Unknown product '{product}'")
+        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        sys.exit(1)
+
+    product_backend_path = os.path.join(CODE_DIR, product, "backend")
+    waypoint_product_path = os.path.join(WAYPOINT_DIR, product)
+
+    if not os.path.exists(product_backend_path):
+        print(f"Error: Backend directory not found at {product_backend_path}")
+        sys.exit(1)
+
+    os.makedirs(waypoint_product_path, exist_ok=True)
+
+    try:
+        for file in ["Pipfile", "Pipfile.lock"]:
+            src = os.path.join(product_backend_path, file)
+            dst = os.path.join(waypoint_product_path, file)
+
+            if not os.path.exists(src):
+                print(f"Warning: {file} not found in {product_backend_path}")
+                continue
+
+            with open(src, "r", encoding="utf-8") as f_src:
+                with open(dst, "w", encoding="utf-8") as f_dst:
+                    f_dst.write(f_src.read())
+            print(f"Copied {file} from {product_backend_path} to {waypoint_product_path}")
+
+        venv_path = os.path.join(waypoint_product_path, "venv")
+        if not os.path.exists(venv_path):
+            subprocess.run(
+                ["uv", "venv", venv_path, "--python", "3.11", "--prompt", product],
+                check=True,
+            )
+
+        subprocess.run(
+            f"cd {waypoint_product_path} && . venv/bin/activate && "
+            f"pipenv requirements --dev > requirements.txt && "
+            f"uv pip install -r requirements.txt",
+            shell=True,
+            check=True,
+        )
+        print(f"Successfully synced environment for {product}")
+
+    except (OSError, subprocess.CalledProcessError) as e:
+        print(f"Error syncing environment for {product}: {str(e)}")
+        sys.exit(1)
 
 
 def switch_product(product: str, no_vsc: bool) -> None:
@@ -380,7 +379,7 @@ def main() -> None:
         start_services(args.mode)
     elif args.command == "init":
         if args.product:
-            init_product(args.product)
+            clone_and_init_product(args.product)
         else:
             init()
     elif args.command == "backend":
