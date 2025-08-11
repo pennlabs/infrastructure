@@ -104,9 +104,7 @@ def sync_env(product: str) -> None:
             with open(src, "r", encoding="utf-8") as f_src:
                 with open(dst, "w", encoding="utf-8") as f_dst:
                     f_dst.write(f_src.read())
-            print(
-                f"Copied {file} from {product_backend_path} to {waypoint_product_path}"
-            )
+            print(f"Copied {file} from {product_backend_path} to {waypoint_product_path}")
 
         venv_path = os.path.join(waypoint_product_path, "venv")
         if not os.path.exists(venv_path):
@@ -164,9 +162,7 @@ def init_product(product: str) -> None:
                 check=True,
             )
     except subprocess.CalledProcessError:
-        print(
-            f"Failed to run manage.py commands for {product}, did you run `waypoint services`?"
-        )
+        print(f"Failed to run manage.py commands for {product}, did you run `waypoint services`?")
         sys.exit(1)
 
     # init yarn
@@ -188,9 +184,7 @@ def init_product(product: str) -> None:
     if product == "penn-courses":
         # Check /opt/waypoint/secrets for sql file "pcx_test.sql"
         sql_file = os.path.join(WAYPOINT_DIR, "secrets", "pcx_test.sql")
-        reset_courses_file = os.path.join(
-            WAYPOINT_DIR, "cli", "utils", "courses_reset_db.sql"
-        )
+        reset_courses_file = os.path.join(WAYPOINT_DIR, "cli", "utils", "courses_reset_db.sql")
         if os.path.exists(sql_file):
             try:
                 password = "postgres"
@@ -211,9 +205,7 @@ def init_product(product: str) -> None:
                 )
                 print("Successfully ran pcx_tsxt.sql")
             except subprocess.CalledProcessError:
-                print(
-                    "Failed to run pcx_test.sql, check if it exists in your secrets folder"
-                )
+                print("Failed to run pcx_test.sql, check if it exists in your secrets folder")
                 exit(1)
         else:
             print("pcx_test.sql not found in secrets folder, skipping")
@@ -237,9 +229,7 @@ def switch_product(product: str, no_vsc: bool) -> None:
     initalized = os.path.exists(product_path + "/.initialized")
 
     if not initalized:
-        print(
-            f"Product '{product}' is not initialized. Run 'waypoint init {product}' first."
-        )
+        print(f"Product '{product}' is not initialized. Run 'waypoint init {product}' first.")
         sys.exit(1)
 
     # Create symlink to current
@@ -254,9 +244,7 @@ def switch_product(product: str, no_vsc: bool) -> None:
         try:
             subprocess.run(["code", "--new-window", "."], cwd=code_path)
         except FileNotFoundError:
-            print(
-                "VSCode not found. You may not be in a dev container. Skipping opening VSCode."
-            )
+            print("VSCode not found. You may not be in a dev container. Skipping opening VSCode.")
     print(f"Switched to {product}")
 
 
@@ -297,12 +285,8 @@ def start_development(mode: str) -> None:
         print("No product selected. Use 'waypoint switch <product>' first.")
         sys.exit(1)
 
-    current_link_points_to = (
-        os.readlink(current_link) if os.path.islink(current_link) else None
-    )
-    product_name = (
-        os.path.basename(current_link_points_to) if current_link_points_to else None
-    )
+    current_link_points_to = os.readlink(current_link) if os.path.islink(current_link) else None
+    product_name = os.path.basename(current_link_points_to) if current_link_points_to else None
 
     if not product_name:
         print("No product selected. Use 'waypoint switch <product>' first.")
@@ -332,9 +316,7 @@ def start_development(mode: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Waypoint development environment manager"
-    )
+    parser = argparse.ArgumentParser(description="Waypoint development environment manager")
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
     init_parser = subparsers.add_parser(
@@ -355,9 +337,7 @@ def main() -> None:
     switch_parser.add_argument(
         "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
     )
-    switch_parser.add_argument(
-        "--no-vsc", action="store_true", help="Do not open VSCode on switch"
-    )
+    switch_parser.add_argument("--no-vsc", action="store_true", help="Do not open VSCode on switch")
 
     subparsers.add_parser(
         "start",
@@ -388,9 +368,7 @@ def main() -> None:
     )
 
     sync_parser = subparsers.add_parser("sync", help="Sync environment variables")
-    sync_parser.add_argument(
-        "product", help="Product to sync environment variables for"
-    )
+    sync_parser.add_argument("product", help="Product to sync environment variables for")
 
     args = parser.parse_args()
 
