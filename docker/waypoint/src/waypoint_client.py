@@ -35,9 +35,7 @@ def configure() -> None:
 
     default_config = os.path.expanduser("~/waypoint/config")
     default_config_dir = config.get("config_dir", default_config)
-    current_setting = (
-        f" (current: {config['config_dir']})" if "config_dir" in config else ""
-    )
+    current_setting = f" (current: {config['config_dir']})" if "config_dir" in config else ""
     prompt = f"Enter config directory path [{default_config_dir}]{current_setting}: "
     config_dir = input(prompt).strip()
     if not config_dir:
@@ -45,9 +43,7 @@ def configure() -> None:
 
     default_code = os.path.expanduser("~/waypoint/code")
     default_code_dir = config.get("code_dir", default_code)
-    current_setting = (
-        f" (current: {config['code_dir']})" if "code_dir" in config else ""
-    )
+    current_setting = f" (current: {config['code_dir']})" if "code_dir" in config else ""
     prompt = f"Enter code directory path [{default_code_dir}]{current_setting}: "
     code_dir = input(prompt).strip()
     if not code_dir:
@@ -55,9 +51,7 @@ def configure() -> None:
 
     default_secrets = os.path.expanduser("~/waypoint/secrets")
     default_secrets_dir = config.get("secrets_dir", default_secrets)
-    current_setting = (
-        f" (current: {config['secrets_dir']})" if "secrets_dir" in config else ""
-    )
+    current_setting = f" (current: {config['secrets_dir']})" if "secrets_dir" in config else ""
     prompt = f"Enter secrets directory path [{default_secrets_dir}]{current_setting}: "
     secrets_dir = input(prompt).strip()
     if not secrets_dir:
@@ -65,12 +59,8 @@ def configure() -> None:
 
     default_editor = "code"
     default_editor_type = config.get("editor_type", default_editor)
-    current_setting = (
-        f" (current: {config['editor_type']})" if "editor_type" in config else ""
-    )
-    prompt = (
-        f"Enter editor type (code/cursor) [{default_editor_type}]{current_setting}: "
-    )
+    current_setting = f" (current: {config['editor_type']})" if "editor_type" in config else ""
+    prompt = f"Enter editor type (code/cursor) [{default_editor_type}]{current_setting}: "
     editor_type = input(prompt).strip().lower()
     if not editor_type:
         editor_type = default_editor_type
@@ -120,9 +110,7 @@ def start(rebuild: bool = False) -> None:
 
     if not image_found or rebuild:
         if not image_found:
-            print(
-                f"Docker image {IMAGE_NAME} not found. Pulling from pennlabs/waypoint..."
-            )
+            print(f"Docker image {IMAGE_NAME} not found. Pulling from pennlabs/waypoint...")
         else:
             print("--rebuild flag detected. Pulling latest pennlabs/waypoint...")
         try:
@@ -142,9 +130,7 @@ def start(rebuild: bool = False) -> None:
 
     waypoint_state = is_waypoint_running()
     if waypoint_state == 2:
-        print(
-            "Waypoint is already running. Use 'waypoint-client spawn' to open a new shell."
-        )
+        print("Waypoint is already running. Use 'waypoint-client spawn' to open a new shell.")
         sys.exit(1)
     elif waypoint_state == 1:
         try:
@@ -237,9 +223,7 @@ def main() -> None:
         help="Rebuild waypoint image to be up to date. Note this will delete the existing image and start from scratch, but your code and secrets will be preserved.",
     )
 
-    subparsers.add_parser(
-        "spawn", help="Spawn a new bash shell in the waypoint container"
-    )
+    subparsers.add_parser("spawn", help="Spawn a new bash shell in the waypoint container")
 
     args = parser.parse_args()
 
@@ -247,12 +231,7 @@ def main() -> None:
         configure()
     elif args.command == "start":
         if args.rebuild:
-            if (
-                input(
-                    "Are you sure you want to rebuild the waypoint image? (y/n): "
-                ).lower()
-                != "y"
-            ):
+            if input("Are you sure you want to rebuild the waypoint image? (y/n): ").lower() != "y":
                 print("Aborting...")
                 sys.exit(1)
             start(rebuild=True)
