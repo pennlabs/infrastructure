@@ -1,14 +1,18 @@
 #!/bin/bash
 
 declare -A PRODUCT_TO_SHA
+declare -A PRODUCT_TO_SHA_LEGACY
 declare -A PRODUCT_TO_NODE_VERSION
 
 PRODUCT_TO_SHA=(
-  ["office-hours-queue"]="524282d029a330b59158e80299e3be23988f1765"
-  ["penn-clubs"]="1bcd3ce4f3040395e081989df81fd3105047b24b"
-  ["penn-mobile"]="f0a65d07764f4e3bce56b3f5349c0b556d708780"
-  ["penn-courses"]="01e3dac5f5465ad39f810b2c81969f0165c70dcf"
-  ["platform"]="42c56ff509f60de5389262a9de5e38faf1d9aac2"
+  ["office-hours-queue"]="7fdcdaeba0b83600950edfbdfb155ba62cd2febd"
+  ["penn-clubs"]="a69532b40c40c6ad0a2c6856e11034c70fbab26c"
+)
+
+PRODUCT_TO_SHA_LEGACY=(
+  ["penn-mobile"]="093a9f58ec7d778acc12dad40d0ece109e6346e8"
+  ["penn-courses"]="e787256c332741db357baf3d005b20158d7b35c7"
+  ["platform"]="022d2671a7811e8e2b6f772948ff28d18fa6422a"
 )
 
 PRODUCT_TO_NODE_VERSION=(
@@ -19,19 +23,39 @@ PRODUCT_TO_NODE_VERSION=(
   ["platform"]="22"
 )
 
-
+# uv native installation using [uv sync]
 for product in "${!PRODUCT_TO_SHA[@]}"; do
-  echo "Installing dependencies for $product"
   sha="${PRODUCT_TO_SHA[$product]}"
   PRODUCT_PATH="/opt/waypoint/$product"
+  BACKEND_BASE="https://raw.githubusercontent.com/pennlabs/$product/$sha/backend"
+
+  echo "Installing dependencies for $product @ $sha with uv"
   mkdir -p "$PRODUCT_PATH"
 
-  curl -o $PRODUCT_PATH/Pipfile "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile"
-  curl -o $PRODUCT_PATH/Pipfile.lock "https://raw.githubusercontent.com/pennlabs/$product/$sha/backend/Pipfile.lock"
+  uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product" 
+  curl -o $PRODUCT_PATH/pyproject.toml "$BACKEND_BASE/pyproject.toml"
+  curl -o $PRODUCT_PATH/uv.lock "$BACKEND_BASE/uv.lock"
+
+  cd $PRODUCT_PATH
+  source "$PRODUCT_PATH/venv/bin/activate" && uv sync --frozen --all-groups
+done
+
+# Legacy installation using Pipfile: use pipenv to convert Pipfile to requirements.txt and use
+# [uv pip install -r] to install to uv
+for product in "${!PRODUCT_TO_SHA_PIPENV[@]}"; do
+  sha="${PRODUCT_TO_SHA_PIPENV[$product]}"
+  PRODUCT_PATH="/opt/waypoint/$product"
+  BACKEND_BASE="https://raw.githubusercontent.com/pennlabs/$product/$sha/backend"
+
+  echo "Installing dependencies for $product @ $sha with Pipfile"
+  mkdir -p "$PRODUCT_PATH"
 
   uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product" 
+  curl -o $PRODUCT_PATH/Pipfile "$BACKEND_BASE/Pipfile"
+  curl -o $PRODUCT_PATH/Pipfile.lock "$BACKEND_BASE/Pipfile.lock"
+
   cd $PRODUCT_PATH
-  source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > requirements.txt && uv pip install -r $PRODUCT_PATH/requirements.txt
+  source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > "$PRODUCT_PATH/requirements.txt" && uv pip install -r "$PRODUCT_PATH/requirements.txt"
 done
 
 echo "Setup complete!"
