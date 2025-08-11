@@ -96,13 +96,17 @@ def start(rebuild: bool = False) -> None:
     env["WAYPOINT_CODE_DIR"] = config["code_dir"]
     env["WAYPOINT_SECRETS_DIR"] = config["secrets_dir"]
 
-    result = subprocess.run(
-        ["docker", "images", "-q", IMAGE_NAME],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    image_found = result.stdout.strip()
+    try:
+        waypoint_image = subprocess.run(
+            ["docker", "images", "-q", IMAGE_NAME],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        image_found = waypoint_image.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to check Docker images for {IMAGE_NAME}: {e.stderr or e}")
+        sys.exit(1)
 
     if not image_found or rebuild:
         if not image_found:
