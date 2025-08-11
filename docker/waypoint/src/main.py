@@ -45,7 +45,7 @@ def clone_product(product: str) -> None:
         print(f"Repository {product} already exists, skipping clone")
 
 
-def init_product(product: str) -> None:
+def clone_and_init_product(product: str) -> None:
     """Clone and initialize a product environment."""
     if product == "ohq":
         product = "office-hours-queue"
@@ -138,7 +138,7 @@ def init_product(product: str) -> None:
 def clone_and_init_products() -> None:
     """Clone all products from GitHub if they don't exist and init their product environments."""
     for product in PRODUCTS:
-        init_product(product)
+        clone_and_init_product(product)
 
 
 def init() -> None:
@@ -379,7 +379,7 @@ def main() -> None:
         start_services(args.mode)
     elif args.command == "init":
         if args.product:
-            init_product(args.product)
+            clone_and_init_product(args.product)
         else:
             init()
     elif args.command == "backend":
