@@ -67,14 +67,14 @@ def clone_and_init_product(product: str) -> None:
     # Run manage.py commands
     try:
         subprocess.run(
-            f"bash -c 'cd {backend_path} && uv run python manage.py migrate'",
+            f"bash -c 'cd {backend_path} && uv run manage.py migrate'",
             shell=True,
             check=True,
         )
 
         if product not in ["penn-mobile", "penn-courses", "platform"]:
             subprocess.run(
-                f"bash -c 'cd {backend_path} && python manage.py populate'",
+                f"bash -c 'cd {backend_path} && uv run manage.py populate'",
                 shell=True,
                 check=True,
             )
