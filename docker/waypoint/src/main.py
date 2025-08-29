@@ -64,18 +64,17 @@ def clone_and_init_product(product: str) -> None:
         print(f"Product '{product}' is already initialized.")
         sys.exit(1)
 
-    # Run manage.py commands in product venv
-    venv_path = os.path.join(product_path, "venv", "bin", "activate")
+    # Run manage.py commands
     try:
         subprocess.run(
-            f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'",
+            f"bash -c 'cd {backend_path} && uv run python manage.py migrate'",
             shell=True,
             check=True,
         )
 
         if product not in ["penn-mobile", "penn-courses", "platform"]:
             subprocess.run(
-                f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
+                f"bash -c 'cd {backend_path} && python manage.py populate'",
                 shell=True,
                 check=True,
             )
@@ -135,15 +134,10 @@ def clone_and_init_product(product: str) -> None:
     print(f"Product '{product}' initialized successfully.")
 
 
-def clone_and_init_products() -> None:
-    """Clone all products from GitHub if they don't exist and init their product environments."""
-    for product in PRODUCTS:
-        clone_and_init_product(product)
-
-
 def init() -> None:
     """Set up waypoint, install dependencies."""
-    clone_and_init_products()
+    for product in PRODUCTS:
+        clone_and_init_product(product)
 
     if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
         print("No secrets found. Skipping...")
@@ -182,7 +176,7 @@ def sync_env(product: str) -> None:
     os.makedirs(waypoint_product_path, exist_ok=True)
 
     try:
-        for file in ["Pipfile", "Pipfile.lock"]:
+        for file in ["pyproject.toml", "uv.lock"]:
             src = os.path.join(product_backend_path, file)
             dst = os.path.join(waypoint_product_path, file)
 
@@ -195,17 +189,8 @@ def sync_env(product: str) -> None:
                     f_dst.write(f_src.read())
             print(f"Copied {file} from {product_backend_path} to {waypoint_product_path}")
 
-        venv_path = os.path.join(waypoint_product_path, "venv")
-        if not os.path.exists(venv_path):
-            subprocess.run(
-                ["uv", "venv", venv_path, "--python", "3.11", "--prompt", product],
-                check=True,
-            )
-
         subprocess.run(
-            f"cd {waypoint_product_path} && . venv/bin/activate && "
-            f"pipenv requirements --dev > requirements.txt && "
-            f"uv pip install -r requirements.txt",
+            f"cd {waypoint_product_path} && uv sync --frozen --all-groups",
             shell=True,
             check=True,
         )
@@ -300,12 +285,15 @@ def start_development(mode: str) -> None:
 
     product_code_path = os.path.join(CODE_DIR, product_name)
 
+    backend_start_cmd = f"source {current_link}/.venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver 0.0.0.0:8000"
+    frontend_start_cmd = f"cd {product_code_path}/frontend && yarn dev"
+
     if mode == "backend":
-        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver 0.0.0.0:8000'"
+        start_cmd = f"bash -c '{backend_start_cmd}'"
     elif mode == "frontend":
-        start_cmd = f"bash -c 'cd {product_code_path}/frontend && yarn dev'"
+        start_cmd = f"bash -c '{frontend_start_cmd}'"
     else:
-        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver  0.0.0.0:8000 && cd {product_code_path}/frontend && yarn dev'"
+        start_cmd = f"bash -c '{backend_start_cmd} && {frontend_start_cmd}'"
 
     try:
         subprocess.run(start_cmd, shell=True, check=True)

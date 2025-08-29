@@ -1,18 +1,15 @@
 #!/bin/bash
 
 declare -A PRODUCT_TO_SHA
-declare -A PRODUCT_TO_SHA_LEGACY
 declare -A PRODUCT_TO_NODE_VERSION
 
+# TODO: Add remaining products back since they aren't migrated to uv
 PRODUCT_TO_SHA=(
   ["office-hours-queue"]="7fdcdaeba0b83600950edfbdfb155ba62cd2febd"
   ["penn-clubs"]="a69532b40c40c6ad0a2c6856e11034c70fbab26c"
-)
-
-PRODUCT_TO_SHA_LEGACY=(
-  ["penn-mobile"]="093a9f58ec7d778acc12dad40d0ece109e6346e8"
-  ["penn-courses"]="e787256c332741db357baf3d005b20158d7b35c7"
-  ["platform"]="022d2671a7811e8e2b6f772948ff28d18fa6422a"
+  # ["penn-mobile"]="093a9f58ec7d778acc12dad40d0ece109e6346e8"
+  # ["penn-courses"]="e787256c332741db357baf3d005b20158d7b35c7"
+  # ["platform"]="022d2671a7811e8e2b6f772948ff28d18fa6422a"
 )
 
 PRODUCT_TO_NODE_VERSION=(
@@ -32,30 +29,11 @@ for product in "${!PRODUCT_TO_SHA[@]}"; do
   echo "Installing dependencies for $product @ $sha with uv"
   mkdir -p "$PRODUCT_PATH"
 
-  uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product" 
   curl -o $PRODUCT_PATH/pyproject.toml "$BACKEND_BASE/pyproject.toml"
   curl -o $PRODUCT_PATH/uv.lock "$BACKEND_BASE/uv.lock"
 
   cd $PRODUCT_PATH
-  source "$PRODUCT_PATH/venv/bin/activate" && uv sync --frozen --all-groups
-done
-
-# Legacy installation using Pipfile: use pipenv to convert Pipfile to requirements.txt and use
-# [uv pip install -r] to install to uv
-for product in "${!PRODUCT_TO_SHA_PIPENV[@]}"; do
-  sha="${PRODUCT_TO_SHA_PIPENV[$product]}"
-  PRODUCT_PATH="/opt/waypoint/$product"
-  BACKEND_BASE="https://raw.githubusercontent.com/pennlabs/$product/$sha/backend"
-
-  echo "Installing dependencies for $product @ $sha with Pipfile"
-  mkdir -p "$PRODUCT_PATH"
-
-  uv venv "$PRODUCT_PATH/venv" --python 3.11 --prompt "$product" 
-  curl -o $PRODUCT_PATH/Pipfile "$BACKEND_BASE/Pipfile"
-  curl -o $PRODUCT_PATH/Pipfile.lock "$BACKEND_BASE/Pipfile.lock"
-
-  cd $PRODUCT_PATH
-  source "$PRODUCT_PATH/venv/bin/activate" && pipenv requirements --dev > "$PRODUCT_PATH/requirements.txt" && uv pip install -r "$PRODUCT_PATH/requirements.txt"
+  uv sync --frozen --all-groups
 done
 
 echo "Setup complete!"
