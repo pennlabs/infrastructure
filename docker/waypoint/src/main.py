@@ -4,23 +4,7 @@ import os
 import subprocess
 import sys
 
-PRODUCTS = {
-    "office-hours-queue": {
-        "node_version": "22",
-    },
-    "penn-clubs": {
-        "node_version": "20",
-    },
-    "penn-mobile": {
-        "node_version": "22",
-    },
-    "penn-courses": {
-        "node_version": "22",
-    },
-    "platform": {
-        "node_version": "22",
-    },
-}
+PRODUCTS = ["office-hours-queue", "penn-clubs", "penn-mobile", "penn-courses", "platform"]
 
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
@@ -52,7 +36,7 @@ def clone_and_init_product(product: str) -> None:
 
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     clone_product(product)
@@ -163,7 +147,7 @@ def sync_env(product: str) -> None:
     """Sync .env file from product to waypoint."""
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     product_backend_path = os.path.join(CODE_DIR, product, "backend")
@@ -205,7 +189,7 @@ def switch_product(product: str, no_vsc: bool) -> None:
     """Switch to a different product environment"""
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
@@ -312,7 +296,7 @@ def main() -> None:
     )
     init_parser.add_argument(
         "product",
-        help="Product to initalize to, options: " + ", ".join(PRODUCTS.keys()),
+        help="Product to initalize to, options: " + ", ".join(PRODUCTS),
         nargs="?",
         default=None,
     )
@@ -322,7 +306,7 @@ def main() -> None:
         help="Switch to a product environment. Starts the uv virtual environment associated with the product and opens the product in VSCode if in a dev container. Use --no-vsc to not open VSCode.",
     )
     switch_parser.add_argument(
-        "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
+        "product", help="Product to switch to, options: " + ", ".join(PRODUCTS)
     )
     switch_parser.add_argument("--no-vsc", action="store_true", help="Do not open VSCode on switch")
 
