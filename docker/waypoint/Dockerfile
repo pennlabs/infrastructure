@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
-RUN pip3 install uv pipenv
+RUN pip3 install uv 
 
 # --- labs setup
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y tzdata \
