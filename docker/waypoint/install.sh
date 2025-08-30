@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INSTALL_DIR="/usr/local/bin"
-WAYPOINT_VERSION="v1.0.3"
+WAYPOINT_VERSION="v1.0.4"
 GITHUB_ORG="pennlabs"
 REPO_NAME="infrastructure"
 
