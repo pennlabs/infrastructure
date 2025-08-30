@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="waypoint",
-    version="1.0.3",
+    version="1.0.4",
     package_dir={"": "src"},
     py_modules=["main", "waypoint_client"],
     install_requires=[],
