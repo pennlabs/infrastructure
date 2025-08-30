@@ -27,14 +27,13 @@ Because of this, each `django-base` is comprised of "Shared" and "Simple" tags. 
 
 For example, the current "Shared tag" can be `a142aa6975ee293bbc8a09ef0b81998ce7063dd3` and the current "Simple tag" is `a142aa6975ee293bbc8a09ef0b81998ce7063dd3-python3.10`.
 
-- `[sha]`: Python 3.10.1 (default)
-- `[sha]-3.10`: Python 3.10.1 (`penn-courses`)
-- `[sha]-3.9`: Python 3.9.14 (`penn-mobile`)
-- `[sha]-3.8`: Python 3.8.11 (`penn-clubs`, `office-hours-queue`)
+- `[sha]`: Python 3.11 (default)
+- `[sha]-3.11`: Python 3.11 (`office-hours-queue`, `penn-mobile`, `penn-courses`)
+- `[sha]-3.10`: Python 3.10.18
 
 ## Features
 
 This docker image contains pipenv and necessary packages to use `mysqlclient`
 
 ## Build Args
-The `django-base` image supports the build-arg `PYTHON_VERSION` which can be used to specify the python version to use. The default is `3.10.1`. 
+The `django-base` image supports the build-arg `PYTHON_VERSION` which can be used to specify the python version to use. The default is `3.10`. 

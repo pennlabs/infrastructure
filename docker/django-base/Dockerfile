@@ -1,5 +1,5 @@
-ARG PYTHON_VERSION=3.10
-FROM python:${PYTHON_VERSION}-slim-buster
+ARG PYTHON_VERSION=3.11
+FROM python:${PYTHON_VERSION}-slim-bookworm
 
 LABEL maintainer="Penn Labs"
 
