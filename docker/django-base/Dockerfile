@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.11
 FROM python:${PYTHON_VERSION}-slim-bookworm
 
 LABEL maintainer="Penn Labs"
