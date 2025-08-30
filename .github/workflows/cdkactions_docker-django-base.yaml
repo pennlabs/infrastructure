@@ -56,7 +56,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          build-args: PYTHON_VERSION=3.10.1
+          build-args: PYTHON_VERSION=3.10.18
           tags: pennlabs/django-base:${{ github.sha }}-3.10.18
   publish-django-base-3-11:
     name: Publish django-base-3-11
