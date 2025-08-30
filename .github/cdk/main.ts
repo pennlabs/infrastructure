@@ -44,7 +44,7 @@ new CDKPublishStack(app, "kittyhawk")
 const dockerImages = ["datadog-agent", "pg-s3-backup", "team-sync"]
 dockerImages.map((name) => new DockerPublishStack(app, name))
 new DjangoBaseDockerStack(app, {
-	pythonVersions: ["3.9.14", "3.8.5", "3.10.1", "3.11"],
+	pythonVersions: ["3.9.23", "3.10.18", "3.11"],
 })
 new ShibbolethDockerStack(app)
 
