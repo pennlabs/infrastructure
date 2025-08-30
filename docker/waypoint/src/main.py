@@ -4,23 +4,7 @@ import os
 import subprocess
 import sys
 
-PRODUCTS = {
-    "office-hours-queue": {
-        "node_version": "22",
-    },
-    "penn-clubs": {
-        "node_version": "20",
-    },
-    "penn-mobile": {
-        "node_version": "22",
-    },
-    "penn-courses": {
-        "node_version": "22",
-    },
-    "platform": {
-        "node_version": "22",
-    },
-}
+PRODUCTS = ["office-hours-queue", "penn-clubs", "penn-mobile", "penn-courses", "platform"]
 
 WAYPOINT_DIR = "/opt/waypoint"
 CODE_DIR = "/labs"
@@ -52,7 +36,7 @@ def clone_and_init_product(product: str) -> None:
 
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     clone_product(product)
@@ -64,18 +48,17 @@ def clone_and_init_product(product: str) -> None:
         print(f"Product '{product}' is already initialized.")
         sys.exit(1)
 
-    # Run manage.py commands in product venv
-    venv_path = os.path.join(product_path, "venv", "bin", "activate")
+    # Run manage.py commands
     try:
         subprocess.run(
-            f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py migrate'",
+            f"bash -c 'cd {backend_path} && uv run manage.py migrate'",
             shell=True,
             check=True,
         )
 
         if product not in ["penn-mobile", "penn-courses", "platform"]:
             subprocess.run(
-                f"bash -c 'source {venv_path} && cd {backend_path} && python manage.py populate'",
+                f"bash -c 'cd {backend_path} && uv run manage.py populate'",
                 shell=True,
                 check=True,
             )
@@ -135,15 +118,10 @@ def clone_and_init_product(product: str) -> None:
     print(f"Product '{product}' initialized successfully.")
 
 
-def clone_and_init_products() -> None:
-    """Clone all products from GitHub if they don't exist and init their product environments."""
-    for product in PRODUCTS:
-        clone_and_init_product(product)
-
-
 def init() -> None:
     """Set up waypoint, install dependencies."""
-    clone_and_init_products()
+    for product in PRODUCTS:
+        clone_and_init_product(product)
 
     if not os.path.exists(os.path.join(WAYPOINT_DIR, "secrets")):
         print("No secrets found. Skipping...")
@@ -169,7 +147,7 @@ def sync_env(product: str) -> None:
     """Sync .env file from product to waypoint."""
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     product_backend_path = os.path.join(CODE_DIR, product, "backend")
@@ -182,7 +160,7 @@ def sync_env(product: str) -> None:
     os.makedirs(waypoint_product_path, exist_ok=True)
 
     try:
-        for file in ["Pipfile", "Pipfile.lock"]:
+        for file in ["pyproject.toml", "uv.lock"]:
             src = os.path.join(product_backend_path, file)
             dst = os.path.join(waypoint_product_path, file)
 
@@ -195,17 +173,8 @@ def sync_env(product: str) -> None:
                     f_dst.write(f_src.read())
             print(f"Copied {file} from {product_backend_path} to {waypoint_product_path}")
 
-        venv_path = os.path.join(waypoint_product_path, "venv")
-        if not os.path.exists(venv_path):
-            subprocess.run(
-                ["uv", "venv", venv_path, "--python", "3.11", "--prompt", product],
-                check=True,
-            )
-
         subprocess.run(
-            f"cd {waypoint_product_path} && . venv/bin/activate && "
-            f"pipenv requirements --dev > requirements.txt && "
-            f"uv pip install -r requirements.txt",
+            f"cd {waypoint_product_path} && uv sync --frozen --all-groups",
             shell=True,
             check=True,
         )
@@ -220,7 +189,7 @@ def switch_product(product: str, no_vsc: bool) -> None:
     """Switch to a different product environment"""
     if product not in PRODUCTS:
         print(f"Error: Unknown product '{product}'")
-        print(f"Available products: {', '.join(PRODUCTS.keys())}")
+        print(f"Available products: {', '.join(PRODUCTS)}")
         sys.exit(1)
 
     product_path = os.path.join(WAYPOINT_DIR, product)
@@ -300,12 +269,15 @@ def start_development(mode: str) -> None:
 
     product_code_path = os.path.join(CODE_DIR, product_name)
 
+    backend_start_cmd = f"source {current_link}/.venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver 0.0.0.0:8000"
+    frontend_start_cmd = f"cd {product_code_path}/frontend && yarn dev"
+
     if mode == "backend":
-        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver 0.0.0.0:8000'"
+        start_cmd = f"bash -c '{backend_start_cmd}'"
     elif mode == "frontend":
-        start_cmd = f"bash -c 'cd {product_code_path}/frontend && yarn dev'"
+        start_cmd = f"bash -c '{frontend_start_cmd}'"
     else:
-        start_cmd = f"bash -c 'source {current_link}/venv/bin/activate && cd {product_code_path}/backend && python manage.py runserver  0.0.0.0:8000 && cd {product_code_path}/frontend && yarn dev'"
+        start_cmd = f"bash -c '{backend_start_cmd} && {frontend_start_cmd}'"
 
     try:
         subprocess.run(start_cmd, shell=True, check=True)
@@ -324,7 +296,7 @@ def main() -> None:
     )
     init_parser.add_argument(
         "product",
-        help="Product to initalize to, options: " + ", ".join(PRODUCTS.keys()),
+        help="Product to initalize to, options: " + ", ".join(PRODUCTS),
         nargs="?",
         default=None,
     )
@@ -334,7 +306,7 @@ def main() -> None:
         help="Switch to a product environment. Starts the uv virtual environment associated with the product and opens the product in VSCode if in a dev container. Use --no-vsc to not open VSCode.",
     )
     switch_parser.add_argument(
-        "product", help="Product to switch to, options: " + ", ".join(PRODUCTS.keys())
+        "product", help="Product to switch to, options: " + ", ".join(PRODUCTS)
     )
     switch_parser.add_argument("--no-vsc", action="store_true", help="Do not open VSCode on switch")
 

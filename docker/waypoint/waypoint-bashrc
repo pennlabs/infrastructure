@@ -4,7 +4,7 @@ waypoint-switch-shell-context() {
         PRODUCT_NAME=$(basename "$symlink_path")
 
         cd "/labs/$PRODUCT_NAME"
-        source "/opt/waypoint/$PRODUCT_NAME/venv/bin/activate"
+        source "/opt/waypoint/$PRODUCT_NAME/.venv/bin/activate"
     else
         echo 'Run "waypoint switch <product>" to jump into a product environment.'
     fi
