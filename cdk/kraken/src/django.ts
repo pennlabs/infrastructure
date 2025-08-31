@@ -15,7 +15,7 @@ export interface DjangoCheckJobProps {
 
   /**
    * Python version to test the project with.
-   * @default "3.8-buster"
+   * @default "3.10-bookworm"
    */
   pythonVersion?: string;
 
@@ -63,7 +63,7 @@ export class DjangoCheckJob extends CheckoutJob {
     // Build config
     const fullConfig: Required<DjangoCheckJobProps> = {
       id: "",
-      pythonVersion: "3.8-buster",
+      pythonVersion: "3.10-bookworm",
       path: ".",
       black: true,
       flake8: true,

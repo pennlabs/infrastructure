@@ -5,7 +5,7 @@ Object {
   "jobs": Object {
     "django-check-custom": Object {
       "container": Object {
-        "image": "python:3.8-buster",
+        "image": "python:3.10-bookworm",
       },
       "env": Object {
         "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -126,7 +126,7 @@ Object {
   "jobs": Object {
     "django-check": Object {
       "container": Object {
-        "image": "python:3.8-buster",
+        "image": "python:3.10-bookworm",
       },
       "env": Object {
         "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",

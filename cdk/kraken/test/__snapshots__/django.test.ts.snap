@@ -3,7 +3,7 @@
 exports[`default 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8-buster",
+    "image": "python:3.10-bookworm",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -75,7 +75,7 @@ pipenv run coverage xml",
 exports[`different directory 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8-buster",
+    "image": "python:3.10-bookworm",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -219,7 +219,7 @@ pipenv run coverage xml",
 exports[`no lint 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8-buster",
+    "image": "python:3.10-bookworm",
   },
   "env": Object {
     "DATABASE_URL": "postgres://postgres:postgres@postgres:5432/postgres",
@@ -281,7 +281,7 @@ pipenv run coverage xml",
 exports[`with overrides 1`] = `
 Object {
   "container": Object {
-    "image": "python:3.8-buster",
+    "image": "python:3.10-bookworm",
   },
   "continue-on-error": true,
   "env": Object {
