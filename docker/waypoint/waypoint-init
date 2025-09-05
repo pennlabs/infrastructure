@@ -7,7 +7,7 @@ PRODUCT_TO_SHA=(
   ["office-hours-queue"]="7fdcdaeba0b83600950edfbdfb155ba62cd2febd"
   ["penn-clubs"]="a69532b40c40c6ad0a2c6856e11034c70fbab26c"
   # ["penn-mobile"]="093a9f58ec7d778acc12dad40d0ece109e6346e8"
-  # ["penn-courses"]="e787256c332741db357baf3d005b20158d7b35c7"
+  ["penn-courses"]="b5cadf67f2924ed7ef77c59d81d3f08f9ebc05e0"
   # ["platform"]="022d2671a7811e8e2b6f772948ff28d18fa6422a"
 )
 
