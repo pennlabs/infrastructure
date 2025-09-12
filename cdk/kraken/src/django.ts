@@ -118,7 +118,7 @@ export class DjangoCheckJob extends CheckoutJob {
         files: "coverage.xml",
         name: "codecov-umbrella",
         verbose: true,
-      }
+      },
     });
 
     // Create Job

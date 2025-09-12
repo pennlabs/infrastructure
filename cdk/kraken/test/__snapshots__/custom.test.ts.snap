@@ -14,7 +14,7 @@ Object {
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "env": Object {
@@ -75,7 +75,7 @@ kubectl apply -f k8s/dist/ --prune -l app.kubernetes.io/part-of=$RELEASE_NAME",
       },
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "name": "Cache",
@@ -144,7 +144,7 @@ pipenv run coverage xml",
       },
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "name": "Cache",
@@ -197,7 +197,7 @@ pipenv run coverage xml",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "docker/setup-qemu-action@v3",
@@ -240,7 +240,7 @@ pipenv run coverage xml",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "docker/setup-qemu-action@v3",
@@ -283,7 +283,7 @@ pipenv run coverage xml",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "docker/setup-qemu-action@v3",
@@ -326,7 +326,7 @@ pipenv run coverage xml",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "docker/setup-qemu-action@v3",
@@ -371,7 +371,7 @@ pipenv run coverage xml",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "name": "Cache",
@@ -412,7 +412,7 @@ yarn run codecov -p $ROOT -F frontend",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "name": "Cache",

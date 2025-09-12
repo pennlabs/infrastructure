@@ -10,11 +10,11 @@ export class Certificate extends Construct {
   constructor(scope: Construct, appname: string, rules: HostRules) {
     const hostString: string = domainToCertName(
       rules.host,
-      rules.isSubdomain ?? false
+      rules.isSubdomain ?? false,
     );
     const finalDomain: string = removeSubdomain(
       rules.host,
-      rules.isSubdomain ?? false
+      rules.isSubdomain ?? false,
     );
 
     super(scope, `certificate-${appname}-${hostString}`);
@@ -42,12 +42,12 @@ export class Certificate extends Construct {
     // ~1 is an escaped version of a forward slash "/"
     if (certificate.metadata.getLabel("app.kubernetes.io/part-of")) {
       certificate.addJsonPatch(
-        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of")
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1part-of"),
       );
     }
     if (certificate.metadata.getLabel("app.kubernetes.io/version")) {
       certificate.addJsonPatch(
-        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version")
+        JsonPatch.remove("/metadata/labels/app.kubernetes.io~1version"),
       );
     }
   }

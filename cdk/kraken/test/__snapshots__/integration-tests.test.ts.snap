@@ -11,7 +11,7 @@ Object {
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "actions/download-artifact@v2",
@@ -71,7 +71,7 @@ done",
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "actions/download-artifact@v2",
@@ -116,7 +116,7 @@ Object {
       "runs-on": "ubuntu-latest",
       "steps": Array [
         Object {
-          "uses": "actions/checkout@v4",
+          "uses": "actions/checkout@v2",
         },
         Object {
           "uses": "actions/download-artifact@v2",

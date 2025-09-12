@@ -10,7 +10,7 @@ jobs:
     name: Django Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -60,7 +60,7 @@ jobs:
     name: Publish backend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
@@ -86,7 +86,7 @@ jobs:
     name: React Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -115,7 +115,7 @@ jobs:
     name: Publish frontend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - id: synth
         name: Synth cdk8s manifests
         run: |-
@@ -189,7 +189,7 @@ jobs:
     name: Django Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -239,7 +239,7 @@ jobs:
     name: Build backend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
@@ -266,7 +266,7 @@ jobs:
     name: React Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -295,7 +295,7 @@ jobs:
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
@@ -322,7 +322,7 @@ jobs:
     name: Integration Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
       - name: Load docker images
         run: |-
@@ -368,7 +368,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
       - uses: geekyeggo/delete-artifact@v1
         with:
@@ -392,7 +392,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - id: synth
         name: Synth cdk8s manifests
         run: |-
