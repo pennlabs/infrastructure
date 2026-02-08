@@ -1,0 +1,271 @@
+# Team roster for platform sync
+roster:
+  - name: Advit Ranawade
+    github: AdvitR
+    pennkey: advitr
+    email: advitr@seas.upenn.edu
+
+  - name: AJ Boyle
+    github: ajboyle806
+    pennkey: ajboyle
+    email: ajboyle@seas.upenn.edu
+
+  - name: Alistair King
+    github: aking526
+    pennkey: aking1
+    email: aking1@seas.upenn.edu
+
+  - name: Andrew Chelimo
+    github: DaChelimo
+    pennkey: chelimo
+    email: chelimo@seas.upenn.edu
+
+  - name: Andrew Kim
+    github: i30101
+    pennkey: kim301
+    email: kim301@seas.upenn.edu
+
+  - name: Angelina Li
+    github: aangelinali
+    pennkey: angelinali5002
+    email: angelinali5002@gmail.com
+
+  - name: Anvi Tuteja
+    github: coolcatalex
+    pennkey: atuteja
+    email: atuteja@seas.upenn.edu
+
+  - name: Baron Ping-Yeh Hsieh
+    github: baronhsieh2005
+    pennkey: bpyhsieh
+    email: bpyhsieh@seas.upenn.edu
+
+  - name: Daniel Li
+    github: lidanielm
+    pennkey: dli2004
+    email: dli2004@seas.upenn.edu
+
+  - name: Daniel Zhao
+    github: el-agua
+    pennkey: dyzhao
+    email: dyzhao@seas.upenn.edu
+
+  - name: Darren Weng
+    github: darrentweng
+    pennkey: dw0
+    email: dw0@seas.upenn.edu
+
+  - name: David Fu
+    github: divak2004
+    pennkey: davidcfu
+    email: davidcfu@sas.upenn.edu
+
+  - name: Derek Cho
+    github: dkwncho
+    pennkey: derekcho
+    email: derekcho@seas.upenn.edu
+
+  - name: Eecho Yuan
+    github: eechoyn
+    pennkey: eecho
+    email: eecho@sas.upenn.edu
+
+  - name: Gabe Weng
+    github: gabeweng
+    pennkey: gabeweng
+    email: gabeweng@sas.upenn.edu
+
+  - name: Isabela Delgado
+    github: beladelgado2
+    pennkey: idelgado
+    email: idelgado@wharton.upenn.edu
+
+  - name: James Doh
+    github: jamesdoh0109
+    pennkey: dohj0109
+    email: dohj0109@seas.upenn.edu
+
+  - name: Joe MacDougall
+    github: joemacd
+    pennkey: joemacd
+    email: joemacd@seas.upenn.edu
+
+  - name: Kaitlyn Kwan
+    github: KKaay0708
+    pennkey: kaitkwan
+    email: kaitkwan@seas.upenn.edu
+
+  - name: Khoi Dinh
+    github: khoiddinh
+    pennkey: khoidinh
+    email: khoidinh@wharton.upenn.edu
+
+  - name: Lautaro Beck
+    github: LautaroJBeck
+    pennkey: beck1
+    email: beck1@seas.upenn.edu
+
+  - name: Luke Tong
+    github: luke-rt
+    pennkey: lukert
+    email: lukert@sas.upenn.edu
+
+  - name: Mati Okutsu
+    github: 0kutsu
+    pennkey: okutsu
+    email: okutsu@seas.upenn.edu
+
+  - name: Minghan Sun
+    github: minghansun1
+    pennkey: sunmi
+    email: sunmi@seas.upenn.edu
+
+  - name: Nathan Aronson
+    github: nathanaronson
+    pennkey: narons
+    email: narons@seas.upenn.edu
+
+  - name: Noah Barakat
+    github: noahbarakat
+    pennkey: nbarakat
+    email: nbarakat@seas.upenn.edu
+
+  - name: Olivia Hu
+    github: olivianhu
+    pennkey: huolivia
+    email: huolivia@seas.upenn.edu
+
+  - name: Raghav Garimmella
+    github: Rumbl3S
+    pennkey: raghav07
+    email: raghav07@seas.upenn.edu
+
+  - name: Ruth Zhao
+    github: Ruzhuu
+    pennkey: ruthzhao
+    email: ruthzhao@sas.upenn.edu
+
+  - name: Ryan Tanenholz
+    github: ryantanen
+    pennkey: rjtanen
+    email: rjtanen@seas.upenn.edu
+
+  - name: Samuel Lao
+    github: samuel-lao
+    pennkey: samlao
+    email: samlao@sas.upenn.edu
+
+  - name: Ximing Luo
+    github: ximluo
+    pennkey: ximluo
+    email: ximluo@seas.upenn.edu
+
+  - name: Yoonjung Choi
+    github: yoonjung27
+    pennkey: choiyoon
+    email: choiyoon@sas.upenn.edu
+
+  - name: Zhiyao Tang
+    github: zhiyaot
+    pennkey: zhiyaot
+    email: zhiyaot@seas.upenn.edu
+
+  - name: Thomas Ngulube
+    github: Porcupine1
+    pennkey: tngulube
+    email: tngulube@seas.upenn.edu
+
+  - name: Eunsoo Shin
+    github: esinx
+    pennkey: esinx
+    email: esinx@seas.upenn.edu
+
+  - name: Stan Chen
+    github: Stans-Gate
+    pennkey: chenstan
+    email: chenstan@seas.upenn.edu
+
+  - name: Anthony Li
+    github: alisx255
+    pennkey: antli29
+    email: antli29@seas.upenn.edu
+
+  - name: Grace Chi
+    github: gracech1
+    pennkey: gracechi
+    email: gracechi@seas.upenn.edu
+
+  - name: Grace Li
+    github: grqce
+    pennkey: ligrace
+    email: ligrace@wharton.upenn.edu
+
+  - name: Veer Kakar
+    github: VeerKakar17
+    pennkey: vkakar
+    email: vkakar@seas.upenn.edu
+
+  - name: Benjamin Liu
+    github: bliu8
+    pennkey: bliu8
+    email: bliu8@seas.upenn.edu
+
+  - name: Rao Manchala
+    github: InsideousBot
+    pennkey: manchala
+    email: manchala@seas.upenn.edu
+
+  - name: Chun Kuen Bryan Chiu
+    github: bryanchiuCCK06
+    pennkey: bchiu17
+    email: bchiu17@wharton.upenn.edu
+
+  - name: Sylvia Yu
+    github: sylviacyu
+    pennkey: sylviayu
+    email: sylviayu@sas.upenn.edu
+
+  - name: Cassie Mai
+    github: cassieym
+    pennkey: cassieym
+    email: cassieym@seas.upenn.edu
+
+  - name: Helen Luo
+    github: melonymelons
+    pennkey: helenluo
+    email: helenluo@seas.upenn.edu
+
+  - name: Jonathan Kachappilly
+    github: JonKach
+    pennkey: jonkach
+    email: jonkach@seas.upenn.edu
+
+  - name: Derek Kong
+    github: derekkong0405
+    pennkey: dckong
+    email: dckong@wharton.upenn.edu
+
+  - name: June Guo
+    github: juneguo257
+    pennkey: juneguo
+    email: juneguo@seas.upenn.edu
+
+  - name: Ronit Kapoor
+    github: ronitkapoor0106
+    pennkey: ronkap
+    email: ronkap@sas.upenn.edu
+
+  - name: Ronnie Wang
+    github: RonTonPeso
+    pennkey: wronnie
+    email: wronnie@seas.upenn.edu
+
+  - name: Yuqi Wang
+    github: wyq54123-ux
+    pennkey: wyuqi
+    email: wyuqi@seas.upenn.edu
+
+  - name: Anthony Yu
+    github: ThonyAnt
+    pennkey: yyu6
+    email: yyu6@seas.upenn.edu
