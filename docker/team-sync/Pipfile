@@ -17,6 +17,7 @@ pygithub = "*"
 boto3 = "*"
 airtable-python-wrapper = "*"
 pyotp = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3"

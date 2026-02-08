@@ -1,32 +1,28 @@
 #!/usr/bin/env python
 import os
 import pkgutil
+import yaml
 
-from airtable import Airtable
 from github import Github
-
-
-AIRTABLE_BASE_KEY = os.environ.get("AIRTABLE_BASE_KEY")
-AIRTABLE_API_KEY = os.environ.get("AIRTABLE_API_KEY")
-airtable = Airtable(AIRTABLE_BASE_KEY, "Roster", AIRTABLE_API_KEY)
-
 
 def get_user_info():
     """
     Create a dictionary of GitHub usernames to PennKeys and emails.
     """
 
-    roster = airtable.get_all(view="Platform Sync", fields=["Github", "PennKey", "Email"])
+    roster_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "roster.yaml")
+    
+    with open(roster_path, 'r') as f:
+        roster_data = yaml.safe_load(f)
+    
     data = {}
-    for record in roster:
-        fields = record["fields"]
-        if "Github" in fields and "PennKey" in fields:
-            github_url = fields["Github"].lower()
-            pennkey = fields["PennKey"].lower()
-            email = fields["Email"].lower()
-            if github_url.startswith("https://github.com/"):
-                github_id = github_url.split("/")[3]
-                data[github_id] = {"pennkey": pennkey, "email": email}
+
+    for member in roster_data["roster"]:
+        github_id = member['github'].lower()
+        pennkey = member['pennkey'].lower()
+        email = member['email'].lower()
+        data[github_id] = {"pennkey": pennkey, "email": email}
+
     return data
 
 

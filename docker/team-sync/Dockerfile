@@ -2,7 +2,7 @@ FROM python:3-slim
 
 LABEL maintainer="Penn Labs"
 
-RUN apt-get update && apt-get install --no-install-recommends -y gcc wget unzip ca-certificates \
+RUN apt-get update && apt-get install --no-install-recommends -y gcc wget unzip ca-certificates libffi-dev libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install pipenv 
