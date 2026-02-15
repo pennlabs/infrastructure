@@ -1,7 +1,9 @@
+import logging
 import os
 
 import requests
 
+logger = logging.getLogger("sync.platform")
 
 PLATFORM_API_KEY = os.environ.get("PLATFORM_API_KEY", "")
 
@@ -25,9 +27,13 @@ def sync(teams, users):
             pennkey = users.get(gh_username, {}).get("pennkey", None)
             if pennkey:
                 content.setdefault(pennkey, []).append(slug)
+                logger.info("Granting %s (%s) -> %s", pennkey, gh_username, slug)
                 # If user is a lead of clubs, also make h@p admin
                 if slug == "penn_clubs_admin":
                     content[pennkey].append("hub_admin")
+                    logger.info("Granting %s (%s) -> hub_admin (clubs lead)", pennkey, gh_username)
+            else:
+                logger.warning("Skipping %s (not found in roster)", gh_username)
 
     # Directors are admins on all products
     for team in teams["directors"]:
@@ -36,9 +42,14 @@ def sync(teams, users):
             pennkey = users.get(gh_username, {}).get("pennkey", None)
             if pennkey:
                 content[pennkey] = team_slugs
+                logger.info("Granting %s (%s) -> all admin roles (director)", pennkey, gh_username)
+            else:
+                logger.warning("Skipping director %s (not found in roster)", gh_username)
 
+    logger.info("Syncing %d user(s) with admin permissions to platform...", len(content))
     headers = {"Authorization": f"Api-Key {PLATFORM_API_KEY}"}
-    requests.post(
+    res = requests.post(
         "https://platform.pennlabs.org/accounts/productadmin/", json=content, headers=headers
     )
+    logger.info("Platform API responded with status %d", res.status_code)
     return
