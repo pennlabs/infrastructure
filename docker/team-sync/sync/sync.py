@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+import importlib.util
 import os
 import pkgutil
 import yaml
 
-from github import Github
+from github import Auth, Github
 
 def get_user_info():
     """
@@ -27,7 +28,7 @@ def get_user_info():
 
 
 def run():
-    g = Github(os.getenv("GITHUB_TOKEN"))
+    g = Github(auth=Auth.Token(os.getenv("GITHUB_TOKEN")))
 
     # Generate dictionary of teams
     teams = {}
@@ -48,7 +49,9 @@ def run():
     location = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modules")
     for finder, name, _ in pkgutil.walk_packages([location]):
         try:
-            module = finder.find_module(name).load_module(name)
+            spec = finder.find_spec(name)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
             module.sync(teams, users)
         except (AttributeError, TypeError) as e:
             print(f"Could not execute module '{name}'. The following exception occurred: {e}")
