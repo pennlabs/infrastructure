@@ -32,7 +32,7 @@ export const failingTest = (build: (scope: Construct) => void) => {
   expect(() => {
     const chart = new PennLabsChart(app, "kittyhawk");
     build(chart);
-  }).toThrowError();
+  }).toThrow();
 };
 
 /**
@@ -57,7 +57,7 @@ export const failingTestNoGitSha = (_: (scope: Construct) => void) => {
   expect(() => {
     const app = Testing.app();
     new PennLabsChart(app, "kittyhawk");
-  }).toThrowError("process.exit: 1");
+  }).toThrow("process.exit: 1");
   expect(mockConsoleError).toHaveBeenCalledTimes(1);
   expect(mockExit).toHaveBeenCalledWith(1);
   mockExit.mockClear();
@@ -74,7 +74,7 @@ export const failingTestNoAWSAccountId = (
     const app = Testing.app();
     const chart = new PennLabsChart(app, "kittyhawk");
     build(chart);
-  }).toThrowError("process.exit: 1");
+  }).toThrow("process.exit: 1");
   expect(mockConsoleError).toHaveBeenCalledTimes(1);
   expect(mockExit).toHaveBeenCalledWith(1);
   mockConsoleError.mockClear();
