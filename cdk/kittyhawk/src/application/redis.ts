@@ -39,13 +39,18 @@ export interface RedisApplicationProps {
     readonly name: string;
     readonly config: string;
   };
+
+  /**
+   * The size of the persistent volume claim to be created if persistData is true.
+   */
+  readonly persistDataSize?: string;
 }
 
 export class RedisApplication extends Application {
   constructor(
     scope: Construct,
     appname: string,
-    redisProps: RedisApplicationProps
+    redisProps: RedisApplicationProps,
   ) {
     const CONFIG_MAP_NAME = "redis-config";
     const releaseName = process.env.RELEASE_NAME || "undefined_release";
@@ -87,7 +92,7 @@ export class RedisApplication extends Application {
           accessModes: ["ReadWriteOnce"], // AWS EBS only supports RWO
           resources: {
             requests: {
-              storage: Quantity.fromString("1Gi"),
+              storage: Quantity.fromString(redisProps.persistDataSize ?? "1Gi"),
             },
           },
         },
