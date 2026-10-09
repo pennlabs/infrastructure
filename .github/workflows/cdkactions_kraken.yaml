@@ -28,6 +28,7 @@ jobs:
           ROOT=$(pwd)
           cd cdk/kraken
           yarn run codecov -p $ROOT -F kraken
+        continue-on-error: true
       - name: Install jq
         run: |-
           curl -sSLo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
