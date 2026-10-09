@@ -81,6 +81,13 @@ pipenv run coverage xml",
           "uses": "actions/checkout@v2",
         },
         Object {
+          "uses": "docker/login-action@v3",
+          "with": Object {
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
           "uses": "docker/setup-qemu-action@v3",
         },
         Object {
@@ -92,13 +99,6 @@ pipenv run coverage xml",
           "with": Object {
             "key": "buildx-publish-backend-custom",
             "path": "/tmp/.buildx-cache",
-          },
-        },
-        Object {
-          "uses": "docker/login-action@v3",
-          "with": Object {
-            "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "username": "\${{ secrets.DOCKER_USERNAME }}",
           },
         },
         Object {
@@ -202,6 +202,13 @@ pipenv run coverage xml",
           "uses": "actions/checkout@v2",
         },
         Object {
+          "uses": "docker/login-action@v3",
+          "with": Object {
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
           "uses": "docker/setup-qemu-action@v3",
         },
         Object {
@@ -213,13 +220,6 @@ pipenv run coverage xml",
           "with": Object {
             "key": "buildx-publish-backend",
             "path": "/tmp/.buildx-cache",
-          },
-        },
-        Object {
-          "uses": "docker/login-action@v3",
-          "with": Object {
-            "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "username": "\${{ secrets.DOCKER_USERNAME }}",
           },
         },
         Object {

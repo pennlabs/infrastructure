@@ -139,6 +139,13 @@ export class DockerPublishJob extends CheckoutJob {
     // Define steps
     const steps: StepsProps[] = [
       {
+        uses: "docker/login-action@v3",
+        with: {
+          username: fullConfig.username,
+          password: fullConfig.password,
+        },
+      },
+      {
         uses: "docker/setup-qemu-action@v3",
       },
       {
@@ -150,13 +157,6 @@ export class DockerPublishJob extends CheckoutJob {
         with: {
           path: "/tmp/.buildx-cache",
           key: `buildx-${formattedId}`,
-        },
-      },
-      {
-        uses: "docker/login-action@v3",
-        with: {
-          username: fullConfig.username,
-          password: fullConfig.password,
         },
       },
       {
@@ -177,7 +177,7 @@ export class DockerPublishJob extends CheckoutJob {
           path: "/tmp/image.tar",
         },
       });
-      steps.splice(3, 1);
+      steps.splice(0, 1);
     }
 
     // Create job
