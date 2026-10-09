@@ -12,6 +12,13 @@ Object {
           "uses": "actions/checkout@v2",
         },
         Object {
+          "uses": "docker/login-action@v3",
+          "with": Object {
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
           "uses": "docker/setup-qemu-action@v3",
         },
         Object {
@@ -23,13 +30,6 @@ Object {
           "with": Object {
             "key": "buildx-publish-frontend-custom",
             "path": "/tmp/.buildx-cache",
-          },
-        },
-        Object {
-          "uses": "docker/login-action@v3",
-          "with": Object {
-            "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "username": "\${{ secrets.DOCKER_USERNAME }}",
           },
         },
         Object {
@@ -105,6 +105,13 @@ Object {
           "uses": "actions/checkout@v2",
         },
         Object {
+          "uses": "docker/login-action@v3",
+          "with": Object {
+            "password": "\${{ secrets.DOCKER_PASSWORD }}",
+            "username": "\${{ secrets.DOCKER_USERNAME }}",
+          },
+        },
+        Object {
           "uses": "docker/setup-qemu-action@v3",
         },
         Object {
@@ -116,13 +123,6 @@ Object {
           "with": Object {
             "key": "buildx-publish-frontend",
             "path": "/tmp/.buildx-cache",
-          },
-        },
-        Object {
-          "uses": "docker/login-action@v3",
-          "with": Object {
-            "password": "\${{ secrets.DOCKER_PASSWORD }}",
-            "username": "\${{ secrets.DOCKER_USERNAME }}",
           },
         },
         Object {
