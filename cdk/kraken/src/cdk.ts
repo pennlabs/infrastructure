@@ -79,6 +79,7 @@ export class CDKPublishStack extends Stack {
           run: dedent`ROOT=$(pwd)
         cd ${path}
         yarn run codecov -p $ROOT -F ${id}`,
+          continueOnError: true,
         },
         {
           name: "Install jq",
