@@ -33,6 +33,7 @@ locals {
     toset([
       "team-sync",
       "db-backup",
+      "dashboard-backend",
     ])
   )
   sre_members = toset([
