@@ -19,6 +19,10 @@ Contains configuration to create a terraform S3 backend. `provider.tf` in is con
 
 Configures a bastion that allows Team Leads to exec into pods (normally to run manage.py commands).
 
+## dashboard.tf
+
+Grants the `dashboard-backend` IAM role read-only access to Performance Insights for the production database, which powers the deployment dashboard's Database page.
+
 ## db-backup.tf
 
 Grants the `db-backup` IAM role access to the `sql.pennlabs.org` S3 bucket.
